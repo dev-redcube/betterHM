@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark().copyWith(
         useMaterial3: true,
       ),
-      themeMode: ThemeMode.light,
+      // themeMode: ThemeMode.light,
       home: const HomePage(),
     );
   }

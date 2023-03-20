@@ -9,7 +9,8 @@ class ApiMealplan extends ApiService {
     final response =
         await get("https://tum-dev.github.io/eat-api/$mensa/$year/$week.json");
     if (200 == response.statusCode) {
-      Map<String, dynamic> mealWeek = jsonDecode(utf8.decode(response.bodyBytes));
+      Map<String, dynamic> mealWeek =
+          jsonDecode(utf8.decode(response.bodyBytes));
       return MealWeek.fromJson(mealWeek);
     } else {
       throw ApiException(statusCode: response.statusCode);
