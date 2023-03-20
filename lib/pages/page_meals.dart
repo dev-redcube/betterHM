@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hm_app/extensions.dart';
 import 'package:hm_app/models/meal/canteen.dart';
 import 'package:hm_app/models/meal/day.dart';
 import 'package:hm_app/models/meal/dish.dart';
@@ -67,7 +68,7 @@ class CanteenInfo extends StatelessWidget {
         const SizedBox(height: 8),
         if (openingTimes != null)
           Text(
-            "${openingTimes.start} - ${openingTimes.end}",
+            "${context.localizations.opening_hours}: ${openingTimes.start} - ${openingTimes.end}",
             style: const TextStyle(color: Colors.green),
           ),
       ],
