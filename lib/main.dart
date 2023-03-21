@@ -20,6 +20,12 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark().copyWith(
         useMaterial3: true,
+        textTheme: ThemeData.dark().textTheme.copyWith(
+              labelSmall: const TextStyle(
+                fontSize: 10,
+                color: Colors.grey,
+              ),
+            ),
       ),
       // themeMode: ThemeMode.light,
       localizationsDelegates: const [
