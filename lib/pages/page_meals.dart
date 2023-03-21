@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hm_app/cubits/cubit_cantine.dart';
@@ -48,14 +46,10 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CanteenInfo(
-                    canteen: canteen,
-                    date: DateTime.now(),
-                  ),
-                  const SizedBox(height: 8),
-                  Meals(
-                      day: MealDay.fromJson(jsonDecode(
-                          '{"date":"2023-03-20","dishes":[{"name":"QuinoapfannemitGemüseundChili(scharf)","prices":{"students":{"base_price":1,"price_per_unit":null,"unit":null},"staff":{"base_price":2.25,"price_per_unit":null,"unit":null},"guests":{"base_price":3.1,"price_per_unit":null,"unit":null}},"labels":["VEGAN","VEGETARIAN"],"dish_type":"Tagesgericht1"},{"name":"GnocchimitTomatensauce","prices":{"students":{"base_price":2.05,"price_per_unit":null,"unit":null},"staff":{"base_price":2.85,"price_per_unit":null,"unit":null},"guests":{"base_price":3.9,"price_per_unit":null,"unit":null}},"labels":["CEREAL","GARLIC","GLUTEN","VEGAN","VEGETARIAN","WHEAT"],"dish_type":"Tagesgericht3"},{"name":"BernerRöstigratinmitKräuterdip","prices":{"students":null,"staff":null,"guests":null},"labels":["CHICKEN_EGGS","GARLIC","LACTOSE","MILK","VEGETARIAN"],"dish_type":"Aktionsessen3"},{"name":"Schweinelachssteak(SvomStrohschwein)mitscharfemGemüsedip","prices":{"students":null,"staff":null,"guests":null},"labels":["MEAT"],"dish_type":"Aktionsessen6"},{"name":"BoeufStroganoffmitSenf,SchnitzelgurkenundChampignons","prices":{"students":null,"staff":null,"guests":null},"labels":["BEEF","CEREAL","GLUTEN","LACTOSE","MEAT","MILK","MUSTARD","SWEETENERS","WHEAT"],"dish_type":"Aktionsessen8"},{"name":"Tagessuppe","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["MEAT"],"dish_type":"Beilagen"},{"name":"Gurkensalat","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["ANTIOXIDANTS","SULFITES","SULPHURS","VEGAN","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"Tomatensalat","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["ANTIOXIDANTS","SULFITES","SULPHURS","VEGAN","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"Reis","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["VEGAN","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"Nudeln","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["CEREAL","GLUTEN","VEGAN","VEGETARIAN","WHEAT"],"dish_type":"Beilagen"},{"name":"VanillecrememitSauerkirschen","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["LACTOSE","MILK","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"SaisonaleBeilagensalate","prices":{"students":null,"staff":null,"guests":null},"labels":["VEGAN","VEGETARIAN"],"dish_type":"Aktion"},{"name":"Knöpfle","prices":{"students":null,"staff":null,"guests":null},"labels":["CEREAL","CHICKEN_EGGS","GLUTEN","SPELT","VEGETARIAN","WHEAT"],"dish_type":"Aktion"},{"name":"Countrykartoffeln","prices":{"students":null,"staff":null,"guests":null},"labels":["VEGETARIAN"],"dish_type":"Aktion"},{"name":"Ayran","prices":{"students":null,"staff":null,"guests":null},"labels":["LACTOSE","MILK","VEGETARIAN"],"dish_type":"Aktion"},{"name":"FrischerRahmkohlrabi","prices":{"students":null,"staff":null,"guests":null},"labels":["CEREAL","GLUTEN","LACTOSE","MILK","VEGETARIAN","WHEAT"],"dish_type":"Aktion"}]}')))
+                  MealsPages(canteen: canteen),
+                  // Meals(
+                  //     day: MealDay.fromJson(jsonDecode(
+                  //         '{"date":"2023-03-20","dishes":[{"name":"QuinoapfannemitGemüseundChili(scharf)","prices":{"students":{"base_price":1,"price_per_unit":null,"unit":null},"staff":{"base_price":2.25,"price_per_unit":null,"unit":null},"guests":{"base_price":3.1,"price_per_unit":null,"unit":null}},"labels":["VEGAN","VEGETARIAN"],"dish_type":"Tagesgericht1"},{"name":"GnocchimitTomatensauce","prices":{"students":{"base_price":2.05,"price_per_unit":null,"unit":null},"staff":{"base_price":2.85,"price_per_unit":null,"unit":null},"guests":{"base_price":3.9,"price_per_unit":null,"unit":null}},"labels":["CEREAL","GARLIC","GLUTEN","VEGAN","VEGETARIAN","WHEAT"],"dish_type":"Tagesgericht3"},{"name":"BernerRöstigratinmitKräuterdip","prices":{"students":null,"staff":null,"guests":null},"labels":["CHICKEN_EGGS","GARLIC","LACTOSE","MILK","VEGETARIAN"],"dish_type":"Aktionsessen3"},{"name":"Schweinelachssteak(SvomStrohschwein)mitscharfemGemüsedip","prices":{"students":null,"staff":null,"guests":null},"labels":["MEAT"],"dish_type":"Aktionsessen6"},{"name":"BoeufStroganoffmitSenf,SchnitzelgurkenundChampignons","prices":{"students":null,"staff":null,"guests":null},"labels":["BEEF","CEREAL","GLUTEN","LACTOSE","MEAT","MILK","MUSTARD","SWEETENERS","WHEAT"],"dish_type":"Aktionsessen8"},{"name":"Tagessuppe","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["MEAT"],"dish_type":"Beilagen"},{"name":"Gurkensalat","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["ANTIOXIDANTS","SULFITES","SULPHURS","VEGAN","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"Tomatensalat","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["ANTIOXIDANTS","SULFITES","SULPHURS","VEGAN","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"Reis","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["VEGAN","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"Nudeln","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["CEREAL","GLUTEN","VEGAN","VEGETARIAN","WHEAT"],"dish_type":"Beilagen"},{"name":"VanillecrememitSauerkirschen","prices":{"students":{"base_price":0,"price_per_unit":0.8,"unit":"100g"},"staff":{"base_price":0,"price_per_unit":1,"unit":"100g"},"guests":{"base_price":0,"price_per_unit":1.35,"unit":"100g"}},"labels":["LACTOSE","MILK","VEGETARIAN"],"dish_type":"Beilagen"},{"name":"SaisonaleBeilagensalate","prices":{"students":null,"staff":null,"guests":null},"labels":["VEGAN","VEGETARIAN"],"dish_type":"Aktion"},{"name":"Knöpfle","prices":{"students":null,"staff":null,"guests":null},"labels":["CEREAL","CHICKEN_EGGS","GLUTEN","SPELT","VEGETARIAN","WHEAT"],"dish_type":"Aktion"},{"name":"Countrykartoffeln","prices":{"students":null,"staff":null,"guests":null},"labels":["VEGETARIAN"],"dish_type":"Aktion"},{"name":"Ayran","prices":{"students":null,"staff":null,"guests":null},"labels":["LACTOSE","MILK","VEGETARIAN"],"dish_type":"Aktion"},{"name":"FrischerRahmkohlrabi","prices":{"students":null,"staff":null,"guests":null},"labels":["CEREAL","GLUTEN","LACTOSE","MILK","VEGETARIAN","WHEAT"],"dish_type":"Aktion"}]}')))
                 ],
               ),
             );
@@ -82,25 +76,29 @@ class SelectCanteenDropdown extends StatefulWidget {
 
 class _SelectCanteenDropdownState extends State<SelectCanteenDropdown> {
   @override
-  Widget build(BuildContext context) => DropdownButton<Canteen>(
-        onChanged: (value) {
-          context.read<CanteenCubit>().setCanteen(value!);
-        },
-        value: context.watch<CanteenCubit>().state,
-        items: widget.canteens
-            .map((canteen) => DropdownMenuItem(
-                  value: canteen,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(canteen.name),
-                      if (canteen.location?.address != null)
-                        Text(canteen.location!.address!,
-                            style: context.theme.textTheme.labelSmall),
-                    ],
-                  ),
-                ))
-            .toList(),
+  Widget build(BuildContext context) => DropdownButtonHideUnderline(
+        child: DropdownButton<Canteen>(
+          onChanged: (value) {
+            context.read<CanteenCubit>().setCanteen(value!);
+          },
+          value: context.watch<CanteenCubit>().state,
+          hint: Text(context.localizations.choose_canteen),
+          items: widget.canteens
+              .map((canteen) => DropdownMenuItem(
+                    value: canteen,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(canteen.name),
+                        if (canteen.location?.address != null)
+                          Text(canteen.location!.address!,
+                              style: context.theme.textTheme.labelSmall),
+                      ],
+                    ),
+                  ))
+              .toList(),
+        ),
       );
 }
 
@@ -134,11 +132,25 @@ class CanteenInfo extends StatelessWidget {
 }
 
 class MealsPages extends StatelessWidget {
-  const MealsPages({super.key});
+  MealsPages({super.key, required this.canteen});
+
+  final Canteen canteen;
+  final _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Expanded(
+      child: PageView.builder(
+        controller: _controller,
+        itemBuilder: (BuildContext context, int page) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CanteenInfo(canteen: canteen, date: DateTime.now().add(Duration(days: page))),
+            Text(page.toString())
+          ],
+        ),
+      ),
+    );
   }
 }
 
