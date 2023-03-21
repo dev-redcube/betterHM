@@ -8,9 +8,9 @@ import 'package:hm_app/services/api/api_service.dart';
 class ApiMealplan extends ApiService {
   static const baseUrl = "https://tum-dev.github.io/eat-api";
 
-  Future<MealWeek> getMeals(String canteen, int year, int week) async {
-    final response = await get(
-        "https://tum-dev.github.io/eat-api/$canteen/$year/$week.json");
+  Future<MealWeek> getMeals(Canteen canteen, int year, int week) async {
+    final response =
+        await get("$baseUrl/${canteen.canteenId}/$year/$week.json");
     if (200 == response.statusCode) {
       Map<String, dynamic> mealWeek =
           jsonDecode(utf8.decode(response.bodyBytes));
