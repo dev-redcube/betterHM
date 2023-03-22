@@ -20,6 +20,11 @@ class CanteenPicker extends StatefulWidget {
 
 class _CanteenPickerState extends State<CanteenPicker> {
   @override
+  void initState() {
+    super.initState();
+    context.read<CanteenCubit>().setCanteen(widget.canteens.where((element) => element.enumName == "MENSA_LOTHSTR").first);
+  }
+  @override
   Widget build(BuildContext context) => DropdownButtonHideUnderline(
         child: DropdownButton<Canteen>(
           isExpanded: true,
@@ -27,7 +32,6 @@ class _CanteenPickerState extends State<CanteenPicker> {
             context.read<CanteenCubit>().setCanteen(value!);
           },
           value: context.watch<CanteenCubit>().state,
-          hint: Text(context.localizations.choose_canteen),
           items: widget.canteens
               .map((canteen) => DropdownMenuItem(
                     value: canteen,
