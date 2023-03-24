@@ -2,19 +2,40 @@ import 'dart:convert';
 
 import 'package:hm_app/exceptions/api_exception.dart';
 import 'package:hm_app/models/meal/canteen.dart';
+import 'package:hm_app/models/meal/day.dart';
 import 'package:hm_app/models/meal/week.dart';
 import 'package:hm_app/services/api/api_service.dart';
 
-class ApiMealplan extends ApiService {
+class ApiMeals extends ApiService {
   static const baseUrl = "https://tum-dev.github.io/eat-api";
 
-  Future<MealWeek> getMeals(Canteen canteen, int year, int week) async {
+  Future<MealWeek> getMealsInWeek(Canteen canteen, int year, int week) async {
     final response =
         await get("$baseUrl/${canteen.canteenId}/$year/$week.json");
     if (200 == response.statusCode) {
       Map<String, dynamic> mealWeek =
           jsonDecode(utf8.decode(response.bodyBytes));
       return MealWeek.fromJson(mealWeek);
+    } else {
+      throw ApiException(statusCode: response.statusCode);
+    }
+  }
+
+  Future<List<MealDay>> getAllMeals(Canteen canteen) async {
+    final response =
+        await get("$baseUrl/${canteen.canteenId}/combined/combined.json");
+    if (200 == response.statusCode) {
+      final Map<String, dynamic> data =
+          jsonDecode(utf8.decode(response.bodyBytes));
+
+      return (data["weeks"] as List<dynamic>)
+          .map((e) {
+            return MealWeek.fromJson(e);
+          })
+          .fold([],
+              (previousValue, element) => previousValue..addAll(element.days))
+          .map((e) => e as MealDay)
+          .toList();
     } else {
       throw ApiException(statusCode: response.statusCode);
     }
