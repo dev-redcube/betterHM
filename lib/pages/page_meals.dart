@@ -4,6 +4,7 @@ import 'package:hm_app/components/meals/canteen_info.dart';
 import 'package:hm_app/components/meals/canteen_picker.dart';
 import 'package:hm_app/components/meals/meal_view.dart';
 import 'package:hm_app/cubits/cubit_cantine.dart';
+import 'package:hm_app/extensions/extensions_context.dart';
 import 'package:hm_app/extensions/extensions_date_time.dart';
 import 'package:hm_app/models/meal/canteen.dart';
 import 'package:hm_app/services/api/api_meals.dart';
@@ -37,8 +38,8 @@ class _HomePageState extends State<HomePage> {
         body: BlocBuilder<CanteenCubit, Canteen?>(
           builder: (context, canteen) {
             if (canteen == null) {
-              return const Center(
-                child: Text("please select a canteen"),
+              return Center(
+                child: Text(context.localizations.choose_canteen),
               );
             }
             return Padding(
@@ -73,11 +74,15 @@ class MealsPages extends StatelessWidget {
               !snapshot.hasData) {
             return const LinearProgressIndicator();
           }
+          final days = snapshot.data!.days
+              .where((element) => element.date
+                  .isAfter(today().subtract(const Duration(days: 1))))
+              .toList();
           return Expanded(
             child: PageView.builder(
               controller: _controller,
               itemBuilder: (BuildContext context, int page) {
-                if (page >= 5) {
+                if (page >= snapshot.data!.days.length) {
                   return null;
                 }
                 final DateTime now = DateTime.now();
@@ -87,9 +92,10 @@ class MealsPages extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CanteenInfo(canteen: canteen, date: date),
+                    Text("page: $page, length: ${days.length}"),
                     MealView(
-                      day: snapshot.data!.days[page],
-                    )
+                      day: days[page],
+                    ),
                   ],
                 );
               },

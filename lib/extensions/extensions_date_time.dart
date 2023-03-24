@@ -31,3 +31,8 @@ abstract class _DateHelper {
 extension Week on DateTime {
   int get weekOfYear => _DateHelper.weekOfYear(this);
 }
+
+DateTime today() {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day);
+}
