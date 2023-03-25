@@ -59,10 +59,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class MealsPages extends StatelessWidget {
-  MealsPages({super.key, required this.canteen});
+  const MealsPages({super.key, required this.canteen});
 
   final Canteen canteen;
-  final _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,31 +73,28 @@ class MealsPages extends StatelessWidget {
               !snapshot.hasData) {
             return const LinearProgressIndicator();
           }
-          final days = snapshot.data!.days
-              .where((element) => element.date
-                  .isAfter(today().subtract(const Duration(days: 1))))
-              .toList();
+          late final Widget child;
+          try {
+            final day = snapshot.data!.days
+                .firstWhere((element) => element.date == today());
+            child = MealView(day: day);
+          } catch (e) {
+            child = Center(
+              child: Text(context.localizations.no_meals),
+            );
+          }
+
           return Expanded(
-            child: PageView.builder(
-              controller: _controller,
-              itemBuilder: (BuildContext context, int page) {
-                if (page >= snapshot.data!.days.length) {
-                  return null;
-                }
-                final DateTime now = DateTime.now();
-                final DateTime date = DateTime(now.year, now.month, now.day)
-                    .add(Duration(days: page));
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CanteenInfo(canteen: canteen, date: date),
-                    Text("page: $page, length: ${days.length}"),
-                    MealView(
-                      day: days[page],
-                    ),
-                  ],
-                );
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CanteenInfo(canteen: canteen, date: today()),
+                Flexible(
+                  flex: 1,
+                  child: child,
+                ),
+              ],
             ),
           );
         });
