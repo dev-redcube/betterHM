@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:hm_app/exceptions/api_exception.dart';
-import 'package:hm_app/models/meal/canteen.dart';
-import 'package:hm_app/models/meal/day.dart';
-import 'package:hm_app/models/meal/week.dart';
-import 'package:hm_app/services/api/api_service.dart';
+import 'package:better_hm/exceptions/api_exception.dart';
+import 'package:better_hm/models/meal/canteen.dart';
+import 'package:better_hm/models/meal/day.dart';
+import 'package:better_hm/models/meal/week.dart';
+import 'package:better_hm/services/api/api_service.dart';
 
 class ApiMeals extends ApiService {
   static const baseUrl = "https://tum-dev.github.io/eat-api";

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hm_app/extensions/extensions_context.dart';
-import 'package:hm_app/models/meal/canteen.dart';
+import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/models/meal/canteen.dart';
 import 'package:intl/intl.dart';
 
 class CanteenInfo extends StatelessWidget {

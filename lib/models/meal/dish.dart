@@ -1,4 +1,4 @@
-import 'package:hm_app/models/meal/prices.dart';
+import 'package:better_hm/models/meal/prices.dart';
 
 class Dish {
   final String name;

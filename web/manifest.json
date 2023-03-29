@@ -1,6 +1,6 @@
 {
-    "name": "hm_app",
-    "short_name": "hm_app",
+    "name": "better_hm",
+    "short_name": "better_hm",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

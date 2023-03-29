@@ -1,4 +1,4 @@
-import 'package:hm_app/models/meal/dish.dart';
+import 'package:better_hm/models/meal/dish.dart';
 
 class MealDay {
   final DateTime date;

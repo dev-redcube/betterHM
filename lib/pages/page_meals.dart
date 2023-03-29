@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hm_app/components/meals/canteen_info.dart';
-import 'package:hm_app/components/meals/canteen_picker.dart';
-import 'package:hm_app/components/meals/meal_view.dart';
-import 'package:hm_app/cubits/cubit_cantine.dart';
-import 'package:hm_app/extensions/extensions_context.dart';
-import 'package:hm_app/extensions/extensions_date_time.dart';
-import 'package:hm_app/models/meal/canteen.dart';
-import 'package:hm_app/services/api/api_meals.dart';
+import 'package:better_hm/components/meals/canteen_info.dart';
+import 'package:better_hm/components/meals/canteen_picker.dart';
+import 'package:better_hm/components/meals/meal_view.dart';
+import 'package:better_hm/cubits/cubit_cantine.dart';
+import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/extensions/extensions_date_time.dart';
+import 'package:better_hm/models/meal/canteen.dart';
+import 'package:better_hm/services/api/api_meals.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

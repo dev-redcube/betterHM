@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hm_app/pages/page_meals.dart';
+import 'package:better_hm/pages/page_meals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {

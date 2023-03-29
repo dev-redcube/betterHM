@@ -1,4 +1,4 @@
-package de.moritzhuber.hm_app
+package de.moritzhuber.better_hm
 
 import io.flutter.embedding.android.FlutterActivity
 

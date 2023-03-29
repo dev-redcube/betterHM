@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hm_app/models/meal/day.dart';
-import 'package:hm_app/models/meal/dish.dart';
+import 'package:better_hm/models/meal/day.dart';
+import 'package:better_hm/models/meal/dish.dart';
 
 class MealView extends StatelessWidget {
   const MealView({super.key, required this.day});

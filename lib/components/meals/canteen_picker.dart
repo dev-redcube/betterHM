@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hm_app/cubits/cubit_cantine.dart';
-import 'package:hm_app/extensions/extensions_context.dart';
-import 'package:hm_app/models/meal/canteen.dart';
+import 'package:better_hm/cubits/cubit_cantine.dart';
+import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/models/meal/canteen.dart';
 
 class CanteenPicker extends StatefulWidget {
   const CanteenPicker({

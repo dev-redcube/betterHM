@@ -1,4 +1,4 @@
-import 'package:hm_app/models/location.dart';
+import 'package:better_hm/models/location.dart';
 
 class Canteen {
   final String enumName;

@@ -1,4 +1,4 @@
-import 'package:hm_app/models/meal/price.dart';
+import 'package:better_hm/models/meal/price.dart';
 
 class MealPrices {
   final MealPrice? students;

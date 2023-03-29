@@ -1,4 +1,4 @@
-import 'package:hm_app/models/meal/week.dart';
+import 'package:better_hm/models/meal/week.dart';
 
 class CanteenMenu {
   final String canteenId;

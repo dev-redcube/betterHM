@@ -1,4 +1,4 @@
-import 'package:hm_app/models/meal/day.dart';
+import 'package:better_hm/models/meal/day.dart';
 
 class MealWeek {
   final int number;

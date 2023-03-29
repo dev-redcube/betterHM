@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.moritzhuber.hm_app">
+    package="de.moritzhuber.better_hm">
    <application
-        android:label="HM App (Unofficial)"
+        android:label="Better HM"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,4 +1,4 @@
-# hm_app
+# Better HM
 
 A new Flutter project.
 
