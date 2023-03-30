@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:better_hm/cubits/cubit_cantine.dart';
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/models/meal/canteen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CanteenPicker extends StatefulWidget {
   const CanteenPicker({
@@ -19,10 +20,13 @@ class CanteenPicker extends StatefulWidget {
 }
 
 class _CanteenPickerState extends State<CanteenPicker> {
+  late final CanteenCubit canteenCubit;
+
   @override
   void initState() {
     super.initState();
-    context.read<CanteenCubit>().setCanteen(widget.canteens
+    canteenCubit = context.read<CanteenCubit>();
+    canteenCubit.setCanteen(widget.canteens
         .where((element) => element.enumName == "MENSA_LOTHSTR")
         .first);
     readCanteen();
@@ -45,8 +49,9 @@ class _CanteenPickerState extends State<CanteenPicker> {
   Widget build(BuildContext context) => DropdownButtonHideUnderline(
         child: DropdownButton<Canteen>(
           isExpanded: true,
-          onChanged: (value) {
-            context.read<CanteenCubit>().setCanteen(value!);
+          onChanged: (canteen) {
+            context.read<CanteenCubit>().setCanteen(canteen);
+            saveCanteen(canteen);
           },
           value: context.watch<CanteenCubit>().state,
           items: widget.canteens
