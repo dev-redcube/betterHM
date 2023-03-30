@@ -26,17 +26,25 @@ class _CanteenPickerState extends State<CanteenPicker> {
   void initState() {
     super.initState();
     canteenCubit = context.read<CanteenCubit>();
-    canteenCubit.setCanteen(widget.canteens
-        .where((element) => element.enumName == "MENSA_LOTHSTR")
-        .first);
-    readCanteen();
+    loadCanteen();
   }
 
-  void readCanteen() async {
+  void loadCanteen() async {
+    Canteen? canteen;
     final prefs = await SharedPreferences.getInstance();
     final enumName = prefs.getString("selected-canteen");
-    final Canteen canteen =
-        widget.canteens.where((element) => element.enumName == enumName).first;
+    try {
+      canteen =
+          widget.canteens.firstWhere((element) => element.enumName == enumName);
+    } catch (e) {
+      try {
+        canteen = widget.canteens
+            .firstWhere((element) => element.enumName == "MENSA_LOTHSTR");
+      } catch (e) {
+        canteen = null;
+      }
+    }
+
     canteenCubit.setCanteen(canteen);
   }
 
