@@ -9,11 +9,9 @@ class CanteenPicker extends StatefulWidget {
   const CanteenPicker({
     super.key,
     required this.canteens,
-    required this.context,
   });
 
   final List<Canteen> canteens;
-  final BuildContext context;
 
   @override
   State<CanteenPicker> createState() => _CanteenPickerState();

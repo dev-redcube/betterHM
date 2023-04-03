@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:better_hm/exceptions/api_exception.dart';
+import 'package:better_hm/exceptions/api/api_exception.dart';
 import 'package:better_hm/models/meal/canteen.dart';
 import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/models/meal/week.dart';

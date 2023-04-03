@@ -41,6 +41,7 @@ dependencies:
   intl: any
   flutter_bloc: ^8.1.2
   shared_preferences: ^2.0.20
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
