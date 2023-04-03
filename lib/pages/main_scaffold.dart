@@ -3,8 +3,15 @@ import 'package:better_hm/pages/dashboard_page.dart';
 import 'package:better_hm/pages/page_meals.dart';
 import 'package:flutter/material.dart';
 
-class MainScaffold extends StatelessWidget {
+class MainScaffold extends StatefulWidget {
   MainScaffold({super.key});
+
+  @override
+  State<MainScaffold> createState() => _MainScaffoldState();
+}
+
+class _MainScaffoldState extends State<MainScaffold> {
+  int _selectedPage = 0;
 
   final List<_PageElement> _pages = [
     // TODO l10n
@@ -28,13 +35,18 @@ class MainScaffold extends StatelessWidget {
           appBar: AppBar(
             title: Text(context.localizations.app_name),
           ),
-          body: const Placeholder(),
-          // TODO test value
-          bottomNavigationBar: constraints.maxWidth > 100
+          body: _pages[_selectedPage].content,
+          bottomNavigationBar: constraints.maxWidth >= 800
               ? null
-              : BottomNavigationBar(
-                  items: _pages
-                      .map((e) => BottomNavigationBarItem(
+              : NavigationBar(
+                  selectedIndex: _selectedPage,
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      _selectedPage = index;
+                    });
+                  },
+                  destinations: _pages
+                      .map((e) => NavigationDestination(
                             icon: e.icon,
                             label: e.label,
                           ))

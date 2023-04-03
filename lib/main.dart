@@ -1,6 +1,6 @@
+import 'package:better_hm/pages/main_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:better_hm/pages/page_meals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         Locale("en"),
         Locale("de"),
       ],
-      home: const HomePage(),
+      home: MainScaffold(),
     );
   }
 }
