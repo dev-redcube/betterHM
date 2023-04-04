@@ -14,7 +14,7 @@ class ApiService {
     return response;
   }
 
-  Future httpGet(String url) async {
+  Future<Response> httpGet(String url) async {
     Request request = prepareRequest('get', url);
     return sendRequest(request);
   }
@@ -43,14 +43,13 @@ class ApiService {
     return request;
   }
 
-  Future sendRequest(BaseRequest request) async {
+  Future<Response> sendRequest(BaseRequest request) async {
     try {
       Response response = await Response.fromStream(await request.send());
 
       return response;
     } catch (e) {
       // On connection issue, save request to queue and retry later. Exclude get requests
-      // @todo handle image
       if (request.method != 'get' && request is Request) {
         Workmanager().registerOneOffTask(
             'retryFailedRequestTask', 'retryFailedRequestTask',

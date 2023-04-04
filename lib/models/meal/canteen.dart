@@ -1,21 +1,27 @@
-import 'package:better_hm/models/location.dart';
+import 'package:isar/isar.dart';
 
+part 'canteen.g.dart';
+
+@collection
 class Canteen {
+  Id id = Isar.autoIncrement;
+
   final String enumName;
+
   final String name;
   final String canteenId;
-  final Location? location;
-  final OpenHoursWeek? openHours;
 
-  Canteen(
-      this.enumName, this.name, this.canteenId, this.location, this.openHours);
+  // final Location? location;
+  // final OpenHoursWeek? openHours;
+
+  Canteen(this.enumName, this.name, this.canteenId);
 
   static Canteen fromJson(Map<String, dynamic> json) => Canteen(
         json["enum_name"],
         json["name"],
         json["canteen_id"],
-        Location.fromJson(json["location"]),
-        OpenHoursWeek.fromJson(json["open_hours"]),
+        // Location.fromJson(json["location"]),
+        // OpenHoursWeek.fromJson(json["open_hours"]),
       );
 }
 

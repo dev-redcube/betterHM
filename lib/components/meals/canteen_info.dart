@@ -12,7 +12,8 @@ class CanteenInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final openingTimes = canteen.openHours?[date.weekday];
+    // final openingTimes = canteen.openHours?[date.weekday];
+    const openingTimes = null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

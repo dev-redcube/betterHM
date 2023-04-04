@@ -1,16 +1,11 @@
-import 'package:better_hm/blocs/canteen/canteen_bloc.dart';
-import 'package:better_hm/blocs/canteen/canteen_event.dart';
-import 'package:better_hm/blocs/canteen/canteen_state.dart';
 import 'package:better_hm/components/meals/canteen_info.dart';
 import 'package:better_hm/components/meals/canteen_picker.dart';
 import 'package:better_hm/components/meals/meal_view.dart';
-import 'package:better_hm/cubits/cubit_cantine.dart';
+import 'package:better_hm/cubits/selected_canteen_cubit.dart';
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:better_hm/models/meal/canteen.dart';
-import 'package:better_hm/services/api/api_canteen.dart';
 import 'package:better_hm/services/api/api_meals.dart';
-import 'package:better_hm/services/cache/cache_canteen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,47 +17,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late CanteenBloc canteenBloc;
-  bool isLoading = false;
-
-  List<Canteen> canteens = [];
-  final List<Canteen> _fetchedCanteens = [];
-  final List<Canteen> _cachedCanteens = [];
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CanteenBloc>(
-      create: (context) {
-        canteenBloc = CanteenBloc(
-            apiCanteen: ApiCanteen(), cacheService: CacheCanteenService());
-        canteenBloc.add(FetchCanteens());
-        isLoading = true;
-        return canteenBloc;
-      },
+    return BlocProvider(
+      create: (_) => SelectedCanteenCubit(),
       child: Scaffold(
         appBar: AppBar(
-          title: BlocConsumer<CanteenBloc, CanteenState>(
-            listener: (context, state) {
-              if (state is CanteensError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error),
-                    duration: const Duration(seconds: 5),
-                  ),
-                );
-              } else if (state is CanteensFetched) {
-                _fetchedCanteens.addAll(state.canteens);
-                canteens = _fetchedCanteens;
-              } else if (state is CanteensFetchedFromCache) {
-                isLoading = false;
-                _cachedCanteens.addAll(state.canteens);
-                canteens = _cachedCanteens;
-              }
-            },
-            builder: (context, state) => CanteenPicker(canteens: canteens),
-          ),
+          title: const CanteenPicker(),
         ),
-        body: BlocBuilder<CanteenCubit, Canteen?>(
+        body: BlocBuilder<SelectedCanteenCubit, Canteen?>(
           builder: (context, canteen) {
             if (canteen == null) {
               return Center(
