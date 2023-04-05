@@ -46,7 +46,6 @@ class ApiService {
   Future<Response> sendRequest(BaseRequest request) async {
     try {
       Response response = await Response.fromStream(await request.send());
-
       return response;
     } catch (e) {
       // On connection issue, save request to queue and retry later. Exclude get requests

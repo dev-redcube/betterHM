@@ -6,6 +6,7 @@ import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:better_hm/models/meal/canteen.dart';
 import 'package:better_hm/services/api/api_meals.dart';
+import 'package:better_hm/services/canteen_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +24,15 @@ class _HomePageState extends State<HomePage> {
       create: (_) => SelectedCanteenCubit(),
       child: Scaffold(
         appBar: AppBar(
-          title: const CanteenPicker(),
+          title: FutureBuilder<List<Canteen>>(
+              future: CanteenService().getCanteens(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return const CircularProgressIndicator();
+                } else {
+                  return CanteenPicker(canteens: snapshot.data!);
+                }
+              }),
         ),
         body: BlocBuilder<SelectedCanteenCubit, Canteen?>(
           builder: (context, canteen) {

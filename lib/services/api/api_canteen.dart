@@ -7,7 +7,7 @@ import 'package:better_hm/services/api/api_service.dart';
 class ApiCanteen extends ApiService {
   static const baseUrl = "https://tum-dev.github.io/eat-api";
 
-  Future<List<Canteen>> getCanteens(DateTime date) async {
+  Future<List<Canteen>> getCanteens() async {
     final response = await httpGet("$baseUrl/enums/canteens.json");
     if (200 == response.statusCode) {
       final List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
