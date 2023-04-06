@@ -10,7 +10,7 @@ abstract class IsarService {
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
-      await Isar.open([CanteenSchema]);
+      await Isar.open([CanteenSchema], inspector: false);
     }
     return Future.value(Isar.getInstance());
   }

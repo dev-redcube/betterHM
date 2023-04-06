@@ -32,6 +32,13 @@ extension Week on DateTime {
   int get weekOfYear => _DateHelper.weekOfYear(this);
 }
 
+extension Formats on DateTime {
+  // TODO
+  String get formatMonth => "HELLO";
+
+  String get formatDayMonth => "5. April";
+}
+
 DateTime today() {
   final now = DateTime.now();
   return DateTime(now.year, now.month, now.day);

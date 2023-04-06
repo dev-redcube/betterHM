@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         Locale("en"),
         Locale("de"),
       ],
-      home: MainScaffold(),
+      home: const MainScaffold(),
     );
   }
 }
