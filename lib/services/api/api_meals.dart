@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:better_hm/exceptions/api_exception.dart';
+import 'package:better_hm/exceptions/api/api_exception.dart';
 import 'package:better_hm/models/meal/canteen.dart';
 import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/models/meal/week.dart';
@@ -17,7 +17,7 @@ class ApiMeals extends ApiService {
           jsonDecode(utf8.decode(response.bodyBytes));
       return MealWeek.fromJson(mealWeek);
     } else {
-      throw ApiException(statusCode: response.statusCode);
+      throw ApiException(response: response);
     }
   }
 
@@ -37,7 +37,7 @@ class ApiMeals extends ApiService {
           .map((e) => e as MealDay)
           .toList();
     } else {
-      throw ApiException(statusCode: response.statusCode);
+      throw ApiException(response: response);
     }
   }
 
@@ -49,7 +49,7 @@ class ApiMeals extends ApiService {
           .map((canteen) => Canteen.fromJson(canteen as Map<String, dynamic>))
           .toList();
     } else {
-      throw ApiException(statusCode: response.statusCode);
+      throw ApiException(response: response);
     }
   }
 }
