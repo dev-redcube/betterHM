@@ -33,13 +33,33 @@ extension Week on DateTime {
 }
 
 extension Formats on DateTime {
-  // TODO
-  String get formatMonth => "HELLO";
+  String get formatMonth => months[month - 1];
 
-  String get formatDayMonth => "5. April";
+  String get formatDayMonthAbbr {
+    return "$day. ${months[month - 1].substring(0, 3)}";
+  }
+
+  String get formatDayMonth {
+    return "$day. ${months[month - 1]}";
+  }
 }
 
 DateTime today() {
   final now = DateTime.now();
   return DateTime(now.year, now.month, now.day);
 }
+
+const months = [
+  "Januar",
+  "Februar",
+  "März",
+  "April",
+  "Mai",
+  "Juni",
+  "Juli",
+  "August",
+  "September",
+  "Oktober",
+  "November",
+  "Dezember",
+];

@@ -1,9 +1,11 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 
+// TODO dynamic data
 class SemesterStatus extends StatelessWidget {
   const SemesterStatus({Key? key}) : super(key: key);
 
@@ -14,7 +16,7 @@ class SemesterStatus extends StatelessWidget {
       children: [
         Text("Sommersemester 2023",
             style: context.theme.textTheme.headlineSmall),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
         SemesterProgress(),
       ],
     );
@@ -57,7 +59,7 @@ class SemesterProgressBar extends StatelessWidget {
     final percentage = daysSinceStart / daysOfSemester;
 
     return SizedBox(
-      height: 100,
+      height: 70,
       child: CustomPaint(
         painter: SemesterProgressPainter(
           start: start,
@@ -87,10 +89,30 @@ class SemesterProgressPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final barOffsetLeft = size.width * percentage;
+    final barOffsetX = size.width * percentage;
+
+    // label start
+    final labelStart = TextPainter(
+      text: TextSpan(text: start.formatDayMonthAbbr),
+      textDirection: ui.TextDirection.ltr,
+    );
+    labelStart.layout(minWidth: 0, maxWidth: size.width / 2);
+    labelStart.paint(canvas, Offset.zero);
+    // label end
+    final labelEnd = TextPainter(
+      text: TextSpan(text: end.formatDayMonthAbbr),
+      textDirection: ui.TextDirection.ltr,
+    );
+    labelEnd.layout(minWidth: 0, maxWidth: size.width / 2);
+    labelEnd.paint(canvas, Offset(size.width - labelEnd.width, 0));
+
+    final rectOffsetY = max(labelStart.height, labelEnd.height) + 10;
 
     canvas.drawRect(
-      Rect.fromPoints(Offset.zero, Offset(size.width, barHeight)),
+      Rect.fromPoints(
+        Offset(0, rectOffsetY),
+        Offset(size.width, rectOffsetY + barHeight),
+      ),
       Paint()
         ..shader = ui.Gradient.linear(
           Offset.zero,
@@ -98,39 +120,38 @@ class SemesterProgressPainter extends CustomPainter {
           [Colors.green, Colors.red],
         ),
     );
+
     final linePaint = Paint()
-      ..strokeWidth = 4
+      ..strokeWidth = 2
       ..color = Colors.white;
 
     canvas.drawLine(
-      Offset.zero,
-      Offset(0, barHeight),
+      Offset(linePaint.strokeWidth / 2, rectOffsetY - 5),
+      Offset(linePaint.strokeWidth / 2, rectOffsetY + barHeight),
       linePaint,
     );
     canvas.drawLine(
-      Offset(barOffsetLeft, -5),
-      Offset(barOffsetLeft, barHeight + 5),
+      Offset(size.width - linePaint.strokeWidth / 2, rectOffsetY - 5),
+      Offset(size.width - linePaint.strokeWidth / 2, rectOffsetY + barHeight),
       linePaint,
     );
     canvas.drawLine(
-      Offset(size.width, 0),
-      Offset(size.width, barHeight),
-      linePaint,
+      Offset(barOffsetX, rectOffsetY - 5),
+      Offset(barOffsetX, rectOffsetY + barHeight + 5),
+      linePaint..strokeWidth = 4,
     );
 
     final label = TextPainter(
-      text: TextSpan(text: today.formatDayMonth),
+      text: TextSpan(text: today.formatDayMonthAbbr),
       textDirection: ui.TextDirection.ltr,
     );
     label.layout(minWidth: 0, maxWidth: size.width);
-    label.paint(
-        canvas, Offset(barOffsetLeft - label.width / 2, barHeight + 10));
+    label.paint(canvas,
+        Offset(barOffsetX - label.width / 2, rectOffsetY + barHeight + 10));
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
-    // TODO: implement shouldRepaint
-    throw UnimplementedError();
   }
 }
