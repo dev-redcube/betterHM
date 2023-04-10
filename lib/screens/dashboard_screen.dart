@@ -2,8 +2,8 @@ import 'package:better_hm/components/dashboard/dashboard_card.dart';
 import 'package:better_hm/components/dashboard/semester_status.dart';
 import 'package:flutter/material.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

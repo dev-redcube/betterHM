@@ -10,14 +10,14 @@ import 'package:better_hm/services/canteen_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MealsScreen extends StatefulWidget {
+  const MealsScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MealsScreen> createState() => _MealsScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MealsScreenState extends State<MealsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
