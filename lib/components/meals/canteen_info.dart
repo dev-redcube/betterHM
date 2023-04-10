@@ -26,7 +26,7 @@ class CanteenInfo extends StatelessWidget {
           const SizedBox(height: 8),
           if (openingTimes != null)
             Text(
-              "${context.localizations.opening_hours}: ${openingTimes.start} - ${openingTimes.end}",
+              "${context.l10n.opening_hours}: ${openingTimes.start} - ${openingTimes.end}",
               style: const TextStyle(color: Colors.green),
             ),
         ],

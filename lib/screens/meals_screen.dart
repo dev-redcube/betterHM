@@ -38,7 +38,7 @@ class _MealsScreenState extends State<MealsScreen> {
           builder: (context, canteen) {
             if (canteen == null) {
               return Center(
-                child: Text(context.localizations.choose_canteen),
+                child: Text(context.l10n.choose_canteen),
               );
             }
             return Padding(
@@ -79,7 +79,7 @@ class MealsPages extends StatelessWidget {
           child = MealView(day: day);
         } catch (e) {
           child = Center(
-            child: Text(context.localizations.no_meals),
+            child: Text(context.l10n.no_meals),
           );
         }
 
