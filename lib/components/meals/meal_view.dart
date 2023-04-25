@@ -20,17 +20,19 @@ class MealView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: groupDishes()
-          .map((dishType, dishes) => MapEntry(
-              dishType,
-              DishSection(
-                dishType: dishType,
-                dishes: dishes,
-              )))
-          .values
-          .toList(),
+    return SelectionArea(
+      child: ListView(
+        shrinkWrap: true,
+        children: groupDishes()
+            .map((dishType, dishes) => MapEntry(
+                dishType,
+                DishSection(
+                  dishType: dishType,
+                  dishes: dishes,
+                )))
+            .values
+            .toList(),
+      ),
     );
   }
 }
