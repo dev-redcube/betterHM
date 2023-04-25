@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:isar/isar.dart';
 
 part 'canteen.g.dart';
@@ -28,7 +26,6 @@ class Canteen {
           ? null
           : OpenHoursWeek.fromJson(json["open_hours"]),
     );
-    log(c.toString());
     return c;
   }
 }
