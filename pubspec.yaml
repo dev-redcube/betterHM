@@ -41,6 +41,7 @@ dependencies:
   isar: ^3.0.5
   isar_flutter_libs: ^3.0.5
   path_provider: ^2.0.14
+  dynamic_color: ^1.6.3
 
 dev_dependencies:
   flutter_test:
