@@ -41,10 +41,10 @@ class DishCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                  color: context.theme.colorScheme.primaryContainer
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
+                    borderRadius: const BorderRadius.all(Radius.circular(100)),
+                    color: context.theme.colorScheme.primaryContainer),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
                 child: Text(dish.dishType),
               ),
               const SizedBox(height: 8),
