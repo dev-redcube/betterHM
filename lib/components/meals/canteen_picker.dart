@@ -1,7 +1,8 @@
-import 'package:better_hm/cubits/selected_canteen_cubit.dart';
+import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/models/meal/canteen.dart';
+import 'package:better_hm/providers/selected_canteen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CanteenPicker extends StatefulWidget {
@@ -17,21 +18,22 @@ class CanteenPicker extends StatefulWidget {
 }
 
 class _CanteenPickerState extends State<CanteenPicker> {
-  late final SelectedCanteenCubit selectedCanteenCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedCanteenCubit = context.read<SelectedCanteenCubit>();
-    loadDefaultCanteen();
-  }
-
+  // late final SelectedCanteenProvider selectedCanteenProvider;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   selectedCanteenProvider = Provider.of<SelectedCanteenProvider>(context);
+  //   loadDefaultCanteen();
+  // }
+  //
   void loadDefaultCanteen() async {
+    final provider = Provider.of<SelectedCanteenProvider>(context);
     final prefs = await SharedPreferences.getInstance();
     final String? canteenEnum = prefs.getString("selected-canteen");
     final Canteen canteen = widget.canteens.firstWhere(
         (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"));
-    selectedCanteenCubit.setCanteen(canteen);
+    provider.canteen = canteen;
   }
 
   void saveCanteen(Canteen? canteen) async {
@@ -41,21 +43,26 @@ class _CanteenPickerState extends State<CanteenPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<Canteen>(
-        isExpanded: true,
-        onChanged: (canteen) {
-          context.read<SelectedCanteenCubit>().setCanteen(canteen);
-          saveCanteen(canteen);
-        },
-        value: context.watch<SelectedCanteenCubit>().state,
-        items: widget.canteens
-            .map((canteen) => DropdownMenuItem(
-                  value: canteen,
-                  child: Text(canteen.name),
-                ))
-            .toList(),
-      ),
+    return Consumer<SelectedCanteenProvider>(
+      builder: (context, provider, child) {
+        if (provider.canteen == null) {
+          loadDefaultCanteen();
+        }
+        return DropdownButtonHideUnderline(
+          child: DropdownButton<Canteen>(
+            onChanged: (canteen) {
+              provider.canteen = canteen;
+              saveCanteen(canteen);
+            },
+            hint: Text(context.localizations.choose_canteen),
+            value: provider.canteen,
+            items: widget.canteens
+                .map((canteen) =>
+                    DropdownMenuItem(value: canteen, child: Text(canteen.name)))
+                .toList(),
+          ),
+        );
+      },
     );
   }
 }
