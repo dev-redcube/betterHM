@@ -48,18 +48,21 @@ class _CanteenPickerState extends State<CanteenPicker> {
         if (provider.canteen == null) {
           loadDefaultCanteen();
         }
-        return DropdownButtonHideUnderline(
-          child: DropdownButton<Canteen>(
-            onChanged: (canteen) {
-              provider.canteen = canteen;
-              saveCanteen(canteen);
-            },
-            hint: Text(context.localizations.choose_canteen),
-            value: provider.canteen,
-            items: widget.canteens
-                .map((canteen) =>
-                    DropdownMenuItem(value: canteen, child: Text(canteen.name)))
-                .toList(),
+        return Center(
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<Canteen>(
+              onChanged: (canteen) {
+                provider.canteen = canteen;
+                saveCanteen(canteen);
+              },
+              hint: Text(context.localizations.choose_canteen),
+              // isExpanded: true,
+              value: provider.canteen,
+              items: widget.canteens
+                  .map((canteen) => DropdownMenuItem(
+                      value: canteen, child: Text(canteen.name)))
+                  .toList(),
+            ),
           ),
         );
       },
