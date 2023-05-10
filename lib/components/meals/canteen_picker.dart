@@ -56,7 +56,6 @@ class _CanteenPickerState extends State<CanteenPicker> {
                 saveCanteen(canteen);
               },
               hint: Text(context.localizations.choose_canteen),
-              // isExpanded: true,
               value: provider.canteen,
               items: widget.canteens
                   .map((canteen) => DropdownMenuItem(

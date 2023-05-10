@@ -92,18 +92,16 @@ class _MealsPage extends StatelessWidget {
           );
         }
 
-        return Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              CanteenInfo(canteen: canteen, date: today()),
-              Flexible(
-                flex: 1,
-                child: child,
-              ),
-            ],
-          ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            CanteenInfo(canteen: canteen, date: today()),
+            Flexible(
+              flex: 1,
+              child: child,
+            ),
+          ],
         );
       },
     );
