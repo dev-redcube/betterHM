@@ -1,14 +1,13 @@
-name: Build
+name: CI
 on:
   pull_request:
     branches: [master]
   push:
     branches: [master]
-  workflow_dispatch:
   
 jobs:
-  build:
-    name: Build
+  android:
+    name: Build Android
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 11
@@ -28,7 +27,7 @@ jobs:
       - name: Build runner
         run: dart run build_runner build --delete-conflicting-outputs
       - name: Flutter analyzer
-        run: flutter analyze
+        run: flutter analyze -v
       - name: Check formatting
         run: dart format -o none --set-exit-if-changed .
       - name: Build

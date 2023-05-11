@@ -15,7 +15,8 @@ final router = GoRouter(
             onDestinationSelected: (int index) {
               context.goNamed(homeRoutes[index].name!);
             },
-            selectedIndex: homeRoutes.indexOf(homeRoutes.firstWhere((element) => element.path == state.location)),
+            selectedIndex: homeRoutes.indexOf(homeRoutes
+                .firstWhere((element) => element.path == state.location)),
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.home_rounded),
