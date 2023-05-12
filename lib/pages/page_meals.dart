@@ -4,6 +4,7 @@ import 'package:better_hm/components/meals/meal_view.dart';
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:better_hm/models/meal/canteen.dart';
+import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/providers/selected_canteen.dart';
 import 'package:better_hm/services/api/api_meals.dart';
 import 'package:better_hm/services/canteen_service.dart';
@@ -54,11 +55,8 @@ class _Body extends StatelessWidget {
                   child: Text(context.localizations.choose_canteen),
                 );
               }
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _MealsPage(
-                  canteen: provider.canteen!,
-                ),
+              return _MealsPageView(
+                canteen: provider.canteen!,
               );
             },
           ),
@@ -67,41 +65,45 @@ class _Body extends StatelessWidget {
 }
 
 class _MealsPage extends StatelessWidget {
-  const _MealsPage({required this.canteen});
+  const _MealsPage({required this.canteen, required this.day});
+
+  final Canteen canteen;
+  final MealDay day;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CanteenInfo(canteen: canteen, date: day.date),
+          Flexible(flex: 1, child: MealView(day: day)),
+        ],
+      ),
+    );
+  }
+}
+
+class _MealsPageView extends StatelessWidget {
+  const _MealsPageView({Key? key, required this.canteen}) : super(key: key);
 
   final Canteen canteen;
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
     return FutureBuilder(
-      future: ApiMeals().getMealsInWeek(canteen, now.year, now.weekOfYear),
+      future: ApiMeals().getCombinedMeals(canteen),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done ||
             !snapshot.hasData) {
           return const LinearProgressIndicator();
         }
-        late final Widget child;
-        try {
-          final day = snapshot.data!.days
-              .firstWhere((element) => element.date == today());
-          child = MealView(day: day);
-        } catch (e) {
-          child = Center(
-            child: Text(context.localizations.no_meals),
-          );
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            CanteenInfo(canteen: canteen, date: today()),
-            Flexible(
-              flex: 1,
-              child: child,
-            ),
-          ],
+        final days = snapshot.data!;
+        return PageView(
+          children: days
+              .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
+              .toList(),
         );
       },
     );

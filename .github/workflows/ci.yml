@@ -27,7 +27,7 @@ jobs:
       - name: Build runner
         run: dart run build_runner build --delete-conflicting-outputs
       - name: Flutter analyzer
-        run: flutter analyze -v
+        run: flutter analyze
       - name: Check formatting
         run: dart format -o none --set-exit-if-changed .
       - name: Build
