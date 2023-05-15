@@ -63,7 +63,7 @@ android {
         release {
             keyAlias System.getenv("SIGNING_KEY_ALIAS") ?: keystoreProperties['keyAlias']
             keyPassword System.getenv("SIGNING_KEY_PASSWORD") ?: keystoreProperties['keyPassword']
-            storeFile System.getenv("SIGNING_STORE_FILE") ?: keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storeFile file(System.getenv("SIGNING_STORE_FILE") ?: keystoreProperties['storeFile'])
             storePassword System.getenv("SIGNING_STORE_PASSWORD") ?: keystoreProperties['storePassword']
         }
     }

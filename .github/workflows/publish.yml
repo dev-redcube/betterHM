@@ -33,7 +33,7 @@ jobs:
           env:
             ENCODED_STRING: ${{ secrets.SIGNING_STORE_BASE64 }}
           run: echo $ENCODED_STRING | base64 --decode > android/keystore.jks
-        - name: Build appbundle
+        - name: Build appbundle and apk
           run: flutter build appbundle && flutter build apk --split-per-abi
           env:
             SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
