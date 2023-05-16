@@ -33,8 +33,8 @@ jobs:
           env:
             ENCODED_STRING: ${{ secrets.SIGNING_STORE_BASE64 }}
           run: echo $ENCODED_STRING | base64 --decode > android/keystore.jks
-        - name: Build appbundle and apk
-          run: flutter build appbundle && flutter build apk --split-per-abi
+        - name: Build appbundle
+          run: flutter build appbundle
           env:
             SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
             SIGNING_KEY_PASSWORD:  ${{ secrets.SIGNING_KEY_PASSWORD }} 
@@ -44,6 +44,6 @@ jobs:
           uses: r0adkll/upload-google-play@v1
           with:
             serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-            packageName: de.moritzhuber.betterHM
+            packageName: de.moritzhuber.betterHm
             releaseFiles: build/app/outputs/bundle/release/app-release.aab
             track: internal
