@@ -1,8 +1,8 @@
 
-name: Publish
+name: Publish internal
 on:
   push:
-    branches: [release, 24-release-pipeline]
+    branches: [master, 24-release-pipeline]
   workflow_dispatch:
 
 jobs:
