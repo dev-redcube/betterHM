@@ -10,8 +10,8 @@ jobs:
       name: Publish Android
       runs-on: ubuntu-latest
       steps:
-        - name: Set up JDK 11
-          uses: actions/setup-java@v1
+        - name: Set up Java
+          uses: actions/setup-java@v3
           with:
             java-version: 11
             distribution: temurin
@@ -40,10 +40,10 @@ jobs:
             SIGNING_KEY_PASSWORD:  ${{ secrets.SIGNING_KEY_PASSWORD }} 
             SIGNING_STORE_PASSWORD:  ${{ secrets.SIGNING_STORE_PASSWORD }}
             SIGNING_STORE_FILE: "../keystore.jks"
-        - name: Upload artifacts
-          uses: actions/upload-artifact@v2
+        - name: Publish to Google Play
+          uses: r0adkll/upload-google-play@v1
           with:
-            name: appbundle
-            path: |
-              build/app/outputs/flutter-apk/app-*.apk
-              build/app/outputs/bundle/app-release.aab
+            serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+            packageName: de.moritzhuber.betterHM
+            releaseFiles: build/app/outputs/bundle/release/app-release.aab
+            track: internal
