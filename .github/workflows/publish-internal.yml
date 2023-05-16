@@ -1,13 +1,13 @@
 
-name: Publish internal
+name: Publish internal release
 on:
   push:
-    branches: [master, 24-release-pipeline]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
   android:
-      name: Publish Android
+      name: Publish internal release android
       runs-on: ubuntu-latest
       steps:
         - name: Set up Java

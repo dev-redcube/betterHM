@@ -1,0 +1,3 @@
+Inoffizielle App für die Hochschule München
+
+kann den Essensplan der Mensa anzeigen
