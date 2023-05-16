@@ -17,11 +17,7 @@ default_platform(:android)
 
 platform :android do
 
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-  
+  desc "Deploy a new internal version to Google Play"
   lane :internal do
     sh "flutter build appbundle"
     upload_to_play_store(
@@ -32,6 +28,7 @@ platform :android do
     )
   end
 
+  desc "Deploy a new beta version to Google Play"
   lane :beta do
     sh "flutter build appbundle"
     upload_to_play_store(
@@ -40,7 +37,7 @@ platform :android do
     )
   end
 
-  desc "Deploy a new release version to the Google Play"
+  desc "Deploy a new release version to Google Play"
   lane :release do
     sh "flutter build appbundle"
     upload_to_play_store(
