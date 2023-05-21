@@ -21,7 +21,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android internal
 ```
 
-
+Deploy a new internal version to Google Play
 
 ### android beta
 
@@ -29,7 +29,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android beta
 ```
 
-
+Deploy a new beta version to Google Play
 
 ### android release
 
@@ -37,7 +37,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android release
 ```
 
-Deploy a new release version to the Google Play
+Deploy a new release version to Google Play
 
 ----
 
