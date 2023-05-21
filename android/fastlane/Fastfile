@@ -19,7 +19,14 @@ platform :android do
 
   desc "Deploy a new internal version to Google Play"
   lane :internal do
-    sh "flutter build appbundle"
+    previous_build_number = google_play_track_version_codes(
+      package_name: "de.moritzhuber.betterHm",
+      track: "internal",
+      json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
+    )[0]
+    current_build_number = previous_build_number + 1
+
+    sh "flutter build appbundle --build-number=#{current_build_number}
     upload_to_play_store(
       track: "internal",
       aab: "../build/app/outputs/bundle/release/app-release.aab",
