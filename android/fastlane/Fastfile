@@ -17,17 +17,21 @@ opt_out_usage
 default_platform(:android)
 
 platform :android do
+  build_number=nil
 
-  desc "Deploy a new internal version to Google Play"
-  lane :internal do
+  before_all do
     previous_build_number = google_play_track_version_codes(
       package_name: "de.moritzhuber.betterHm",
       track: "internal",
       json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
     ).max
-    current_build_number = previous_build_number + 1
     puts "Previous build number: #{previous_build_number}. Incrementing by 1"
-    sh "flutter build appbundle --build-number=#{current_build_number} --dart-define=RELEASE_TYPE=internal"
+    build_number = previous_build_number + 1
+  end
+
+  desc "Build and deploy internal release to Google Play"
+  lane :internal do
+    sh "flutter build appbundle --build-number=#{build_number} --dart-define=\"RELEASE_TYPE=internal\""
     upload_to_play_store(
       track: "internal",
       aab: "../build/app/outputs/bundle/release/app-release.aab",
@@ -36,18 +40,18 @@ platform :android do
     )
   end
 
-  desc "Deploy a new beta version to Google Play"
+  desc "Build and deploy beta release to Google Play"
   lane :beta do
-    sh "flutter build appbundle"
+    sh "flutter build appbundle --build-number=#{build_number} --dart-define=\"RELEASE_TYPE=beta\""
     upload_to_play_store(
       track: "beta",
       aab: "../build/app/outputs/bundle/release/app-release.aab"
     )
   end
 
-  desc "Deploy a new release version to Google Play"
+  desc "Build and deploy production release to Google Play"
   lane :release do
-    sh "flutter build appbundle"
+    sh "flutter build appbundle --build-number=#{build_number} --dart-define=\"RELEASE_TYPE=production\""
     upload_to_play_store(
       track: "production",
       aab: "../build/app/outputs/bundle/release/app-release.aab"
