@@ -24,10 +24,10 @@ platform :android do
       package_name: "de.moritzhuber.betterHm",
       track: "internal",
       json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
-    )[0]
+    ).max
     current_build_number = previous_build_number + 1
     puts "Previous build number: #{previous_build_number}. Incrementing by 1"
-    sh "flutter build appbundle --build-number=#{current_build_number}"
+    sh "flutter build appbundle --build-number=#{current_build_number} --dart-define=RELEASE_TYPE=internal"
     upload_to_play_store(
       track: "internal",
       aab: "../build/app/outputs/bundle/release/app-release.aab",

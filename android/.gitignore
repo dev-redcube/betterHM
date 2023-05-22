@@ -12,3 +12,6 @@ key.properties
 **/*.keystore
 **/*.jks
 service-account.json
+
+fastlane/report.xml
+fastlane/metadata
