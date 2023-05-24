@@ -1,6 +1,7 @@
 {
   "app_name": "Better HM",
   "dashboard": "Dashboard",
+  "settings": "Einstellungen",
   "meals": "Essen",
   "opening_hours": "Öffnungszeiten",
   "choose_canteen": "Mensa wählen",

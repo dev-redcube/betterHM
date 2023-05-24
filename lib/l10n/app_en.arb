@@ -1,6 +1,7 @@
 {
   "app_name": "Better HM",
   "dashboard": "Dashboard",
+  "settings": "Settings",
   "meals": "Meals",
   "opening_hours": "Opening hours",
   "choose_canteen": "Select canteen",
