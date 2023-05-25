@@ -1,5 +1,5 @@
 
-name: Publish internal release
+name: Publish release
 on:
   push:
     branches: [master, beta, release]

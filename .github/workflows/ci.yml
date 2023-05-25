@@ -2,6 +2,10 @@ name: CI
 on:
   pull_request:
     branches: [master]
+
+concurrency:
+    group: ${{ github.head_ref }}
+    cancel-in-progress: true
   
 jobs:
   android:
