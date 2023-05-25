@@ -20,11 +20,22 @@ platform :android do
   build_number=nil
 
   before_all do
-    previous_build_number = google_play_track_version_codes(
+    internal = google_play_track_version_codes(
       package_name: "de.moritzhuber.betterHm",
       track: "internal",
       json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
     ).max
+    beta = google_play_track_version_codes(
+      package_name: "de.moritzhuber.betterHm",
+      track: "beta",
+      json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
+    ).max
+    release = google_play_track_version_codes(
+      package_name: "de.moritzhuber.betterHm",
+      track: "production",
+      json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
+    ).max
+    previous_build_number = [internal, beta, release].max
     puts "Previous build number: #{previous_build_number}. Incrementing by 1"
     build_number = previous_build_number + 1
   end
