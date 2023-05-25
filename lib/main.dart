@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized(); // add this
-  LocaleSettings.useDeviceLocale(); // and this
+  WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
   runApp(TranslationProvider(child: const MyApp()));
 }
 

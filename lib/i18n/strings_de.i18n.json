@@ -3,6 +3,16 @@
   "mealplan": {
     "opening_hours": "Öffnungszeiten",
     "choose_canteen": "Mensa wählen",
-    "no_meals": "Heute gibt's nix zu essen"
+    "no_meals": "Heute gibt's nix zu essen",
+    "legend": "Legende",
+    "labels": {
+      "alcohol": "Alkohol",
+      "beef": "Rind",
+      "meat": "Fleisch",
+      "milk": "Milch",
+      "pork": "Schwein",
+      "vegetarian": "Vegetarisch",
+      "vegan": "Vegan"
+    }
   }
 }
