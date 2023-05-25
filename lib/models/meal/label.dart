@@ -1,3 +1,5 @@
+import 'package:better_hm/i18n/strings.g.dart';
+
 class Labels {
   final List<Label> labels;
 
@@ -22,6 +24,8 @@ class Label {
 
   String? get icon => labelIcons[label];
 
+  String? get translated => labelLocals[label];
+
   @override
   String toString() => label;
 }
@@ -29,9 +33,19 @@ class Label {
 const Map<String, String> labelIcons = {
   "ALCOHOL": "🍷",
   "BEEF": "🐄",
-  "MILK": "🥛",
   "MEAT": "🍖",
+  "MILK": "🥛",
   "PORK": "🐷",
   "VEGAN": "🌿",
   "VEGETARIAN": "🌱",
+};
+
+Map<String, String> labelLocals = {
+  "ALCOHOL": t.mealplan.labels.alcohol,
+  "BEEF": t.mealplan.labels.beef,
+  "MEAT": t.mealplan.labels.meat,
+  "MILK": t.mealplan.labels.milk,
+  "PORK": t.mealplan.labels.pork,
+  "VEGAN": t.mealplan.labels.vegan,
+  "VEGETARIAN": t.mealplan.labels.vegetarian,
 };

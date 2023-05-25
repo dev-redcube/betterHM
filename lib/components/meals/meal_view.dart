@@ -66,12 +66,19 @@ class DishCard extends StatelessWidget {
                             title: const Text("Legende"),
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: labelIcons.entries
-                                      .map((e) => Text("${e.value} ${e.key}"))
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              "${e.value}  ${labelLocals[e.key]}",
+                                              style: context
+                                                  .theme.textTheme.bodyLarge,
+                                            ),
+                                          ))
                                       .toList(),
                                 ),
                               ),
