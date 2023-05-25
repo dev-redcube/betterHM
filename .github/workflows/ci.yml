@@ -2,6 +2,10 @@ name: CI
 on:
   pull_request:
     branches: [master]
+
+concurrency:
+    group: ${{ github.head_ref }}
+    cancel-in-progress: true
   
 jobs:
   android:
@@ -23,7 +27,7 @@ jobs:
       - name: Resolving Dependencies
         run: flutter pub get
       - name: Build runner
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --delete-conflicting-outputs && dart format lib/i18n/strings.g.dart
       - name: Flutter analyzer
         run: flutter analyze
       - name: Check formatting

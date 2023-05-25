@@ -1,5 +1,5 @@
 
-name: Publish internal release
+name: Publish release
 on:
   push:
     branches: [master, beta, release]
@@ -25,7 +25,7 @@ jobs:
         - name: Resolving Dependencies
           run: flutter pub get
         - name: Build runner
-          run: dart run build_runner build --delete-conflicting-outputs
+          run: dart run build_runner build --delete-conflicting-outputs && dart format lib/i18n/strings.g.dart
         - run: flutter analyze
         - name: check formatting
           run: dart format -o none --set-exit-if-changed .
