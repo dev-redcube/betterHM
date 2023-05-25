@@ -1,7 +1,7 @@
 import 'package:better_hm/components/meals/canteen_info.dart';
 import 'package:better_hm/components/meals/canteen_picker.dart';
 import 'package:better_hm/components/meals/meal_view.dart';
-import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/models/meal/canteen.dart';
 import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/providers/selected_canteen.dart';
@@ -51,7 +51,7 @@ class _Body extends StatelessWidget {
             builder: (context, provider, child) {
               if (provider.canteen == null) {
                 return Center(
-                  child: Text(context.localizations.choose_canteen),
+                  child: Text(t.mealplan.choose_canteen),
                 );
               }
               return _MealsPageView(
