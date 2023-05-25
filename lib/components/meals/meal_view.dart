@@ -39,13 +39,24 @@ class DishCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(100)),
-                    color: context.theme.colorScheme.primaryContainer),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-                child: Text(dish.dishType),
+              Row(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(100)),
+                            color: context.theme.colorScheme.primaryContainer),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 8.0),
+                        child: Text(dish.dishType),
+                      ),
+                    ),
+                  ),
+                  Text(dish.labels.asIcons().join(" ")),
+                ],
               ),
               const SizedBox(height: 8),
               Row(
@@ -56,7 +67,7 @@ class DishCard extends StatelessWidget {
                       dish.name,
                       style: context.theme.textTheme.bodyLarge,
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
