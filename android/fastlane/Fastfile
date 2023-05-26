@@ -36,8 +36,8 @@ platform :android do
       json_key_data: ENV["SERVICE_ACCOUNT_JSON"]
     ).max
     previous_build_number = [internal, beta, release].max
-    puts "Previous build number: #{previous_build_number}. Incrementing by 1"
-    build_number = previous_build_number + 1
+    puts "Previous build number: #{previous_build_number}. Incrementing by " + ENV["INCREMENT_BUILD_BY"]
+    build_number = previous_build_number + ENV["INCREMENT_BUILD_BY"]
   end
 
   desc "Build and deploy internal release to Google Play"

@@ -44,6 +44,12 @@ jobs:
             ruby-version: "3.1"
             bundler-cache: true
             working-directory: android
+        - name: Get running workflows
+          run: |
+            lines=$(gh run list -R Huber1/betterHM -w publish.yml -s in_progress | wc -l)
+            echo "INCREMENT_BUILD_BY="$lines >> $GITHUB_ENV
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Build and release
           run: |
             case $BRANCH in
