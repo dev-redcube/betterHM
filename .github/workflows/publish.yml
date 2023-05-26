@@ -1,77 +1,77 @@
-
 name: Publish release
 on:
   push:
-    branches: [master, beta, release]
+    branches: [ master, beta, release ]
   workflow_dispatch:
 
 jobs:
   android:
-      name: android
-      runs-on: ubuntu-latest
-      steps:
-        - name: Set up Java
-          uses: actions/setup-java@v3
-          with:
-            java-version: 11
-            distribution: temurin
-        - name: Setup flutter
-          uses: subosito/flutter-action@v2
-          with:
-            channel: stable
-        - run: flutter doctor -v
-        - name: Checkout code
-          uses: actions/checkout@v3
-        - name: Resolving Dependencies
-          run: flutter pub get
-        - name: Build runner
-          run: dart run build_runner build --delete-conflicting-outputs && dart format lib/i18n/strings.g.dart
-        - run: flutter analyze
-        - name: check formatting
-          run: dart format -o none --set-exit-if-changed .
-        - name: Decode keystore & Service account
-          env:
-            ENCODED_STRING: ${{ secrets.SIGNING_STORE_BASE64 }}
-            SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          run: |
-            echo $ENCODED_STRING | base64 --decode > android/keystore.jks
-            echo $SERVICE_ACCOUNT_JSON > android/service-account.json
-            
-          # Fastlane
-        - name: Setup Fastlane
-          uses: ruby/setup-ruby@v1
-          with:
-            ruby-version: "3.1"
-            bundler-cache: true
-            working-directory: android
-        - name: Get running workflows
-          run: |
-            lines=$(gh run list -R Huber1/betterHM -w publish.yml -s in_progress | wc -l)
-            echo "INCREMENT_BUILD_BY="$lines >> $GITHUB_ENV
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        - name: Build and release
-          run: |
-            case $BRANCH in
-              release)
-                bundle exec fastlane release
-                ;;
-              beta)
-                bundle exec fastlane beta
-                ;;
-              master)
-                bundle exec fastlane internal
-                ;;
-              *)
-                echo "Branch $BRANCH does not exist. Exiting"
-                exit 1
-                ;;
-            esac
-          env:
-            BRANCH: ${{ github.ref_name }}
-            SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-            SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-            SIGNING_KEY_PASSWORD:  ${{ secrets.SIGNING_KEY_PASSWORD }} 
-            SIGNING_STORE_PASSWORD:  ${{ secrets.SIGNING_STORE_PASSWORD }}
-            SIGNING_STORE_FILE: "../keystore.jks"
+    name: android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: temurin
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter doctor -v
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Resolving Dependencies
+        run: flutter pub get
+      - name: Build runner
+        run: dart run build_runner build --delete-conflicting-outputs && dart format lib/i18n/strings.g.dart
+      - run: flutter analyze
+      - name: check formatting
+        run: dart format -o none --set-exit-if-changed .
+      - name: Decode keystore & Service account
+        env:
+          ENCODED_STRING: ${{ secrets.SIGNING_STORE_BASE64 }}
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          echo $ENCODED_STRING | base64 --decode > android/keystore.jks
+          echo $SERVICE_ACCOUNT_JSON > android/service-account.json
+
+        # Fastlane
+      - name: Setup Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
           working-directory: android
+      - name: Get running workflows
+        run: |
+          lines=$(gh run list -R Huber1/betterHM -w publish.yml -s in_progress | wc -l | sed 's/^[ \t]*//;s/[ \t]*$//')
+          echo "INCREMENT_BUILD_BY="$lines >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and release
+        run: |
+          case $BRANCH in
+            release)
+              bundle exec fastlane release
+              ;;
+            beta)
+              bundle exec fastlane beta
+              ;;
+            master)
+              bundle exec fastlane internal
+              ;;
+            *)
+              echo "Branch $BRANCH does not exist. Exiting"
+              exit 1
+              ;;
+          esac
+        env:
+          BRANCH: ${{ github.ref_name }}
+          INCREMENT_BUILD_BY: ${{ env.INCREMENT_BUILD_BY }}
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_STORE_FILE: "../keystore.jks"
+        working-directory: android
