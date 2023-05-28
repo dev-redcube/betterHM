@@ -1,4 +1,4 @@
-import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/screens/dashboard_screen.dart';
 import 'package:better_hm/screens/meals_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ final router = GoRouter(
     ShellRoute(
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return Scaffold(
-          appBar: AppBar(title: Text(context.l10n.app_name)),
+          appBar: AppBar(title: Text(t.app_name)),
           body: child,
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: (int index) {
@@ -20,11 +20,11 @@ final router = GoRouter(
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.home_rounded),
-                label: context.l10n.dashboard,
+                label: t.navigation.dashboard,
               ),
               NavigationDestination(
                 icon: const Icon(Icons.restaurant_rounded),
-                label: context.l10n.meals,
+                label: t.navigation.mealplan,
               ),
             ],
           ),
