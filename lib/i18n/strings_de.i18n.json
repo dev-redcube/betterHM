@@ -4,6 +4,14 @@
     "dashboard": "Dashboard",
     "mealplan": "Essensplan"
   },
+  "dashboard": {
+    "statusCard": {
+      "summer_semester": "Sommersemester",
+      "winter_semester": "Wintersemester",
+      "deadlines_appointments": "Fristen & Termine",
+      "no_data": "Keine Termine oder Fehler beim Laden"
+    }
+  },
   "mealplan": {
     "opening_hours": "Öffnungszeiten",
     "choose_canteen": "Mensa wählen",

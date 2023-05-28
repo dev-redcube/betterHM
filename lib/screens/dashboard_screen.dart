@@ -1,5 +1,5 @@
 import 'package:better_hm/components/dashboard/dashboard_card.dart';
-import 'package:better_hm/components/dashboard/semester_status.dart';
+import 'package:better_hm/components/dashboard/semester_status/semester_status.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {

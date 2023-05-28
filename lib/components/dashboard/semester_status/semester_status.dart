@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:better_hm/components/dashboard/semester_status/deadlines_appointments.dart';
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 
 // TODO dynamic data
@@ -14,10 +16,12 @@ class SemesterStatus extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Sommersemester 2023",
+        Text("${t.dashboard.statusCard.summer_semester} 2023",
             style: context.theme.textTheme.headlineSmall),
         const SizedBox(height: 16),
         SemesterProgress(),
+        const Divider(),
+        const DeadlinesAppointments(),
       ],
     );
   }
