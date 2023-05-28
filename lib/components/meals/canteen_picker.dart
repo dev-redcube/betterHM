@@ -1,4 +1,4 @@
-import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/models/meal/canteen.dart';
 import 'package:better_hm/providers/selected_canteen.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,15 @@ class CanteenPicker extends StatefulWidget {
 }
 
 class _CanteenPickerState extends State<CanteenPicker> {
+  // late final SelectedCanteenProvider selectedCanteenProvider;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   selectedCanteenProvider = Provider.of<SelectedCanteenProvider>(context);
+  //   loadDefaultCanteen();
+  // }
+  //
   void loadDefaultCanteen() async {
     final provider = Provider.of<SelectedCanteenProvider>(context);
     final prefs = await SharedPreferences.getInstance();
@@ -46,7 +55,7 @@ class _CanteenPickerState extends State<CanteenPicker> {
                 provider.canteen = canteen;
                 saveCanteen(canteen);
               },
-              hint: Text(context.l10n.choose_canteen),
+              hint: Text(t.mealplan.choose_canteen),
               value: provider.canteen,
               items: widget.canteens
                   .map((canteen) => DropdownMenuItem(

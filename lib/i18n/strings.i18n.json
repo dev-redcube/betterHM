@@ -1,0 +1,18 @@
+{
+  "app_name": "Better HM",
+  "mealplan": {
+    "opening_hours": "Opening hours",
+    "choose_canteen": "Select canteen",
+    "no_meals": "No meals today",
+    "legend": "legend",
+    "labels": {
+      "alcohol": "alcohol",
+      "beef": "beef",
+      "meat": "meat",
+      "milk": "milk",
+      "pork": "pork",
+      "vegetarian": "vegetarian",
+      "vegan": "vegan"
+    }
+  }
+}

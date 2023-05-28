@@ -1,6 +1,7 @@
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/models/meal/dish.dart';
+import 'package:better_hm/models/meal/label.dart';
 import 'package:flutter/material.dart';
 
 class MealView extends StatelessWidget {
@@ -39,13 +40,55 @@ class DishCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(100)),
-                    color: context.theme.colorScheme.primaryContainer),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-                child: Text(dish.dishType),
+              Row(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(100)),
+                            color: context.theme.colorScheme.primaryContainer),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 8.0),
+                        child: Text(dish.dishType),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Text(dish.labels.asIcons().join(" ")),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            title: const Text("Legende"),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: labelIcons.entries
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              "${e.value}  ${labelLocals[e.key]}",
+                                              style: context
+                                                  .theme.textTheme.bodyLarge,
+                                            ),
+                                          ))
+                                      .toList(),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Row(
@@ -56,7 +99,7 @@ class DishCard extends StatelessWidget {
                       dish.name,
                       style: context.theme.textTheme.bodyLarge,
                     ),
-                  )
+                  ),
                 ],
               ),
             ],

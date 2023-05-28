@@ -16,14 +16,14 @@ jobs:
       - name: Setup flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: master
+          channel: stable
       - run: flutter doctor -v
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Resolving Dependencies
         run: flutter pub get
       - name: Build runner
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --delete-conflicting-outputs && dart format lib/i18n/strings.g.dart
       - name: Flutter analyzer
         run: flutter analyze
       - name: Check formatting

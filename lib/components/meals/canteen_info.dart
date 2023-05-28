@@ -1,4 +1,4 @@
-import 'package:better_hm/extensions/extensions_context.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/models/meal/canteen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +26,7 @@ class CanteenInfo extends StatelessWidget {
           const SizedBox(height: 8),
           if (openingTimes != null)
             Text(
-              "${context.l10n.opening_hours}: ${openingTimes.start} - ${openingTimes.end}",
+              "${t.mealplan.opening_hours}: ${openingTimes.start} - ${openingTimes.end}",
               style: const TextStyle(color: Colors.green),
             ),
         ],
