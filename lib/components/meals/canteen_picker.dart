@@ -18,15 +18,6 @@ class CanteenPicker extends StatefulWidget {
 }
 
 class _CanteenPickerState extends State<CanteenPicker> {
-  // late final SelectedCanteenProvider selectedCanteenProvider;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   selectedCanteenProvider = Provider.of<SelectedCanteenProvider>(context);
-  //   loadDefaultCanteen();
-  // }
-  //
   void loadDefaultCanteen() async {
     final provider = Provider.of<SelectedCanteenProvider>(context);
     final prefs = await SharedPreferences.getInstance();
