@@ -1,7 +1,7 @@
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/pages/page_meals.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:better_hm/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
-      return MaterialApp(
+      return MaterialApp.router(
         title: t.app_name,
         theme: ThemeData(
           useMaterial3: true,
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        home: const HomePage(),
+        routerConfig: router,
       );
     });
   }
