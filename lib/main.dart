@@ -1,4 +1,5 @@
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/providers/prefs/prefs.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:better_hm/routes.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Prefs.init();
   LocaleSettings.useDeviceLocale();
   runApp(TranslationProvider(child: const MyApp()));
 }

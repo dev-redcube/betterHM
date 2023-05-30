@@ -26,5 +26,15 @@
       "vegetarian": "Vegetarisch",
       "vegan": "Vegan"
     }
+  },
+  "settings": {
+    "app_bar": "Einstellungen",
+    "general": {
+      "title": "Allgemein"
+    },
+    "mealplan": {
+      "title": "Essensplan",
+      "showFoodLabels": "Allergene anzeigen"
+    }
   }
 }

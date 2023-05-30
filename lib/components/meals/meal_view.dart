@@ -2,6 +2,7 @@ import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/models/meal/dish.dart';
 import 'package:better_hm/models/meal/label.dart';
+import 'package:better_hm/providers/prefs/prefs.dart';
 import 'package:flutter/material.dart';
 
 class MealView extends StatelessWidget {
@@ -56,38 +57,41 @@ class DishCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    child: Text(dish.labels.asIcons().join(" ")),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return SimpleDialog(
-                            title: const Text("Legende"),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: labelIcons.entries
-                                      .map((e) => Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Text(
-                                              "${e.value}  ${labelLocals[e.key]}",
-                                              style: context
-                                                  .theme.textTheme.bodyLarge,
-                                            ),
-                                          ))
-                                      .toList(),
+                  if (Prefs.showFoodLabels.value)
+                    GestureDetector(
+                      child: Text(dish.labels.asIcons().join(" ")),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SimpleDialog(
+                              title: const Text("Legende"),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: labelIcons.entries
+                                        .map((e) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Text(
+                                                "${e.value}  ${labelLocals[e.key]}",
+                                                style: context
+                                                    .theme.textTheme.bodyLarge,
+                                              ),
+                                            ))
+                                        .toList(),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
                 ],
               ),
               const SizedBox(height: 8),

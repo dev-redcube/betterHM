@@ -26,5 +26,15 @@
       "vegetarian": "vegetarian",
       "vegan": "vegan"
     }
+  },
+  "settings": {
+    "app_bar": "Settings",
+    "general": {
+      "title": "General"
+    },
+    "mealplan": {
+      "title": "Mealplan",
+      "showFoodLabels": "Show Food Labels"
+    }
   }
 }

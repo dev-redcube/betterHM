@@ -1,6 +1,8 @@
+import 'package:better_hm/components/shared/main_drawer.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/screens/dashboard_screen.dart';
 import 'package:better_hm/screens/meals_screen.dart';
+import 'package:better_hm/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +12,7 @@ final router = GoRouter(
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return Scaffold(
           appBar: AppBar(title: Text(t.app_name)),
+          drawer: const MainDrawer(),
           body: child,
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: (int index) {
@@ -31,6 +34,11 @@ final router = GoRouter(
         );
       },
       routes: homeRoutes,
+    ),
+    GoRoute(
+      name: "settings",
+      path: "/settings",
+      builder: (context, state) => const SettingsScreen(),
     ),
   ],
 );
