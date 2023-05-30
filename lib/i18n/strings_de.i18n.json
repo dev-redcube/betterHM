@@ -2,7 +2,16 @@
   "app_name": "Better HM",
   "navigation": {
     "dashboard": "Dashboard",
-    "mealplan": "Essensplan"
+    "mealplan": "Essensplan",
+    "settings": "Einstellungen"
+  },
+  "dashboard": {
+    "statusCard": {
+      "summer_semester": "Sommersemester",
+      "winter_semester": "Wintersemester",
+      "deadlines_appointments": "Fristen & Termine",
+      "no_data": "Keine Termine oder Fehler beim Laden"
+    }
   },
   "mealplan": {
     "opening_hours": "Öffnungszeiten",
@@ -17,6 +26,20 @@
       "pork": "Schwein",
       "vegetarian": "Vegetarisch",
       "vegan": "Vegan"
+    }
+  },
+  "settings": {
+    "app_bar": "Einstellungen",
+    "reset": {
+      "title": "Einstellung Zurücksetzen",
+      "confirm": "Zurücksetzen"
+    },
+    "general": {
+      "title": "Allgemein"
+    },
+    "mealplan": {
+      "title": "Essensplan",
+      "showFoodLabels": "Allergene anzeigen"
     }
   }
 }

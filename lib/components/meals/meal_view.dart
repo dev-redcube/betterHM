@@ -2,6 +2,7 @@ import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/models/meal/day.dart';
 import 'package:better_hm/models/meal/dish.dart';
 import 'package:better_hm/models/meal/label.dart';
+import 'package:better_hm/providers/prefs/prefs.dart';
 import 'package:flutter/material.dart';
 
 class MealView extends StatelessWidget {
@@ -24,13 +25,34 @@ class MealView extends StatelessWidget {
   }
 }
 
-class DishCard extends StatelessWidget {
+class DishCard extends StatefulWidget {
   const DishCard({
     Key? key,
     required this.dish,
   }) : super(key: key);
 
   final Dish dish;
+
+  @override
+  State<DishCard> createState() => _DishCardState();
+}
+
+class _DishCardState extends State<DishCard> {
+  @override
+  void initState() {
+    super.initState();
+    Prefs.showFoodLabels.addListener(onPrefChange);
+  }
+
+  onPrefChange() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    Prefs.showFoodLabels.removeListener(onPrefChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,42 +74,45 @@ class DishCard extends StatelessWidget {
                             color: context.theme.colorScheme.primaryContainer),
                         padding: const EdgeInsets.symmetric(
                             vertical: 2.0, horizontal: 8.0),
-                        child: Text(dish.dishType),
+                        child: Text(widget.dish.dishType),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    child: Text(dish.labels.asIcons().join(" ")),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return SimpleDialog(
-                            title: const Text("Legende"),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: labelIcons.entries
-                                      .map((e) => Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Text(
-                                              "${e.value}  ${labelLocals[e.key]}",
-                                              style: context
-                                                  .theme.textTheme.bodyLarge,
-                                            ),
-                                          ))
-                                      .toList(),
+                  if (Prefs.showFoodLabels.value)
+                    GestureDetector(
+                      child: Text(widget.dish.labels.asIcons().join(" ")),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SimpleDialog(
+                              title: const Text("Legende"),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: labelIcons.entries
+                                        .map((e) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Text(
+                                                "${e.value}  ${labelLocals[e.key]}",
+                                                style: context
+                                                    .theme.textTheme.bodyLarge,
+                                              ),
+                                            ))
+                                        .toList(),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
                 ],
               ),
               const SizedBox(height: 8),
@@ -96,7 +121,7 @@ class DishCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      dish.name,
+                      widget.dish.name,
                       style: context.theme.textTheme.bodyLarge,
                     ),
                   ),
