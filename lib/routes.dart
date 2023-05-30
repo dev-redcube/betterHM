@@ -6,9 +6,14 @@ import 'package:better_hm/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+final _rootKey = GlobalKey<NavigatorState>();
+final _mainShellKey = GlobalKey<NavigatorState>();
+
 final router = GoRouter(
+  navigatorKey: _rootKey,
   routes: [
     ShellRoute(
+      navigatorKey: _mainShellKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return Scaffold(
           appBar: AppBar(title: Text(t.app_name)),
@@ -38,6 +43,7 @@ final router = GoRouter(
     GoRoute(
       name: "settings",
       path: "/settings",
+      parentNavigatorKey: _rootKey,
       builder: (context, state) => const SettingsScreen(),
     ),
   ],
@@ -47,11 +53,15 @@ final homeRoutes = <GoRoute>[
   GoRoute(
     name: "index",
     path: "/",
-    builder: (context, state) => const DashboardScreen(),
+    parentNavigatorKey: _mainShellKey,
+    pageBuilder: (context, state) =>
+        const NoTransitionPage(child: DashboardScreen()),
   ),
   GoRoute(
     name: "meals",
     path: "/meals",
-    builder: (context, state) => const MealsScreen(),
+    parentNavigatorKey: _mainShellKey,
+    pageBuilder: (context, state) =>
+        const NoTransitionPage(child: MealsScreen()),
   ),
 ];

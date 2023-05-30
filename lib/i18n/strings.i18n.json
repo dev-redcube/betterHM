@@ -2,7 +2,8 @@
   "app_name": "Better HM",
   "navigation": {
     "dashboard": "Dashboard",
-    "mealplan": "Mealplan"
+    "mealplan": "Mealplan",
+    "settings": "Settings"
   },
   "dashboard": {
     "statusCard": {

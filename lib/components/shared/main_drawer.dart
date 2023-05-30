@@ -18,15 +18,11 @@ class MainDrawer extends StatelessWidget {
             style: context.theme.textTheme.headlineLarge,
           ))),
           ListTile(
-            title: const Text("Meals"),
+            title: Text(t.navigation.settings),
+            leading: const Icon(Icons.settings_rounded),
             onTap: () {
-              context.goNamed("meals");
-            },
-          ),
-          ListTile(
-            title: const Text("Settings"),
-            onTap: () {
-              context.goNamed("settings");
+              Navigator.of(context).pop();
+              context.pushNamed("settings");
             },
           )
         ],

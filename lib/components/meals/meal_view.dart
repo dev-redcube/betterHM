@@ -25,13 +25,34 @@ class MealView extends StatelessWidget {
   }
 }
 
-class DishCard extends StatelessWidget {
+class DishCard extends StatefulWidget {
   const DishCard({
     Key? key,
     required this.dish,
   }) : super(key: key);
 
   final Dish dish;
+
+  @override
+  State<DishCard> createState() => _DishCardState();
+}
+
+class _DishCardState extends State<DishCard> {
+  @override
+  void initState() {
+    super.initState();
+    Prefs.showFoodLabels.addListener(onPrefChange);
+  }
+
+  onPrefChange() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    Prefs.showFoodLabels.removeListener(onPrefChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +74,13 @@ class DishCard extends StatelessWidget {
                             color: context.theme.colorScheme.primaryContainer),
                         padding: const EdgeInsets.symmetric(
                             vertical: 2.0, horizontal: 8.0),
-                        child: Text(dish.dishType),
+                        child: Text(widget.dish.dishType),
                       ),
                     ),
                   ),
                   if (Prefs.showFoodLabels.value)
                     GestureDetector(
-                      child: Text(dish.labels.asIcons().join(" ")),
+                      child: Text(widget.dish.labels.asIcons().join(" ")),
                       onTap: () {
                         showDialog(
                           context: context,
@@ -100,7 +121,7 @@ class DishCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      dish.name,
+                      widget.dish.name,
                       style: context.theme.textTheme.bodyLarge,
                     ),
                   ),

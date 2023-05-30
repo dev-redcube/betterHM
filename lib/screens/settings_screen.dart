@@ -1,5 +1,4 @@
 import 'package:better_hm/components/settings/settings_switch.dart';
-import 'package:better_hm/components/shared/main_drawer.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/providers/prefs/prefs.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +47,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text(t.settings.app_bar),
       ),
-      drawer: const MainDrawer(),
       body: Column(
         children: [
           // ExpansionTile(
