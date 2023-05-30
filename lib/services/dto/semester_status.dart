@@ -1,3 +1,1 @@
-class SemesterStatusDto {
-
-}
+class SemesterStatusDto {}

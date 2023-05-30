@@ -23,12 +23,16 @@
       "meat": "Fleisch",
       "milk": "Milch",
       "pork": "Schwein",
-      "vegetarian": "Vegetarisch",
+      "vegetarian": "Vegetarischw",
       "vegan": "Vegan"
     }
   },
   "settings": {
     "app_bar": "Einstellungen",
+    "reset": {
+      "title": "Einstellung Zurücksetzen",
+      "confirm": "Zurücksetzen"
+    },
     "general": {
       "title": "Allgemein"
     },

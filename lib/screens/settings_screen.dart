@@ -9,6 +9,36 @@ class SettingsScreen extends StatefulWidget {
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
+
+  static Future<bool?> showResetDialog({
+    required BuildContext context,
+    required IPref pref,
+    required String prefTitle,
+  }) async {
+    if (pref.value == pref.defaultValue) return null;
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(t.settings.reset.title),
+        content: Text(prefTitle),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+          ),
+          TextButton(
+            onPressed: () {
+              pref.value = pref.defaultValue;
+              Navigator.of(context).pop(true);
+            },
+            child: Text(t.settings.reset.confirm),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
@@ -21,12 +51,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       drawer: const MainDrawer(),
       body: Column(
         children: [
-          ExpansionTile(
-            initiallyExpanded: true,
-            leading: const Icon(Icons.app_settings_alt_rounded),
-            title: Text(t.settings.general.title),
-            shape: Border.all(color: Colors.transparent),
-          ),
+          // ExpansionTile(
+          //   initiallyExpanded: true,
+          //   leading: const Icon(Icons.app_settings_alt_rounded),
+          //   title: Text(t.settings.general.title),
+          //   shape: Border.all(color: Colors.transparent),
+          // ),
           ExpansionTile(
             initiallyExpanded: true,
             leading: const Icon(Icons.restaurant_rounded),

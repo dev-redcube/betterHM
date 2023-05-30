@@ -1,4 +1,5 @@
 import 'package:better_hm/providers/prefs/prefs.dart';
+import 'package:better_hm/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class SettingsSwitch extends StatefulWidget {
@@ -41,14 +42,23 @@ class _SettingsSwitchState extends State<SettingsSwitch> {
     icon ??= widget.iconBuilder?.call(widget.pref.value);
     icon ??= Icons.settings_rounded;
 
-    return SwitchListTile.adaptive(
-      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      title: Text(widget.title),
-      subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
-      value: widget.pref.value,
-      onChanged: (bool value) {
-        widget.pref.value = value;
+    return GestureDetector(
+      onLongPress: () {
+        SettingsScreen.showResetDialog(
+          context: context,
+          pref: widget.pref,
+          prefTitle: widget.title,
+        );
       },
+      child: SwitchListTile(
+        contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+        title: Text(widget.title),
+        subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
+        value: widget.pref.value,
+        onChanged: (bool value) {
+          widget.pref.value = value;
+        },
+      ),
     );
   }
 

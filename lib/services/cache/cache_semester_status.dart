@@ -11,8 +11,7 @@ class CacheSemesterStatus extends IsarService {
     events.then((events) => _streamController.sink.add(events));
   }
 
-  Stream<List<Event>?> get stream =>
-      _streamController.stream;
+  Stream<List<Event>?> get stream => _streamController.stream;
 
   Future<List<Event>> get events async {
     final isar = await db;

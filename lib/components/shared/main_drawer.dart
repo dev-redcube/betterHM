@@ -11,7 +11,12 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          DrawerHeader(child: Center(child: Text(t.app_name, style: context.theme.textTheme.headlineLarge,))),
+          DrawerHeader(
+              child: Center(
+                  child: Text(
+            t.app_name,
+            style: context.theme.textTheme.headlineLarge,
+          ))),
           ListTile(
             title: const Text("Meals"),
             onTap: () {

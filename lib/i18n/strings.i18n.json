@@ -29,6 +29,10 @@
   },
   "settings": {
     "app_bar": "Settings",
+    "reset": {
+      "title": "Reset setting",
+      "confirm": "Reset"
+    },
     "general": {
       "title": "General"
     },
