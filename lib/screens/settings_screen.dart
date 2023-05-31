@@ -1,3 +1,4 @@
+import 'package:better_hm/components/settings/app_info.dart';
 import 'package:better_hm/components/settings/settings_switch.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/providers/prefs/prefs.dart';
@@ -49,6 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Column(
         children: [
+          const AppInfo(),
           // ExpansionTile(
           //   initiallyExpanded: true,
           //   leading: const Icon(Icons.app_settings_alt_rounded),

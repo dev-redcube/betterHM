@@ -1,5 +1,8 @@
 {
   "app_name": "Better HM",
+  "app_info": {
+    "licenseNotice": "Better HM Copyright (c) 2023-$buildYear Moritz Huber \nDieses Programm kommt ohne Gewährleistung. Dies ist freie Stoftware. Du darft diese Software unter bestimmten Bedingungen gerne bearbeiten und weiterverteilen."
+  },
   "navigation": {
     "dashboard": "Dashboard",
     "mealplan": "Essensplan",
