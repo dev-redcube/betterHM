@@ -23,13 +23,18 @@ class MyApp extends StatelessWidget {
         title: t.app_name,
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: lightColorScheme,
+          colorScheme: lightColorScheme ??
+              ColorScheme.fromSeed(seedColor: const Color(0xFFE8605B)),
         ),
         darkTheme: ThemeData(
           useMaterial3: true,
-          colorScheme: darkColorScheme,
+          colorScheme: darkColorScheme ??
+              ColorScheme.fromSeed(
+                seedColor: const Color(0xFFE8605B),
+                brightness: Brightness.dark,
+              ),
         ),
-        // themeMode: ThemeMode.light,
+        // themeMode: ThemeMode.dark,
         locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
