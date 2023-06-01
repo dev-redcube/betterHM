@@ -13,6 +13,10 @@ class DeadlinesAppointments extends StatelessWidget {
         Text(t.dashboard.statusCard.deadlines_appointments,
             style: context.theme.textTheme.headlineSmall),
         const SizedBox(height: 8),
+        ListView(
+          shrinkWrap: true,
+          children: [],
+        )
       ],
     );
   }

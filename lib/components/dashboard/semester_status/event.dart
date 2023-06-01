@@ -1,3 +1,4 @@
+import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/models/dashboard/semester_event_with_single_date.dart';
@@ -16,8 +17,7 @@ class EventWidget extends StatelessWidget {
     // Only one date
     if (event.start.onlyDate == today()) {
       return t.dashboard.statusCard.today;
-    } else if (event.start.onlyDate ==
-        today().subtract(const Duration(days: 1))) {
+    } else if (event.start.onlyDate == tomorrow()) {
       return t.dashboard.statusCard.tomorrow;
     } else {
       return "${event.start.day}.${event.start.month}.";
@@ -26,13 +26,18 @@ class EventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Text(generateText()),
-          Text(event.title),
-        ],
+    return Card(
+      color: context.theme.colorScheme.surfaceVariant,
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(generateText(), style: context.theme.textTheme.labelMedium),
+            Text(event.title, style: context.theme.textTheme.bodyLarge),
+          ],
+        ),
       ),
     );
   }

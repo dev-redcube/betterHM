@@ -51,6 +51,8 @@ DateTime today() {
   return DateTime(now.year, now.month, now.day);
 }
 
+DateTime tomorrow() => today().add(const Duration(days: 1));
+
 const months = [
   "Januar",
   "Februar",
