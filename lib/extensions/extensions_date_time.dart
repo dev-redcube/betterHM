@@ -42,6 +42,8 @@ extension Formats on DateTime {
   String get formatDayMonth {
     return "$day. ${months[month - 1]}";
   }
+
+  DateTime get onlyDate => DateTime(year, month, day);
 }
 
 DateTime today() {

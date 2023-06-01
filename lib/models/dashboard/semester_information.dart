@@ -1,16 +1,16 @@
-import 'package:better_hm/models/period.dart';
+import 'package:better_hm/models/date_tuple.dart';
 
 class SemesterInformation {
   final String name;
-  final Period? smesterDuration;
-  final Period? lecturePeriod;
-  final List<Period>? lectureFreeTimes;
-  final Period? examRegistration;
+  final DateTuple? smesterDuration;
+  final DateTuple? lecturePeriod;
+  final List<DateTuple>? lectureFreeTimes;
+  final DateTuple? examRegistration;
   final DateTime? examPeriodStart;
   final DateTime? gradeRelease;
 
   // Re-Registration for next semester
-  final Period? reRegistration;
+  final DateTuple? reRegistration;
 
   SemesterInformation({
     required this.name,

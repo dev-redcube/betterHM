@@ -1,22 +1,22 @@
-import 'package:better_hm/models/dashboard/event.dart';
+import 'package:better_hm/models/date_tuple.dart';
 
-class SemesterEvent extends Event {
+class SemesterEvent {
+  final String title;
+  final List<DateTuple> dates;
+
   SemesterEvent({
-    required super.title,
-    required super.start,
-    super.end,
+    required this.title,
+    required this.dates,
   });
 
   factory SemesterEvent.fromJson(Map<String, dynamic> json) => SemesterEvent(
         title: json["title"] as String,
-        start: DateTime.parse(json["start"] as String),
-        end: json["end"] == null ? null : DateTime.parse(json["end"] as String),
+        dates: List<DateTuple>.from(
+            json["dates"].map((x) => DateTuple.fromJson(x))),
       );
 
-  @override
   Map<String, dynamic> toJson() => {
         "title": title,
-        "start": start.toIso8601String(),
-        "end": end?.toIso8601String(),
+        "dates": dates.map((x) => x.toJson()).toList(),
       };
 }

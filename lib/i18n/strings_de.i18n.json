@@ -13,7 +13,9 @@
       "summer_semester": "Sommersemester",
       "winter_semester": "Wintersemester",
       "deadlines_appointments": "Fristen & Termine",
-      "no_data": "Keine Termine oder Fehler beim Laden"
+      "no_data": "Keine Termine oder Fehler beim Laden",
+      "today": "Heute",
+      "tomorrow": "Morgen"
     }
   },
   "mealplan": {
