@@ -5,10 +5,11 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Prefs.init();
   LocaleSettings.useDeviceLocale();
+  await Prefs.initialLocation.waitUntilLoaded();
   runApp(TranslationProvider(child: const MyApp()));
 }
 
