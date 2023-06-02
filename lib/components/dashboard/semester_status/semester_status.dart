@@ -5,6 +5,9 @@ import 'package:better_hm/components/dashboard/semester_status/deadlines_appoint
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/models/dashboard/semester_event.dart';
+import 'package:better_hm/models/dashboard/semester_event_with_single_date.dart';
+import 'package:better_hm/services/api/api_semester_status.dart';
 import 'package:flutter/material.dart';
 
 // TODO dynamic data
@@ -21,7 +24,16 @@ class SemesterStatus extends StatelessWidget {
         const SizedBox(height: 16),
         SemesterProgress(),
         const Divider(),
-        const DeadlinesAppointments(),
+        FutureBuilder<List<SemesterEvent>>(
+          future: ApiSemesterStatus().getEvents(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const LinearProgressIndicator();
+            }
+            return DeadlinesAppointments(
+                events: convertSemesterEvents(snapshot.data!));
+          },
+        ),
       ],
     );
   }
