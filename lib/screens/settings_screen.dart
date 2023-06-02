@@ -57,7 +57,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           const AppInfo(),
           ExpansionTile(
-            initiallyExpanded: true,
+            initiallyExpanded: initiallyExpanded,
+            leading: const Icon(Icons.home_rounded),
+            title: Text(t.settings.dashboard.title),
+            shape: Border.all(color: Colors.transparent),
+            children: [
+              SettingsDropdown<int>(
+                title: t.settings.dashboard.numberOfEventsToShow,
+                pref: Prefs.numberOfEventsToShow,
+                options: List.generate(
+                  8,
+                  (index) => DropdownItem((++index).toString(), index),
+                ),
+              ),
+            ],
+          ),
+          ExpansionTile(
+            initiallyExpanded: initiallyExpanded,
             leading: const Icon(Icons.app_settings_alt_rounded),
             title: Text(t.settings.general.title),
             shape: Border.all(color: Colors.transparent),
