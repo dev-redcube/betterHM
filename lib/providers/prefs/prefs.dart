@@ -20,6 +20,9 @@ abstract class Prefs {
   @visibleForTesting
   static bool warnIfPrefAccessedBeforeLoaded = true;
 
+  // General
+  static late final PlainPref<String> initialLocation;
+
   // Dashboard
   static late final PlainPref<int> numberOfEventsToShow;
 
@@ -27,6 +30,7 @@ abstract class Prefs {
   static late final PlainPref<bool> showFoodLabels;
 
   static void init() {
+    initialLocation = PlainPref("initialLocation", "/");
     numberOfEventsToShow = PlainPref("numberOfEventsToShow", 4);
     showFoodLabels = PlainPref("showFoodLabels", true);
   }

@@ -56,12 +56,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Column(
         children: [
           const AppInfo(),
-          // ExpansionTile(
-          //   initiallyExpanded: true,
-          //   leading: const Icon(Icons.app_settings_alt_rounded),
-          //   title: Text(t.settings.general.title),
-          //   shape: Border.all(color: Colors.transparent),
-          // ),
+          ExpansionTile(
+            initiallyExpanded: true,
+            leading: const Icon(Icons.app_settings_alt_rounded),
+            title: Text(t.settings.general.title),
+            shape: Border.all(color: Colors.transparent),
+            children: [
+              SettingsDropdown(
+                title: t.settings.general.initialLocation.title,
+                pref: Prefs.initialLocation,
+                options: [
+                  DropdownItem(
+                      t.settings.general.initialLocation.dashboard, "/"),
+                  DropdownItem(
+                      t.settings.general.initialLocation.mealplan, "/meals"),
+                ],
+              ),
+            ],
+          ),
           ExpansionTile(
             initiallyExpanded: initiallyExpanded,
             leading: const Icon(Icons.home_rounded),
