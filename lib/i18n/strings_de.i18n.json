@@ -58,7 +58,12 @@
       "numberOfEventsToShow": "Number of Events to show"
     },
     "general": {
-      "title": "Allgemein"
+      "title": "Allgemein",
+      "initialLocation": {
+        "title": "Startbildschirm",
+        "dashboard": "Dashboard",
+        "mealplan": "Essensplan"
+      }
     },
     "mealplan": {
       "title": "Essensplan",

@@ -54,7 +54,16 @@
       "confirm": "Reset"
     },
     "general": {
-      "title": "General"
+      "title": "General",
+      "initialLocation": {
+        "title": "Startup location",
+        "dashboard": "Dashboard",
+        "mealplan": "Mealplan"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "numberOfEventsToShow": "Number of Events to show"
     },
     "dashboard": {
       "title": "Dashboard",
