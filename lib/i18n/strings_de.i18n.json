@@ -39,6 +39,10 @@
       "title": "Einstellung Zurücksetzen",
       "confirm": "Zurücksetzen"
     },
+    "dashboard": {
+      "title": "Dashboard",
+      "numberOfEventsToShow": "Number of Events to show"
+    },
     "general": {
       "title": "Allgemein"
     },

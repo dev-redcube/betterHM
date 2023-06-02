@@ -1,8 +1,10 @@
 import 'package:better_hm/components/settings/app_info.dart';
+import 'package:better_hm/components/settings/settings_dropdown.dart';
 import 'package:better_hm/components/settings/settings_switch.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/providers/prefs/prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class SettingsScreen extends StatefulWidget {
     required IPref pref,
     required String prefTitle,
   }) async {
+    HapticFeedback.lightImpact();
     if (pref.value == pref.defaultValue) return null;
     return await showDialog(
       context: context,
@@ -57,6 +60,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //   title: Text(t.settings.general.title),
           //   shape: Border.all(color: Colors.transparent),
           // ),
+          ExpansionTile(
+            initiallyExpanded: true,
+            leading: const Icon(Icons.home_rounded),
+            title: Text(t.settings.dashboard.title),
+            shape: Border.all(color: Colors.transparent),
+            children: [
+              SettingsDropdown<int>(
+                title: t.settings.dashboard.numberOfEventsToShow,
+                pref: Prefs.numberOfEventsToShow,
+                options: List.generate(
+                  8,
+                  (index) => DropdownItem((++index).toString(), index),
+                ),
+              ),
+            ],
+          ),
           ExpansionTile(
             initiallyExpanded: true,
             leading: const Icon(Icons.restaurant_rounded),

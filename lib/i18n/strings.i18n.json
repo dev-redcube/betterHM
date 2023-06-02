@@ -42,6 +42,10 @@
     "general": {
       "title": "General"
     },
+    "dashboard": {
+      "title": "Dashboard",
+      "numberOfEventsToShow": "Number of Events to show"
+    },
     "mealplan": {
       "title": "Mealplan",
       "showFoodLabels": "Show Food Labels"

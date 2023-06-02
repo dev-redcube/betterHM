@@ -20,9 +20,14 @@ abstract class Prefs {
   @visibleForTesting
   static bool warnIfPrefAccessedBeforeLoaded = true;
 
+  // Dashboard
+  static late final PlainPref<int> numberOfEventsToShow;
+
+  // Mealplan
   static late final PlainPref<bool> showFoodLabels;
 
   static void init() {
+    numberOfEventsToShow = PlainPref("numberOfEventsToShow", 4);
     showFoodLabels = PlainPref("showFoodLabels", true);
   }
 
