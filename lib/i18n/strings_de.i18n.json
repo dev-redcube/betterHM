@@ -1,5 +1,22 @@
 {
   "app_name": "Better HM",
+  "app_info": {
+    "licenseNotice": "Better HM Copyright (c) 2023-$buildYear Moritz Huber \nDieses Programm kommt ohne Gewährleistung. Dies ist freie Stoftware. Du darft diese Software unter bestimmten Bedingungen gerne bearbeiten und weiterverteilen."
+  },
+  "months": [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "July",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember"
+  ],
   "navigation": {
     "dashboard": "Dashboard",
     "mealplan": "Essensplan",
@@ -10,7 +27,9 @@
       "summer_semester": "Sommersemester",
       "winter_semester": "Wintersemester",
       "deadlines_appointments": "Fristen & Termine",
-      "no_data": "Keine Termine oder Fehler beim Laden"
+      "no_data": "Keine Termine oder Fehler beim Laden",
+      "today": "Heute",
+      "tomorrow": "Morgen"
     }
   },
   "mealplan": {
@@ -33,6 +52,10 @@
     "reset": {
       "title": "Einstellung Zurücksetzen",
       "confirm": "Zurücksetzen"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "numberOfEventsToShow": "Number of Events to show"
     },
     "general": {
       "title": "Allgemein"
