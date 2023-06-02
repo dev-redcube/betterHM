@@ -45,6 +45,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  static const initiallyExpanded = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //   shape: Border.all(color: Colors.transparent),
           // ),
           ExpansionTile(
-            initiallyExpanded: true,
+            initiallyExpanded: initiallyExpanded,
             leading: const Icon(Icons.home_rounded),
             title: Text(t.settings.dashboard.title),
             shape: Border.all(color: Colors.transparent),
@@ -77,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           ),
           ExpansionTile(
-            initiallyExpanded: true,
+            initiallyExpanded: initiallyExpanded,
             leading: const Icon(Icons.restaurant_rounded),
             title: Text(t.settings.mealplan.title),
             shape: Border.all(color: Colors.transparent),

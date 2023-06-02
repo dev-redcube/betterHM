@@ -1,15 +1,16 @@
 import 'package:better_hm/models/dashboard/semester_event.dart';
+import 'package:better_hm/models/date_tuple.dart';
 
-class SemesterEventWithSingleDate {
+class SemesterEventWithSingleDate extends DateTuple {
   final String title;
-  final DateTime start;
-  final DateTime? end;
+  final String? tag;
 
   SemesterEventWithSingleDate({
     required this.title,
-    required this.start,
-    this.end,
-  });
+    required DateTime start,
+    DateTime? end,
+    this.tag,
+  }) : super(start, end);
 }
 
 /// This function converts a list of [SemesterEvent]s to a list of [SemesterEventWithSingleDate]s.
@@ -24,6 +25,7 @@ List<SemesterEventWithSingleDate> convertSemesterEvents(
         title: event.title,
         start: date.start,
         end: date.end,
+        tag: event.tag,
       ));
     }
   }

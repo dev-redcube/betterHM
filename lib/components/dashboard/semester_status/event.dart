@@ -34,7 +34,9 @@ class EventWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(generateText(), style: context.theme.textTheme.labelMedium),
+            SelectionContainer.disabled(
+                child: Text(generateText(),
+                    style: context.theme.textTheme.labelMedium)),
             Text(event.title, style: context.theme.textTheme.bodyLarge),
           ],
         ),

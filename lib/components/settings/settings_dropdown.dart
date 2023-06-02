@@ -54,27 +54,31 @@ class _SettingsDropdownState<T> extends State<SettingsDropdown<T>> {
           prefTitle: widget.title,
         );
       },
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-        title: Text(widget.title),
-        subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
-        trailing: DropdownButton<T>(
-          items: widget.options
-              .map((e) => DropdownMenuItem(
-                    value: e.value,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(e.name),
-                    ),
-                  ))
-              .toList(),
-          value: widget.pref.value,
-          onChanged: (T? value) {
-            if (value == null) return;
-            widget.pref.value = value;
-          },
-          borderRadius: BorderRadius.circular(32),
-          underline: const SizedBox.shrink(),
+      child: InkWell(
+        child: ListTile(
+          onTap: () {},
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+          title: Text(widget.title),
+          subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
+          trailing: DropdownButton<T>(
+            items: widget.options
+                .map((e) => DropdownMenuItem(
+                      value: e.value,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(e.name),
+                      ),
+                    ))
+                .toList(),
+            value: widget.pref.value,
+            onChanged: (T? value) {
+              if (value == null) return;
+              widget.pref.value = value;
+            },
+            borderRadius: BorderRadius.circular(32),
+            underline: const SizedBox.shrink(),
+          ),
         ),
       ),
     );

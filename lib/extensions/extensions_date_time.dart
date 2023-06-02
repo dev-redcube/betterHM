@@ -1,3 +1,4 @@
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 
 abstract class _DateHelper {
@@ -33,17 +34,11 @@ extension Week on DateTime {
 }
 
 extension Formats on DateTime {
-  String get formatMonth => months[month - 1];
-
-  String get formatDayMonthAbbr {
-    return "$day. ${months[month - 1].substring(0, 3)}";
-  }
-
-  String get formatDayMonth {
-    return "$day. ${months[month - 1]}";
-  }
-
   DateTime get onlyDate => DateTime(year, month, day);
+
+  String get formatdMonth => DateFormat("d. MMMM").format(this);
+
+  String get formatdMonthAbbr => "$day. ${t.months[month - 1].substring(0, 3)}";
 }
 
 DateTime today() {
@@ -52,18 +47,3 @@ DateTime today() {
 }
 
 DateTime tomorrow() => today().add(const Duration(days: 1));
-
-const months = [
-  "Januar",
-  "Februar",
-  "März",
-  "April",
-  "Mai",
-  "Juni",
-  "Juli",
-  "August",
-  "September",
-  "Oktober",
-  "November",
-  "Dezember",
-];

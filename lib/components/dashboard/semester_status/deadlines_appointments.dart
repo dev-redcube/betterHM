@@ -45,12 +45,14 @@ class _DeadlinesAppointmentsState extends State<DeadlinesAppointments> {
         Text(t.dashboard.statusCard.deadlines_appointments,
             style: context.theme.textTheme.headlineSmall),
         const SizedBox(height: 8),
-        ListView(
-          shrinkWrap: true,
-          children: sortedEvents()
-              .map((e) => EventWidget(event: e))
-              .take(Prefs.numberOfEventsToShow.value)
-              .toList(),
+        SelectionArea(
+          child: ListView(
+            shrinkWrap: true,
+            children: sortedEvents()
+                .map((e) => EventWidget(event: e))
+                .take(Prefs.numberOfEventsToShow.value)
+                .toList(),
+          ),
         )
       ],
     );
