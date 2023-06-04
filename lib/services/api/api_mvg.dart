@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:better_hm/services/api/mvg/models/station.dart';
+
 /// API for MVG
 /// example shows all departures from Lothstraße
 /// example: https://www.mvv-muenchen.de/?eID=departuresFinder&action=get_departures&stop_id=de%3A09162%3A12&requested_timestamp=1685906480&lines=JmxpbmU9c3dtJTNBMDIwMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyMDIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMjAyMSUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDIwMjElM0FHJTNBUiUzQTAxMyZsaW5lPXN3bSUzQTAyMDI5JTNBRyUzQUglM0EwMTMmbGluZT1zd20lM0EwMjAyOSUzQUclM0FSJTNBMDEzJmxpbmU9c3dtJTNBMDJOMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyTjIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMzE1MyUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDMxNTMlM0FHJTNBUiUzQTAxMw%3D%3D
@@ -43,12 +45,24 @@ void main() {
   final decoded = base64.decode(
       "JmxpbmU9c3dtJTNBMDIwMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyMDIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMjAyMSUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDIwMjElM0FHJTNBUiUzQTAxMyZsaW5lPXN3bSUzQTAyMDI5JTNBRyUzQUglM0EwMTMmbGluZT1zd20lM0EwMjAyOSUzQUclM0FSJTNBMDEzJmxpbmU9c3dtJTNBMDJOMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyTjIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMzE1MyUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDMxNTMlM0FHJTNBUiUzQTAxMw==");
   final decodedString = utf8.decode(decoded);
-  print(decodedString);
 
   final u = Uri(scheme: "https", host: "HOST", queryParameters: {
     "eID": "departuresFinder",
     "stop_id": "de:09162:12",
   });
-  print(u);
-  print(Uri.encodeComponent("de:09162:12"));
+  ApiMvg()
+      .getDepartures(station: Station(id: "de:09162:12", name: "Lothstraße"));
+}
+
+class ApiMvg {
+  static const baseUrl = "www.mvv-muenchen.de";
+
+  getDepartures({required Station station}) {
+    final u = Uri(scheme: "https", host: baseUrl, queryParameters: {
+      "eID": "departuresFinder",
+      "action": "get_departures",
+      "stop_id": station.id,
+    });
+    print(u);
+  }
 }
