@@ -1,0 +1,43 @@
+name: Issue
+description: Erstelle einen Bugreport
+title: "[BUG]: "
+labels: [ "bug" ]
+assignees: [ "Huber1" ]
+body:
+  - type: markdown
+    attributes:
+      value: "*Bitte überprüfe vor dem erstellen, ob dein Bug schon existiert. Beachte dabei auch geschlossene issues!*"
+  - type: textarea
+    attributes:
+      label: Bugbeschreibung
+      description: Eine genaue Beschreibung des Bugs und was hätte eigentlich passieren sollen
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Schritte zum reproduzieren
+      description: Beschreibe möglichst genau, was getan werden muss, um das Problem zu reproduzieren
+      placeholder: |
+        1. gehe zu '...'
+        2. klicke auf '....'
+        3. Fehler
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Version
+      description: App-Version. Findet sich in den Einstellungen
+      placeholder: "0.4.1 (32)"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Gerät
+      description: Gerät, auf dem der Bug auftritt
+      placeholder: "Pixel 6a, Android 13"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Weitere Informationen / Screenshots
+      description: Solltest du weitere hilfreiche Infos haben, ist hier der Ort dafür
