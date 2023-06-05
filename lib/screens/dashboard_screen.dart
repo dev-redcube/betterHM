@@ -1,9 +1,10 @@
 import 'package:better_hm/components/dashboard/dashboard_card.dart';
 import 'package:better_hm/components/dashboard/manage_cards.dart';
 import 'package:better_hm/components/dashboard/semester_status/semester_status.dart';
-import 'package:better_hm/components/dashboard/test_card.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/models/string_with_state.dart';
 import 'package:better_hm/providers/prefs/prefs.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,11 +13,6 @@ final dashboardCards = <DashboardCard>[
     title: t.dashboard.statusCard.title,
     cardId: "SEMESTER_STATUS",
     card: const SemesterStatus(),
-  ),
-  DashboardCard(
-    title: "TEST",
-    cardId: "TESTCARD",
-    card: const TestCard(),
   ),
 ];
 
@@ -50,9 +46,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(8.0),
       child: ListView(
         children: [
-          ...Prefs.cardsToDisplay.value
+          ...Prefs.cardsToDisplay.value.withState
+              .where((element) => element.state)
               .map((e) => dashboardCards
-                  .firstWhere((element) => element.cardId == e)
+                  .firstWhere((element) => element.cardId == e.string)
                   .card)
               .toList(),
           ManageCardsButton(),
@@ -64,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
 class ManageCardsButton extends StatelessWidget {
   ManageCardsButton({super.key});
-  final List<String> cardPrefs = [];
+  final List<StringWithState> cardPrefs = Prefs.cardsToDisplay.value.withState;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +74,7 @@ class ManageCardsButton extends StatelessWidget {
               title: Text(t.dashboard.cards.manage.title),
               scrollable: false,
               content: ManageCardsPopup(
-                onReorder: (cards) {
+                onModify: (cards) {
                   cardPrefs
                     ..clear()
                     ..addAll(cards);
@@ -93,7 +90,9 @@ class ManageCardsButton extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     context.pop();
-                    Prefs.cardsToDisplay.value = cardPrefs;
+                    Prefs.cardsToDisplay.delete();
+                    if (kDebugMode) print("SAVING: ${cardPrefs.withoutState}");
+                    Prefs.cardsToDisplay.value = cardPrefs.withoutState;
                   },
                   child: Text(t.dashboard.cards.manage.save),
                 ),
