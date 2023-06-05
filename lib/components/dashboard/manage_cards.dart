@@ -1,29 +1,40 @@
+import 'package:better_hm/providers/prefs/prefs.dart';
+import 'package:better_hm/screens/dashboard_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-final l = ["one", "two", "three"];
-
 class ManageCardsPopup extends StatefulWidget {
-  const ManageCardsPopup({super.key});
+  const ManageCardsPopup({super.key, this.onReorder});
+  final void Function(List<String>)? onReorder;
 
   @override
   State<ManageCardsPopup> createState() => _ManageCardsPopupState();
 }
 
 class _ManageCardsPopupState extends State<ManageCardsPopup> {
+  late final List<String> cards;
+
+  @override
+  void initState() {
+    super.initState();
+    cards = List.from(Prefs.cardsToDisplay.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.maxFinite,
       child: ReorderableListView.builder(
-        itemCount: l.length,
+        itemCount: dashboardCards.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          final e = l[index];
+          final cardId = cards[index];
+          final e =
+              dashboardCards.firstWhere((element) => element.cardId == cardId);
           return ReorderableListTile(
             key: ValueKey(e),
             index: index,
-            title: "Semester status $e",
+            title: e.title,
             checked: true,
           );
         },
@@ -32,8 +43,9 @@ class _ManageCardsPopupState extends State<ManageCardsPopup> {
             if (oldIndex < newIndex) {
               newIndex -= 1;
             }
-            final String item = l.removeAt(oldIndex);
-            l.insert(newIndex, item);
+            final String item = cards.removeAt(oldIndex);
+            cards.insert(newIndex, item);
+            widget.onReorder?.call(cards);
           });
         },
       ),

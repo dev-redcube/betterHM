@@ -24,6 +24,7 @@ abstract class Prefs {
   static late final PlainPref<String> initialLocation;
 
   // Dashboard
+  static late final PlainPref<List<String>> cardsToDisplay;
   static late final PlainPref<int> numberOfEventsToShow;
 
   // Mealplan
@@ -31,6 +32,8 @@ abstract class Prefs {
 
   static void init() {
     initialLocation = PlainPref("initialLocation", "/");
+    cardsToDisplay =
+        PlainPref("cardsToDisplay", ["SEMESTER_STATUS", "TESTCARD"]);
     numberOfEventsToShow = PlainPref("numberOfEventsToShow", 4);
     showFoodLabels = PlainPref("showFoodLabels", true);
   }
@@ -239,6 +242,44 @@ class PlainPref<T> extends IPref<T> {
     _prefs ??= await SharedPreferences.getInstance();
     await _prefs!.remove(key);
   }
+}
+
+class TransformedPref<T_in, T_out> extends IPref<T_out> {
+  final IPref<T_in> pref;
+  final T_out Function(T_in) transform;
+  final T_in Function(T_out) reverseTransform;
+
+  @override
+  T_out get value => transform(pref.value);
+
+  @override
+  set value(T_out value) => pref.value = reverseTransform(value);
+
+  @override
+  bool get loaded => pref.loaded;
+
+  @override
+  bool get saved => pref.saved;
+
+  TransformedPref(this.pref, this.transform, this.reverseTransform)
+      : super(pref.key, transform(pref.defaultValue)) {
+    pref.addListener(notifyListeners);
+  }
+
+  @override
+  Future<void> _afterLoad() async {}
+
+  @override
+  Future<T_out?> _load() async => null;
+
+  @override
+  Future<void> _save() async {}
+
+  @override
+  Future<void> delete() async {}
+
+  @override
+  Future<T_out?> getValueWithKey(String key) async => null;
 }
 
 Type typeOf<T>() => T;

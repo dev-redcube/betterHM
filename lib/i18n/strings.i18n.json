@@ -33,6 +33,7 @@
       }
     },
     "statusCard": {
+      "title": "Semester Information",
       "summer_semester": "Summer semester",
       "winter_semester": "Winter semester",
       "deadlines_appointments": "Deadlines and appointments",
