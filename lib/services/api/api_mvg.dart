@@ -21,6 +21,9 @@ import 'package:better_hm/services/api/mvg/models/station.dart';
 /// G =>
 /// H => can be [H, R], specifies direction
 /// 013 =>
+///
+/// stop ids listed here https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData/MVV_HSTReport2212.csv
+/// line ids are not officially documented
 
 /// IDs:
 /// Lothstraße: de:09162:12
