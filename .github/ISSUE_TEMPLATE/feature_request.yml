@@ -21,8 +21,10 @@ body:
     attributes:
       label: Weitere Informationen
       description: Solltest du weitere hilfreiche Infos haben, ist hier der Ort dafür
-  - type: checkboxes
+  - type: dropdown
     attributes:
-      label: "Mitwirkung"
-      options:
-        - label: "Ich kann dieses Feature selbst implementieren / mithelfen bei der Umsetzung"
+      label: "Ich kann dieses Feature selbst implementieren / mithelfen bei der Umsetzung"
+      multiple: false
+      options: [ "Nein", "Ja" ]
+    validations:
+      required: true

@@ -25,7 +25,6 @@ abstract class Prefs {
 
   // Dashboard
   static late final PlainPref<List<String>> cardsToDisplay;
-  static late final PlainPref<int> numberOfEventsToShow;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
@@ -33,7 +32,6 @@ abstract class Prefs {
   static void init() {
     initialLocation = PlainPref("initialLocation", "/");
     cardsToDisplay = PlainPref("cardsToDisplay", ["1SEMESTER_STATUS"]);
-    numberOfEventsToShow = PlainPref("numberOfEventsToShow", 4);
     showFoodLabels = PlainPref("showFoodLabels", true);
   }
 
