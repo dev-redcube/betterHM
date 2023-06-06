@@ -1,3 +1,4 @@
+import 'package:better_hm/components/dashboard/dashboard_card.dart';
 import 'package:better_hm/components/dashboard/semester_status/deadlines_appointments.dart';
 import 'package:better_hm/components/dashboard/semester_status/semester_progress.dart';
 import 'package:better_hm/extensions/extensions_context.dart';
@@ -13,11 +14,9 @@ class SemesterStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.easeInOut,
+    return DashboardCardWidget(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 150),
+        constraints: const BoxConstraints(maxHeight: 450),
         child: FutureBuilder<List<SemesterEvent>>(
           future: ApiSemesterStatus().getEvents(),
           builder: (context, snapshot) {
@@ -28,7 +27,7 @@ class SemesterStatus extends StatelessWidget {
                 convertSemesterEvents(snapshot.data!);
 
             final SemesterEventWithSingleDate? lectureTime = events
-                .where((element) => element.tag == "LECTURE_TIME")
+                .where((element) => element.tag == "lecture_period")
                 .firstOrNull;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +39,7 @@ class SemesterStatus extends StatelessWidget {
                   SemesterProgress(date: lectureTime),
                   const Divider()
                 ],
-                DeadlinesAppointments(events: events),
+                Expanded(child: DeadlinesAppointments(events: events)),
               ],
             );
           },

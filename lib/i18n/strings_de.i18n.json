@@ -23,7 +23,17 @@
     "settings": "Einstellungen"
   },
   "dashboard": {
+    "cards": {
+      "settings": "Settings",
+      "hide": "Hide",
+      "manage": {
+        "title": "Karten verwalten",
+        "cancel": "abbrechen",
+        "save": "Speichern"
+      }
+    },
     "statusCard": {
+      "title": "Semesterinformationen",
       "summer_semester": "Sommersemester",
       "winter_semester": "Wintersemester",
       "deadlines_appointments": "Fristen & Termine",
@@ -53,10 +63,6 @@
       "title": "Einstellung Zurücksetzen",
       "confirm": "Zurücksetzen"
     },
-    "dashboard": {
-      "title": "Dashboard",
-      "numberOfEventsToShow": "Number of Events to show"
-    },
     "general": {
       "title": "Allgemein",
       "initialLocation": {
@@ -64,6 +70,10 @@
         "dashboard": "Dashboard",
         "mealplan": "Essensplan"
       }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "numberOfEventsToShow": "Number of Events to show"
     },
     "mealplan": {
       "title": "Essensplan",

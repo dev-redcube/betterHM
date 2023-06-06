@@ -4,9 +4,13 @@ class DateTuple {
   final DateTime start;
   final DateTime? end;
 
-  DateTuple(this.start, this.end);
+  DateTuple(this.start, this.end)
+      : assert(
+            end?.isAfter(start) ?? true, "End date must be after start date");
 
   bool get isSingleDay => end == null;
+
+  bool get isFinished => (end ?? start).isBefore(today());
 
   bool isAroundToday() {
     final now = today();

@@ -2,39 +2,23 @@ import 'package:better_hm/components/dashboard/semester_status/event.dart';
 import 'package:better_hm/extensions/extensions_context.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/models/dashboard/semester_event_with_single_date.dart';
-import 'package:better_hm/providers/prefs/prefs.dart';
+import 'package:better_hm/models/dashboard/tags.dart';
 import 'package:flutter/material.dart';
 
-class DeadlinesAppointments extends StatefulWidget {
+class DeadlinesAppointments extends StatelessWidget {
   const DeadlinesAppointments({Key? key, required this.events})
       : super(key: key);
 
   final List<SemesterEventWithSingleDate> events;
 
-  @override
-  State<DeadlinesAppointments> createState() => _DeadlinesAppointmentsState();
-}
-
-class _DeadlinesAppointmentsState extends State<DeadlinesAppointments> {
-  @override
-  void initState() {
-    super.initState();
-    Prefs.numberOfEventsToShow.addListener(onPrefChanged);
-  }
-
-  void onPrefChanged() {
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    Prefs.showFoodLabels.removeListener(onPrefChanged);
-    super.dispose();
-  }
-
   List<SemesterEventWithSingleDate> sortedEvents() {
-    return widget.events
+    final e = events
       ..sort((a, b) => (a.end ?? a.start).compareTo(b.end ?? b.start));
+    final filtered = e
+        .where((element) => !element.isFinished)
+        .where((element) => !tagsToFilterOut.contains(element.tag))
+        .toList();
+    return filtered;
   }
 
   @override
@@ -45,15 +29,15 @@ class _DeadlinesAppointmentsState extends State<DeadlinesAppointments> {
         Text(t.dashboard.statusCard.deadlines_appointments,
             style: context.theme.textTheme.headlineSmall),
         const SizedBox(height: 8),
-        SelectionArea(
-          child: ListView(
-            shrinkWrap: true,
-            children: sortedEvents()
-                .map((e) => EventWidget(event: e))
-                .take(Prefs.numberOfEventsToShow.value)
-                .toList(),
+        Expanded(
+          child: SelectionArea(
+            child: ListView(
+              shrinkWrap: true,
+              children:
+                  sortedEvents().map((e) => EventWidget(event: e)).toList(),
+            ),
           ),
-        )
+        ),
       ],
     );
   }
