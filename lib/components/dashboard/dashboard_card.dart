@@ -5,8 +5,11 @@ class DashboardCardWidget extends StatelessWidget {
     Key? key,
     required this.child,
     this.allowHide = true,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
   final bool allowHide;
+
+  final EdgeInsetsGeometry padding;
 
   final Widget child;
 
@@ -16,7 +19,7 @@ class DashboardCardWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: padding,
           child: child,
         ),
       ),

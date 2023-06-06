@@ -40,6 +40,9 @@
       "no_data": "Keine Termine oder Fehler beim Laden",
       "today": "Heute",
       "tomorrow": "Morgen"
+    },
+    "mvg": {
+      "title": "Abfahrtszeiten"
     }
   },
   "mealplan": {

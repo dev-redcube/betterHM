@@ -11,7 +11,8 @@ class ApiCanteen extends ApiService {
     final response = await httpGet("$baseUrl/enums/canteens.json");
     if (200 == response.statusCode) {
       final List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
-      List<Canteen> canteens = json.map((e) => Canteen.fromJson(e)).toList();
+      final List<Canteen> canteens =
+          json.map((e) => Canteen.fromJson(e)).toList();
       return canteens;
     } else {
       throw ApiException(response: response);

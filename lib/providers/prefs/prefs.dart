@@ -25,13 +25,16 @@ abstract class Prefs {
 
   // Dashboard
   static late final PlainPref<List<String>> cardsToDisplay;
+  static late final PlainPref<int> mvgLeadTime;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
 
   static void init() {
     initialLocation = PlainPref("initialLocation", "/");
-    cardsToDisplay = PlainPref("cardsToDisplay", ["1SEMESTER_STATUS"]);
+    cardsToDisplay =
+        PlainPref("cardsToDisplay", ["1SEMESTER_STATUS", "1NEXT_DEPARTURES"]);
+    mvgLeadTime = PlainPref("mvgLeadTime", 1);
     showFoodLabels = PlainPref("showFoodLabels", true);
   }
 
