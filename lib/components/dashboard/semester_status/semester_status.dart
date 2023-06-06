@@ -15,38 +15,34 @@ class SemesterStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DashboardCardWidget(
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeInOut,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 150),
-          child: FutureBuilder<List<SemesterEvent>>(
-            future: ApiSemesterStatus().getEvents(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final List<SemesterEventWithSingleDate> events =
-                  convertSemesterEvents(snapshot.data!);
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 450),
+        child: FutureBuilder<List<SemesterEvent>>(
+          future: ApiSemesterStatus().getEvents(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            final List<SemesterEventWithSingleDate> events =
+                convertSemesterEvents(snapshot.data!);
 
-              final SemesterEventWithSingleDate? lectureTime = events
-                  .where((element) => element.tag == "LECTURE_TIME")
-                  .firstOrNull;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${t.dashboard.statusCard.summer_semester} 2023",
-                      style: context.theme.textTheme.headlineSmall),
-                  const SizedBox(height: 16),
-                  if (lectureTime != null) ...[
-                    SemesterProgress(date: lectureTime),
-                    const Divider()
-                  ],
-                  DeadlinesAppointments(events: events),
+            final SemesterEventWithSingleDate? lectureTime = events
+                .where((element) => element.tag == "lecture_period")
+                .firstOrNull;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${t.dashboard.statusCard.summer_semester} 2023",
+                    style: context.theme.textTheme.headlineSmall),
+                const SizedBox(height: 16),
+                if (lectureTime != null) ...[
+                  SemesterProgress(date: lectureTime),
+                  const Divider()
                 ],
-              );
-            },
-          ),
+                Expanded(child: DeadlinesAppointments(events: events)),
+              ],
+            );
+          },
         ),
       ),
     );
