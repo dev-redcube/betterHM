@@ -32,8 +32,7 @@ abstract class Prefs {
 
   static void init() {
     initialLocation = PlainPref("initialLocation", "/");
-    cardsToDisplay =
-        PlainPref("cardsToDisplay", ["1SEMESTER_STATUS", "1NEXT_DEPARTURES"]);
+    cardsToDisplay = PlainPref("cardsToDisplay", []);
     mvgLeadTime = PlainPref("mvgLeadTime", 1);
     showFoodLabels = PlainPref("showFoodLabels", true);
   }

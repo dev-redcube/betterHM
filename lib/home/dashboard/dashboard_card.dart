@@ -30,11 +30,13 @@ class DashboardCardWidget extends StatelessWidget {
 class DashboardCard {
   final String title;
   final String cardId;
-  final Widget card;
+  final Widget Function() card;
+  final Future? future;
 
   DashboardCard({
     required this.title,
     required this.cardId,
     required this.card,
+    this.future,
   });
 }

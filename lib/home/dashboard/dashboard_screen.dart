@@ -3,24 +3,26 @@ import 'package:better_hm/home/dashboard/manage_cards.dart';
 import 'package:better_hm/home/dashboard/mvg/next_departures.dart';
 import 'package:better_hm/home/dashboard/semester_status/semester_status.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/models/string_with_state.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final dashboardCards = <DashboardCard>[
+final dashboardCards = <DashboardCard>{
   DashboardCard(
     title: t.dashboard.statusCard.title,
     cardId: "SEMESTER_STATUS",
-    card: const SemesterStatus(),
+    card: () => const SemesterStatus(),
   ),
   DashboardCard(
     title: t.dashboard.mvg.title,
     cardId: "NEXT_DEPARTURES",
-    card: const NextDepartures(),
+    card: () => const NextDepartures(),
   )
-];
+};
+
+DashboardCard? getCardFromId(String cardId) =>
+    dashboardCards.where((element) => element.cardId == cardId).firstOrNull;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -30,34 +32,40 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  List<String> cardsToDisplay = Prefs.cardsToDisplay.value;
+
   @override
   void initState() {
     super.initState();
-    Prefs.cardsToDisplay.addListener(onChange);
+    Prefs.cardsToDisplay.addListener(onCardsChange);
   }
 
-  onChange() {
-    setState(() {});
+  onCardsChange() {
+    print("CHANGE");
+    setState(() {
+      cardsToDisplay = Prefs.cardsToDisplay.value;
+    });
   }
 
   @override
   void dispose() {
-    Prefs.cardsToDisplay.removeListener(onChange);
+    Prefs.cardsToDisplay.removeListener(onCardsChange);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final cards = cardsToDisplay
+        .map((e) => getCardFromId(e)?.card())
+        .where((e) => e != null)
+        .cast<Widget>()
+        .toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListView(
         children: [
-          ...Prefs.cardsToDisplay.value.withState
-              .where((element) => element.state)
-              .map((e) => dashboardCards
-                  .firstWhere((element) => element.cardId == e.string)
-                  .card)
-              .toList(),
+          ...cards,
           ManageCardsButton(),
         ],
       ),
@@ -68,7 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 class ManageCardsButton extends StatelessWidget {
   ManageCardsButton({super.key});
 
-  final List<StringWithState> cardPrefs = Prefs.cardsToDisplay.value.withState;
+  final List<String> cardsToDisplay = Prefs.cardsToDisplay.value;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +90,7 @@ class ManageCardsButton extends StatelessWidget {
               scrollable: false,
               content: ManageCardsPopup(
                 onModify: (cards) {
-                  cardPrefs
+                  cardsToDisplay
                     ..clear()
                     ..addAll(cards);
                 },
@@ -97,9 +105,9 @@ class ManageCardsButton extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     context.pop();
-                    Prefs.cardsToDisplay.delete();
-                    if (kDebugMode) print("SAVING: ${cardPrefs.withoutState}");
-                    Prefs.cardsToDisplay.value = cardPrefs.withoutState;
+                    if (kDebugMode) print("SAVING: $cardsToDisplay");
+                    Prefs.cardsToDisplay.value = cardsToDisplay;
+                    Prefs.cardsToDisplay.notifyListeners();
                   },
                   child: Text(t.dashboard.cards.manage.save),
                 ),
