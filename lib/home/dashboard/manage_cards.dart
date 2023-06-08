@@ -109,6 +109,12 @@ class _ReorderableListTileState extends State<ReorderableListTile> {
     return ListTile(
       title: Text(widget.title),
       contentPadding: EdgeInsets.zero,
+      onTap: () {
+        setState(() {
+          checked = !checked;
+        });
+        widget.onToggle.call(checked);
+      },
       leading: Checkbox(
         value: checked,
         onChanged: (value) {
