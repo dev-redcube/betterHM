@@ -7,6 +7,7 @@ import 'package:better_hm/extensions/extensions_date_time.dart';
 import 'package:better_hm/services/api/api_mvg.dart';
 import 'package:flutter/material.dart';
 
+// https://stackoverflow.com/questions/53128438/android-onresume-method-equivalent-in-flutter
 class NextDepartures extends StatelessWidget {
   const NextDepartures({super.key});
 
