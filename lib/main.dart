@@ -1,5 +1,5 @@
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/providers/prefs/prefs.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:better_hm/routes.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
