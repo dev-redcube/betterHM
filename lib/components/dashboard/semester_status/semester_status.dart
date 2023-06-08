@@ -8,13 +8,13 @@ import 'package:better_hm/models/dashboard/semester_event_with_single_date.dart'
 import 'package:better_hm/services/api/api_semester_status.dart';
 import 'package:flutter/material.dart';
 
-// TODO dynamic data
 class SemesterStatus extends StatelessWidget {
   const SemesterStatus({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DashboardCardWidget(
+      padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 450),
         child: FutureBuilder<List<SemesterEvent>>(

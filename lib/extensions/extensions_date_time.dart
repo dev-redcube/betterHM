@@ -46,4 +46,6 @@ DateTime today() {
   return DateTime(now.year, now.month, now.day);
 }
 
+DateTime now() => DateTime.now();
+
 DateTime tomorrow() => today().add(const Duration(days: 1));
