@@ -27,11 +27,11 @@ class DashboardCardWidget extends StatelessWidget {
   }
 }
 
-class DashboardCard {
+class DashboardCard<T> {
   final String title;
   final String cardId;
-  final Widget Function() card;
-  final Future? future;
+  final Widget Function(dynamic) card;
+  final Future<T>? Function()? future;
 
   DashboardCard({
     required this.title,

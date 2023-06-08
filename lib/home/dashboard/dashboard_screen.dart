@@ -1,6 +1,10 @@
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/manage_cards.dart';
+import 'package:better_hm/home/dashboard/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/mvg/next_departures.dart';
+import 'package:better_hm/home/dashboard/mvg/service/api_mvg.dart';
+import 'package:better_hm/home/dashboard/semester_status/api_semester_status.dart';
+import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
 import 'package:better_hm/home/dashboard/semester_status/semester_status.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/prefs.dart';
@@ -9,15 +13,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final dashboardCards = <DashboardCard>{
-  DashboardCard(
+  DashboardCard<List<SemesterEvent>>(
     title: t.dashboard.statusCard.title,
     cardId: "SEMESTER_STATUS",
-    card: () => const SemesterStatus(),
+    card: (events) => SemesterStatus(events: events),
+    future: () => ApiSemesterStatus().getEvents(),
   ),
-  DashboardCard(
+  DashboardCard<List<Departure>>(
     title: t.dashboard.mvg.title,
     cardId: "NEXT_DEPARTURES",
-    card: () => const NextDepartures(),
+    card: (departures) => NextDepartures(departures: departures),
+    future: () =>
+        ApiMvg().getDepartures(stopId: stopIdLothstr, lineIds: lineIdsLothstr),
   )
 };
 
@@ -32,18 +39,22 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  List<String> cardsToDisplay = Prefs.cardsToDisplay.value;
+  late List<DashboardCard> cardsToDisplay;
 
   @override
   void initState() {
     super.initState();
+    onCardsChange();
     Prefs.cardsToDisplay.addListener(onCardsChange);
   }
 
   onCardsChange() {
-    print("CHANGE");
     setState(() {
-      cardsToDisplay = Prefs.cardsToDisplay.value;
+      cardsToDisplay = Prefs.cardsToDisplay.value
+          .map((e) => getCardFromId(e))
+          .where((e) => e != null)
+          .cast<DashboardCard>()
+          .toList();
     });
   }
 
@@ -53,23 +64,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.dispose();
   }
 
+  List<Widget> resultsToWidgets(List<dynamic> results) {
+    if (results.isEmpty) {
+      return [];
+    }
+    final List<Widget> widgets = [];
+    int index = 0;
+    try {
+      for (var element in cardsToDisplay) {
+        if (element.future == null) {
+          widgets.add(element.card(null));
+        } else {
+          final widget = element.card(results[index]);
+          index++;
+          widgets.add(widget);
+        }
+      }
+    } catch (e) {
+      return [];
+    }
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final cards = cardsToDisplay
-        .map((e) => getCardFromId(e)?.card())
-        .where((e) => e != null)
-        .cast<Widget>()
-        .toList();
+    final futures = cardsToDisplay
+        .where((e) => e.future != null)
+        .map((e) => e.future!())
+        .cast<Future<dynamic>>();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: ListView(
-        children: [
-          ...cards,
-          ManageCardsButton(),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: Future.wait(futures),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Align(
+              alignment: Alignment.topLeft,
+              child: LinearProgressIndicator(),
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ListView(
+              children: [
+                ...resultsToWidgets(snapshot.data!),
+                ManageCardsButton(),
+              ],
+            ),
+          );
+        });
   }
 }
 
