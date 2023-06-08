@@ -1,6 +1,7 @@
 import 'package:better_hm/components/dashboard/dashboard_card.dart';
 import 'package:better_hm/components/dashboard/manage_cards.dart';
 import 'package:better_hm/components/dashboard/semester_status/semester_status.dart';
+import 'package:better_hm/dashboard/mvg/next_departures.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/models/string_with_state.dart';
 import 'package:better_hm/providers/prefs/prefs.dart';
@@ -14,6 +15,11 @@ final dashboardCards = <DashboardCard>[
     cardId: "SEMESTER_STATUS",
     card: const SemesterStatus(),
   ),
+  DashboardCard(
+    title: t.dashboard.mvg.title,
+    cardId: "NEXT_DEPARTURES",
+    card: const NextDepartures(),
+  )
 ];
 
 class DashboardScreen extends StatefulWidget {
@@ -43,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListView(
         children: [
           ...Prefs.cardsToDisplay.value.withState
@@ -61,6 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
 class ManageCardsButton extends StatelessWidget {
   ManageCardsButton({super.key});
+
   final List<StringWithState> cardPrefs = Prefs.cardsToDisplay.value.withState;
 
   @override

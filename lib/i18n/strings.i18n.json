@@ -40,6 +40,9 @@
       "no_data": "No Appointments or error fetching",
       "today": "Today",
       "tomorrow": "Tomorrow"
+    },
+    "mvg": {
+      "title": "Next Departures"
     }
   },
   "mealplan": {
