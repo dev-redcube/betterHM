@@ -1,9 +1,9 @@
-import 'package:better_hm/components/shared/main_drawer.dart';
+import 'package:better_hm/home/dashboard/dashboard_screen.dart';
+import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/providers/prefs/prefs.dart';
-import 'package:better_hm/screens/dashboard_screen.dart';
-import 'package:better_hm/screens/meals_screen.dart';
-import 'package:better_hm/screens/settings_screen.dart';
+import 'package:better_hm/settings/settings_screen.dart';
+import 'package:better_hm/shared/main_drawer.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
