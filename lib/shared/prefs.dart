@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -231,7 +232,7 @@ class PlainPref<T> extends IPref<T> {
         return _prefs!.get(key) as T?;
       }
     } catch (e) {
-      if (kDebugMode) print("Error loading $key: $e");
+      Logger("prefs").error("Error loading $key: $e");
       return null;
     }
   }
