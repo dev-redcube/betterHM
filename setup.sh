@@ -6,4 +6,5 @@ chmod +x .git/hooks/pre-commit
 flutter pub get
 
 # run build runner, for translations, database, etc.
+find -name "*.g.dart" -type f -delete
 dart run build_runner build --delete-conflicting-outputs
