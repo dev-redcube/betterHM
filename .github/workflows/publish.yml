@@ -28,6 +28,8 @@ jobs:
       - run: flutter analyze
       - name: check formatting
         run: dart format -o none --set-exit-if-changed .
+      - name: Run tests
+        run: flutter test
       - name: Decode keystore & Service account
         env:
           ENCODED_STRING: ${{ secrets.SIGNING_STORE_BASE64 }}
