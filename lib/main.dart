@@ -2,6 +2,7 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
+import 'package:better_hm/shared/service/isar_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,6 +12,7 @@ Future<void> main() async {
   Prefs.init();
   LocaleSettings.useDeviceLocale();
   await Future.wait([
+    IsarService().openDB(),
     LoggerStatic().init(),
     Prefs.initialLocation.waitUntilLoaded(),
   ]);

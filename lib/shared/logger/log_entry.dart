@@ -8,7 +8,8 @@ class LogEntry {
   final id = Isar.autoIncrement;
   final DateTime timestamp;
 
-  @enumerated
+  @Enumerated(EnumType.name)
+  @Index()
   final LogLevel level;
   final String message;
   final String? tag;

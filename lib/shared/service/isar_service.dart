@@ -3,7 +3,7 @@ import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-abstract class IsarService {
+class IsarService {
   late Future<Isar> db;
 
   IsarService() {
