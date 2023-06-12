@@ -9,29 +9,29 @@ class Logger {
 
   Logger(String? tag) : _tag = tag?.toUpperCase();
 
-  void debug(String message) {
-    LoggerStatic().debug(_tag, message);
+  void debug(String message, [String? extra]) {
+    LoggerStatic().debug(_tag, message, extra);
   }
 
-  void d(String message) => debug(message);
+  void d(String message, [String? extra]) => debug(message, extra);
 
-  void info(String message) {
-    LoggerStatic().info(_tag, message);
+  void info(String message, [String? extra]) {
+    LoggerStatic().info(_tag, message, extra);
   }
 
-  void i(String message) => info(message);
+  void i(String message, [String? extra]) => info(message, extra);
 
-  void warning(String message) {
-    LoggerStatic().warning(_tag, message);
+  void warning(String message, [String? extra]) {
+    LoggerStatic().warning(_tag, message, extra);
   }
 
-  void w(String message) => warning(message);
+  void w(String message, [String? extra]) => warning(message, extra);
 
-  void error(String message) {
-    LoggerStatic().error(_tag, message);
+  void error(String message, [String? extra]) {
+    LoggerStatic().error(_tag, message, extra);
   }
 
-  void e(String message) => error(message);
+  void e(String message, [String? extra]) => error(message, extra);
 }
 
 class LoggerStatic extends IsarService {
@@ -53,23 +53,23 @@ class LoggerStatic extends IsarService {
     log("${entry.level.name.toUpperCase()}: ${entry.message}");
   }
 
-  void debug(String? tag, String message) {
-    final entry = LogEntry(LogLevel.debug, message, tag);
+  void debug(String? tag, String message, String? extra) {
+    final entry = LogEntry(LogLevel.debug, message, tag, extra: extra);
     _write(entry);
   }
 
-  void info(String? tag, String message) {
-    final entry = LogEntry(LogLevel.info, message, tag);
+  void info(String? tag, String message, String? extra) {
+    final entry = LogEntry(LogLevel.info, message, tag, extra: extra);
     _write(entry);
   }
 
-  void warning(String? tag, String message) {
-    final entry = LogEntry(LogLevel.warning, message, tag);
+  void warning(String? tag, String message, String? extra) {
+    final entry = LogEntry(LogLevel.warning, message, tag, extra: extra);
     _write(entry);
   }
 
-  void error(String? tag, String message) {
-    final entry = LogEntry(LogLevel.error, message, tag);
+  void error(String? tag, String message, String? extra) {
+    final entry = LogEntry(LogLevel.error, message, tag, extra: extra);
     _write(entry);
   }
 }

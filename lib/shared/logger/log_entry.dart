@@ -12,6 +12,8 @@ class LogEntry {
   final LogLevel level;
   final String message;
   final String? tag;
+  final String? extra;
 
-  LogEntry(this.level, this.message, this.tag) : timestamp = DateTime.now();
+  LogEntry(this.level, this.message, this.tag, {this.extra})
+      : timestamp = DateTime.now();
 }
