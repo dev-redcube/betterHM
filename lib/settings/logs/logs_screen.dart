@@ -103,14 +103,16 @@ class _LogsScreenState extends State<LogsScreen> {
                       child: LinearProgressIndicator(),
                     );
                   }
-                  return ListView(
-                    children: snapshot.data!
-                        .where(
-                            (element) => selectedLevels.contains(element.level))
-                        .map((e) => Text(
-                              "${e.level.name.toUpperCase()}: ${e.tag} ${e.message}",
-                            ))
-                        .toList(),
+                  return SelectionArea(
+                    child: ListView(
+                      children: snapshot.data!
+                          .where((element) =>
+                              selectedLevels.contains(element.level))
+                          .map((e) => Text(
+                                "${e.level.name.toUpperCase()}: ${e.tag} ${e.message}",
+                              ))
+                          .toList(),
+                    ),
                   );
                 },
               ),
