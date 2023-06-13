@@ -46,6 +46,16 @@ class LoggerStatic extends IsarService {
 
   factory LoggerStatic() => _instance;
 
+  Stream<List<LogEntry>> stream() => _isar.logEntries
+      .where()
+      .sortByTimestamp()
+      .limit(500)
+      .watch(fireImmediately: true);
+
+  Future<List<Map<String, dynamic>>> dump() async {
+    return await _isar.logEntries.where().sortByTimestamp().exportJson();
+  }
+
   void _write(LogEntry entry) async {
     await _isar.writeTxn(() async {
       _isar.logEntries.put(entry);

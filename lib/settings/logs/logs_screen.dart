@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/logger/log_entry.dart';
+import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});
@@ -14,41 +17,68 @@ class LogsScreen extends StatefulWidget {
 class _LogsScreenState extends State<LogsScreen> {
   final Set<LogLevel> selectedLevels = LogLevel.values.toSet();
 
+  shareFile() async {
+    final dir = await getTemporaryDirectory();
+    final timestamp = now().millisecondsSinceEpoch ~/ 1000;
+    final file = File("${dir.path}/logs-$timestamp.json");
+    await file.writeAsString(jsonEncode(await LoggerStatic().dump()));
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      subject: t.settings.advanced.logs.shareFile,
+    );
+    await file.delete();
+  }
+
+  shareJson() async {
+    final json = jsonEncode(await LoggerStatic().dump());
+    await Share.share(json, subject: t.settings.advanced.logs.shareJson);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.settings.advanced.logs.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.upload_file_rounded),
+            onPressed: () async => await shareFile(),
+            tooltip: t.settings.advanced.logs.shareFile,
+          ),
+          IconButton(
+            icon: const Icon(Icons.upload_rounded),
+            onPressed: () async => await shareJson(),
+            tooltip: t.settings.advanced.logs.shareJson,
+          ),
+        ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           logsFilter(),
           Expanded(
-            child: StreamBuilder(
-              stream: Isar.getInstance()
-                  ?.logEntries
-                  .filter()
-                  .allOf(
-                      selectedLevels, (q, element) => q.levelEqualTo(element))
-                  .sortByTimestamp()
-                  .limit(500)
-                  .watch(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Align(
-                    alignment: Alignment.topCenter,
-                    child: LinearProgressIndicator(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: StreamBuilder(
+                stream: LoggerStatic().stream(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Align(
+                      alignment: Alignment.topCenter,
+                      child: LinearProgressIndicator(),
+                    );
+                  }
+                  return ListView(
+                    children: snapshot.data!
+                        .where(
+                            (element) => selectedLevels.contains(element.level))
+                        .map((e) => Text(
+                              "${e.level.name.toUpperCase()}: ${e.tag} ${e.message}",
+                            ))
+                        .toList(),
                   );
-                }
-                final List<LogEntry> entries = snapshot.data!;
-                return ListView(
-                  children: entries
-                      .map((e) => Text(
-                            "${e.level.name.toUpperCase()}: ${e.tag} ${e.message}",
-                          ))
-                      .toList(),
-                );
-              },
+                },
+              ),
             ),
           ),
         ],

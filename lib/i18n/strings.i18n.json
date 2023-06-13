@@ -86,7 +86,9 @@
       "title": "Advanced Settings",
       "logs": {
         "open": "open logs",
-        "title": "Logs"
+        "title": "Logs",
+        "shareFile": "Share logs",
+        "shareJson": "Share logs as json text"
       }
     }
   }
