@@ -89,6 +89,10 @@
         "title": "Logs",
         "shareFile": "Logs teilen",
         "shareJson": "Logs als Json Text teilen"
+      },
+      "clearCaches": {
+        "title": "Cache leeren",
+        "snackbar": "Cache geleert"
       }
     }
   }
