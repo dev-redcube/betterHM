@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -34,12 +36,45 @@ class _LogsScreenState extends State<LogsScreen> {
     await Share.share(json, subject: t.settings.advanced.logs.shareJson);
   }
 
+  deleteLogs(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(t.settings.advanced.logs.clear.title),
+        content: Text(t.settings.advanced.logs.clear.description),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (mounted) context.pop();
+            },
+            child: Text(t.settings.advanced.logs.clear.cancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              await LoggerStatic().clearLogs();
+              if (mounted) context.pop();
+            },
+            child: Text(
+              t.settings.advanced.logs.clear.confirm,
+              style: TextStyle(color: context.theme.colorScheme.error),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.settings.advanced.logs.title),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_forever_rounded),
+            onPressed: () async => await deleteLogs(context),
+            tooltip: t.settings.advanced.logs.clear.title,
+          ),
           IconButton(
             icon: const Icon(Icons.upload_file_rounded),
             onPressed: () async => await shareFile(),

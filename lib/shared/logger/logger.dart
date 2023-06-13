@@ -56,6 +56,8 @@ class LoggerStatic extends IsarService {
     return await _isar.logEntries.where().sortByTimestamp().exportJson();
   }
 
+  Future<void> clearLogs() async => await _isar.writeTxn(() => _isar.clear());
+
   void _write(LogEntry entry) async {
     await _isar.writeTxn(() async {
       _isar.logEntries.put(entry);
