@@ -89,6 +89,10 @@
         "title": "Logs",
         "shareFile": "Share logs",
         "shareJson": "Share logs as json text"
+      },
+      "clearCaches": {
+        "title": "clear cache",
+        "snackbar": "Cache cleared"
       }
     }
   }

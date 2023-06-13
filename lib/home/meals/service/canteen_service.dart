@@ -64,4 +64,9 @@ class CanteenService extends IsarService {
       await isar.canteens.putAll(canteens);
     });
   }
+
+  clearCanteens() async {
+    final isar = await db;
+    await isar.writeTxn(() => isar.canteens.clear());
+  }
 }
