@@ -81,6 +81,25 @@
     "mealplan": {
       "title": "Mealplan",
       "showFoodLabels": "Show Food Labels"
+    },
+    "advanced": {
+      "title": "Advanced Settings",
+      "logs": {
+        "open": "open logs",
+        "title": "Logs",
+        "shareFile": "Share logs",
+        "shareJson": "Share logs as json text",
+        "clear": {
+          "title": "Clear logs",
+          "description": "are you sure?",
+          "cancel": "cancel",
+          "confirm": "confirm"
+        }
+      },
+      "clearCaches": {
+        "title": "clear cache",
+        "snackbar": "Cache cleared"
+      }
     }
   }
 }

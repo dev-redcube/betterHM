@@ -1,6 +1,7 @@
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/settings/logs/logs_screen.dart';
 import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/main_drawer.dart';
 import 'package:better_hm/shared/prefs.dart';
@@ -47,6 +48,12 @@ final router = GoRouter(
       path: "/settings",
       parentNavigatorKey: _rootKey,
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      name: "logs",
+      path: "/logs",
+      parentNavigatorKey: _rootKey,
+      builder: (context, state) => const LogsScreen(),
     ),
   ],
 );

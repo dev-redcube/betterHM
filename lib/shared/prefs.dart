@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -97,9 +98,7 @@ abstract class IPref<T> extends ValueNotifier<T> {
   @override
   T get value {
     if (!loaded && !Prefs.testingMode && Prefs.warnIfPrefAccessedBeforeLoaded) {
-      if (kDebugMode) {
-        print("WARNING: Pref '$key' accessed before it was loaded.");
-      }
+      Logger("prefs").warning("Pref '$key' accessed before it was loaded");
     }
     return super.value;
   }
@@ -231,7 +230,7 @@ class PlainPref<T> extends IPref<T> {
         return _prefs!.get(key) as T?;
       }
     } catch (e) {
-      if (kDebugMode) print("Error loading $key: $e");
+      Logger("prefs").error("Error loading $key: $e");
       return null;
     }
   }

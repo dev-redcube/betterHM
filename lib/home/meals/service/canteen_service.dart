@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/service/api_canteen.dart';
+import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/service/isar_service.dart';
 import 'package:isar/isar.dart';
 
@@ -28,11 +27,14 @@ class CanteenService extends IsarService {
     "MENSA_STRAUBING",
   ];
 
+  static const loggerTag = "canteen service";
+
   Future<List<Canteen>> getCanteens() async {
     final isar = await db;
+    final Logger logger = Logger(loggerTag);
     final List<Canteen> canteens = await isar.canteens.where().findAll();
     if (canteens.isEmpty) {
-      log("Fetching Canteens from Server...");
+      logger.info("Cache is Empty. Fetching Canteens from Server...");
       var canteens = await ApiCanteen().getCanteens();
 
       // filter and sort
@@ -61,5 +63,10 @@ class CanteenService extends IsarService {
       }
       await isar.canteens.putAll(canteens);
     });
+  }
+
+  clearCanteens() async {
+    final isar = await db;
+    await isar.writeTxn(() => isar.canteens.clear());
   }
 }

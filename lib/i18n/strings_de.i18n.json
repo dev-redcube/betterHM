@@ -81,6 +81,25 @@
     "mealplan": {
       "title": "Essensplan",
       "showFoodLabels": "Allergene anzeigen"
+    },
+    "advanced": {
+      "title": "Erweitert",
+      "logs": {
+        "open": "Logs öffnen",
+        "title": "Logs",
+        "shareFile": "Logs teilen",
+        "shareJson": "Logs als Json Text teilen",
+        "clear": {
+          "title": "Logs leeren",
+          "description": "Sind sie sicher?",
+          "cancel": "Abbrechen",
+          "confirm": "Löschen"
+        }
+      },
+      "clearCaches": {
+        "title": "Cache leeren",
+        "snackbar": "Cache geleert"
+      }
     }
   }
 }

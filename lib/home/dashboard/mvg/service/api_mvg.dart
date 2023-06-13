@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/mvg/departure.dart';
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
+import 'package:better_hm/shared/logger/logger.dart';
 import 'package:http/http.dart' as http;
 
 /// API for MVG
@@ -63,6 +64,7 @@ const lineIdsLothstr = [
 
 class ApiMvg {
   static const baseUrl = "www.mvv-muenchen.de";
+  static const loggerTag = "mvg service";
 
   Future<List<Departure>> getDepartures({
     http.Client? client,
@@ -70,6 +72,9 @@ class ApiMvg {
     required List<String> lineIds,
   }) async {
     assert(lineIds.isNotEmpty, "Specify at least one lineId");
+    final logger = Logger(loggerTag);
+
+    logger.info("Fetching departures for stop $stopId");
 
     client ??= http.Client();
 
@@ -89,12 +94,20 @@ class ApiMvg {
 
     final response = await client.get(uri);
     if (200 == response.statusCode) {
-      final json = jsonDecode(utf8.decode(response.bodyBytes));
-      List<dynamic> departures = json["departures"];
-      final List<Departure> departuresParsed =
-          departures.map((e) => Departure.fromJson(e)).toList();
-      return departuresParsed;
+      try {
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
+        List<dynamic> departures = json["departures"];
+        final List<Departure> departuresParsed =
+            departures.map((e) => Departure.fromJson(e)).toList();
+        return departuresParsed;
+      } catch (e) {
+        logger.error("Error parsing MVG API", response.body);
+        throw ApiException(message: "Error parsing MVG API");
+      }
     }
+
+    logger.error("API status code is not 200",
+        "${response.statusCode}: ${response.body}");
     throw ApiException(response: response);
   }
 }
