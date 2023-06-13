@@ -7,8 +7,8 @@ import 'package:better_hm/home/dashboard/semester_status/api_semester_status.dar
 import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
 import 'package:better_hm/home/dashboard/semester_status/semester_status.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -149,7 +149,7 @@ class ManageCardsButton extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     context.pop();
-                    if (kDebugMode) print("SAVING: $cardsToDisplay");
+                    Logger("dashboard").debug("saving cards $cardsToDisplay");
                     Prefs.cardsToDisplay.value = cardsToDisplay;
                     Prefs.cardsToDisplay.notifyListeners();
                   },

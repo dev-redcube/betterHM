@@ -81,6 +81,15 @@
     "mealplan": {
       "title": "Mealplan",
       "showFoodLabels": "Show Food Labels"
+    },
+    "advanced": {
+      "title": "Advanced Settings",
+      "logs": {
+        "open": "open logs",
+        "title": "Logs",
+        "shareFile": "Share logs",
+        "shareJson": "Share logs as json text"
+      }
     }
   }
 }

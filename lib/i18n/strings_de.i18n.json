@@ -81,6 +81,15 @@
     "mealplan": {
       "title": "Essensplan",
       "showFoodLabels": "Allergene anzeigen"
+    },
+    "advanced": {
+      "title": "Erweitert",
+      "logs": {
+        "open": "Logs öffnen",
+        "title": "Logs",
+        "shareFile": "Logs teilen",
+        "shareJson": "Logs als Json Text teilen"
+      }
     }
   }
 }

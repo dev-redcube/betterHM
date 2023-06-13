@@ -1,13 +1,15 @@
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/app_info.dart';
-import 'package:better_hm/settings/settings_dropdown.dart';
-import 'package:better_hm/settings/settings_switch.dart';
+import 'package:better_hm/settings/sections/advanced.dart';
+import 'package:better_hm/settings/sections/general.dart';
+import 'package:better_hm/settings/sections/mealplan.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+  static const initiallyExpanded = true;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -45,54 +47,18 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  static const initiallyExpanded = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.settings.app_bar),
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const AppInfo(),
-          ExpansionTile(
-            initiallyExpanded: initiallyExpanded,
-            leading: const Icon(Icons.app_settings_alt_rounded),
-            title: Text(t.settings.general.title),
-            shape: Border.all(color: Colors.transparent),
-            children: [
-              SettingsDropdown(
-                title: t.settings.general.initialLocation.title,
-                pref: Prefs.initialLocation,
-                options: [
-                  DropdownItem(
-                      t.settings.general.initialLocation.dashboard, "/"),
-                  DropdownItem(
-                      t.settings.general.initialLocation.mealplan, "/meals"),
-                ],
-              ),
-            ],
-          ),
-          // ExpansionTile(
-          //   initiallyExpanded: initiallyExpanded,
-          //   leading: const Icon(Icons.home_rounded),
-          //   title: Text(t.settings.dashboard.title),
-          //   shape: Border.all(color: Colors.transparent),
-          //   children: [],
-          // ),
-          ExpansionTile(
-            initiallyExpanded: initiallyExpanded,
-            leading: const Icon(Icons.restaurant_rounded),
-            title: Text(t.settings.mealplan.title),
-            shape: Border.all(color: Colors.transparent),
-            children: [
-              SettingsSwitch(
-                title: t.settings.mealplan.showFoodLabels,
-                pref: Prefs.showFoodLabels,
-              )
-            ],
-          )
+          AppInfo(),
+          GeneralSettingsSection(),
+          MealplanSettingsSection(),
+          AdvancedSettingsSection(),
         ],
       ),
     );
