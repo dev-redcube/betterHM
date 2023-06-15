@@ -15,7 +15,8 @@ class NextDepartures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sorted = departures
-      ..sort((a, b) => a.departureLive.compareTo(b.departureLive));
+      ..sort((a, b) => (a.departureLive ?? a.departurePlanned)
+          .compareTo(b.departureLive ?? b.departurePlanned));
     final items = sorted.take(5).toList();
     return DashboardCardWidget(
       child: ListView.builder(
@@ -24,14 +25,18 @@ class NextDepartures extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final departure = items[index];
-          return ListTile(
-            leading: Text(departure.line.number),
-            title: Text(departure.direction),
-            contentPadding: EdgeInsets.zero,
-            dense: false,
-            visualDensity: const VisualDensity(vertical: -4),
-            trailing: DepartureTimer(departure: departure),
-          );
+          if (departure.departureLive != null || departure.error != null) {
+            return ListTile(
+              leading: Text(departure.line.number),
+              title: Text(departure.direction),
+              contentPadding: EdgeInsets.zero,
+              dense: false,
+              visualDensity: const VisualDensity(vertical: -4),
+              trailing: DepartureTimer(departure: departure),
+            );
+          }
+          // no departure time and no error, don't display this row
+          return null;
         },
       ),
     );
@@ -76,8 +81,10 @@ class _DepartureTimerState extends State<DepartureTimer> {
   @override
   void initState() {
     super.initState();
-    _remaining = widget.departure.departureLive.difference(now());
-    startTimer();
+    if (widget.departure.departureLive != null) {
+      _remaining = widget.departure.departureLive!.difference(now());
+      startTimer();
+    }
   }
 
   @override
@@ -88,11 +95,14 @@ class _DepartureTimerState extends State<DepartureTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "${_remaining.inMinutes}:${(_remaining.inSeconds % 60).toString().padLeft(2, "0")}",
-      style: const TextStyle(
-        fontFeatures: [FontFeature.tabularFigures()],
-      ),
-    );
+    if (widget.departure.departureLive != null) {
+      return Text(
+        "${_remaining.inMinutes}:${(_remaining.inSeconds % 60).toString().padLeft(2, "0")}",
+        style: const TextStyle(
+          fontFeatures: [FontFeature.tabularFigures()],
+        ),
+      );
+    }
+    return Text(widget.departure.error!);
   }
 }
