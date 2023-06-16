@@ -46,6 +46,7 @@ dependencies:
   slang: ^3.17.0
   slang_flutter: ^3.17.0
   package_info_plus: ^4.0.2
+  mockito: ^5.4.2
   share_plus: ^7.0.2
 
 dev_dependencies:
