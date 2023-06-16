@@ -8,8 +8,7 @@ WORKDIR /home/codespace
 ENV PUB_CACHE=/home/codespace/.pub_cache
 ENV PATH="/home/codespace/flutter/bin:/home/codespace/android-sdk/cmdline-tools/latest/bin:$PATH"
 
-RUN git clone https://github.com/flutter/flutter && \
-    /home/codespace/flutter/bin/flutter config --enable-web
+RUN git clone https://github.com/flutter/flutter
 
 RUN wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && \
     unzip commandlinetools-linux-9477386_latest.zip && \
@@ -25,3 +24,5 @@ RUN flutter config --android-sdk /home/codespace/android-sdk
 RUN yes | sdkmanager --licenses
 
 RUN dart --disable-analytics
+
+RUN sh /workspaces/betterHM/setup.sh
