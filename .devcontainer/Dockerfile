@@ -24,5 +24,3 @@ RUN flutter config --android-sdk /home/codespace/android-sdk
 RUN yes | sdkmanager --licenses
 
 RUN dart --disable-analytics
-
-RUN sh /workspaces/betterHM/setup.sh
