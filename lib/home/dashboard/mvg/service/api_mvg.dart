@@ -97,9 +97,7 @@ class ApiMvg {
       try {
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         List<dynamic> departures = json["departures"];
-        final List<Departure> departuresParsed =
-            departures.map((e) => Departure.fromJson(e)).toList();
-        return departuresParsed;
+        return parseDepartures(departures);
       } catch (e) {
         logger.error("Error parsing MVG API", response.body);
         throw ApiException(message: "Error parsing MVG API");
@@ -110,4 +108,7 @@ class ApiMvg {
         "${response.statusCode}: ${response.body}");
     throw ApiException(response: response);
   }
+
+  List<Departure> parseDepartures(List<dynamic> departures) =>
+      departures.map((e) => Departure.fromJson(e)).toList();
 }
