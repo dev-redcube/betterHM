@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:better_hm/home/dashboard/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/mvg/service/api_mvg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:mockito/annotations.dart';
 
-@GenerateMocks([http.Client])
 void main() {
   test("Parsing departures works", () async {
     final Map<String, dynamic> json = jsonDecode(
