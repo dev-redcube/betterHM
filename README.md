@@ -20,6 +20,7 @@ Wer einen Link zu den nightly-builds vom master branch haben will, kontaktiert m
 - bald: Dashboard mit aktuellen Informationen
 
 ## Setup
+### Lokal:
 
 Dies ist unter der Annahme, dass [flutter](https://flutter.dev) bereits installiert ist
 
@@ -31,3 +32,14 @@ cd better_hm
 # setup commit hooks, get dependencies, run build-runner
 ./setup.sh
 ```
+
+### Codespace:
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Huber1/betterHM?quickstart=1)
+
+dann:
+```bash
+./setup.sh
+```
+
+> WARNUNG: Codespaces ist ein Angebot von Github, welches Geld kostet (sofern Limits überschritten werden). Informiere dich bitte über dein Limit bevor du dieses Angebot wahrnimmst
