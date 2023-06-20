@@ -2,6 +2,8 @@
 /bin/cp -f hooks/pre-commit.sh .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 
+flutter clean
+
 # get dependencies
 flutter pub get
 
