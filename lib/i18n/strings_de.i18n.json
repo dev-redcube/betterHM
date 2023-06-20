@@ -23,6 +23,10 @@
     "settings": "Einstellungen"
   },
   "dashboard": {
+    "error": {
+      "text": "Mindestens eine Karte konnte nicht geladen werden",
+      "logs": "Logs"
+    },
     "cards": {
       "settings": "Settings",
       "hide": "Hide",

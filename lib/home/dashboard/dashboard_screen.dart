@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/manage_cards.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockito/mockito.dart';
 
 DashboardCard? getCardFromId(String cardId) =>
     cards.where((element) => element.cardId == cardId).firstOrNull;
@@ -19,6 +23,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late List<DashboardCard> cardsToDisplay;
+  final logger = Logger("dashboard");
 
   @override
   void initState() {
@@ -49,30 +54,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
     final List<Widget> widgets = [];
     int index = 0;
+
     try {
       for (var element in cardsToDisplay) {
-        if (element.future == null) {
-          widgets.add(element.card(null));
-        } else {
-          final widget = element.card(results[index]);
+        if (errorWidgets.contains(element.cardId)) {
           index++;
-          widgets.add(widget);
+          continue;
         }
+        final widget = element.card(results[index]);
+        widgets.add(widget);
+        index++;
       }
     } catch (e) {
+      logger.e(
+          "error in resultsToWidgets: $e. THIS CATCH SHOULD NEVER BE TRIGGERED");
       return [];
     }
 
     return widgets;
   }
 
+  final errorWidgets = <dynamic>{};
+
   @override
   Widget build(BuildContext context) {
     final futures = cardsToDisplay
-        .where((e) => e.future != null)
-        .map((e) => e.future!())
-        .cast<Future<dynamic>>();
-
+        .map(
+          (e) => e.future().timeout(const Duration(seconds: 5)).onError(
+            (error, stackTrace) {
+              errorWidgets.add(e.cardId);
+              logger.e(
+                  "Card ${e.cardId} failed to load in 5 seconds. Skipping this one");
+            },
+          ),
+        )
+        // .cast<Future<dynamic>>()
+        .toList();
     return FutureBuilder(
         future: Future.wait(futures),
         builder: (context, snapshot) {
@@ -82,11 +99,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: LinearProgressIndicator(),
             );
           }
-
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: ListView(
               children: [
+                if (errorWidgets.isNotEmpty) errorWidget(),
                 ...resultsToWidgets(snapshot.data!),
                 ManageCardsButton(),
               ],
@@ -94,6 +111,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
           );
         });
   }
+
+  Widget errorWidget() => Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: context.theme.colorScheme.error,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                t.dashboard.error.text,
+                style: TextStyle(color: context.theme.colorScheme.onError),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                context.push("/logs");
+              },
+              child: Text(
+                t.dashboard.error.logs,
+                style: TextStyle(color: context.theme.colorScheme.onError),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 class ManageCardsButton extends StatelessWidget {

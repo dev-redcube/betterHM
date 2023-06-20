@@ -23,6 +23,10 @@
     "settings": "Settings"
   },
   "dashboard": {
+    "error": {
+      "text": "At least one Card could not be loaded",
+      "logs": "logs"
+    },
     "cards": {
       "settings": "Settings",
       "hide": "Hide",

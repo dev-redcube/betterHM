@@ -6,6 +6,7 @@ import 'package:better_hm/home/dashboard/semester_status/api_semester_status.dar
 import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
 import 'package:better_hm/home/dashboard/semester_status/semester_status.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:flutter/material.dart';
 
 final cards = <DashboardCard>{
   DashboardCard<List<SemesterEvent>>(
@@ -14,11 +15,17 @@ final cards = <DashboardCard>{
     card: (events) => SemesterStatus(events: events),
     future: () => ApiSemesterStatus().getEvents(),
   ),
-  DashboardCard<List<Departure>>(
+  // DashboardCard<List<Departure>>(
+  //   title: t.dashboard.mvg.title,
+  //   cardId: "NEXT_DEPARTURES",
+  //   card: (departures) => NextDepartures(departures: departures),
+  //   future: () =>
+  //       ApiMvg().getDepartures(stopId: stopIdLothstr, lineIds: lineIdsLothstr),
+  // ),
+  DashboardCard<void>(
     title: t.dashboard.mvg.title,
     cardId: "NEXT_DEPARTURES",
-    card: (departures) => NextDepartures(departures: departures),
-    future: () =>
-        ApiMvg().getDepartures(stopId: stopIdLothstr, lineIds: lineIdsLothstr),
+    card: (_) => const Text("MYCARD"),
+    future: () => Future.delayed(const Duration(seconds: 10)),
   )
 };
