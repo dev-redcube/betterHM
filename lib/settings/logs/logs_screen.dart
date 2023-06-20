@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
@@ -10,14 +11,24 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class LogsScreen extends StatefulWidget {
-  const LogsScreen({super.key});
+  const LogsScreen({super.key, this.levels});
+
+  final Set<LogLevel>? levels;
+
+  static const routeName = "logs";
 
   @override
   State<LogsScreen> createState() => _LogsScreenState();
 }
 
 class _LogsScreenState extends State<LogsScreen> {
-  final Set<LogLevel> selectedLevels = LogLevel.values.toSet();
+  late final Set<LogLevel> selectedLevels;
+
+  @override
+  initState() {
+    super.initState();
+    selectedLevels = widget.levels ?? LogLevel.values.toSet();
+  }
 
   shareFile() async {
     final dir = await getTemporaryDirectory();

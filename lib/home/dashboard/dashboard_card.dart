@@ -31,12 +31,12 @@ class DashboardCard<T> {
   final String title;
   final String cardId;
   final Widget Function(dynamic) card;
-  final Future<T>? Function()? future;
+  final Future<T> Function() future;
 
   DashboardCard({
     required this.title,
     required this.cardId,
     required this.card,
-    this.future,
+    required this.future,
   });
 }
