@@ -41,6 +41,7 @@ class _NextDeparturesState extends State<NextDepartures> {
         itemBuilder: (context, index) {
           final departure = items[index];
           return ListTile(
+            key: ValueKey(departure),
             leading: Text(departure.line.number),
             title: Text(departure.direction),
             contentPadding: EdgeInsets.zero,
