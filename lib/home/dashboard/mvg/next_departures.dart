@@ -7,16 +7,31 @@ import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 
 // https://stackoverflow.com/questions/53128438/android-onresume-method-equivalent-in-flutter
-class NextDepartures extends StatelessWidget {
+class NextDepartures extends StatefulWidget {
   const NextDepartures({super.key, required this.departures});
 
   final List<Departure> departures;
 
   @override
+  State<NextDepartures> createState() => _NextDeparturesState();
+}
+
+class _NextDeparturesState extends State<NextDepartures> {
+  late final List<Departure> departures;
+
+  @override
+  void initState() {
+    super.initState();
+    departures = widget.departures
+        .where((element) => element.departureLive != null)
+        .toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final sorted = departures
-      ..sort((a, b) => (a.departureLive ?? a.departurePlanned)
-          .compareTo(b.departureLive ?? b.departurePlanned));
+      ..sort((a, b) => a.departureLive!.compareTo(b.departureLive!));
+
     final items = sorted.take(5).toList();
     return DashboardCardWidget(
       child: ListView.builder(
@@ -25,18 +40,22 @@ class NextDepartures extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final departure = items[index];
-          if (departure.departureLive != null || departure.error != null) {
-            return ListTile(
-              leading: Text(departure.line.number),
-              title: Text(departure.direction),
-              contentPadding: EdgeInsets.zero,
-              dense: false,
-              visualDensity: const VisualDensity(vertical: -4),
-              trailing: DepartureTimer(departure: departure),
-            );
-          }
-          // no departure time and no error, don't display this row
-          return null;
+          return ListTile(
+            key: ValueKey(departure),
+            leading: Text(departure.line.number),
+            title: Text(departure.direction),
+            contentPadding: EdgeInsets.zero,
+            dense: false,
+            visualDensity: const VisualDensity(vertical: -4),
+            trailing: DepartureTimer(
+              departure: departure,
+              onDone: () {
+                setState(() {
+                  departures.remove(departure);
+                });
+              },
+            ),
+          );
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:better_hm/home/dashboard/cards.dart' as dashboard show cards;
 
 class ManageCardsPopup extends StatefulWidget {
   const ManageCardsPopup({super.key, this.onModify});
@@ -25,7 +26,7 @@ class _ManageCardsPopupState extends State<ManageCardsPopup> {
     cards = Prefs.cardsToDisplay.value
         .map((e) => ListItem(card: getCardFromId(e)!, selected: true))
         .toList();
-    for (var element in dashboardCards) {
+    for (var element in dashboard.cards) {
       if (!cards.any((e) => e.card.cardId == element.cardId)) {
         cards.add(ListItem(card: element, selected: false));
       }
@@ -37,7 +38,7 @@ class _ManageCardsPopupState extends State<ManageCardsPopup> {
     return SizedBox(
       width: double.maxFinite,
       child: ReorderableListView.builder(
-        itemCount: dashboardCards.length,
+        itemCount: dashboard.cards.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           final c = cards[index];
