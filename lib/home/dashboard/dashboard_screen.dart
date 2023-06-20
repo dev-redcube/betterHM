@@ -4,12 +4,12 @@ import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/manage_cards.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/settings/logs/logs_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mockito/mockito.dart';
 
 DashboardCard? getCardFromId(String cardId) =>
     cards.where((element) => element.cardId == cardId).firstOrNull;
@@ -80,11 +80,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final futures = cardsToDisplay
         .map(
-          (e) => e.future().timeout(const Duration(seconds: 5)).onError(
+          (e) => e.future().timeout(const Duration(milliseconds: 2500)).onError(
             (error, stackTrace) {
               errorWidgets.add(e.cardId);
               logger.e(
-                  "Card ${e.cardId} failed to load in 5 seconds. Skipping this one");
+                  "Card ${e.cardId} failed to load in 2.5 seconds. Skipping this one");
             },
           ),
         )
@@ -128,7 +128,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             TextButton(
               onPressed: () {
-                context.push("/logs");
+                context
+                    .pushNamed(LogsScreen.routeName, extra: {LogLevel.error});
               },
               child: Text(
                 t.dashboard.error.logs,

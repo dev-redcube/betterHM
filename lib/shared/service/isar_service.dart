@@ -14,7 +14,7 @@ class IsarService {
     if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationDocumentsDirectory();
       await Isar.open([LogEntrySchema, CanteenSchema],
-          directory: dir.path, inspector: false);
+          directory: dir.path, inspector: true);
     }
     return Future.value(Isar.getInstance());
   }
