@@ -128,8 +128,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             TextButton(
               onPressed: () {
-                context
-                    .pushNamed(LogsScreen.routeName, extra: {LogLevel.error});
+                context.pushNamed(LogsScreen.routeName, extra: {
+                  LogLevel.error,
+                  LogLevel.debug,
+                });
               },
               child: Text(
                 t.dashboard.error.logs,

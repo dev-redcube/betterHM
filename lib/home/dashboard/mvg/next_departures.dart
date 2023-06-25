@@ -16,15 +16,33 @@ class NextDepartures extends StatefulWidget {
   State<NextDepartures> createState() => _NextDeparturesState();
 }
 
-class _NextDeparturesState extends State<NextDepartures> {
+class _NextDeparturesState extends State<NextDepartures>
+    with WidgetsBindingObserver {
   late final List<Departure> departures;
 
   @override
   void initState() {
     super.initState();
+
     departures = widget.departures
         .where((element) => element.departureLive != null)
         .toList();
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      setState(() {});
+    }
   }
 
   @override

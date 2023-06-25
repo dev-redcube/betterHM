@@ -91,8 +91,10 @@ class ApiMvg {
           .toString(),
       "lines": linesEncoded,
     });
-
+    final stopwatch = Stopwatch()..start();
     final response = await client.get(uri);
+    stopwatch.stop();
+    logger.debug("MVG Api call took ${stopwatch.elapsedMilliseconds}ms");
     if (200 == response.statusCode) {
       try {
         final json = jsonDecode(utf8.decode(response.bodyBytes));
