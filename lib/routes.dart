@@ -1,3 +1,4 @@
+import 'package:better_hm/home/dashboard/cards/manage_cards_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -62,12 +63,18 @@ final router = GoRouter(
 
 final homeRoutes = <GoRoute>[
   GoRoute(
-    name: "index",
-    path: "/",
-    parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: DashboardScreen()),
-  ),
+      name: "index",
+      path: "/",
+      parentNavigatorKey: _mainShellKey,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: DashboardScreen()),
+      routes: <GoRoute>[
+        GoRoute(
+          name: ManageCardsScreen.routeName,
+          path: "manageCards",
+          builder: (context, state) => const ManageCardsScreen(),
+        ),
+      ]),
   GoRoute(
     name: "meals",
     path: "/meals",

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 DashboardCard? getCardFromId(String cardId) =>
-    cards.where((element) => element.cardId == cardId).firstOrNull;
+    cards.where((element) => element.cardType == cardId).firstOrNull;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -57,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     try {
       for (var element in cardsToDisplay) {
-        if (errorWidgets.contains(element.cardId)) {
+        if (errorWidgets.contains(element.cardType)) {
           index++;
           continue;
         }
@@ -82,9 +82,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         .map(
           (e) => e.future().timeout(const Duration(milliseconds: 2500)).onError(
             (error, stackTrace) {
-              errorWidgets.add(e.cardId);
+              errorWidgets.add(e.cardType);
               logger.e(
-                  "Card ${e.cardId} failed to load in 2.5 seconds. Skipping this one");
+                  "Card ${e.cardType} failed to load in 2.5 seconds. Skipping this one");
             },
           ),
         )
@@ -153,37 +153,7 @@ class ManageCardsButton extends StatelessWidget {
     return Center(
       child: OutlinedButton(
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text(t.dashboard.cards.manage.title),
-              scrollable: false,
-              content: ManageCardsPopup(
-                onModify: (cards) {
-                  cardsToDisplay
-                    ..clear()
-                    ..addAll(cards);
-                },
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  child: Text(t.dashboard.cards.manage.cancel),
-                ),
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                    Logger("dashboard").debug("saving cards $cardsToDisplay");
-                    Prefs.cardsToDisplay.value = cardsToDisplay;
-                    Prefs.cardsToDisplay.notifyListeners();
-                  },
-                  child: Text(t.dashboard.cards.manage.save),
-                ),
-              ],
-            ),
-          );
+          context.push(location);
         },
         child: Text(t.dashboard.cards.manage.title),
       ),

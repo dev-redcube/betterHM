@@ -27,7 +27,7 @@ class _ManageCardsPopupState extends State<ManageCardsPopup> {
         .map((e) => ListItem(card: getCardFromId(e)!, selected: true))
         .toList();
     for (var element in dashboard.cards) {
-      if (!cards.any((e) => e.card.cardId == element.cardId)) {
+      if (!cards.any((e) => e.card.cardType == element.cardType)) {
         cards.add(ListItem(card: element, selected: false));
       }
     }
@@ -52,7 +52,7 @@ class _ManageCardsPopupState extends State<ManageCardsPopup> {
               widget.onModify?.call(
                 cards
                     .where((element) => element.selected)
-                    .map((e) => e.card.cardId)
+                    .map((e) => e.card.cardType)
                     .toList(),
               );
             },
@@ -69,7 +69,7 @@ class _ManageCardsPopupState extends State<ManageCardsPopup> {
           widget.onModify?.call(
             cards
                 .where((element) => element.selected)
-                .map((e) => e.card.cardId)
+                .map((e) => e.card.cardType)
                 .toList(),
           );
         },

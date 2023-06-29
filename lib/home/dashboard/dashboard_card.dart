@@ -1,3 +1,4 @@
+import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:flutter/material.dart';
 
 class DashboardCardWidget extends StatelessWidget {
@@ -29,13 +30,13 @@ class DashboardCardWidget extends StatelessWidget {
 
 class DashboardCard<T> {
   final String title;
-  final String cardId;
+  final CardType cardType;
   final Widget Function(dynamic) card;
   final Future<T> Function() future;
 
   DashboardCard({
     required this.title,
-    required this.cardId,
+    required this.cardType,
     required this.card,
     required this.future,
   });

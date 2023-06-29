@@ -10,15 +10,21 @@ import 'package:better_hm/i18n/strings.g.dart';
 final cards = <DashboardCard>{
   DashboardCard<List<SemesterEvent>>(
     title: t.dashboard.statusCard.title,
-    cardId: "SEMESTER_STATUS",
+    cardType: CardType.semesterStatus,
     card: (events) => SemesterStatus(events: events),
     future: () => ApiSemesterStatus().getEvents(),
   ),
   DashboardCard<List<Departure>>(
     title: t.dashboard.mvg.title,
-    cardId: "NEXT_DEPARTURES",
+    cardType: CardType.nextDepartures,
     card: (departures) => NextDepartures(departures: departures),
     future: () =>
         ApiMvg().getDepartures(stopId: stopIdLothstr, lineIds: lineIdsLothstr),
   ),
 };
+
+enum CardType {
+  unknown,
+  semesterStatus,
+  nextDepartures,
+}
