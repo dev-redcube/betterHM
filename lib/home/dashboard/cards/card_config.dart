@@ -1,28 +1,22 @@
 import 'package:better_hm/home/dashboard/cards.dart';
-import 'package:better_hm/shared/models/serializable.dart';
-import 'package:flutter/material.dart';
+import 'package:better_hm/home/dashboard/cards/saved_card.dart';
+import 'package:flutter/widgets.dart';
 
-class CardConfig implements Serializable {
-  final CardType cardType;
-  final Map<String, dynamic>? settings;
+class CardConfig extends SavedCard {
+  final Widget Function() widget;
+
+  SavedCard get savable => this;
 
   CardConfig({
-    required this.cardType,
-    this.settings,
+    required super.cardType,
+    required this.widget,
   });
 
-  @override
-  fromJson(Map<String, dynamic> json) => CardConfig(
-        cardType: CardType.values.firstWhere(
-          (element) => element.name == json["cardType"],
-          orElse: () => CardType.unknown,
-        ),
-        settings: json["settings"],
+  factory CardConfig.fromSaved(SavedCard saved) => CardConfig(
+        cardType: saved.cardType,
+        widget: cards[saved.cardType]!.widget,
       );
 
-  @override
-  Map<String, dynamic> toJson() => {
-        "cardType": cardType.name,
-        "settings": settings,
-      };
+  factory CardConfig.fromJson(Map<String, dynamic> json) =>
+      CardConfig.fromSaved(SavedCard.fromJson(json));
 }

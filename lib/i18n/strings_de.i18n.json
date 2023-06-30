@@ -27,14 +27,9 @@
       "text": "Mindestens eine Karte konnte nicht geladen werden",
       "logs": "Logs"
     },
-    "cards": {
-      "settings": "Settings",
-      "hide": "Hide",
-      "manage": {
-        "title": "Karten verwalten",
-        "cancel": "abbrechen",
-        "save": "Speichern"
-      }
+    "manage": {
+      "manageCards": "Manage Cards",
+      "title": "Manage Cards"
     },
     "statusCard": {
       "title": "Semesterinformationen",

@@ -1,30 +1,22 @@
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/mvg/departure.dart';
-import 'package:better_hm/home/dashboard/mvg/next_departures.dart';
-import 'package:better_hm/home/dashboard/mvg/service/api_mvg.dart';
-import 'package:better_hm/home/dashboard/semester_status/api_semester_status.dart';
-import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
-import 'package:better_hm/home/dashboard/semester_status/semester_status.dart';
-import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/home/dashboard/cards/card_config.dart';
+import 'package:flutter/material.dart';
 
-final cards = <DashboardCard>{
-  DashboardCard<List<SemesterEvent>>(
-    title: t.dashboard.statusCard.title,
+final cards = <CardType, CardConfig>{
+  CardType.semesterStatus: CardConfig(
     cardType: CardType.semesterStatus,
-    card: (events) => SemesterStatus(events: events),
-    future: () => ApiSemesterStatus().getEvents(),
+    widget: () => const Text("SEMESTER STATUS"),
   ),
-  DashboardCard<List<Departure>>(
-    title: t.dashboard.mvg.title,
+  CardType.nextDepartures: CardConfig(
     cardType: CardType.nextDepartures,
-    card: (departures) => NextDepartures(departures: departures),
-    future: () =>
-        ApiMvg().getDepartures(stopId: stopIdLothstr, lineIds: lineIdsLothstr),
+    widget: () => const Text("NEXT_DEPARTURES"),
   ),
 };
 
 enum CardType {
-  unknown,
   semesterStatus,
-  nextDepartures,
+  nextDepartures;
+
+  String serialize() => name;
+
+  static CardType deserialize(String string) => values.byName(string);
 }

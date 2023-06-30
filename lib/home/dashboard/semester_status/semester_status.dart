@@ -1,4 +1,3 @@
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/semester_status/deadlines_appointments.dart';
 import 'package:better_hm/home/dashboard/semester_status/semester_progress.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -6,6 +5,8 @@ import 'package:better_hm/home/dashboard/semester_status/models/semester_event.d
 import 'package:better_hm/home/dashboard/semester_status/models/semester_event_with_single_date.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+
+import 'package:better_hm/home/dashboard/dashboard_card.dart';
 
 class SemesterStatus extends StatelessWidget {
   const SemesterStatus({Key? key, required this.events}) : super(key: key);
@@ -19,7 +20,7 @@ class SemesterStatus extends StatelessWidget {
     final SemesterEventWithSingleDate? lectureTime =
         eventsC.where((element) => element.tag == "lecture_period").firstOrNull;
 
-    return DashboardCardWidget(
+    return DashboardCard(
       padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 450),

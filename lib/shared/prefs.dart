@@ -25,7 +25,6 @@ abstract class Prefs {
   static late final PlainPref<String> initialLocation;
 
   // Dashboard
-  static late final PlainPref<List<String>> cardsToDisplay;
   static late final PlainPref<List<String>> cards;
   static late final PlainPref<int> mvgLeadTime;
 
@@ -34,7 +33,6 @@ abstract class Prefs {
 
   static void init() {
     initialLocation = PlainPref("initialLocation", "/");
-    cardsToDisplay = PlainPref("cardsToDisplay", []);
     cards = PlainPref("cards", []);
     mvgLeadTime = PlainPref("mvgLeadTime", 1);
     showFoodLabels = PlainPref("showFoodLabels", true);

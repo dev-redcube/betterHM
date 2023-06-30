@@ -51,7 +51,7 @@ class _NextDeparturesState extends State<NextDepartures>
       ..sort((a, b) => a.departureLive!.compareTo(b.departureLive!));
 
     final items = sorted.take(5).toList();
-    return DashboardCardWidget(
+    return DashboardCard(
       child: ListView.builder(
         itemCount: items.length,
         shrinkWrap: true,
