@@ -37,6 +37,17 @@ class _ManageCardsScreenState extends State<ManageCardsScreen> {
     super.dispose();
   }
 
+  Widget proxyDecorator(Widget child, int index, Animation<double> animation) =>
+      AnimatedBuilder(
+        animation: animation,
+        builder: (context, Widget? child) {
+          return Material(
+            child: child,
+          );
+        },
+        child: child,
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,18 +59,25 @@ class _ManageCardsScreenState extends State<ManageCardsScreen> {
           : ReorderableListView.builder(
               itemCount: cards.length,
               itemBuilder: (context, index) {
+                final card = cards[index];
                 return CardListTile(
+                  key: ObjectKey(card),
                   index: index,
-                  config: cards[index],
+                  config: card,
+                  onDelete: () {
+                    CardService.saveCards(cards..remove(card));
+                  },
                 );
               },
               buildDefaultDragHandles: false,
+              proxyDecorator: proxyDecorator,
               onReorder: (int oldIndex, int newIndex) {
                 if (oldIndex < newIndex) {
                   newIndex -= 1;
                 }
                 final item = cards.removeAt(oldIndex);
                 cards.insert(newIndex, item);
+                CardService.saveCards(cards);
               },
             ),
       floatingActionButton: FloatingActionButton(
@@ -80,9 +98,9 @@ class _ManageCardsScreenState extends State<ManageCardsScreen> {
               ],
             ),
           );
-          if(config != null) {
+          if (config != null) {
             final c = cards..add(config);
-            Prefs.cards.value = CardService.saveCards(c);
+            CardService.saveCards(c);
           }
         },
         child: const Icon(Icons.add_rounded),

@@ -35,17 +35,19 @@
         "cancel": "abbrechen"
       }
     },
-    "statusCard": {
-      "title": "Semesterinformationen",
-      "summer_semester": "Sommersemester",
-      "winter_semester": "Wintersemester",
-      "deadlines_appointments": "Fristen & Termine",
-      "no_data": "Keine Termine oder Fehler beim Laden",
-      "today": "Heute",
-      "tomorrow": "Morgen"
-    },
-    "mvg": {
-      "title": "Abfahrtszeiten"
+    "cards": {
+      "semesterStatus": {
+        "title": "Semesterinformationen",
+        "summer_semester": "Sommersemester",
+        "winter_semester": "Wintersemester",
+        "deadlines_appointments": "Fristen & Termine",
+        "no_data": "Keine Termine oder Fehler beim Laden",
+        "today": "Heute",
+        "tomorrow": "Morgen"
+      },
+      "nextDepartures": {
+        "title": "Abfahrtszeiten"
+      }
     }
   },
   "mealplan": {
