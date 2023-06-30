@@ -72,7 +72,8 @@ final homeRoutes = <GoRoute>[
         GoRoute(
           name: ManageCardsScreen.routeName,
           path: "manageCards",
-          builder: (context, state) => const ManageCardsScreen(),
+          parentNavigatorKey: _rootKey,
+          builder: (context, state) => ManageCardsScreen(),
         ),
       ]),
   GoRoute(

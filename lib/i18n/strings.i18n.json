@@ -29,7 +29,11 @@
     },
     "manage": {
       "manageCards": "Manage Cards",
-      "title": "Manage Cards"
+      "title": "Manage Cards",
+      "add": {
+        "title": "Add Card",
+        "cancel": "cancel"
+      }
     },
     "statusCard": {
       "title": "Semester Information",

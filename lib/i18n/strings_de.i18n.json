@@ -28,8 +28,12 @@
       "logs": "Logs"
     },
     "manage": {
-      "manageCards": "Manage Cards",
-      "title": "Manage Cards"
+      "manageCards": "Karten verwalten",
+      "title": "Karten verwalten",
+      "add": {
+        "title": "Karte hinzufügen",
+        "cancel": "abbrechen"
+      }
     },
     "statusCard": {
       "title": "Semesterinformationen",

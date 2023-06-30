@@ -1,9 +1,11 @@
 import 'package:better_hm/home/dashboard/cards/card_config.dart';
 import 'package:better_hm/home/dashboard/cards/card_service.dart';
+import 'package:better_hm/home/dashboard/cards/manage_cards_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -57,9 +59,9 @@ class ManageCardsButton extends StatelessWidget {
     return Center(
       child: OutlinedButton(
         onPressed: () {
-          print("MANAGE");
+          context.pushNamed(ManageCardsScreen.routeName);
         },
-        child: Text(t.dashboard.cards.manage.title),
+        child: Text(t.dashboard.manage.title),
       ),
     );
   }
