@@ -1,4 +1,6 @@
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
+import 'package:better_hm/home/dashboard/cards.dart';
+import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/semester_status/deadlines_appointments.dart';
 import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
 import 'package:better_hm/home/dashboard/semester_status/models/semester_event_with_single_date.dart';
