@@ -35,17 +35,19 @@
         "cancel": "cancel"
       }
     },
-    "statusCard": {
-      "title": "Semester Information",
-      "summer_semester": "Summer semester",
-      "winter_semester": "Winter semester",
-      "deadlines_appointments": "Deadlines and appointments",
-      "no_data": "No Appointments or error fetching",
-      "today": "Today",
-      "tomorrow": "Tomorrow"
-    },
-    "mvg": {
-      "title": "Next Departures"
+    "cards": {
+      "semesterStatus": {
+        "title": "Semester Information",
+        "summer_semester": "Summer semester",
+        "winter_semester": "Winter semester",
+        "deadlines_appointments": "Deadlines and appointments",
+        "no_data": "No Appointments or error fetching",
+        "today": "Today",
+        "tomorrow": "Tomorrow"
+      },
+      "nextDepartures": {
+        "title": "Next Departures"
+      }
     }
   },
   "mealplan": {

@@ -16,9 +16,9 @@ class EventWidget extends StatelessWidget {
 
     // Only one date
     if (event.start.onlyDate == today()) {
-      return t.dashboard.statusCard.today;
+      return t.dashboard.cards.semesterStatus.today;
     } else if (event.start.onlyDate == tomorrow()) {
-      return t.dashboard.statusCard.tomorrow;
+      return t.dashboard.cards.semesterStatus.tomorrow;
     } else {
       return "${event.start.day}.${event.start.month}.";
     }

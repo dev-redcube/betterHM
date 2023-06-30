@@ -26,7 +26,7 @@ class DeadlinesAppointments extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(t.dashboard.statusCard.deadlines_appointments,
+        Text(t.dashboard.cards.semesterStatus.deadlines_appointments,
             style: context.theme.textTheme.headlineSmall),
         const SizedBox(height: 8),
         Expanded(

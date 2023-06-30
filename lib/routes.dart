@@ -10,11 +10,11 @@ import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final _rootKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainShellKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
-  navigatorKey: _rootKey,
+  navigatorKey: rootNavigatorKey,
   initialLocation: Prefs.initialLocation.value,
   routes: [
     ShellRoute(
@@ -48,13 +48,13 @@ final router = GoRouter(
     GoRoute(
       name: SettingsScreen.routeName,
       path: "/settings",
-      parentNavigatorKey: _rootKey,
+      parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) => const SettingsScreen(),
     ),
     GoRoute(
       name: LogsScreen.routeName,
       path: "/logs",
-      parentNavigatorKey: _rootKey,
+      parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) =>
           LogsScreen(levels: state.extra as Set<LogLevel>?),
     ),
@@ -72,8 +72,8 @@ final homeRoutes = <GoRoute>[
         GoRoute(
           name: ManageCardsScreen.routeName,
           path: "manageCards",
-          parentNavigatorKey: _rootKey,
-          builder: (context, state) => ManageCardsScreen(),
+          parentNavigatorKey: rootNavigatorKey,
+          builder: (context, state) => const ManageCardsScreen(),
         ),
       ]),
   GoRoute(
