@@ -1,22 +1,15 @@
-import 'package:better_hm/home/dashboard/cards/card_config.dart';
-import 'package:flutter/material.dart';
+import 'package:better_hm/home/dashboard/card_config.dart';
+import 'package:better_hm/shared/models/tuple.dart';
 
-final cards = <CardType, CardConfig>{
-  CardType.semesterStatus: CardConfig(
-    cardType: CardType.semesterStatus,
-    widget: () => const Text("SEMESTER STATUS"),
-  ),
-  CardType.nextDepartures: CardConfig(
-    cardType: CardType.nextDepartures,
-    widget: () => const Text("NEXT_DEPARTURES"),
-  ),
-};
+typedef CardWithType = Tuple<CardType, CardConfig>;
+typedef CardsList = List<CardWithType>;
 
 enum CardType {
   semesterStatus,
   nextDepartures;
 
-  String serialize() => name;
+  @override
+  String toString() => name;
 
-  static CardType deserialize(String string) => values.byName(string);
+  static CardType fromString(String string) => values.byName(string);
 }

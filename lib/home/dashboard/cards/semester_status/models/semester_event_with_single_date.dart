@@ -1,4 +1,4 @@
-import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
+import 'package:better_hm/home/dashboard/cards/semester_status/models/semester_event.dart';
 import 'package:better_hm/shared/models/date_tuple.dart';
 
 class SemesterEventWithSingleDate extends DateTuple {

@@ -1,4 +1,4 @@
-import 'package:better_hm/home/dashboard/mvg/departure.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const json = {

@@ -1,4 +1,4 @@
-import 'package:better_hm/home/dashboard/mvg/line.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/line.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

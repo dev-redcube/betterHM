@@ -1,17 +1,19 @@
-import 'package:better_hm/home/dashboard/cards/card_config.dart';
+import 'package:better_hm/home/dashboard/card_config.dart';
+import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
+import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
 
 class CardListTile extends StatelessWidget {
   const CardListTile({
     super.key,
     required this.index,
-    required this.config,
+    required this.card,
     this.onDelete,
   });
 
   final int index;
-  final CardConfig config;
+  final Tuple<CardType, CardConfig> card;
   final Function()? onDelete;
 
   @override
@@ -31,7 +33,7 @@ class CardListTile extends StatelessWidget {
                 // TODO i18n
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(config.cardType.name,
+                  child: Text(card.item1.name,
                       style: context.theme.textTheme.bodyLarge),
                 ),
               ),

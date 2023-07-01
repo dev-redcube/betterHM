@@ -1,11 +1,11 @@
-import 'package:better_hm/home/dashboard/cards/card_config.dart';
-import 'package:better_hm/home/dashboard/cards/card_service.dart';
-import 'package:better_hm/home/dashboard/cards/manage_cards_screen.dart';
+import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/logger/logger.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'card_service.dart';
+import 'manage_cards_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,25 +15,27 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  late List<CardConfig> cards;
   final logger = Logger("dashboard");
+
+  late CardsList cards;
+  final _cardService = CardService();
 
   @override
   void initState() {
     super.initState();
-    onCardsChange();
-    Prefs.cards.addListener(onCardsChange);
+    _cardService.addListener(cardsChanged);
+    cards = _cardService.value;
   }
 
-  onCardsChange() {
+  void cardsChanged() {
     setState(() {
-      cards = CardService.getCards(Prefs.cards.value);
+      cards = _cardService.value;
     });
   }
 
   @override
   void dispose() {
-    Prefs.cards.removeListener(onCardsChange);
+    _cardService.removeListener(cardsChanged);
     super.dispose();
   }
 
@@ -43,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(8.0),
       child: ListView(
         children: [
-          ...cards.map((e) => e.widget.call()),
+          ...cards.map((e) => e.item2.render(null)),
           const ManageCardsButton(),
         ],
       ),

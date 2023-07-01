@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/mvg/departure.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 

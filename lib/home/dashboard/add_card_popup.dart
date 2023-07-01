@@ -11,9 +11,9 @@ class AddCardPopup extends StatelessWidget {
       width: double.maxFinite,
       child: ListView(
         shrinkWrap: true,
-        children: cards.values
+        children: CardType.values
             .map((e) => ListTile(
-                  title: Text(e.cardType.name),
+                  title: Text(e.name),
                   onTap: () {
                     context.pop(e);
                   },

@@ -1,4 +1,3 @@
-import 'package:better_hm/home/dashboard/cards/manage_cards_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -9,6 +8,8 @@ import 'package:better_hm/shared/main_drawer.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'home/dashboard/manage_cards_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainShellKey = GlobalKey<NavigatorState>();

@@ -1,8 +1,9 @@
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/home/dashboard/semester_status/models/semester_event_with_single_date.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+
+import 'models/semester_event_with_single_date.dart';
 
 class EventWidget extends StatelessWidget {
   const EventWidget({Key? key, required this.event}) : super(key: key);

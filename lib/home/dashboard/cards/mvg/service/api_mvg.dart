@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:better_hm/home/dashboard/mvg/departure.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:http/http.dart' as http;
