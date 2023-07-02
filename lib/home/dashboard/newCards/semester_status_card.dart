@@ -1,7 +1,7 @@
-import 'package:better_hm/home/dashboard/card_config.dart';
+import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:flutter/material.dart';
 
-class SemesterStatusCard extends CardConfig {
+class SemesterStatusCard extends ICard {
   SemesterStatusCard(super.config);
 
   @override

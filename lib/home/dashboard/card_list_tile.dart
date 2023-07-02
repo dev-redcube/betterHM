@@ -1,4 +1,4 @@
-import 'package:better_hm/home/dashboard/card_config.dart';
+import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/tuple.dart';
@@ -13,7 +13,7 @@ class CardListTile extends StatelessWidget {
   });
 
   final int index;
-  final Tuple<CardType, CardConfig> card;
+  final Tuple<CardType, ICard> card;
   final Function()? onDelete;
 
   @override

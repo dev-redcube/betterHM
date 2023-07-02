@@ -4,10 +4,10 @@ typedef CardConfigMap = Map<String, String>;
 
 /// This class is used to configure a card.
 /// Types: T = future data type, S = config data type
-abstract class CardConfig<T> {
+abstract class ICard<T> {
   Map<String, String> config = {};
 
-  CardConfig(this.config);
+  ICard(this.config);
 
   Future<T> future() => Future.value();
 
