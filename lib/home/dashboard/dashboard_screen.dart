@@ -58,6 +58,21 @@ class ManageCardsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO remove
+    return Column(children: [
+      OutlinedButton(
+        onPressed: () {
+          context.pushNamed(ManageCardsScreen.routeName);
+        },
+        child: Text(t.dashboard.manage.title),
+      ),
+      TextButton(
+          onPressed: () {
+            CardService().reset();
+          },
+          child: const Text("reset cards"))
+    ]);
+
     return Center(
       child: OutlinedButton(
         onPressed: () {

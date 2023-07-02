@@ -61,6 +61,12 @@ class CardService extends ValueNotifier<CardsList> {
     _saveCards();
   }
 
+  reset() {
+    value = [];
+    notifyListeners();
+    _saveCards();
+  }
+
   static CardWithType getCardFromType(CardType type, [CardConfig? config]) {
     return switch (type) {
       CardType.semesterStatus => Tuple(type, SemesterStatusCard()),
