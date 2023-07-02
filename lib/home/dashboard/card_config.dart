@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+typedef CardConfigMap = Map<String, String>;
+
 /// This class is used to configure a card.
 /// Types: T = future data type, S = config data type
 abstract class CardConfig<T> {

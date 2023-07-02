@@ -4,27 +4,44 @@ import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/newCards/next_departures_card.dart';
 import 'package:better_hm/home/dashboard/newCards/semester_status_card.dart';
 import 'package:better_hm/shared/models/tuple.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/cupertino.dart';
 
-// TODO real save and load
 class CardService extends ValueNotifier<CardsList> {
   static final CardService _instance = CardService._internal();
 
-  CardService._internal() : super(loadCards());
+  CardService._internal() : super(_loadCards());
 
   factory CardService() => _instance;
 
-  static CardsList loadCards() =>
-      tempCards.map((e) => getCardFromType(e.item1)).toList();
+  static CardsList _loadCards() {
+    final List<String> raw = Prefs.cards.value;
+    return raw
+        .map((e) => jsonDecode(e))
+        .cast<Map<String, dynamic>>()
+        .map((e) => getCardFromType(CardType.fromString(e["type"]),
+            Map<String, String>.from(e["config"])))
+        .toList();
+  }
+
+  _saveCards() {
+    List<String> c = value
+        .map((e) => {"type": e.item1.toString(), "config": e.item2.config})
+        .map((e) => jsonEncode(e))
+        .toList();
+    Prefs.cards.value = c;
+  }
 
   addCard(CardWithType card) {
     value.add(card);
     notifyListeners();
+    _saveCards();
   }
 
   removeCardAt(int index) {
     value.removeAt(index);
     notifyListeners();
+    _saveCards();
   }
 
   moveCard(int oldIndex, int newIndex) {
@@ -34,14 +51,7 @@ class CardService extends ValueNotifier<CardsList> {
     final item = value.removeAt(oldIndex);
     value.insert(newIndex, item);
     notifyListeners();
-  }
-
-  saveCards(CardsList cards) {
-    List<String> c = cards
-        .map((e) =>
-            {"type": e.item1.toString(), "config": jsonEncode(e.item2.config)})
-        .map((e) => jsonEncode(e))
-        .toList();
+    _saveCards();
   }
 
   static CardWithType getCardFromType(CardType type,

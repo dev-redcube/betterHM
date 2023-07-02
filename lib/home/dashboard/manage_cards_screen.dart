@@ -62,16 +62,12 @@ class _ManageCardsScreenState extends State<ManageCardsScreen> {
             key: ObjectKey(card),
             index: index,
             card: card,
-            onDelete: () {
-              _cardService.removeCardAt(index);
-            },
+            onDelete: () => _cardService.removeCardAt(index),
           );
         },
         buildDefaultDragHandles: false,
         proxyDecorator: proxyDecorator,
-        onReorder: (int oldIndex, int newIndex) {
-          _cardService.moveCard(oldIndex, newIndex);
-        },
+        onReorder: _cardService.moveCard,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -83,9 +79,7 @@ class _ManageCardsScreenState extends State<ManageCardsScreen> {
               scrollable: false,
               actions: [
                 TextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
+                  onPressed: () => context.pop(),
                   child: Text(t.dashboard.manage.add.cancel),
                 ),
               ],
