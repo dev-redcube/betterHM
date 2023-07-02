@@ -1,5 +1,5 @@
-import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
+import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class CardListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Widget? renderConfig = card.item2.renderConfig(index);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Card(
@@ -37,6 +38,21 @@ class CardListTile extends StatelessWidget {
                       style: context.theme.textTheme.bodyLarge),
                 ),
               ),
+              if (renderConfig != null)
+                IconButton(
+                  icon: const Icon(Icons.settings_rounded),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SizedBox(
+                        width: double.maxFinite,
+                        child: AlertDialog(
+                          content: renderConfig,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               IconButton(
                 icon: const Icon(Icons.delete_forever_rounded),
                 // TODO confirm dialog

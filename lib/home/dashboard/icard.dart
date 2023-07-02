@@ -1,17 +1,19 @@
 import 'package:flutter/widgets.dart';
 
-typedef CardConfigMap = Map<String, String>;
+typedef CardConfig = Map<String, dynamic>;
 
 /// This class is used to configure a card.
 /// Types: T = future data type, S = config data type
 abstract class ICard<T> {
-  Map<String, String> config = {};
-
-  ICard(this.config);
+  /// This config map can have anything as value that can be encoded to json:
+  /// [bool], [int], [String], [List], [Map]
+  CardConfig? config;
 
   Future<T> future() => Future.value();
 
   Widget render(T? data);
 
-  static defaultConfig() => {};
+  Widget? renderConfig(int cardIndex);
+
+  static get defaultConfig => {};
 }

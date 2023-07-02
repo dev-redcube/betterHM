@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards.dart';
+import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/home/dashboard/newCards/next_departures_card.dart';
 import 'package:better_hm/home/dashboard/newCards/semester_status_card.dart';
 import 'package:better_hm/shared/models/tuple.dart';
@@ -16,12 +17,12 @@ class CardService extends ValueNotifier<CardsList> {
 
   static CardsList _loadCards() {
     final List<String> raw = Prefs.cards.value;
-    return raw
-        .map((e) => jsonDecode(e))
-        .cast<Map<String, dynamic>>()
-        .map((e) => getCardFromType(CardType.fromString(e["type"]),
-            Map<String, String>.from(e["config"])))
-        .toList();
+
+    return raw.map((e) => jsonDecode(e)).cast<Map<String, dynamic>>().map((e) {
+      final config = e["config"];
+      return getCardFromType(CardType.fromString(e["type"]),
+          config == null ? null : CardConfig.from(e["config"]));
+    }).toList();
   }
 
   _saveCards() {
@@ -44,6 +45,12 @@ class CardService extends ValueNotifier<CardsList> {
     _saveCards();
   }
 
+  replaceCardAt(int index, CardWithType card) {
+    value[index] = card;
+    notifyListeners();
+    _saveCards();
+  }
+
   moveCard(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
       newIndex -= 1;
@@ -54,18 +61,11 @@ class CardService extends ValueNotifier<CardsList> {
     _saveCards();
   }
 
-  static CardWithType getCardFromType(CardType type,
-      [Map<String, String>? config]) {
+  static CardWithType getCardFromType(CardType type, [CardConfig? config]) {
     return switch (type) {
-      CardType.semesterStatus => Tuple(
-          type, SemesterStatusCard(config ?? SemesterStatusCard.defaultConfig)),
-      CardType.nextDepartures => Tuple(
-          type, NextDeparturesCard(config ?? NextDeparturesCard.defaultConfig)),
+      CardType.semesterStatus => Tuple(type, SemesterStatusCard()),
+      CardType.nextDepartures =>
+        Tuple(type, NextDeparturesCard()..config = config),
     };
   }
 }
-
-final List<Tuple<CardType, Map<String, String>>> tempCards = [
-  const Tuple(CardType.nextDepartures, {}),
-  const Tuple(CardType.semesterStatus, {}),
-];
