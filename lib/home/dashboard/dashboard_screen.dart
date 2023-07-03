@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'card_service.dart';
 import 'manage_cards_screen.dart';
 
+// TODO loading external with provider
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -20,36 +21,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late CardsList cards;
   final _cardService = CardService();
 
+  Future cardsLoading = Future.wait([
+    Future.delayed(const Duration(seconds: 1)),
+  ]);
+
   @override
   void initState() {
     super.initState();
     _cardService.addListener(cardsChanged);
-    cards = _cardService.value;
+    cardsChanged();
   }
 
   void cardsChanged() {
     setState(() {
       cards = _cardService.value;
+      cardsLoading = Future.wait(cards.map((e) => e.item2.future()));
     });
   }
 
   @override
   void dispose() {
     _cardService.removeListener(cardsChanged);
+    cardsLoading.ignore();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: ListView(
-        children: [
-          ...cards.map((e) => e.item2.render(null)),
-          const ManageCardsButton(),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: cardsLoading,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Align(
+              alignment: Alignment.topLeft,
+              child: LinearProgressIndicator(),
+            );
+          }
+          final futures = snapshot.data;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ListView(
+              children: [
+                ...cards
+                    .asMap()
+                    .entries
+                    .map((e) => e.value.item2.render(futures[e.key])),
+                // ...cards.map((e) => e.item2.render(value)),
+                const ManageCardsButton(),
+              ],
+            ),
+          );
+        });
   }
 }
 

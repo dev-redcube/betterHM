@@ -1,15 +1,22 @@
+import 'dart:math';
+
 import 'package:better_hm/home/dashboard/card_service.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
 
-class NextDeparturesCard extends ICard {
+class NextDeparturesCard extends ICard<int> {
   @override
   CardConfig get config => super.config ?? {"showDepartures": true};
 
   @override
-  Widget render(data) => Text("Next Departures: ${config["showDepartures"]}");
+  Widget render(data) =>
+      Text("Next Departures: ${config["showDepartures"]} $data");
+
+  @override
+  Future<int> future() =>
+      Future.delayed(const Duration(seconds: 2), () => Random().nextInt(100));
 
   @override
   Widget? renderConfig(int cardIndex) => _Config(
@@ -52,7 +59,6 @@ class _ConfigState extends State<_Config> {
           showDepartures = value;
         });
         widget.onChanged("showDepartures", value);
-        print(value);
       },
     );
   }
