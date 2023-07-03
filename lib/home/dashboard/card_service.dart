@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
-import 'package:better_hm/home/dashboard/newCards/next_departures_card.dart';
-import 'package:better_hm/home/dashboard/newCards/semester_status_card.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/next_departures_card.dart';
+import 'package:better_hm/home/dashboard/cards/semester_status/semester_status_card.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/cupertino.dart';

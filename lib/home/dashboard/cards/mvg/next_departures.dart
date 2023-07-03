@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 
@@ -52,30 +53,34 @@ class _NextDeparturesState extends State<NextDepartures>
 
     final items = sorted.take(5).toList();
     return DashboardCard(
-      child: ListView.builder(
-        itemCount: items.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          final departure = items[index];
-          return ListTile(
-            key: ValueKey(departure),
-            leading: Text(departure.line.number),
-            title: Text(departure.direction),
-            contentPadding: EdgeInsets.zero,
-            dense: false,
-            visualDensity: const VisualDensity(vertical: -4),
-            trailing: DepartureTimer(
-              departure: departure,
-              onDone: () {
-                setState(() {
-                  departures.remove(departure);
-                });
+      child: items.isEmpty
+          ? Center(
+              child: Text(
+                  t.dashboard.cards.nextDepartures.noDepartures(minutes: 30)))
+          : ListView.builder(
+              itemCount: items.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final departure = items[index];
+                return ListTile(
+                  key: ValueKey(departure),
+                  leading: Text(departure.line.number),
+                  title: Text(departure.direction),
+                  contentPadding: EdgeInsets.zero,
+                  dense: false,
+                  visualDensity: const VisualDensity(vertical: -4),
+                  trailing: DepartureTimer(
+                    departure: departure,
+                    onDone: () {
+                      setState(() {
+                        departures.remove(departure);
+                      });
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
     );
   }
 }

@@ -11,7 +11,7 @@ abstract class ICard<T> {
 
   Future<T> future() => Future.value();
 
-  Widget render(T? data);
+  Widget render(T data);
 
   Widget? renderConfig(int cardIndex);
 

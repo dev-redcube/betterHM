@@ -46,7 +46,8 @@
         "tomorrow": "Tomorrow"
       },
       "nextDepartures": {
-        "title": "Next Departures"
+        "title": "Next Departures",
+        "noDepartures": "No Departures in the next $minutes minutes"
       }
     }
   },

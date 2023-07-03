@@ -1,9 +1,14 @@
-enum STATIONS {
-  lothstr,
+enum Stations {
+  lothstr;
+
+  @override
+  String toString() => name;
+
+  static Stations fromString(String string) => values.byName(string);
 }
 
 const stationIds = {
-  STATIONS.lothstr: "de:09162:12",
+  Stations.lothstr: "de:09162:12",
 };
 
 const lineIds = {};

@@ -1,5 +1,6 @@
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'card_service.dart';
 import 'manage_cards_screen.dart';
 
 // TODO loading external with provider
+// TODO errors on card reorder
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -21,9 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late CardsList cards;
   final _cardService = CardService();
 
-  Future cardsLoading = Future.wait([
-    Future.delayed(const Duration(seconds: 1)),
-  ]);
+  late Future<List<dynamic>> cardsLoading;
 
   @override
   void initState() {
@@ -57,16 +57,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: LinearProgressIndicator(),
             );
           }
-          final futures = snapshot.data;
+          final futures = snapshot.data as List<dynamic>;
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: ListView(
               children: [
-                ...cards
-                    .asMap()
-                    .entries
-                    .map((e) => e.value.item2.render(futures[e.key])),
-                // ...cards.map((e) => e.item2.render(value)),
+                ...futures.mapIndexed((e, i) => cards[i].item2.render(e)),
                 const ManageCardsButton(),
               ],
             ),
@@ -80,21 +77,6 @@ class ManageCardsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO remove
-    return Column(children: [
-      OutlinedButton(
-        onPressed: () {
-          context.pushNamed(ManageCardsScreen.routeName);
-        },
-        child: Text(t.dashboard.manage.title),
-      ),
-      TextButton(
-          onPressed: () {
-            CardService().reset();
-          },
-          child: const Text("reset cards"))
-    ]);
-
     return Center(
       child: OutlinedButton(
         onPressed: () {

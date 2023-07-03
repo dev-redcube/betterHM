@@ -46,7 +46,8 @@
         "tomorrow": "Morgen"
       },
       "nextDepartures": {
-        "title": "Abfahrtszeiten"
+        "title": "Abfahrtszeiten",
+        "noDepartures": "Keine Abfahrten in den nächsten $minutes Minuten"
       }
     }
   },
