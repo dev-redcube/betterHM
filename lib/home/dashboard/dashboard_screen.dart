@@ -9,7 +9,6 @@ import 'card_service.dart';
 import 'manage_cards_screen.dart';
 
 // TODO loading external with provider
-// TODO errors on card reorder
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -51,7 +50,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return FutureBuilder(
         future: cardsLoading,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData ||
+              snapshot.connectionState != ConnectionState.done) {
             return const Align(
               alignment: Alignment.topLeft,
               child: LinearProgressIndicator(),
