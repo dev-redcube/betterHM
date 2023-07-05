@@ -21,6 +21,8 @@ abstract class Prefs {
   @visibleForTesting
   static bool warnIfPrefAccessedBeforeLoaded = true;
 
+  static bool initialized = false;
+
   // General
   static late final PlainPref<String> initialLocation;
 
@@ -32,10 +34,15 @@ abstract class Prefs {
   static late final PlainPref<bool> showFoodLabels;
 
   static void init() {
+    if (initialized) {
+      return;
+    }
     initialLocation = PlainPref("initialLocation", "/");
     cards = PlainPref("cards", []);
     mvgLeadTime = PlainPref("mvgLeadTime", 1);
     showFoodLabels = PlainPref("showFoodLabels", true);
+
+    initialized = true;
   }
 
   static bool get isDesktop =>
