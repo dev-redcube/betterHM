@@ -8,7 +8,7 @@ import 'models/semester_event.dart';
 
 class ApiSemesterStatus extends ApiService {
   static const url =
-      "https://raw.githubusercontent.com/adriangeorgimmel/hm-dates-api/gh-pages/thisSemester/all.json";
+      "https://api.betterhm.app/hm-dates-api/thisSemester/all.json";
 
   Future<List<SemesterEvent>> getEvents() async {
     Logger("semester status").info("Fetching Events from Server...");
