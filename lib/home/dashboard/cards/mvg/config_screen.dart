@@ -8,7 +8,6 @@ import 'next_departures_card.dart';
 import 'service/data.dart';
 import 'station.dart';
 
-// TODO i18n
 class NextDeparturesConfigScreen extends StatefulWidget {
   const NextDeparturesConfigScreen({
     super.key,

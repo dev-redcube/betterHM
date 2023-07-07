@@ -20,6 +20,7 @@ class NextDepartures extends StatefulWidget {
 class _NextDeparturesState extends State<NextDepartures>
     with WidgetsBindingObserver {
   late final List<Departure> departures;
+  late UniqueKey _listKey = UniqueKey();
 
   @override
   void initState() {
@@ -42,7 +43,9 @@ class _NextDeparturesState extends State<NextDepartures>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      setState(() {});
+      setState(() {
+        _listKey = UniqueKey();
+      });
     }
   }
 
@@ -58,6 +61,7 @@ class _NextDeparturesState extends State<NextDepartures>
               child: Text(
                   t.dashboard.cards.nextDepartures.noDepartures(minutes: 30)))
           : ListView.builder(
+              key: _listKey,
               itemCount: items.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
