@@ -4,6 +4,7 @@ targets:
       slang_build_runner:
         options:
           maps:
-      mockito:
-        generate_for:
-          - test/*.dart
+#      mockito:
+##        generate_for:
+##          - test/*.dart
+##          - integration_test/*.dart

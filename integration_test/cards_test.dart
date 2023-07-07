@@ -28,6 +28,14 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(DashboardCard), findsOneWidget);
+
+    await tester.tap(find.byType(ManageCardsButton));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.delete_forever_rounded));
+    await tester.pumpAndSettle();
+    navigator.pop();
+    await tester.pumpAndSettle();
+    expect(find.byType(DashboardCard), findsNothing);
   });
 
   testWidgets('moving Widgets works', (tester) async {
@@ -40,7 +48,13 @@ void main() {
 
     await tester.drag(dragHandler.first, const Offset(0, 50));
 
-    await Future.delayed(const Duration(seconds: 5));
+    final NavigatorState navigator = tester.state(find.byType(Navigator));
+    navigator.pop();
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DashboardCard), findsNWidgets(2));
+
+    // TODO check if the order is correct
   });
 }
 
