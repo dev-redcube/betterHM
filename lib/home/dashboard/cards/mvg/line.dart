@@ -3,14 +3,14 @@ class Line {
   final String number;
   final String direction;
   final String? symbol;
-  final String? name;
+  final LineType? type;
 
   Line({
     required this.id,
     required this.number,
     required this.direction,
     this.symbol,
-    this.name,
+    this.type,
   });
 
   Line.fromJson(Map<String, dynamic> json)
@@ -18,5 +18,16 @@ class Line {
         number = json["number"],
         direction = json["direction"],
         symbol = json["symbol"],
-        name = json["name"];
+        type = json["name"] != null ? LineType.fromString(json["name"]) : null;
+}
+
+enum LineType {
+  bus,
+  tram;
+
+  @override
+  toString() => name;
+
+  static LineType fromString(String string) =>
+      values.byName(string.toLowerCase());
 }

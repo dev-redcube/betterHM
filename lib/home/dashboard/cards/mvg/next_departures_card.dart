@@ -15,13 +15,14 @@ class NextDeparturesCard extends ICard<List<Departure>> {
       super.config ??
       {
         "station": Stations.lothstr.toString(),
+        "lines": lineIds[Stations.lothstr]!.map((e) => e.id).toList(),
       };
 
   @override
   Future<List<Departure>> future() {
     return ApiMvg().getDepartures(
         stopId: stationIds[Stations.fromString(config["station"])]!,
-        lineIds: lineIdsLothstr);
+        lineIds: (config["lines"] as List<dynamic>).cast<String>());
   }
 
   @override
@@ -32,6 +33,7 @@ class NextDeparturesCard extends ICard<List<Departure>> {
         config: config,
         onChanged: (key, value) {
           config[key] = value;
+          print(config);
           CardService()
               .replaceCardAt(cardIndex, Tuple(CardType.nextDepartures, this));
         },
@@ -50,22 +52,91 @@ class _Config extends StatefulWidget {
 
 class _ConfigState extends State<_Config> {
   late Stations station;
+  late Set<String> lines;
 
   @override
   void initState() {
     super.initState();
     station = Stations.fromString(widget.config["station"]);
+    lines = (widget.config["lines"] as List<dynamic>).cast<String>().toSet();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownListTile<Stations>(
-      title: "Station",
-      initialValue: station,
-      onChanged: (Stations value) {
-        widget.onChanged("station", value.toString());
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        DropdownListTile<Stations>(
+          title: "Station",
+          initialValue: station,
+          onChanged: (Stations value) {
+            setState(() {
+              station = value;
+            });
+            widget.onChanged("station", value.toString());
+          },
+          options: Stations.values.map((e) => DropdownItem(e.toString(), e)),
+        ),
+        ExpansionTile(
+          shape: Border.all(color: Colors.transparent),
+          title: const Text("Lines"),
+          children: lineIds[station]!
+              .map((e) => _LineCheckTile(
+                    selected: lines.contains(e.id),
+                    title: e.direction,
+                    onChanged: (value) {
+                      setState(() {
+                        if (value) {
+                          lines.add(e.id);
+                        } else {
+                          lines.remove(e.id);
+                        }
+                      });
+                      widget.onChanged("lines", lines.toList());
+                    },
+                  ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _LineCheckTile extends StatefulWidget {
+  const _LineCheckTile({
+    required this.selected,
+    required this.title,
+    required this.onChanged,
+  });
+
+  final bool selected;
+  final String title;
+  final void Function(bool value) onChanged;
+
+  @override
+  State<_LineCheckTile> createState() => _LineCheckTileState();
+}
+
+class _LineCheckTileState extends State<_LineCheckTile> {
+  late bool selected;
+
+  @override
+  void initState() {
+    super.initState();
+    selected = widget.selected;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: selected,
+      title: Text(widget.title),
+      onChanged: (value) {
+        setState(() {
+          selected = value!;
+        });
+        widget.onChanged(value!);
       },
-      options: Stations.values.map((e) => DropdownItem(e.toString(), e)),
     );
   }
 }

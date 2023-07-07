@@ -41,26 +41,11 @@ import 'package:http/http.dart' as http;
 /// N20|Bus (Stachus) => swm:02N20:G:H:013
 /// N20|Bus (Moosach) => swm:02N20:G:R:013
 /// 153|Bus (Universität) => swm:03153:G:H:013
-/// 153|Bus (Trappentreustrae) => swm:03153:G:R:013
+/// 153|Bus (Trappentreustraße) => swm:03153:G:R:013
 ///
 ///
 /// line svg images are stored in https://www.mvv-muenchen.de/fileadmin/lines/LINE_NUMBER.svg
 /// e.g. https://www.mvv-muenchen.de/fileadmin/lines/02020.svg
-
-const stopIdLothstr = "de:09162:12";
-
-const lineIdsLothstr = [
-  "swm:02020:G:H:013",
-  "swm:02020:G:R:013",
-  "swm:02021:G:H:013",
-  "swm:02021:G:R:013",
-  "swm:02029:G:H:013",
-  "swm:02029:G:R:013",
-  "swm:02N20:G:H:013",
-  "swm:02N20:G:R:013",
-  "swm:03153:G:H:013",
-  "swm:03153:G:R:013",
-];
 
 class ApiMvg {
   static const baseUrl = "www.mvv-muenchen.de";
