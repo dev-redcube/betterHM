@@ -13,6 +13,14 @@ class Line {
     this.type,
   });
 
+  Map<String, dynamic> toJson() => {
+        "stateless": id,
+        "number": number,
+        "direction": direction,
+        "symbol": symbol,
+        "name": type?.toString(),
+      };
+
   Line.fromJson(Map<String, dynamic> json)
       : id = json["stateless"],
         number = json["number"],

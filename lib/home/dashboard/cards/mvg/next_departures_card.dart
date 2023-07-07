@@ -1,28 +1,32 @@
 import 'package:better_hm/home/dashboard/card_service.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
-import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
-import 'package:better_hm/home/dashboard/cards/mvg/next_departures.dart';
-import 'package:better_hm/home/dashboard/cards/mvg/service/api_mvg.dart';
-import 'package:better_hm/home/dashboard/cards/mvg/service/data.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
 
+import 'departure.dart';
+import 'line.dart';
+import 'next_departures.dart';
+import 'service/api_mvg.dart';
+import 'service/data.dart';
+import 'station.dart';
+
 class NextDeparturesCard extends ICard<List<Departure>> {
+  late final NextDeparturesConfig _config;
+
   @override
-  CardConfig get config =>
-      super.config ??
-      {
-        "station": Stations.lothstr.toString(),
-        "lines": lineIds[Stations.lothstr]!.map((e) => e.id).toList(),
-      };
+  Map<String, dynamic> get config => _config.toJson();
+
+  @override
+  set config(Map<String, dynamic>? config) {
+    _config = NextDeparturesConfig.fromJson(config);
+  }
 
   @override
   Future<List<Departure>> future() {
-    return ApiMvg().getDepartures(
-        stopId: stationIds[Stations.fromString(config["station"])]!,
-        lineIds: (config["lines"] as List<dynamic>).cast<String>());
+    return ApiMvg()
+        .getDepartures(stationId: _config.station, lineIds: _config.lines);
   }
 
   @override
@@ -30,10 +34,9 @@ class NextDeparturesCard extends ICard<List<Departure>> {
 
   @override
   Widget? renderConfig(int cardIndex) => _Config(
-        config: config,
-        onChanged: (key, value) {
-          config[key] = value;
-          print(config);
+        config: _config,
+        onChanged: (NextDeparturesConfig config) {
+          _config.apply(config);
           CardService()
               .replaceCardAt(cardIndex, Tuple(CardType.nextDepartures, this));
         },
@@ -43,22 +46,31 @@ class NextDeparturesCard extends ICard<List<Departure>> {
 class _Config extends StatefulWidget {
   const _Config({required this.config, required this.onChanged});
 
-  final CardConfig config;
-  final void Function(String key, dynamic value) onChanged;
+  final NextDeparturesConfig config;
+  final void Function(NextDeparturesConfig) onChanged;
 
   @override
   State<_Config> createState() => _ConfigState();
 }
 
 class _ConfigState extends State<_Config> {
-  late Stations station;
-  late Set<String> lines;
+  late Station station;
+  late List<Line> lines;
 
   @override
   void initState() {
     super.initState();
-    station = Stations.fromString(widget.config["station"]);
-    lines = (widget.config["lines"] as List<dynamic>).cast<String>().toSet();
+    station = StationService.getFromId(widget.config.station)!;
+    lines = widget.config.lines
+        .map((e) => LineService.getFromId(e))
+        .where((element) => element != null)
+        .cast<Line>()
+        .toList();
+  }
+
+  void save() {
+    widget.onChanged(NextDeparturesConfig(
+        station: station.id, lines: lines.map((e) => e.id)));
   }
 
   @override
@@ -66,33 +78,33 @@ class _ConfigState extends State<_Config> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        DropdownListTile<Stations>(
+        DropdownListTile<Station>(
           title: "Station",
           initialValue: station,
-          onChanged: (Stations value) {
+          onChanged: (Station value) {
             setState(() {
               station = value;
             });
-            widget.onChanged("station", value.toString());
+            save();
           },
-          options: Stations.values.map((e) => DropdownItem(e.toString(), e)),
+          options: stationIds.map((e) => DropdownItem(e.name, e)),
         ),
         ExpansionTile(
           shape: Border.all(color: Colors.transparent),
           title: const Text("Lines"),
-          children: lineIds[station]!
+          children: lineIds[station.id]!
               .map((e) => _LineCheckTile(
-                    selected: lines.contains(e.id),
+                    selected: lines.contains(e),
                     title: e.direction,
                     onChanged: (value) {
                       setState(() {
                         if (value) {
-                          lines.add(e.id);
+                          lines.add(e);
                         } else {
-                          lines.remove(e.id);
+                          lines.remove(e);
                         }
                       });
-                      widget.onChanged("lines", lines.toList());
+                      save();
                     },
                   ))
               .toList(),
@@ -138,5 +150,38 @@ class _LineCheckTileState extends State<_LineCheckTile> {
         widget.onChanged(value!);
       },
     );
+  }
+}
+
+class NextDeparturesConfig {
+  String station;
+  Iterable<String> lines;
+
+  NextDeparturesConfig({
+    required this.station,
+    required this.lines,
+  });
+
+  void apply(NextDeparturesConfig config) {
+    station = config.station;
+    lines = config.lines;
+  }
+
+  Map<String, dynamic> toJson() => {
+        "station": station,
+        "lines": lines.toList(),
+      };
+
+  factory NextDeparturesConfig.fromJson(Map<String, dynamic>? json) {
+    if (json != null) {
+      return NextDeparturesConfig(
+        station: json["station"],
+        lines: (json["lines"] as List<dynamic>).cast<String>(),
+      );
+    }
+    // Fall back to default config
+    return NextDeparturesConfig(
+        station: "de:09162:12",
+        lines: lineIds["de:09162:12"]!.map((e) => e.id));
   }
 }

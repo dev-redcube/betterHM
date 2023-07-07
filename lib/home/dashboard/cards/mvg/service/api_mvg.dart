@@ -53,13 +53,13 @@ class ApiMvg {
 
   Future<List<Departure>> getDepartures({
     http.Client? client,
-    required String stopId,
-    required List<String> lineIds,
+    required String stationId,
+    required Iterable<String> lineIds,
   }) async {
     assert(lineIds.isNotEmpty, "Specify at least one lineId");
     final logger = Logger(loggerTag);
 
-    logger.info("Fetching departures for stop $stopId");
+    logger.info("Fetching departures for stop $stationId");
 
     client ??= http.Client();
 
@@ -70,7 +70,7 @@ class ApiMvg {
     final uri = Uri(scheme: "https", host: baseUrl, queryParameters: {
       "eID": "departuresFinder",
       "action": "get_departures",
-      "stop_id": stopId,
+      "stop_id": stationId,
       "requested_timestamp": (DateTime.now().millisecondsSinceEpoch ~/ 1000 +
               const Duration(minutes: 1).inSeconds)
           .toString(),

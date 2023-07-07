@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards.dart';
-import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/home/dashboard/cards/mvg/next_departures_card.dart';
 import 'package:better_hm/home/dashboard/cards/semester_status/semester_status_card.dart';
 import 'package:better_hm/shared/models/tuple.dart';
@@ -21,7 +20,7 @@ class CardService extends ValueNotifier<CardsList> {
     return raw.map((e) => jsonDecode(e)).cast<Map<String, dynamic>>().map((e) {
       final config = e["config"];
       return getCardFromType(CardType.fromString(e["type"]),
-          config == null ? null : CardConfig.from(e["config"]));
+          config == null ? null : Map<String, dynamic>.from(config));
     }).toList();
   }
 
@@ -67,7 +66,8 @@ class CardService extends ValueNotifier<CardsList> {
     _saveCards();
   }
 
-  static CardWithType getCardFromType(CardType type, [CardConfig? config]) {
+  static CardWithType getCardFromType(CardType type,
+      [Map<String, dynamic>? config]) {
     return switch (type) {
       CardType.semesterStatus => Tuple(type, SemesterStatusCard()),
       CardType.nextDepartures =>

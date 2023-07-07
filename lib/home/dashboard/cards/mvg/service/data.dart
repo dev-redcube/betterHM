@@ -1,20 +1,12 @@
 import 'package:better_hm/home/dashboard/cards/mvg/line.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/station.dart';
 
-enum Stations {
-  lothstr;
+final stationIds = <Station>[
+  Station(id: "de:09162:12", name: "Hochschule München"),
+];
 
-  @override
-  String toString() => name;
-
-  static Stations fromString(String string) => values.byName(string);
-}
-
-const stationIds = {
-  Stations.lothstr: "de:09162:12",
-};
-
-final lineIds = <Stations, List<Line>>{
-  Stations.lothstr: [
+final lineIds = <String, List<Line>>{
+  "de:09162:12": [
     Line(
       id: "swm:02020:G:H:013",
       number: "20",
@@ -71,3 +63,19 @@ final lineIds = <Stations, List<Line>>{
     ),
   ],
 };
+
+class StationService {
+  static Station? getFromId(String id) =>
+      stationIds.where((element) => element.id == id).firstOrNull;
+}
+
+class LineService {
+  static List<Line>? getLinesFromStationId(String stationId) {
+    return lineIds[stationId];
+  }
+
+  static Line? getFromId(String id) => lineIds.values
+      .expand((element) => element)
+      .where((element) => element.id == id)
+      .firstOrNull;
+}

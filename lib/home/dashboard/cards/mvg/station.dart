@@ -7,6 +7,11 @@ class Station {
     required this.name,
   });
 
+  Map<String, String> toJson() => {
+        "id": id,
+        "name": name,
+      };
+
   Station.fromJson(Map<String, dynamic> json)
       : id = json["id"],
         name = json["name"];
