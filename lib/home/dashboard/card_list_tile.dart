@@ -1,8 +1,10 @@
+import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CardListTile extends StatelessWidget {
   const CardListTile({
@@ -42,14 +44,9 @@ class CardListTile extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.settings_rounded),
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => SizedBox(
-                        width: double.maxFinite,
-                        child: AlertDialog(
-                          content: renderConfig,
-                        ),
-                      ),
+                    context.pushNamed(
+                      CardSettingsScreen.routeName,
+                      extra: renderConfig,
                     );
                   },
                 ),

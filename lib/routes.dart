@@ -1,3 +1,4 @@
+import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -75,6 +76,15 @@ final homeRoutes = <GoRoute>[
           path: "manageCards",
           parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) => const ManageCardsScreen(),
+          routes: <GoRoute>[
+            GoRoute(
+              name: CardSettingsScreen.routeName,
+              path: "cardSettings",
+              parentNavigatorKey: rootNavigatorKey,
+              builder: (context, state) =>
+                  CardSettingsScreen(child: state.extra as Widget),
+            )
+          ],
         ),
       ]),
   GoRoute(

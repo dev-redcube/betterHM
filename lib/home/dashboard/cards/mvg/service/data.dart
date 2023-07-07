@@ -3,6 +3,7 @@ import 'package:better_hm/home/dashboard/cards/mvg/station.dart';
 
 final stationIds = <Station>[
   Station(id: "de:09162:12", name: "Hochschule München"),
+  Station(id: "LINEID", name: "Temp"),
 ];
 
 final lineIds = <String, List<Line>>{
@@ -62,14 +63,17 @@ final lineIds = <String, List<Line>>{
       type: LineType.bus,
     ),
   ],
+  "LINEID": [
+    Line(id: "id", number: "number", direction: "direction"),
+  ]
 };
 
-class StationService {
+abstract class StationService {
   static Station? getFromId(String id) =>
       stationIds.where((element) => element.id == id).firstOrNull;
 }
 
-class LineService {
+abstract class LineService {
   static List<Line>? getLinesFromStationId(String stationId) {
     return lineIds[stationId];
   }

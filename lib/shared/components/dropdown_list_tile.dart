@@ -7,7 +7,7 @@ class DropdownListTile<T> extends StatefulWidget {
     this.subtitle,
     required this.options,
     this.initialValue,
-    this.onChanged,
+    required this.onChanged,
   });
 
   final String title;
@@ -16,14 +16,14 @@ class DropdownListTile<T> extends StatefulWidget {
   final Iterable<DropdownItem<T>> options;
   final T? initialValue;
 
-  final ValueChanged<T>? onChanged;
+  final ValueChanged<T?>? onChanged;
 
   @override
-  State<DropdownListTile> createState() => _DropdownListTileState();
+  State<DropdownListTile> createState() => _DropdownListTileState<T>();
 }
 
 class _DropdownListTileState<T> extends State<DropdownListTile<T>> {
-  late final T? value;
+  late T? value;
 
   @override
   void initState() {
@@ -39,7 +39,12 @@ class _DropdownListTileState<T> extends State<DropdownListTile<T>> {
       subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
       trailing: DropdownButton<T>(
         value: value,
-        onChanged: (T? value) {},
+        onChanged: (T? newValue) {
+          setState(() {
+            value = newValue;
+          });
+          widget.onChanged?.call(newValue);
+        },
         items: widget.options
             .map((e) => DropdownMenuItem(
                   value: e.value,
