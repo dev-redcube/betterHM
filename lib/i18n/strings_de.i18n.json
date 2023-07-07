@@ -53,6 +53,10 @@
           "lines": "Linien"
         }
       }
+    },
+    "cardTitles(map)": {
+      "semesterStatus": "Fristen & Termine",
+      "nextDepartures": "MVG Abfahrten"
     }
   },
   "mealplan": {

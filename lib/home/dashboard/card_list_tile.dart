@@ -1,6 +1,7 @@
 import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +34,11 @@ class CardListTile extends StatelessWidget {
                 child: const Icon(Icons.drag_handle),
               ),
               Expanded(
-                // TODO i18n
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(card.item1.name,
+                  child: Text(
+                      t.dashboard.cardTitles[card.item1.name] ??
+                          "No Title Provided",
                       style: context.theme.textTheme.bodyLarge),
                 ),
               ),

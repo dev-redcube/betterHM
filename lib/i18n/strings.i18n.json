@@ -53,6 +53,10 @@
           "lines": "Lines"
         }
       }
+    },
+    "cardTitles(map)": {
+      "semesterStatus": "Events and Deadlines",
+      "nextDepartures": "Next Departures"
     }
   },
   "mealplan": {
