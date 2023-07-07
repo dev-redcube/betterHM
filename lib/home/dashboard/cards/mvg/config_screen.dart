@@ -1,4 +1,5 @@
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 
 import 'line.dart';
@@ -35,10 +36,12 @@ class _NextDeparturesConfigScreenState
   }
 
   void save() {
-    widget.onChanged(NextDeparturesConfig(
-      station: station,
-      lines: lines,
-    ));
+    if (lines.isNotEmpty) {
+      widget.onChanged(NextDeparturesConfig(
+        station: station,
+        lines: lines,
+      ));
+    }
   }
 
   @override
@@ -53,29 +56,49 @@ class _NextDeparturesConfigScreenState
             setState(() {
               station = value;
             });
+            lines.clear();
+            lines.addAll(lineIds[station.id]!.toList());
             save();
           },
           options: stationIds.map((e) => DropdownItem(e.name, e)),
         ),
-        ListView(
-            shrinkWrap: true,
-            children: lineIds[station.id]!
-                .map((e) => _LineCheckTile(
-                      key: ValueKey(e),
-                      title: "${e.number} ${e.direction}",
-                      selected: lines.contains(e),
-                      onChanged: (value) {
-                        setState(() {
-                          if (value) {
-                            lines.add(e);
-                          } else {
-                            lines.remove(e);
-                          }
-                        });
-                        save();
-                      },
-                    ))
-                .toList()),
+        ListTile(
+          title: Text(
+            "LINES",
+            style: context.theme.textTheme.titleMedium,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+              shrinkWrap: true,
+              children: lineIds[station.id]!
+                  .map((e) => CheckboxListTile(
+                        key: ValueKey(e),
+                        // title: Text("${e.number} ${e.direction}"),
+                        title: Row(
+                          children: [
+                            SizedBox(
+                              width: 50,
+                              child: Text(e.number),
+                            ),
+                            Text(e.direction)
+                          ],
+                        ),
+                        value: lines.contains(e),
+                        onChanged: (value) {
+                          setState(() {
+                            if (value!) {
+                              lines.add(e);
+                            } else {
+                              if (lines.length == 1) return;
+                              lines.remove(e);
+                            }
+                          });
+                        },
+                      ))
+                  .toList()),
+        ),
       ],
     );
   }

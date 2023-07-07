@@ -47,7 +47,11 @@
       },
       "nextDepartures": {
         "title": "Next Departures",
-        "noDepartures": "No Departures in the next $minutes minutes"
+        "noDepartures": "No Departures in the next $minutes minutes",
+        "config": {
+          "station": "Station",
+          "lines": "Lines"
+        }
       }
     }
   },
