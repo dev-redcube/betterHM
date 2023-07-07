@@ -28,7 +28,7 @@ abstract class Prefs {
 
   // Dashboard
   static late final PlainPref<List<String>> cards;
-  static late final PlainPref<int> mvgLeadTime;
+  static late final PlainPref<int> cardTimeout;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
@@ -39,7 +39,7 @@ abstract class Prefs {
     }
     initialLocation = PlainPref("initialLocation", "/");
     cards = PlainPref("cards", []);
-    mvgLeadTime = PlainPref("mvgLeadTime", 1);
+    cardTimeout = PlainPref("cardTimeout", 2000);
     showFoodLabels = PlainPref("showFoodLabels", true);
 
     initialized = true;

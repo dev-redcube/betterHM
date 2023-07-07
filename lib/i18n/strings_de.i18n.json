@@ -24,7 +24,7 @@
   },
   "dashboard": {
     "error": {
-      "text": "Mindestens eine Karte konnte nicht geladen werden",
+      "text": "Karte $card konnte nicht geladen werden",
       "logs": "Logs"
     },
     "manage": {
@@ -113,7 +113,8 @@
       "clearCaches": {
         "title": "Cache leeren",
         "snackbar": "Cache geleert"
-      }
+      },
+      "cardTimeout": "Dashboard lade Timeout"
     }
   }
 }

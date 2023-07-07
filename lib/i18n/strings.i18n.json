@@ -24,7 +24,7 @@
   },
   "dashboard": {
     "error": {
-      "text": "At least one Card could not be loaded",
+      "text": "Card $card could not be loaded",
       "logs": "logs"
     },
     "manage": {
@@ -113,7 +113,8 @@
       "clearCaches": {
         "title": "clear cache",
         "snackbar": "Cache cleared"
-      }
+      },
+      "cardTimeout": "Card loading timeout"
     }
   }
 }

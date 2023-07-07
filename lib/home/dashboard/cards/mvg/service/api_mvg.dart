@@ -91,7 +91,7 @@ class ApiMvg {
       }
     }
 
-    logger.error("API status code is not 200",
+    logger.error("API status code is not 200, but ${response.statusCode}",
         "${response.statusCode}: ${response.body}");
     throw ApiException(response: response);
   }
