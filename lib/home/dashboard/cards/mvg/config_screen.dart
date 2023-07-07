@@ -1,3 +1,4 @@
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _NextDeparturesConfigScreenState
     return ListView(
       children: [
         DropdownListTile<Station>(
-          title: "Station",
+          title: t.dashboard.cards.nextDepartures.config.station,
           initialValue: station,
           onChanged: (Station? value) {
             if (value == null) return;
@@ -64,7 +65,7 @@ class _NextDeparturesConfigScreenState
         ),
         ListTile(
           title: Text(
-            "LINES",
+            t.dashboard.cards.nextDepartures.config.lines,
             style: context.theme.textTheme.titleMedium,
           ),
         ),
@@ -75,7 +76,6 @@ class _NextDeparturesConfigScreenState
               children: lineIds[station.id]!
                   .map((e) => CheckboxListTile(
                         key: ValueKey(e),
-                        // title: Text("${e.number} ${e.direction}"),
                         title: Row(
                           children: [
                             SizedBox(
@@ -100,46 +100,6 @@ class _NextDeparturesConfigScreenState
                   .toList()),
         ),
       ],
-    );
-  }
-}
-
-class _LineCheckTile extends StatefulWidget {
-  const _LineCheckTile({
-    super.key,
-    required this.selected,
-    required this.title,
-    required this.onChanged,
-  });
-
-  final bool selected;
-  final String title;
-  final void Function(bool value) onChanged;
-
-  @override
-  State<_LineCheckTile> createState() => _LineCheckTileState();
-}
-
-class _LineCheckTileState extends State<_LineCheckTile> {
-  late bool selected;
-
-  @override
-  void initState() {
-    super.initState();
-    selected = widget.selected;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CheckboxListTile(
-      value: selected,
-      title: Text(widget.title),
-      onChanged: (value) {
-        setState(() {
-          selected = value!;
-        });
-        widget.onChanged(value!);
-      },
     );
   }
 }
