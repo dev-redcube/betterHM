@@ -56,10 +56,12 @@ class NextDeparturesCard extends ICard<List<Departure>> {
 class NextDeparturesConfig {
   Station station;
   List<Line> lines;
+  int? leadTime;
 
   NextDeparturesConfig({
     required this.station,
     required this.lines,
+    this.leadTime,
   });
 
   void apply(NextDeparturesConfig config) {
@@ -70,6 +72,7 @@ class NextDeparturesConfig {
   Map<String, dynamic> toJson() => {
         "station": station.id,
         "lines": lines.map((e) => e.id).toList(),
+        "leadTime": leadTime,
       };
 
   factory NextDeparturesConfig.fromJson(Map<String, dynamic>? json) {
@@ -84,17 +87,15 @@ class NextDeparturesConfig {
       return NextDeparturesConfig(
         station:
             StationService.getFromId(json["station"]) ?? defaultConfig.station,
-        lines: (json["lines"] as List<dynamic>)
-            .map((e) => LineService.getFromId(e))
-            .where((element) => element != null)
-            .cast<Line>()
-            .toList(),
+        lines: lines.toList(),
+        leadTime: json["leadTime"],
       );
     }
     return defaultConfig;
   }
 
   static get defaultConfig => NextDeparturesConfig(
-      station: StationService.getFromId("de:09162:12")!,
-      lines: lineIds["de:09162:12"]!);
+        station: StationService.getFromId("de:09162:12")!,
+        lines: lineIds["de:09162:12"]!,
+      );
 }

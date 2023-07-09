@@ -1,7 +1,9 @@
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
+import 'package:better_hm/shared/components/input_list_tile.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'line.dart';
 import 'next_departures_card.dart';
@@ -67,6 +69,21 @@ class _NextDeparturesConfigScreenState
             t.dashboard.cards.nextDepartures.config.lines,
             style: context.theme.textTheme.titleMedium,
           ),
+        ),
+        InputListTile(
+          title: Text("Vorlaufzeit"),
+          keyboardType: TextInputType.number,
+          initialValue: widget.config.leadTime,
+          decoration: const InputDecoration(
+            suffixText: "min",
+            constraints: BoxConstraints(maxWidth: 75),
+            counterText: "",
+          ),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+          maxLength: 2,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

@@ -55,6 +55,7 @@ class ApiMvg {
     http.Client? client,
     required String stationId,
     required Iterable<String> lineIds,
+    Duration leadTime = const Duration(minutes: 1),
   }) async {
     assert(lineIds.isNotEmpty, "Specify at least one lineId");
     final logger = Logger(loggerTag);
@@ -71,9 +72,9 @@ class ApiMvg {
       "eID": "departuresFinder",
       "action": "get_departures",
       "stop_id": stationId,
-      "requested_timestamp": (DateTime.now().millisecondsSinceEpoch ~/ 1000 +
-              const Duration(minutes: 1).inSeconds)
-          .toString(),
+      "requested_timestamp":
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000 + leadTime.inSeconds)
+              .toString(),
       "lines": linesEncoded,
     });
     final stopwatch = Stopwatch()..start();
