@@ -5,7 +5,7 @@ final stationIds = <Station>[
   Station(id: "de:09162:12", name: "Hochschule München"),
 ];
 
-final lineIds = <String, List<Line>>{
+const lineIds = <String, List<Line>>{
   "de:09162:12": [
     Line(
       id: "swm:02020:G:H:013",

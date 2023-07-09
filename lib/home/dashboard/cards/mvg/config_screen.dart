@@ -26,13 +26,13 @@ class NextDeparturesConfigScreen extends StatefulWidget {
 class _NextDeparturesConfigScreenState
     extends State<NextDeparturesConfigScreen> {
   late Station station;
-  late final List<Line> lines;
+  late List<Line> lines;
 
   @override
   void initState() {
     super.initState();
     station = widget.config.station;
-    lines = widget.config.lines;
+    lines = List<Line>.from(widget.config.lines);
   }
 
   void save() {
@@ -46,6 +46,7 @@ class _NextDeparturesConfigScreenState
 
   @override
   Widget build(BuildContext context) {
+    print(lineIds[station.id]!.map((e) => e.direction));
     return ListView(
       children: [
         DropdownListTile<Station>(
@@ -56,8 +57,7 @@ class _NextDeparturesConfigScreenState
             setState(() {
               station = value;
             });
-            lines.clear();
-            lines.addAll(lineIds[station.id]!.toList());
+            lines = List<Line>.from(lineIds[station.id]!.toList());
             save();
           },
           options: stationIds.map((e) => DropdownItem(e.name, e)),
@@ -94,6 +94,7 @@ class _NextDeparturesConfigScreenState
                               lines.remove(e);
                             }
                           });
+                          save();
                         },
                       ))
                   .toList()),

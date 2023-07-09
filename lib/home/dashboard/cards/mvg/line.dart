@@ -5,7 +5,7 @@ class Line {
   final String? symbol;
   final LineType? type;
 
-  Line({
+  const Line({
     required this.id,
     required this.number,
     required this.direction,

@@ -70,7 +70,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: LinearProgressIndicator(),
             );
           }
-          print("loaded");
           final futures = snapshot.data as List<dynamic>;
 
           return Padding(
@@ -108,7 +107,7 @@ class ManageCardsButton extends StatelessWidget {
 }
 
 class _ErrorCard extends StatelessWidget {
-  const _ErrorCard(this.type, {super.key});
+  const _ErrorCard(this.type);
 
   final CardType type;
 

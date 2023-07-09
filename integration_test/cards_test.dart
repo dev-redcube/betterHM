@@ -73,10 +73,10 @@ Future<void> addTwoCards(WidgetTester tester) async {
 
   await tester.tap(fab);
   await tester.pumpAndSettle();
-  await tester.tap(find.text("semesterStatus"));
+  await tester.tap(find.byType(ListTile).first);
   await tester.pumpAndSettle();
   await tester.tap(fab);
   await tester.pumpAndSettle();
-  await tester.tap(find.text("nextDepartures"));
+  await tester.tap(find.byType(ListTile).last);
   await tester.pumpAndSettle();
 }
