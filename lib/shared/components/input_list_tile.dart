@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class InputListTile<T> extends StatefulWidget {
+class InputListTile extends StatefulWidget {
   const InputListTile({
     super.key,
     required this.title,
@@ -16,11 +16,12 @@ class InputListTile<T> extends StatefulWidget {
     this.validator,
     this.inputFormatters,
     this.maxLines,
+    this.onFieldSubmitted,
   });
 
   final Widget title;
   final Widget? subtitle;
-  final T? initialValue;
+  final String? initialValue;
 
   final TextInputType? keyboardType;
   final bool enabled;
@@ -34,7 +35,8 @@ class InputListTile<T> extends StatefulWidget {
 
   final List<TextInputFormatter>? inputFormatters;
 
-  final ValueChanged<T?>? onChanged;
+  final ValueChanged? onChanged;
+  final ValueChanged? onFieldSubmitted;
 
   @override
   State<InputListTile> createState() => _InputListTileState();
@@ -51,6 +53,7 @@ class _InputListTileState extends State<InputListTile> {
           maxWidth: 150,
         ),
         child: TextFormField(
+          initialValue: widget.initialValue,
           keyboardType: widget.keyboardType,
           enabled: widget.enabled,
           maxLength: widget.maxLength,
@@ -58,10 +61,9 @@ class _InputListTileState extends State<InputListTile> {
           validator: widget.validator,
           inputFormatters: widget.inputFormatters,
           decoration: widget.decoration,
-          onChanged: (value) {
-            print(value);
-          },
+          onChanged: widget.onChanged,
           maxLines: widget.maxLines,
+          onFieldSubmitted: widget.onFieldSubmitted,
         ),
       ),
     );

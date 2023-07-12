@@ -29,12 +29,14 @@ class _NextDeparturesConfigScreenState
     extends State<NextDeparturesConfigScreen> {
   late Station station;
   late List<Line> lines;
+  late int leadTime;
 
   @override
   void initState() {
     super.initState();
     station = widget.config.station;
     lines = List<Line>.from(widget.config.lines);
+    leadTime = widget.config.leadTime;
   }
 
   void save() {
@@ -42,6 +44,7 @@ class _NextDeparturesConfigScreenState
       widget.onChanged(NextDeparturesConfig(
         station: station,
         lines: lines,
+        leadTime: leadTime,
       ));
     }
   }
@@ -64,16 +67,10 @@ class _NextDeparturesConfigScreenState
           },
           options: stationIds.map((e) => DropdownItem(e.name, e)),
         ),
-        ListTile(
-          title: Text(
-            t.dashboard.cards.nextDepartures.config.lines,
-            style: context.theme.textTheme.titleMedium,
-          ),
-        ),
         InputListTile(
-          title: Text("Vorlaufzeit"),
+          title: Text(t.dashboard.cards.nextDepartures.config.leadTime),
           keyboardType: TextInputType.number,
-          initialValue: widget.config.leadTime,
+          initialValue: widget.config.leadTime.toString(),
           decoration: const InputDecoration(
             suffixText: "min",
             constraints: BoxConstraints(maxWidth: 75),
@@ -84,6 +81,16 @@ class _NextDeparturesConfigScreenState
           ],
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
           maxLength: 2,
+          onFieldSubmitted: (value) {
+            leadTime = int.parse(value);
+            save();
+          },
+        ),
+        ListTile(
+          title: Text(
+            t.dashboard.cards.nextDepartures.config.lines,
+            style: context.theme.textTheme.titleMedium,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

@@ -26,7 +26,10 @@ class NextDeparturesCard extends ICard<List<Departure>> {
   @override
   Future<List<Departure>> future() {
     return ApiMvg().getDepartures(
-        stationId: _config.station.id, lineIds: _config.lines.map((e) => e.id));
+      stationId: _config.station.id,
+      lineIds: _config.lines.map((e) => e.id),
+      leadTime: Duration(seconds: _config.leadTime * 60),
+    );
   }
 
   @override
@@ -41,32 +44,23 @@ class NextDeparturesCard extends ICard<List<Departure>> {
               .replaceCardAt(cardIndex, Tuple(CardType.nextDepartures, this));
         },
       );
-
-// @override
-// Widget? renderConfig(int cardIndex) => _Config(
-//       config: _config,
-//       onChanged: (NextDeparturesConfig config) {
-//         _config.apply(config);
-//         CardService()
-//             .replaceCardAt(cardIndex, Tuple(CardType.nextDepartures, this));
-//       },
-//     );
 }
 
 class NextDeparturesConfig {
   Station station;
   List<Line> lines;
-  int? leadTime;
+  int leadTime;
 
   NextDeparturesConfig({
     required this.station,
     required this.lines,
-    this.leadTime,
+    required this.leadTime,
   });
 
   void apply(NextDeparturesConfig config) {
     station = config.station;
     lines = config.lines;
+    leadTime = config.leadTime;
   }
 
   Map<String, dynamic> toJson() => {
@@ -97,5 +91,6 @@ class NextDeparturesConfig {
   static get defaultConfig => NextDeparturesConfig(
         station: StationService.getFromId("de:09162:12")!,
         lines: lineIds["de:09162:12"]!,
+        leadTime: 1,
       );
 }

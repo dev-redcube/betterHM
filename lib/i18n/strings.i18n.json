@@ -50,7 +50,8 @@
         "noDepartures": "No Departures in the next $minutes minutes",
         "config": {
           "station": "Station",
-          "lines": "Lines"
+          "lines": "Lines",
+          "leadTime": "Vorlaufzeit"
         }
       }
     },
