@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import 'card_service.dart';
 import 'manage_cards_screen.dart';
+import 'no_cards.dart';
 
 // TODO loading external with provider
 class DashboardScreen extends StatefulWidget {
@@ -60,33 +61,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (cards.isEmpty) {
+      return const NoCardsPlaceholder();
+    }
     return FutureBuilder(
-        future: cardsLoading,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData ||
-              snapshot.connectionState != ConnectionState.done) {
-            return const Align(
-              alignment: Alignment.topLeft,
-              child: LinearProgressIndicator(),
-            );
-          }
-          final futures = snapshot.data as List<dynamic>;
-
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: ListView(
-              children: [
-                ...futures.mapIndexed((e, i) {
-                  if (errors.contains(i)) {
-                    return _ErrorCard(cards[i].item1);
-                  }
-                  return cards[i].item2.render(e);
-                }),
-                const ManageCardsButton(),
-              ],
-            ),
+      future: cardsLoading,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData ||
+            snapshot.connectionState != ConnectionState.done) {
+          return const Align(
+            alignment: Alignment.topLeft,
+            child: LinearProgressIndicator(),
           );
-        });
+        }
+        final futures = snapshot.data as List<dynamic>;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ListView(
+            children: [
+              ...futures.mapIndexed((e, i) {
+                if (errors.contains(i)) {
+                  return _ErrorCard(cards[i].item1);
+                }
+                return cards[i].item2.render(e);
+              }),
+              const ManageCardsButton(),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
