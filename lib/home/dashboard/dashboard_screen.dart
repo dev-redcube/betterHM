@@ -3,7 +3,6 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/logs/logs_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_list.dart';
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,8 +19,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final logger = Logger("dashboard");
-
   late CardsList cards;
   final _cardService = CardService();
 

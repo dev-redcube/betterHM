@@ -1,20 +1,47 @@
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:isar/isar.dart';
+import 'package:logging/logging.dart';
 
 part 'log_entry.g.dart';
 
-@Collection(accessor: "logEntries")
+@Collection(accessor: "logEntries", inheritance: false)
 class LogEntry {
-  final id = Isar.autoIncrement;
-  final DateTime timestamp;
-
-  @Enumerated(EnumType.name)
-  @Index()
-  final LogLevel level;
+  Id id = Isar.autoIncrement;
   final String message;
-  final String? tag;
-  final String? extra;
 
-  LogEntry(this.level, this.message, this.tag, {this.extra})
-      : timestamp = DateTime.now();
+  @Enumerated(EnumType.ordinal)
+  final LogLevel level;
+  final DateTime timestamp;
+  final String? context1;
+  final String? context2;
+
+  LogEntry({
+    required this.message,
+    this.level = LogLevel.INFO,
+    required this.timestamp,
+    this.context1,
+    this.context2,
+  });
+
+  @override
+  String toString() {
+    return 'InAppLoggerMessage(message: $message, level: $level, timestamp: $timestamp)';
+  }
+}
+
+/// Log levels according to dart logging [Level]
+enum LogLevel {
+  ALL,
+  FINEST,
+  FINER,
+  FINE,
+  CONFIG,
+  INFO,
+  WARNING,
+  SEVERE,
+  SHOUT,
+  OFF,
+}
+
+extension LevelExtension on Level {
+  LogLevel toLogLevel() => LogLevel.values[Level.LEVELS.indexOf(this)];
 }

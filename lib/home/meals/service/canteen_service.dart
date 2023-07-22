@@ -1,10 +1,9 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/service/api_canteen.dart';
-import 'package:better_hm/shared/logger/logger.dart';
-import 'package:better_hm/shared/service/isar_service.dart';
 import 'package:isar/isar.dart';
+import 'package:logging/logging.dart';
 
-class CanteenService extends IsarService {
+class CanteenService {
   static const showCanteens = [
     "MENSA_ARCISSTR",
     "MENSA_GARCHING",
@@ -26,15 +25,15 @@ class CanteenService extends IsarService {
     "STUCAFE_KARLSTR",
     "MENSA_STRAUBING",
   ];
+  final Logger _log = Logger("CanteenService");
 
   static const loggerTag = "canteen service";
 
   Future<List<Canteen>> getCanteens() async {
-    final isar = await db;
-    final Logger logger = Logger(loggerTag);
+    final isar = Isar.getInstance()!;
     final List<Canteen> canteens = await isar.canteens.where().findAll();
     if (canteens.isEmpty) {
-      logger.info("Cache is Empty. Fetching Canteens from Server...");
+      _log.info("Cache is Empty. Fetching Canteens from Server...");
       var canteens = await ApiCanteen().getCanteens();
 
       // filter and sort
@@ -56,7 +55,7 @@ class CanteenService extends IsarService {
   }
 
   storeCanteens(List<Canteen> canteens, {bool clear = true}) async {
-    final isar = await db;
+    final isar = Isar.getInstance()!;
     await isar.writeTxn(() async {
       if (clear) {
         await isar.canteens.clear();
@@ -66,7 +65,7 @@ class CanteenService extends IsarService {
   }
 
   clearCanteens() async {
-    final isar = await db;
+    final isar = Isar.getInstance()!;
     await isar.writeTxn(() => isar.canteens.clear());
   }
 }

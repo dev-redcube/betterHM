@@ -2,9 +2,9 @@ import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/settings/logs/log_details_screen.dart';
 import 'package:better_hm/settings/logs/logs_screen.dart';
 import 'package:better_hm/settings/settings_screen.dart';
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/main_drawer.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +57,16 @@ final router = GoRouter(
       name: LogsScreen.routeName,
       path: "/logs",
       parentNavigatorKey: rootNavigatorKey,
-      builder: (context, state) =>
-          LogsScreen(levels: state.extra as Set<LogLevel>?),
+      builder: (context, state) => const LogsScreen(),
+      routes: <GoRoute>[
+        GoRoute(
+          name: LogDetailsScreen.routeName,
+          path: ":id",
+          parentNavigatorKey: rootNavigatorKey,
+          builder: (context, state) =>
+              LogDetailsScreen(id: state.pathParameters["id"]),
+        )
+      ],
     ),
   ],
 );

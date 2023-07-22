@@ -3,17 +3,17 @@ import 'dart:convert';
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/models/week.dart';
-import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/service/api_service.dart';
+import 'package:logging/logging.dart';
 
 class ApiMeals extends ApiService {
   static const baseUrl = "https://tum-dev.github.io/eat-api";
+  final Logger _log = Logger("MealsService");
 
   Future<MealWeek> getMealsInWeek(Canteen canteen, int year, int week) async {
-    Logger(CanteenService.loggerTag).info("Fetching meals for week $week...");
+    _log.info("Fetching meals for week $week...");
     final response =
         await get("$baseUrl/${canteen.canteenId}/$year/$week.json");
     if (200 == response.statusCode) {
@@ -29,7 +29,7 @@ class ApiMeals extends ApiService {
     Canteen canteen, {
     onlyFutureMeals = true,
   }) async {
-    Logger(CanteenService.loggerTag).info("Fetching combined meals...");
+    _log.info("Fetching combined meals...");
     final response =
         await get("$baseUrl/${canteen.canteenId}/combined/combined.json");
     if (200 == response.statusCode) {
