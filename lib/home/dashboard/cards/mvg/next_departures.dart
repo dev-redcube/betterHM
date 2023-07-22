@@ -7,6 +7,8 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 
+import 'line_icon.dart';
+
 // https://stackoverflow.com/questions/53128438/android-onresume-method-equivalent-in-flutter
 class NextDepartures extends StatefulWidget {
   const NextDepartures({super.key, required this.departures});
@@ -69,7 +71,7 @@ class _NextDeparturesState extends State<NextDepartures>
                 final departure = items[index];
                 return ListTile(
                   key: ValueKey(departure),
-                  leading: Text(departure.line.number),
+                  leading: LineIcon(departure.line.number),
                   title: Text(departure.direction),
                   contentPadding: EdgeInsets.zero,
                   dense: false,
