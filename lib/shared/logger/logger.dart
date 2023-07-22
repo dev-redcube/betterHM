@@ -87,12 +87,12 @@ class HMLogger {
     final io = file.openWrite();
     try {
       // Header
-      io.write("created_at,level,context,message,stacktrace\n");
+      io.write("created_at;level;context;message;stacktrace\n");
 
       // Entries
       for (final l in await entries()) {
         io.write(
-          '${l.timestamp},${l.level},"${l.context1 ?? ""}","${l.message}","${l.context2 ?? ""}"\n',
+          '${l.timestamp};${l.level};"${l.context1 ?? ""}";"${l.message}";"${l.context2 ?? ""}"\n',
         );
       }
     } finally {
