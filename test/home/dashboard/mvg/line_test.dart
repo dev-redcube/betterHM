@@ -8,7 +8,7 @@ void main() {
       "number": "21",
       "direction": "Hauptbahnhof",
       "symbol": "U.svg",
-      "name": "Linie 21",
+      "name": "Bus"
     };
     final line = Line.fromJson(json);
     expect(line, isA<Line>());
