@@ -103,12 +103,13 @@
         "open": "open logs",
         "title": "Logs",
         "shareFile": "Share logs",
-        "shareJson": "Share logs as json text",
-        "clear": {
-          "title": "Clear logs",
-          "description": "are you sure?",
-          "cancel": "cancel",
-          "confirm": "confirm"
+        "clear": "Clear logs",
+        "details": {
+          "title": "Log Details",
+          "copiedToClipboard": "Copied to clipboard",
+          "message": "Message",
+          "context1": "From",
+          "context2": "Stacktrace"
         }
       },
       "clearCaches": {

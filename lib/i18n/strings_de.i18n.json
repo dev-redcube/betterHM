@@ -103,12 +103,13 @@
         "open": "Logs öffnen",
         "title": "Logs",
         "shareFile": "Logs teilen",
-        "shareJson": "Logs als Json Text teilen",
-        "clear": {
-          "title": "Logs leeren",
-          "description": "Sind sie sicher?",
-          "cancel": "Abbrechen",
-          "confirm": "Löschen"
+        "clear": "Logs leeren",
+        "details": {
+          "title": "Log Details",
+          "copiedToClipboard": "In die Zwischenablage kopiert",
+          "message": "Nachricht",
+          "context1": "Ursprung",
+          "context2": "Stacktrace"
         }
       },
       "clearCaches": {

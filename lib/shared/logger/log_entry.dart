@@ -5,11 +5,11 @@ part 'log_entry.g.dart';
 
 @Collection(accessor: "logEntries", inheritance: false)
 class LogEntry {
-  final id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
   final String message;
 
   @Enumerated(EnumType.ordinal)
-  LogLevel level = LogLevel.INFO;
+  final LogLevel level;
   final DateTime timestamp;
   final String? context1;
   final String? context2;

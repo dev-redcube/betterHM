@@ -34,9 +34,8 @@ class HMLogger {
     Logger.root.onRecord.listen(_writeLogToDatabase);
   }
 
-  List<LogEntry> get entries {
-    final inDb = _db.logEntries.where(sort: Sort.desc).anyId().findAllSync();
-    return _msgBuffer.isEmpty ? inDb : _msgBuffer.reversed.toList() + inDb;
+  Future<List<LogEntry>> entries() async {
+    return await _db.logEntries.where().anyId().findAll();
   }
 
   void _removeOverflowMessages() {
@@ -60,9 +59,9 @@ class HMLogger {
       context2: record.stackTrace?.toString(),
     );
     _msgBuffer.add(lm);
+
     // delayed batch writing to database: increases performance when logging
     // messages in quick succession and reduces NAND wear
-
     _timer ??= Timer(const Duration(seconds: 5), _flushBufferToDatabase);
   }
 
@@ -73,11 +72,11 @@ class HMLogger {
     _db.writeTxn(() => _db.logEntries.putAll(buffer));
   }
 
-  clearLogs() {
+  Future<void> clearLogs() async {
     _timer?.cancel();
     _timer = null;
     _msgBuffer.clear();
-    _db.writeTxn(() => _db.logEntries.clear());
+    await _db.writeTxn(() async => await _db.logEntries.clear());
   }
 
   Future<void> shareLogs() async {
@@ -91,7 +90,7 @@ class HMLogger {
       io.write("created_at,level,context,message,stacktrace\n");
 
       // Entries
-      for (final l in entries) {
+      for (final l in await entries()) {
         io.write(
           '${l.timestamp},${l.level},"${l.context1 ?? ""}","${l.message}","${l.context2 ?? ""}"\n',
         );
