@@ -5,8 +5,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Prefs {
@@ -33,14 +33,25 @@ abstract class Prefs {
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
 
+  // Advanced
+  static late final PlainPref<int> logLevel;
+
   static void init() {
     if (initialized) {
       return;
     }
+    // General
     initialLocation = PlainPref("initialLocation", "/");
+
+    // Dashboard
     cards = PlainPref("cards", []);
     cardTimeout = PlainPref("cardTimeout", 2000);
+
+    // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);
+
+    // Advanced
+    logLevel = PlainPref("logLevel", 5);
 
     initialized = true;
   }
@@ -237,7 +248,7 @@ class PlainPref<T> extends IPref<T> {
         return _prefs!.get(key) as T?;
       }
     } catch (e) {
-      Logger("prefs").error("Error loading $key: $e");
+      Logger("prefs").warning("Error loading $key: $e");
       return null;
     }
   }

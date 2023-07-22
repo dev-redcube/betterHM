@@ -1,100 +1,118 @@
-import 'dart:developer';
+/// THIS FILE IS A MODIFIED VERSION OF https://github.com/immich-app/immich/blob/main/mobile/lib/shared/services/immich_logger.service.dart
+import 'dart:async';
+import 'dart:io';
 
 import 'package:better_hm/shared/logger/log_entry.dart';
-import 'package:better_hm/shared/service/isar_service.dart';
+import 'package:better_hm/shared/prefs.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
+import 'package:logging/logging.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
-class Logger {
-  final String? _tag;
+/// [HMLogger] is a custom logger that is built on top of the [logging] package.
+/// The logs are written to the database and onto console, using `debugPrint` method.
+///
+/// The logs are deleted when exceeding the `maxLogEntries` (default 500) property
+/// in the class.
+///
+/// Logs can be shared by calling the `shareLogs` method, which will open a share dialog
+/// and generate a csv file.
+class HMLogger {
+  static final HMLogger _instance = HMLogger._internal();
+  final maxLogEntries = 500;
+  final Isar _db = Isar.getInstance()!;
+  List<LogEntry> _msgBuffer = [];
+  Timer? _timer;
 
-  Logger(String? tag) : _tag = tag?.toUpperCase();
+  factory HMLogger() => _instance;
 
-  void debug(String message, [String? extra]) {
-    LoggerStatic().debug(_tag, message, extra);
+  HMLogger._internal() {
+    _removeOverflowMessages();
+    final int levelId = Prefs.logLevel.value;
+    Logger.root.level = Level.LEVELS[levelId];
+    Logger.root.onRecord.listen(_writeLogToDatabase);
   }
 
-  void d(String message, [String? extra]) => debug(message, extra);
-
-  void info(String message, [String? extra]) {
-    LoggerStatic().info(_tag, message, extra);
+  List<LogEntry> get entries {
+    final inDb = _db.logEntries.where(sort: Sort.desc).anyId().findAllSync();
+    return _msgBuffer.isEmpty ? inDb : _msgBuffer.reversed.toList() + inDb;
   }
 
-  void i(String message, [String? extra]) => info(message, extra);
-
-  void warning(String message, [String? extra]) {
-    LoggerStatic().warning(_tag, message, extra);
-  }
-
-  void w(String message, [String? extra]) => warning(message, extra);
-
-  void error(String message, [String? extra]) {
-    LoggerStatic().error(_tag, message, extra);
-  }
-
-  void e(String message, [String? extra]) => error(message, extra);
-}
-
-class LoggerStatic extends IsarService {
-  static final LoggerStatic _instance = LoggerStatic._internal();
-  static late final Isar _isar;
-
-  static bool initialized = false;
-
-  LoggerStatic._internal();
-
-  Future<void> init() async {
-    if (initialized) {
-      return;
+  void _removeOverflowMessages() {
+    final msgCount = _db.logEntries.countSync();
+    if (msgCount > maxLogEntries) {
+      final numberOfEntryToBeDeleted = msgCount - maxLogEntries;
+      _db.writeTxn(
+        () =>
+            _db.logEntries.where().limit(numberOfEntryToBeDeleted).deleteAll(),
+      );
     }
-    _isar = await db;
-    initialized = true;
   }
 
-  factory LoggerStatic() => _instance;
+  void _writeLogToDatabase(LogRecord record) {
+    debugPrint('[${record.level.name}] [${record.time}] ${record.message}');
+    final lm = LogEntry(
+      message: record.message,
+      level: record.level.toLogLevel(),
+      timestamp: record.time,
+      context1: record.loggerName,
+      context2: record.stackTrace?.toString(),
+    );
+    _msgBuffer.add(lm);
+    // delayed batch writing to database: increases performance when logging
+    // messages in quick succession and reduces NAND wear
 
-  Stream<List<LogEntry>> stream() => _isar.logEntries
-      .where()
-      .sortByTimestamp()
-      .limit(500)
-      .watch(fireImmediately: true);
-
-  Future<List<Map<String, dynamic>>> dump() async {
-    return await _isar.logEntries.where().sortByTimestamp().exportJson();
+    _timer ??= Timer(const Duration(seconds: 5), _flushBufferToDatabase);
   }
 
-  Future<void> clearLogs() async => await _isar.writeTxn(() => _isar.clear());
-
-  void _write(LogEntry entry) async {
-    await _isar.writeTxn(() async {
-      _isar.logEntries.put(entry);
-    });
-    log("${entry.level.name.toUpperCase()}: ${entry.message}");
+  void _flushBufferToDatabase() {
+    _timer = null;
+    final buffer = _msgBuffer;
+    _msgBuffer = [];
+    _db.writeTxn(() => _db.logEntries.putAll(buffer));
   }
 
-  void debug(String? tag, String message, String? extra) {
-    final entry = LogEntry(LogLevel.debug, message, tag, extra: extra);
-    _write(entry);
+  clearLogs() {
+    _timer?.cancel();
+    _timer = null;
+    _msgBuffer.clear();
+    _db.writeTxn(() => _db.logEntries.clear());
   }
 
-  void info(String? tag, String message, String? extra) {
-    final entry = LogEntry(LogLevel.info, message, tag, extra: extra);
-    _write(entry);
+  Future<void> shareLogs() async {
+    final tempDir = await getTemporaryDirectory();
+    final dateTime = DateTime.now().toIso8601String();
+    final filePath = '${tempDir.path}/BetterHM_log_$dateTime.csv';
+    final file = await File(filePath).create();
+    final io = file.openWrite();
+    try {
+      // Header
+      io.write("created_at,level,context,message,stacktrace\n");
+
+      // Entries
+      for (final l in entries) {
+        io.write(
+          '${l.timestamp},${l.level},"${l.context1 ?? ""}","${l.message}","${l.context2 ?? ""}"\n',
+        );
+      }
+    } finally {
+      await io.flush();
+      await io.close();
+    }
+
+    await Share.shareXFiles(
+      [XFile(filePath)],
+      subject: "BetterHM Logs $dateTime",
+      sharePositionOrigin: Rect.zero,
+    ).then((value) => file.delete());
   }
 
-  void warning(String? tag, String message, String? extra) {
-    final entry = LogEntry(LogLevel.warning, message, tag, extra: extra);
-    _write(entry);
+  /// Flush pending log messages to persistent storage
+  void flush() {
+    if (_timer != null) {
+      _timer!.cancel();
+      _db.writeTxnSync(() => _db.logEntries.putAllSync(_msgBuffer));
+    }
   }
-
-  void error(String? tag, String message, String? extra) {
-    final entry = LogEntry(LogLevel.error, message, tag, extra: extra);
-    _write(entry);
-  }
-}
-
-enum LogLevel {
-  debug,
-  info,
-  warning,
-  error,
 }

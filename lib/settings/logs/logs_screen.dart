@@ -1,19 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
+import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:intl/intl.dart';
 
 class LogsScreen extends StatefulWidget {
-  const LogsScreen({super.key, this.levels});
-
-  final Set<LogLevel>? levels;
+  const LogsScreen({super.key});
 
   static const routeName = "logs";
 
@@ -22,137 +15,145 @@ class LogsScreen extends StatefulWidget {
 }
 
 class _LogsScreenState extends State<LogsScreen> {
-  late final Set<LogLevel> selectedLevels;
+  final ScrollController _controller = ScrollController();
+
+  bool showFab = false;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
-    selectedLevels = widget.levels ?? LogLevel.values.toSet();
-  }
+    _controller.addListener(() {
+      double showoffset = 50.0;
 
-  shareFile() async {
-    final dir = await getTemporaryDirectory();
-    final timestamp = now().millisecondsSinceEpoch ~/ 1000;
-    final file = File("${dir.path}/logs-$timestamp.json");
-    await file.writeAsString(jsonEncode(await LoggerStatic().dump()));
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      subject: t.settings.advanced.logs.shareFile,
-    );
-    await file.delete();
-  }
-
-  shareJson() async {
-    final json = jsonEncode(await LoggerStatic().dump());
-    await Share.share(json, subject: t.settings.advanced.logs.shareJson);
-  }
-
-  deleteLogs(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(t.settings.advanced.logs.clear.title),
-        content: Text(t.settings.advanced.logs.clear.description),
-        actions: [
-          TextButton(
-            onPressed: () {
-              if (mounted) context.pop();
-            },
-            child: Text(t.settings.advanced.logs.clear.cancel),
-          ),
-          TextButton(
-            onPressed: () async {
-              await LoggerStatic().clearLogs();
-              if (mounted) context.pop();
-            },
-            child: Text(
-              t.settings.advanced.logs.clear.confirm,
-              style: TextStyle(color: context.theme.colorScheme.error),
-            ),
-          ),
-        ],
-      ),
-    );
+      if (_controller.offset > showoffset) {
+        setState(() {
+          showFab = true;
+        });
+      } else {
+        setState(() {
+          showFab = false;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final logger = HMLogger();
+    final entries = logger.entries;
     return Scaffold(
       appBar: AppBar(
         title: Text(t.settings.advanced.logs.title),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever_rounded),
-            onPressed: () async => await deleteLogs(context),
-            tooltip: t.settings.advanced.logs.clear.title,
+            onPressed: () {
+              logger.clearLogs();
+            },
           ),
           IconButton(
-            icon: const Icon(Icons.upload_file_rounded),
-            onPressed: () async => await shareFile(),
-            tooltip: t.settings.advanced.logs.shareFile,
-          ),
-          IconButton(
-            icon: const Icon(Icons.upload_rounded),
-            onPressed: () async => await shareJson(),
-            tooltip: t.settings.advanced.logs.shareJson,
+            icon: const Icon(Icons.share_rounded),
+            onPressed: () {
+              logger.shareLogs();
+            },
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          logsFilter(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: StreamBuilder(
-                stream: LoggerStatic().stream(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Align(
-                      alignment: Alignment.topCenter,
-                      child: LinearProgressIndicator(),
-                    );
-                  }
-                  return SelectionArea(
-                    child: ListView(
-                      children: snapshot.data!
-                          .where((element) =>
-                              selectedLevels.contains(element.level))
-                          .map((e) => Text(
-                                "${e.level.name.toUpperCase()}: ${e.tag} ${e.message}",
-                              ))
-                          .toList(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
+      body: ListView.separated(
+        controller: _controller,
+        separatorBuilder: (context, index) => Divider(
+          height: 0,
+          color: context.theme.brightness == Brightness.dark
+              ? Colors.white70
+              : Colors.grey[600],
+        ),
+        itemCount: entries.length,
+        itemBuilder: (context, index) {
+          final entry = entries[index];
+          return _LogEntry(entry, index);
+        },
       ),
+      floatingActionButton: showFab
+          ? FloatingActionButton(
+              child: const Icon(Icons.arrow_upward_rounded),
+              onPressed: () {
+                _controller.animateTo(
+                  0.0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeOut,
+                );
+              },
+            )
+          : null,
+    );
+  }
+}
+
+class _LogEntry extends StatelessWidget {
+  const _LogEntry(this.entry, this.index);
+
+  final LogEntry entry;
+  final int index;
+
+  Widget colorStatusIndicator(Color color) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+      ],
     );
   }
 
-  Widget logsFilter() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-        child: Wrap(
-          children: LogLevel.values
-              .map((e) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: FilterChip(
-                      label: Text(e.name),
-                      onSelected: (value) {
-                        setState(() {
-                          value
-                              ? selectedLevels.add(e)
-                              : selectedLevels.remove(e);
-                        });
-                      },
-                      selected: selectedLevels.contains(e),
-                    ),
-                  ))
-              .toList(),
+  Widget buildLeadingIcon(LogLevel level) => switch (level) {
+        LogLevel.INFO => colorStatusIndicator(Colors.blue),
+        LogLevel.SEVERE => colorStatusIndicator(Colors.redAccent),
+        LogLevel.WARNING => colorStatusIndicator(Colors.orangeAccent),
+        _ => colorStatusIndicator(Colors.grey)
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      leading: buildLeadingIcon(entry.level),
+      title: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: "#$index ",
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white70
+                    : Colors.grey[600],
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: entry.message,
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
+            ),
+          ],
+          style: const TextStyle(fontSize: 14.0, fontFamily: "Inconsolata"),
         ),
-      );
+      ),
+      subtitle: Text(
+        "[${entry.context1}] Logged on ${DateFormat("HH:mm:ss.SSS").format(entry.timestamp)}",
+        style: TextStyle(
+          fontSize: 12.0,
+          color: Colors.grey[600],
+        ),
+      ),
+    );
+  }
 }
