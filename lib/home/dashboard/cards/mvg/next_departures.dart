@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/mvg/departure.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+
+import 'line_icon.dart';
 
 // https://stackoverflow.com/questions/53128438/android-onresume-method-equivalent-in-flutter
 class NextDepartures extends StatefulWidget {
@@ -19,6 +22,7 @@ class NextDepartures extends StatefulWidget {
 class _NextDeparturesState extends State<NextDepartures>
     with WidgetsBindingObserver {
   late final List<Departure> departures;
+  late UniqueKey _listKey = UniqueKey();
 
   @override
   void initState() {
@@ -41,7 +45,9 @@ class _NextDeparturesState extends State<NextDepartures>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      setState(() {});
+      setState(() {
+        _listKey = UniqueKey();
+      });
     }
   }
 
@@ -51,31 +57,36 @@ class _NextDeparturesState extends State<NextDepartures>
       ..sort((a, b) => a.departureLive!.compareTo(b.departureLive!));
 
     final items = sorted.take(5).toList();
-    return DashboardCardWidget(
-      child: ListView.builder(
-        itemCount: items.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          final departure = items[index];
-          return ListTile(
-            key: ValueKey(departure),
-            leading: Text(departure.line.number),
-            title: Text(departure.direction),
-            contentPadding: EdgeInsets.zero,
-            dense: false,
-            visualDensity: const VisualDensity(vertical: -4),
-            trailing: DepartureTimer(
-              departure: departure,
-              onDone: () {
-                setState(() {
-                  departures.remove(departure);
-                });
+    return DashboardCard(
+      child: items.isEmpty
+          ? Center(
+              child: Text(
+                  t.dashboard.cards.nextDepartures.noDepartures(minutes: 30)))
+          : ListView.builder(
+              key: _listKey,
+              itemCount: items.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final departure = items[index];
+                return ListTile(
+                  key: ValueKey(departure),
+                  leading: LineIcon(departure.line.number),
+                  title: Text(departure.direction),
+                  contentPadding: EdgeInsets.zero,
+                  dense: false,
+                  visualDensity: const VisualDensity(vertical: -4),
+                  trailing: DepartureTimer(
+                    departure: departure,
+                    onDone: () {
+                      setState(() {
+                        departures.remove(departure);
+                      });
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
     );
   }
 }

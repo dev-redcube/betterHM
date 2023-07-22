@@ -38,10 +38,16 @@ class LoggerStatic extends IsarService {
   static final LoggerStatic _instance = LoggerStatic._internal();
   static late final Isar _isar;
 
+  static bool initialized = false;
+
   LoggerStatic._internal();
 
   Future<void> init() async {
+    if (initialized) {
+      return;
+    }
     _isar = await db;
+    initialized = true;
   }
 
   factory LoggerStatic() => _instance;

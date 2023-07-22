@@ -24,29 +24,40 @@
   },
   "dashboard": {
     "error": {
-      "text": "At least one Card could not be loaded",
+      "text": "Card $card could not be loaded",
       "logs": "logs"
     },
-    "cards": {
-      "settings": "Settings",
-      "hide": "Hide",
-      "manage": {
-        "title": "Manage Cards",
-        "cancel": "Cancel",
-        "save": "Save"
+    "manage": {
+      "manageCards": "Manage Cards",
+      "title": "Manage Cards",
+      "add": {
+        "title": "Add Card",
+        "cancel": "cancel"
       }
     },
-    "statusCard": {
-      "title": "Semester Information",
-      "summer_semester": "Summer semester",
-      "winter_semester": "Winter semester",
-      "deadlines_appointments": "Deadlines and appointments",
-      "no_data": "No Appointments or error fetching",
-      "today": "Today",
-      "tomorrow": "Tomorrow"
+    "cards": {
+      "semesterStatus": {
+        "title": "Semester Information",
+        "summer_semester": "Summer semester",
+        "winter_semester": "Winter semester",
+        "deadlines_appointments": "Deadlines and appointments",
+        "no_data": "No Appointments or error fetching",
+        "today": "Today",
+        "tomorrow": "Tomorrow"
+      },
+      "nextDepartures": {
+        "title": "Next Departures",
+        "noDepartures": "No Departures in the next $minutes minutes",
+        "config": {
+          "station": "Station",
+          "lines": "Lines",
+          "leadTime": "Vorlaufzeit"
+        }
+      }
     },
-    "mvg": {
-      "title": "Next Departures"
+    "cardTitles(map)": {
+      "semesterStatus": "Events and Deadlines",
+      "nextDepartures": "Next Departures"
     }
   },
   "mealplan": {
@@ -103,7 +114,8 @@
       "clearCaches": {
         "title": "clear cache",
         "snackbar": "Cache cleared"
-      }
+      },
+      "cardTimeout": "Card loading timeout"
     }
   }
 }

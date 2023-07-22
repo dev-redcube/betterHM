@@ -1,9 +1,10 @@
-import 'package:better_hm/home/dashboard/semester_status/event_widget.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/home/dashboard/semester_status/models/semester_event_with_single_date.dart';
-import 'package:better_hm/home/dashboard/semester_status/tags.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+
+import 'event_widget.dart';
+import 'models/semester_event_with_single_date.dart';
+import 'tags.dart';
 
 class DeadlinesAppointments extends StatelessWidget {
   const DeadlinesAppointments({Key? key, required this.events})
@@ -26,7 +27,7 @@ class DeadlinesAppointments extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(t.dashboard.statusCard.deadlines_appointments,
+        Text(t.dashboard.cards.semesterStatus.deadlines_appointments,
             style: context.theme.textTheme.headlineSmall),
         const SizedBox(height: 8),
         Expanded(

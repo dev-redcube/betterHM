@@ -1,3 +1,4 @@
+import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -9,11 +10,13 @@ import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final _rootKey = GlobalKey<NavigatorState>();
+import 'home/dashboard/manage_cards_screen.dart';
+
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainShellKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
-  navigatorKey: _rootKey,
+  navigatorKey: rootNavigatorKey,
   initialLocation: Prefs.initialLocation.value,
   routes: [
     ShellRoute(
@@ -47,13 +50,13 @@ final router = GoRouter(
     GoRoute(
       name: SettingsScreen.routeName,
       path: "/settings",
-      parentNavigatorKey: _rootKey,
+      parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) => const SettingsScreen(),
     ),
     GoRoute(
       name: LogsScreen.routeName,
       path: "/logs",
-      parentNavigatorKey: _rootKey,
+      parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) =>
           LogsScreen(levels: state.extra as Set<LogLevel>?),
     ),
@@ -62,12 +65,28 @@ final router = GoRouter(
 
 final homeRoutes = <GoRoute>[
   GoRoute(
-    name: "index",
-    path: "/",
-    parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: DashboardScreen()),
-  ),
+      name: "index",
+      path: "/",
+      parentNavigatorKey: _mainShellKey,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: DashboardScreen()),
+      routes: <GoRoute>[
+        GoRoute(
+          name: ManageCardsScreen.routeName,
+          path: "manageCards",
+          parentNavigatorKey: rootNavigatorKey,
+          builder: (context, state) => const ManageCardsScreen(),
+          routes: <GoRoute>[
+            GoRoute(
+              name: CardSettingsScreen.routeName,
+              path: "cardSettings",
+              parentNavigatorKey: rootNavigatorKey,
+              builder: (context, state) =>
+                  CardSettingsScreen(child: state.extra as Widget),
+            )
+          ],
+        ),
+      ]),
   GoRoute(
     name: "meals",
     path: "/meals",

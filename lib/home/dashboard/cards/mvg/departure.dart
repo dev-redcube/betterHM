@@ -1,5 +1,5 @@
-import 'package:better_hm/home/dashboard/mvg/line.dart';
-import 'package:better_hm/home/dashboard/mvg/station.dart';
+import 'line.dart';
+import 'station.dart';
 
 class Departure {
   final Line line;

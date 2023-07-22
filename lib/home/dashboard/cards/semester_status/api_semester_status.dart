@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:better_hm/home/dashboard/semester_status/models/semester_event.dart';
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/service/api_service.dart';
+
+import 'models/semester_event.dart';
 
 class ApiSemesterStatus extends ApiService {
   static const url =

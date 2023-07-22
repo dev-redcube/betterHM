@@ -1,4 +1,4 @@
-import 'package:better_hm/home/dashboard/mvg/line.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/line.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -8,7 +8,7 @@ void main() {
       "number": "21",
       "direction": "Hauptbahnhof",
       "symbol": "U.svg",
-      "name": "Linie 21",
+      "name": "Bus"
     };
     final line = Line.fromJson(json);
     expect(line, isA<Line>());

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:better_hm/home/dashboard/mvg/departure.dart';
-import 'package:better_hm/home/dashboard/mvg/service/api_mvg.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/service/api_mvg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

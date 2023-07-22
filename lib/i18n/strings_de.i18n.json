@@ -24,29 +24,40 @@
   },
   "dashboard": {
     "error": {
-      "text": "Mindestens eine Karte konnte nicht geladen werden",
+      "text": "Karte $card konnte nicht geladen werden",
       "logs": "Logs"
     },
-    "cards": {
-      "settings": "Settings",
-      "hide": "Hide",
-      "manage": {
-        "title": "Karten verwalten",
-        "cancel": "abbrechen",
-        "save": "Speichern"
+    "manage": {
+      "manageCards": "Karten verwalten",
+      "title": "Karten verwalten",
+      "add": {
+        "title": "Karte hinzufügen",
+        "cancel": "abbrechen"
       }
     },
-    "statusCard": {
-      "title": "Semesterinformationen",
-      "summer_semester": "Sommersemester",
-      "winter_semester": "Wintersemester",
-      "deadlines_appointments": "Fristen & Termine",
-      "no_data": "Keine Termine oder Fehler beim Laden",
-      "today": "Heute",
-      "tomorrow": "Morgen"
+    "cards": {
+      "semesterStatus": {
+        "title": "Semesterinformationen",
+        "summer_semester": "Sommersemester",
+        "winter_semester": "Wintersemester",
+        "deadlines_appointments": "Fristen & Termine",
+        "no_data": "Keine Termine oder Fehler beim Laden",
+        "today": "Heute",
+        "tomorrow": "Morgen"
+      },
+      "nextDepartures": {
+        "title": "Abfahrtszeiten",
+        "noDepartures": "Keine Abfahrten in den nächsten $minutes Minuten",
+        "config": {
+          "station": "Station",
+          "lines": "Linien",
+          "leadTime": "Vorlaufzeit"
+        }
+      }
     },
-    "mvg": {
-      "title": "Abfahrtszeiten"
+    "cardTitles(map)": {
+      "semesterStatus": "Fristen & Termine",
+      "nextDepartures": "MVG Abfahrten"
     }
   },
   "mealplan": {
@@ -103,7 +114,8 @@
       "clearCaches": {
         "title": "Cache leeren",
         "snackbar": "Cache geleert"
-      }
+      },
+      "cardTimeout": "Dashboard lade Timeout"
     }
   }
 }

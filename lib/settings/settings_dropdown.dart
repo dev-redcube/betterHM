@@ -1,4 +1,5 @@
 import 'package:better_hm/settings/settings_screen.dart';
+import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 
@@ -83,11 +84,4 @@ class _SettingsDropdownState<T> extends State<SettingsDropdown<T>> {
       ),
     );
   }
-}
-
-class DropdownItem<T> {
-  final String name;
-  final T value;
-
-  DropdownItem(this.name, this.value);
 }
