@@ -51,7 +51,6 @@ class _NextDeparturesConfigScreenState
 
   @override
   Widget build(BuildContext context) {
-    print(lineIds[station.id]!.map((e) => e.direction));
     return ListView(
       children: [
         DropdownListTile<Station>(

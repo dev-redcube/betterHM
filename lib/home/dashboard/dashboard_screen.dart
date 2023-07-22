@@ -10,7 +10,6 @@ import 'package:go_router/go_router.dart';
 
 import 'card_service.dart';
 import 'manage_cards_screen.dart';
-import 'no_cards.dart';
 
 // TODO loading external with provider
 class DashboardScreen extends StatefulWidget {
@@ -61,9 +60,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (cards.isEmpty) {
-      return const NoCardsPlaceholder();
-    }
     return FutureBuilder(
       future: cardsLoading,
       builder: (context, snapshot) {
