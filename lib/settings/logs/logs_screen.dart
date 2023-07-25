@@ -76,8 +76,9 @@ class _LogsScreenState extends State<LogsScreen> {
                 ),
                 itemCount: entries.length,
                 itemBuilder: (context, index) {
-                  final entry = entries[index];
-                  return _LogEntry(entry, index);
+                  final i = entries.length - index - 1;
+                  final entry = entries[i];
+                  return _LogEntry(entry, i);
                 },
               );
             }
