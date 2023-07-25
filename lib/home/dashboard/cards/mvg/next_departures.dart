@@ -28,9 +28,7 @@ class _NextDeparturesState extends State<NextDepartures>
   void initState() {
     super.initState();
 
-    departures = widget.departures
-        .where((element) => element.departureLive != null)
-        .toList();
+    departures = widget.departures.toList();
 
     WidgetsBinding.instance.addObserver(this);
   }
@@ -54,7 +52,8 @@ class _NextDeparturesState extends State<NextDepartures>
   @override
   Widget build(BuildContext context) {
     final sorted = departures
-      ..sort((a, b) => a.departureLive!.compareTo(b.departureLive!));
+      ..sort(
+          (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime));
 
     final items = sorted.take(5).toList();
     return DashboardCard(
@@ -71,8 +70,8 @@ class _NextDeparturesState extends State<NextDepartures>
                 final departure = items[index];
                 return ListTile(
                   key: ValueKey(departure),
-                  leading: LineIcon(departure.line.number),
-                  title: Text(departure.direction),
+                  leading: LineIcon(departure.label),
+                  title: Text(departure.destination),
                   contentPadding: EdgeInsets.zero,
                   dense: false,
                   visualDensity: const VisualDensity(vertical: -4),
@@ -129,10 +128,8 @@ class _DepartureTimerState extends State<DepartureTimer> {
   @override
   void initState() {
     super.initState();
-    if (widget.departure.departureLive != null) {
-      _remaining = widget.departure.departureLive!.difference(now());
-      startTimer();
-    }
+    _remaining = widget.departure.realtimeDepartureTime.difference(now());
+    startTimer();
   }
 
   @override
@@ -143,14 +140,11 @@ class _DepartureTimerState extends State<DepartureTimer> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.departure.departureLive != null) {
-      return Text(
-        "${_remaining.inMinutes}:${(_remaining.inSeconds % 60).toString().padLeft(2, "0")}",
-        style: const TextStyle(
-          fontFeatures: [FontFeature.tabularFigures()],
-        ),
-      );
-    }
-    return Text(widget.departure.error!);
+    return Text(
+      "${_remaining.inMinutes}:${(_remaining.inSeconds % 60).toString().padLeft(2, "0")}",
+      style: const TextStyle(
+        fontFeatures: [FontFeature.tabularFigures()],
+      ),
+    );
   }
 }

@@ -1,14 +1,14 @@
 import 'package:better_hm/home/dashboard/card_service.dart';
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/cards/mvg/config_screen.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/service/mvg_service.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:flutter/material.dart';
 
 import 'departure.dart';
-import 'line.dart';
 import 'next_departures.dart';
-import 'service/api_mvg.dart';
 import 'service/data.dart';
 import 'station.dart';
 
@@ -25,10 +25,10 @@ class NextDeparturesCard extends ICard<List<Departure>> {
 
   @override
   Future<List<Departure>> future() {
-    return ApiMvg().getDepartures(
+    return MvgService().getDepartures(
       stationId: _config.station.id,
-      lineIds: _config.lines.map((e) => e.id),
-      leadTime: Duration(seconds: _config.leadTime * 60),
+      transportTypes: _config.transportTypes,
+      offset: Duration(seconds: _config.offset * 60),
     );
   }
 
@@ -48,41 +48,48 @@ class NextDeparturesCard extends ICard<List<Departure>> {
 
 class NextDeparturesConfig {
   Station station;
-  List<Line> lines;
-  int leadTime;
+  List<TransportType> transportTypes;
+  int offset;
 
   NextDeparturesConfig({
     required this.station,
-    required this.lines,
-    required this.leadTime,
+    required this.transportTypes,
+    required this.offset,
   });
 
-  void apply(NextDeparturesConfig config) {
-    station = config.station;
-    lines = config.lines;
-    leadTime = config.leadTime;
+  void apply({
+    final Station? station,
+    final List<TransportType>? transportTypes,
+    final int? offset,
+  }) {
+    this.station = station ?? this.station;
+    this.transportTypes = transportTypes ?? this.transportTypes;
+    this.offset = offset ?? this.offset;
   }
 
   Map<String, dynamic> toJson() => {
         "station": station.id,
-        "lines": lines.map((e) => e.id).toList(),
-        "leadTime": leadTime,
+        "transportTypes": transportTypes.map((e) => e.name).toList(),
+        "offset": offset,
       };
 
   factory NextDeparturesConfig.fromJson(Map<String, dynamic>? json) {
     if (json != null) {
-      Iterable<Line> lines = (json["lines"] as List<dynamic>)
-          .map((e) => LineService.getFromId(e))
-          .where((element) => element != null)
-          .cast<Line>();
-      if (lines.isEmpty) {
-        lines = defaultConfig.lines;
+      List<TransportType> transportTypes = defaultConfig.transportTypes;
+      if (json["transportTypes"] != null) {
+        Iterable<TransportType> transportTypes =
+            (json["transportTypes"] as List<dynamic>)
+                .map((e) => TransportType.fromString(e));
+        if (transportTypes.isEmpty) {
+          transportTypes = defaultConfig.transportTypes;
+        }
       }
+
       return NextDeparturesConfig(
         station:
             StationService.getFromId(json["station"]) ?? defaultConfig.station,
-        lines: lines.toList(),
-        leadTime: json["leadTime"],
+        transportTypes: transportTypes.toList(),
+        offset: json["offset"],
       );
     }
     return defaultConfig;
@@ -90,7 +97,7 @@ class NextDeparturesConfig {
 
   static get defaultConfig => NextDeparturesConfig(
         station: StationService.getFromId("de:09162:12")!,
-        lines: lineIds["de:09162:12"]!,
-        leadTime: 1,
+        transportTypes: TransportType.values,
+        offset: 1,
       );
 }

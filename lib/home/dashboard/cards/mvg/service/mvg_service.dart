@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
-import 'package:better_hm/shared/exceptions/api/api_exception.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
@@ -47,55 +47,56 @@ import 'package:logging/logging.dart';
 /// line svg images are stored in https://www.mvv-muenchen.de/fileadmin/lines/LINE_NUMBER.svg
 /// e.g. https://www.mvv-muenchen.de/fileadmin/lines/02020.svg
 
-class ApiMvg {
-  static const baseUrl = "www.mvv-muenchen.de";
+// TODO: client wiederverwenden
+class MvgService {
   final Logger _log = Logger("MvgService");
 
   Future<List<Departure>> getDepartures({
     http.Client? client,
     required String stationId,
-    required Iterable<String> lineIds,
-    Duration leadTime = const Duration(minutes: 1),
+    int limit = 20,
+    required List<TransportType> transportTypes,
+    Duration offset = const Duration(minutes: 1),
   }) async {
-    assert(lineIds.isNotEmpty, "Specify at least one lineId");
+    assert(transportTypes.isNotEmpty, "Specify at least one transport Type");
 
     _log.info("Fetching departures for stop $stationId");
 
     client ??= http.Client();
 
-    final linesString =
-        lineIds.map((e) => "&line=${Uri.encodeComponent(e)}").join();
-    final linesEncoded = base64Encode(utf8.encode(linesString));
+    final uri = Uri(
+        scheme: "https",
+        host: "www.mvg.de",
+        path: "api/fib/v2/departure",
 
-    final uri = Uri(scheme: "https", host: baseUrl, queryParameters: {
-      "eID": "departuresFinder",
-      "action": "get_departures",
-      "stop_id": stationId,
-      "requested_timestamp":
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000 + leadTime.inSeconds)
-              .toString(),
-      "lines": linesEncoded,
-    });
+        /// cannot use queryParameters because there variables would be encoded
+        query:
+            "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${transportTypes.map((e) => e.name).join(",")}");
+
     final stopwatch = Stopwatch()..start();
     final response = await client.get(uri);
+    client.close();
     stopwatch.stop();
+
+    // return Future.error("error");
+
     _log.info("MVG Api call took ${stopwatch.elapsedMilliseconds}ms");
     if (200 == response.statusCode) {
       try {
         final json = jsonDecode(utf8.decode(response.bodyBytes));
-        List<dynamic> departures = json["departures"];
-        return parseDepartures(departures);
-      } catch (e) {
-        _log.warning("Error parsing MVG API", response.body);
-        throw ApiException(message: "Error parsing MVG API");
+        List<dynamic> departures = json;
+        final List<Departure> parsed =
+            departures.map((e) => Departure.fromJson(e)).toList();
+        return parsed;
+      } catch (e, stacktrace) {
+        _log.warning("Error parsing MVG API", e, stacktrace);
+        return Future.error("Error parsing MVG API. Please file a bug report");
       }
     }
 
-    _log.warning("API status code is not 200, but ${response.statusCode}",
-        "${response.statusCode}: ${response.body}");
-    throw ApiException(response: response);
+    _log.warning("MVG Api call failed with status code ${response.statusCode}",
+        response.body);
+    return Future.error(
+        "MVG Api call failed with status code ${response.statusCode}");
   }
-
-  List<Departure> parseDepartures(List<dynamic> departures) =>
-      departures.map((e) => Departure.fromJson(e)).toList();
 }

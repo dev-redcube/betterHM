@@ -33,6 +33,7 @@ Future<Isar> loadDb() async {
       CanteenSchema,
     ],
     directory: dir.path,
+    inspector: false,
   );
   return db;
 }
