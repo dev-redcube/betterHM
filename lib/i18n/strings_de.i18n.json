@@ -50,7 +50,7 @@
         "noDepartures": "Keine Abfahrten in den nächsten $minutes Minuten",
         "config": {
           "station": "Station",
-          "lines": "Linien",
+          "transportTypes": "Verkehrsmittel",
           "leadTime": "Vorlaufzeit"
         }
       }

@@ -1,3 +1,4 @@
+import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/components/input_list_tile.dart';
@@ -5,7 +6,6 @@ import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'line.dart';
 import 'next_departures_card.dart';
 import 'service/data.dart';
 import 'station.dart';
@@ -28,23 +28,22 @@ class NextDeparturesConfigScreen extends StatefulWidget {
 class _NextDeparturesConfigScreenState
     extends State<NextDeparturesConfigScreen> {
   late Station station;
-  late List<Line> lines;
-  late int leadTime;
+  late List<TransportType> transportTypes;
+  late int offset;
 
   @override
   void initState() {
     super.initState();
     station = widget.config.station;
-    lines = List<Line>.from(widget.config.lines);
-    leadTime = widget.config.leadTime;
+    offset = widget.config.offset;
   }
 
   void save() {
-    if (lines.isNotEmpty) {
+    if (transportTypes.isNotEmpty) {
       widget.onChanged(NextDeparturesConfig(
         station: station,
-        lines: lines,
-        leadTime: leadTime,
+        transportTypes: transportTypes,
+        offset: offset,
       ));
     }
   }
@@ -61,7 +60,6 @@ class _NextDeparturesConfigScreenState
             setState(() {
               station = value;
             });
-            lines = List<Line>.from(lineIds[station.id]!.toList());
             save();
           },
           options: stationIds.map((e) => DropdownItem(e.name, e)),
@@ -69,7 +67,7 @@ class _NextDeparturesConfigScreenState
         InputListTile(
           title: Text(t.dashboard.cards.nextDepartures.config.leadTime),
           keyboardType: TextInputType.number,
-          initialValue: widget.config.leadTime.toString(),
+          initialValue: widget.config.offset.toString(),
           decoration: const InputDecoration(
             suffixText: "min",
             constraints: BoxConstraints(maxWidth: 75),
@@ -81,48 +79,75 @@ class _NextDeparturesConfigScreenState
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
           maxLength: 2,
           onFieldSubmitted: (value) {
-            leadTime = int.parse(value);
+            offset = int.parse(value);
             save();
           },
         ),
         ListTile(
           title: Text(
-            t.dashboard.cards.nextDepartures.config.lines,
+            t.dashboard.cards.nextDepartures.config.transportTypes,
             style: context.theme.textTheme.titleMedium,
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView(
-              shrinkWrap: true,
-              children: lineIds[station.id]!
-                  .map((e) => CheckboxListTile(
-                        key: ValueKey(e),
-                        title: Row(
-                          children: [
-                            SizedBox(
-                              width: 50,
-                              child: Text(e.number),
-                            ),
-                            Text(e.direction)
-                          ],
-                        ),
-                        value: lines.contains(e),
-                        onChanged: (value) {
-                          setState(() {
-                            if (value!) {
-                              lines.add(e);
-                            } else {
-                              if (lines.length == 1) return;
-                              lines.remove(e);
-                            }
-                          });
-                          save();
-                        },
-                      ))
-                  .toList()),
+          child: _TransportTypeChooser(
+            initial: widget.config.transportTypes,
+            onChanged: (value) {
+              transportTypes = value;
+              save();
+            },
+          ),
         ),
       ],
+    );
+  }
+}
+
+class _TransportTypeChooser extends StatefulWidget {
+  const _TransportTypeChooser({
+    required this.onChanged,
+    required this.initial,
+  });
+
+  final void Function(List<TransportType>) onChanged;
+  final List<TransportType> initial;
+
+  @override
+  State<_TransportTypeChooser> createState() => _TransportTypeChooserState();
+}
+
+class _TransportTypeChooserState extends State<_TransportTypeChooser> {
+  late final Set<TransportType> chosen;
+
+  @override
+  void initState() {
+    super.initState();
+    chosen = widget.initial.toSet();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      children: TransportType.values
+          .map((e) => CheckboxListTile(
+                value: chosen.contains(e),
+                title: Text(e.name),
+                key: ValueKey(e.name),
+                onChanged: (bool? value) {
+                  setState(() {
+                    if (value != null && value) {
+                      chosen.add(e);
+                    } else {
+                      chosen.remove(e);
+                    }
+                  });
+
+                  widget.onChanged.call(chosen.toList());
+                },
+              ))
+          .toList(),
     );
   }
 }

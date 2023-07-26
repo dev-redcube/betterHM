@@ -9,6 +9,7 @@ final lineColors = <String, (Color, BoxDecoration)>{
     BoxDecoration(border: Border.all(color: const Color(0xFFD02E26), width: 2))
   ),
   "153": (Colors.white, const BoxDecoration(color: Color(0xFF205060))),
+  "N20": (Colors.white, const BoxDecoration(color: Color(0xFF16BAE7))),
 };
 
 class LineIcon extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '1.dart';
+import '2.dart';
 
 /// This array contains all migrations
 /// for new migrations, add a new entry to the array, but do not modify old ones
@@ -10,6 +11,7 @@ import '1.dart';
 /// make sure to close the instance after use
 const migrations = <Future<void> Function()>[
   migration1,
+  migration2,
 ];
 
 Future<void> runMigrations() async {
