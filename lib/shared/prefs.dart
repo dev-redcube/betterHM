@@ -46,7 +46,7 @@ abstract class Prefs {
 
     // Dashboard
     cards = PlainPref("cards", []);
-    cardTimeout = PlainPref("cardTimeout", 2000);
+    cardTimeout = PlainPref("cardTimeout", 4000);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);

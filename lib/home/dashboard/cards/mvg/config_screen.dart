@@ -85,7 +85,7 @@ class _NextDeparturesConfigScreenState
         ),
         ListTile(
           title: Text(
-            t.dashboard.cards.nextDepartures.config.lines,
+            t.dashboard.cards.nextDepartures.config.transportTypes,
             style: context.theme.textTheme.titleMedium,
           ),
         ),

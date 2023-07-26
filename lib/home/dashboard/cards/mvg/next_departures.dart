@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/next_departures_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
@@ -11,9 +12,14 @@ import 'line_icon.dart';
 
 // https://stackoverflow.com/questions/53128438/android-onresume-method-equivalent-in-flutter
 class NextDepartures extends StatefulWidget {
-  const NextDepartures({super.key, required this.departures});
+  const NextDepartures({
+    super.key,
+    required this.departures,
+    required this.config,
+  });
 
   final List<Departure> departures;
+  final NextDeparturesConfig config;
 
   @override
   State<NextDepartures> createState() => _NextDeparturesState();
@@ -22,7 +28,6 @@ class NextDepartures extends StatefulWidget {
 class _NextDeparturesState extends State<NextDepartures>
     with WidgetsBindingObserver {
   late final List<Departure> departures;
-  late UniqueKey _listKey = UniqueKey();
 
   @override
   void initState() {
@@ -39,19 +44,28 @@ class _NextDeparturesState extends State<NextDepartures>
     super.dispose();
   }
 
+  List<Departure> filterPastDepartures(List<Departure> departures) {
+    final now = DateTime.now();
+    return departures
+        .where((element) => element.realtimeDepartureTime
+            .isAfter(now.add(Duration(minutes: widget.config.offset))))
+        .toList();
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       setState(() {
-        _listKey = UniqueKey();
+        departures = filterPastDepartures(departures);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final sorted = departures
+    final filtered = filterPastDepartures(departures);
+    final sorted = filtered
       ..sort(
           (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime));
 
@@ -62,7 +76,6 @@ class _NextDeparturesState extends State<NextDepartures>
               child: Text(
                   t.dashboard.cards.nextDepartures.noDepartures(minutes: 30)))
           : ListView.builder(
-              key: _listKey,
               itemCount: items.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -77,6 +90,7 @@ class _NextDeparturesState extends State<NextDepartures>
                   visualDensity: const VisualDensity(vertical: -4),
                   trailing: DepartureTimer(
                     departure: departure,
+                    offset: widget.config.offset,
                     onDone: () {
                       setState(() {
                         departures.remove(departure);
@@ -95,10 +109,12 @@ class DepartureTimer extends StatefulWidget {
     super.key,
     required this.departure,
     this.onDone,
+    required this.offset,
   });
 
   final Departure departure;
   final Null Function()? onDone;
+  final int offset;
 
   @override
   State<DepartureTimer> createState() => _DepartureTimerState();
@@ -112,7 +128,7 @@ class _DepartureTimerState extends State<DepartureTimer> {
   void startTimer() {
     const d = Duration(seconds: 1);
     _timer = Timer.periodic(d, (timer) {
-      if (_remaining.inSeconds == 0) {
+      if (_remaining.inSeconds <= widget.offset * 60) {
         setState(() {
           timer.cancel();
         });

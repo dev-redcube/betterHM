@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
-import 'package:http/http.dart' as http;
+import 'package:better_hm/shared/service/http_service.dart';
 import 'package:logging/logging.dart';
 
 /// API for MVG
@@ -47,12 +47,10 @@ import 'package:logging/logging.dart';
 /// line svg images are stored in https://www.mvv-muenchen.de/fileadmin/lines/LINE_NUMBER.svg
 /// e.g. https://www.mvv-muenchen.de/fileadmin/lines/02020.svg
 
-// TODO: client wiederverwenden
 class MvgService {
   final Logger _log = Logger("MvgService");
 
   Future<List<Departure>> getDepartures({
-    http.Client? client,
     required String stationId,
     int limit = 20,
     required List<TransportType> transportTypes,
@@ -61,8 +59,6 @@ class MvgService {
     assert(transportTypes.isNotEmpty, "Specify at least one transport Type");
 
     _log.info("Fetching departures for stop $stationId");
-
-    client ??= http.Client();
 
     final uri = Uri(
         scheme: "https",
@@ -74,13 +70,12 @@ class MvgService {
             "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${transportTypes.map((e) => e.name).join(",")}");
 
     final stopwatch = Stopwatch()..start();
-    final response = await client.get(uri);
-    client.close();
+    final response = await HttpService().client.get(uri);
     stopwatch.stop();
 
     // return Future.error("error");
 
-    _log.info("MVG Api call took ${stopwatch.elapsedMilliseconds}ms");
+    _log.fine("MVG Api call took ${stopwatch.elapsedMilliseconds}ms");
     if (200 == response.statusCode) {
       try {
         final json = jsonDecode(utf8.decode(response.bodyBytes));

@@ -33,7 +33,7 @@ class NextDeparturesCard extends ICard<List<Departure>> {
   }
 
   @override
-  Widget render(data) => NextDepartures(departures: data);
+  Widget render(data) => NextDepartures(departures: data, config: _config);
 
   @override
   Widget? renderConfig(int cardIndex) => NextDeparturesConfigScreen(
