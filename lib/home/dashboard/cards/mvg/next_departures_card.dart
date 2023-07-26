@@ -89,7 +89,7 @@ class NextDeparturesConfig {
         station:
             StationService.getFromId(json["station"]) ?? defaultConfig.station,
         transportTypes: transportTypes.toList(),
-        offset: json["offset"],
+        offset: json["offset"] ?? json["leadTime"] ?? defaultConfig.offset,
       );
     }
     return defaultConfig;
