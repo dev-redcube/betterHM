@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,7 +52,7 @@ abstract class Prefs {
     showFoodLabels = PlainPref("showFoodLabels", true);
 
     // Advanced
-    logLevel = PlainPref("logLevel", 5);
+    logLevel = PlainPref("logLevel", LogLevel.WARNING.index);
 
     initialized = true;
   }
