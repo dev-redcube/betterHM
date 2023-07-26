@@ -99,6 +99,7 @@
     },
     "advanced": {
       "title": "Erweitert",
+      "logLevel": "Log level",
       "logs": {
         "open": "Logs öffnen",
         "title": "Logs",
