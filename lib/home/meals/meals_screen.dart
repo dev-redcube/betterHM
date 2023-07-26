@@ -1,12 +1,12 @@
 import 'package:better_hm/home/meals/canteen_info.dart';
 import 'package:better_hm/home/meals/canteen_picker.dart';
 import 'package:better_hm/home/meals/meal_view.dart';
+import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/selected_canteen_provider.dart';
 import 'package:better_hm/home/meals/service/api_meals.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -99,6 +99,11 @@ class _MealsPageView extends StatelessWidget {
           return const LinearProgressIndicator();
         }
         final days = snapshot.data!;
+        if (days.isEmpty) {
+          return Center(
+            child: Text(t.mealplan.no_meals),
+          );
+        }
         return PageView(
           children: days
               .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
