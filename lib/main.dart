@@ -53,10 +53,19 @@ Future<void> initApp() async {
   };
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget with WidgetsBindingObserver {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive) {
+      debugPrint("[APP STATE] paused");
+      HMLogger().flush();
+    }
+
+    super.didChangeAppLifecycleState(state);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
