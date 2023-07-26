@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
+import 'package:better_hm/shared/exceptions/api/api_exception.dart';
+import 'package:better_hm/shared/exceptions/parsing_exception.dart';
 import 'package:better_hm/shared/service/http_service.dart';
 import 'package:logging/logging.dart';
 
@@ -73,8 +75,6 @@ class MvgService {
     final response = await HttpService().client.get(uri);
     stopwatch.stop();
 
-    // return Future.error("error");
-
     _log.fine("MVG Api call took ${stopwatch.elapsedMilliseconds}ms");
     if (200 == response.statusCode) {
       try {
@@ -84,14 +84,17 @@ class MvgService {
             departures.map((e) => Departure.fromJson(e)).toList();
         return parsed;
       } catch (e, stacktrace) {
-        _log.warning("Error parsing MVG API", e, stacktrace);
-        return Future.error("Error parsing MVG API. Please file a bug report");
+        _log.severe(
+            "Error parsing MVG API. Please file a bug report", e, stacktrace);
+        throw ParsingException(
+            "Error parsing MVG API. Please file a bug report");
       }
     }
 
     _log.warning("MVG Api call failed with status code ${response.statusCode}",
         response.body);
-    return Future.error(
-        "MVG Api call failed with status code ${response.statusCode}");
+    throw ApiException(
+        message: "MVG Api call failed with status code ${response.statusCode}",
+        response: response);
   }
 }

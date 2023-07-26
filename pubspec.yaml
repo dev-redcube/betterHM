@@ -35,7 +35,7 @@ dependencies:
   integration_test:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  http: ^1.0.0
+  http: ^1.1.0
   intl: ^0.18.0
   shared_preferences: ^2.0.20
   workmanager: ^0.5.1
@@ -58,7 +58,7 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   isar_generator: ^3.0.5
-  build_runner: ^2.3.3
+  build_runner: ^2.4.6
   rename: ^2.1.1
   slang_build_runner: ^3.17.0
   mockito: ^5.4.2

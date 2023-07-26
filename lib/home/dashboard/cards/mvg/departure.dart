@@ -1,4 +1,5 @@
 import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
+import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
 import 'package:logging/logging.dart';
 
 class Departure {
@@ -44,13 +45,10 @@ class Departure {
           DateTime.fromMillisecondsSinceEpoch(json["realtimeDepartureTime"]);
       final transportType = TransportType.fromString(json["transportType"]);
 
-      String? bannerHash = json["bannerHash"] ?? [];
-      if (bannerHash != null && bannerHash.isEmpty) bannerHash = null;
-
       final departure = Departure(
         plannedDepartureTime: plannedDepartureTime,
         realtime: json["realtime"] ?? true,
-        delayInMinutes: json["delayInMinutes"],
+        delayInMinutes: json["delayInMinutes"] ?? 0,
         realtimeDepartureTime: realtimeDepartureTime,
         transportType: transportType,
         label: json["label"],
@@ -61,7 +59,7 @@ class Departure {
         cancelled: json["cancelled"] ?? false,
         sev: json["sev"] ?? false,
         messages: json["messages"] ?? [],
-        bannerHash: bannerHash,
+        bannerHash: json["bannerHash"],
         occupancy: json["occupancy"],
         stopPointGlobalId: json["stopPointGlobalId"],
       );
@@ -69,7 +67,7 @@ class Departure {
     } catch (e, stacktrace) {
       Logger("Departure")
           .severe("Error while parsing Departure: $e", e, stacktrace);
-      rethrow;
+      throw IllegalArgumentsException(e.toString());
     }
   }
 }

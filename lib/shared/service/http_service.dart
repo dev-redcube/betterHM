@@ -5,7 +5,7 @@ class HttpService {
 
   factory HttpService() => _instance;
 
-  late final http.Client client;
+  late http.Client client;
 
   HttpService._internal() {
     client = http.Client();
