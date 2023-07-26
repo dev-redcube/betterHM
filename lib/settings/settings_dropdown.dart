@@ -24,7 +24,7 @@ class SettingsDropdown<T> extends StatefulWidget {
   final List<DropdownItem<T>> options;
 
   @override
-  State<SettingsDropdown> createState() => _SettingsDropdownState();
+  State<SettingsDropdown> createState() => _SettingsDropdownState<T>();
 }
 
 class _SettingsDropdownState<T> extends State<SettingsDropdown<T>> {

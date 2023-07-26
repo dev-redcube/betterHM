@@ -34,6 +34,8 @@ class HMLogger {
     Logger.root.onRecord.listen(_writeLogToDatabase);
   }
 
+  set level(Level level) => Logger.root.level = level;
+
   Future<List<LogEntry>> entries() async {
     return await _db.logEntries.where().anyId().findAll();
   }

@@ -52,7 +52,7 @@ abstract class Prefs {
     showFoodLabels = PlainPref("showFoodLabels", true);
 
     // Advanced
-    logLevel = PlainPref("logLevel", LogLevel.WARNING.index);
+    logLevel = PlainPref("logLevel", LogLevel.INFO.index);
 
     initialized = true;
   }

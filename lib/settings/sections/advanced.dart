@@ -3,9 +3,11 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/settings_dropdown.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
+import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 
 class AdvancedSettingsSection extends StatelessWidget {
   const AdvancedSettingsSection({super.key});
@@ -24,8 +26,8 @@ class AdvancedSettingsSection extends StatelessWidget {
           options: LogLevel.values
               .map((e) => DropdownItem(e.name, e.index))
               .toList(),
-          afterChange: (value) {
-            // TODO set level on root logger
+          afterChange: (int value) {
+            HMLogger().level = Level.LEVELS[value];
           },
         ),
         ListTile(
