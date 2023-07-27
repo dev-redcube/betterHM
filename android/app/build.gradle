@@ -25,12 +25,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -63,16 +57,25 @@ android {
     }
 
     signingConfigs {
-        release {
-            keyAlias System.getenv("SIGNING_KEY_ALIAS") ?: keystoreProperties['keyAlias']
-            keyPassword System.getenv("SIGNING_KEY_PASSWORD") ?: keystoreProperties['keyPassword']
-            storeFile file(System.getenv("SIGNING_STORE_FILE") ?: keystoreProperties['storeFile'] ?: "not-existent")
-            storePassword System.getenv("SIGNING_STORE_PASSWORD") ?: keystoreProperties['storePassword']
+        if (System.getenv("ANDROID_KEYSTORE_FILE") != null) {
+            release {
+                keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                storeFile file(System.getenv("ANDROID_KEYSTORE_FILE"))
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            }
         }
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
-            signingConfig signingConfigs.release
+            if (System.getenv("ANDROID_KEYSTORE_FILE") != null) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
         }
     }
     namespace 'de.moritzhuber.better_hm'
