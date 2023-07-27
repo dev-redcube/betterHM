@@ -4,6 +4,11 @@ on:
     branches: [ master, beta, release ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   android:
     name: android
@@ -77,3 +82,32 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
           SIGNING_STORE_FILE: "../keystore.jks"
         working-directory: android
+
+  doc:
+    name: Publish Dart doc
+    needs:
+      - android
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Resolving Dependencies
+        run: flutter pub get
+      - name: Build runner
+        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Build docs
+        run: dart doc
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: doc/api
+      - name: Github-Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
