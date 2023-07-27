@@ -17,7 +17,7 @@ platform :android do
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"],
       aab: "../build/app/outputs/bundle/release/app-release.aab",
       track: "beta",
-      release_status: "completed",
+      release_status: "draft",
     )
   end
 
