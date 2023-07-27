@@ -3,6 +3,8 @@ name: Generate Dart Doc
 on:
   push:
     branches: [ master ]
+    paths:
+      - "**.dart"
   workflow_dispatch:
 
 permissions:
