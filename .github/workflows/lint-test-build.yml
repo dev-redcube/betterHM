@@ -1,34 +1,60 @@
-name: CI
+name: Lint, Test and Build
 on:
+  push:
+    branches-ignore:
+      - "development"
+      - "master"
+    paths:
+      - 'lib/**'
   pull_request:
-    branches: [ master ]
+    branches-ignore:
+      - "development"
+      - "master"
+    paths:
+      - 'lib/**'
 
 jobs:
-  android:
-    name: Build Android
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: 17
           distribution: temurin
+          java-version: 17
+
       - name: Setup flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
       - run: flutter doctor -v
+
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
       - name: Resolving Dependencies
         run: flutter pub get
+
       - name: Build runner
         run: dart run build_runner build --delete-conflicting-outputs && dart format lib/i18n/strings.g.dart
+
       - name: Flutter analyzer
         run: flutter analyze
+
       - name: Check formatting
         run: dart format -o none --set-exit-if-changed .
+
       - name: Run tests
         run: flutter test
+
       - name: Build
         run: flutter build apk --debug
