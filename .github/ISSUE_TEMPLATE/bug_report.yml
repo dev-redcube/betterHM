@@ -1,6 +1,5 @@
 name: Issue
 description: Erstelle einen Bugreport
-title: "[BUG]: "
 labels: [ "bug" ]
 assignees: [ "Huber1" ]
 body:

@@ -1,6 +1,5 @@
 name: Feature Request
 description: Schlage ein neues Feature oder eine Verbesserung vor
-title: "[FEATURE]: "
 labels: [ "feature" ]
 assignees: [ "Huber1" ]
 body:
