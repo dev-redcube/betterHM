@@ -7,8 +7,7 @@ import 'package:logging/logging.dart';
 import 'models/semester_event.dart';
 
 class SemesterStatusService {
-  static const url =
-      "https://api.betterhm.app/hm-dates-api/thisSemester/all.json";
+  static const url = "https://api.betterhm.app/dates-api/thisSemester/all.json";
   final Logger _log = Logger("SemesterStatusService");
 
   Future<List<SemesterEvent>> getEvents() async {
