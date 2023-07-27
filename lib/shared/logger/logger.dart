@@ -20,7 +20,7 @@ import 'package:share_plus/share_plus.dart';
 /// and generate a csv file.
 class HMLogger {
   static final HMLogger _instance = HMLogger._internal();
-  final maxLogEntries = 500;
+  final maxLogEntries = 2000;
   final Isar _db = Isar.getInstance()!;
   List<LogEntry> _msgBuffer = [];
   Timer? _timer;
@@ -33,6 +33,8 @@ class HMLogger {
     Logger.root.level = Level.LEVELS[levelId];
     Logger.root.onRecord.listen(_writeLogToDatabase);
   }
+
+  set level(Level level) => Logger.root.level = level;
 
   Future<List<LogEntry>> entries() async {
     return await _db.logEntries.where().anyId().findAll();

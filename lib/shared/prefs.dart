@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,13 +46,13 @@ abstract class Prefs {
 
     // Dashboard
     cards = PlainPref("cards", []);
-    cardTimeout = PlainPref("cardTimeout", 2000);
+    cardTimeout = PlainPref("cardTimeout", 4000);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);
 
     // Advanced
-    logLevel = PlainPref("logLevel", 5);
+    logLevel = PlainPref("logLevel", LogLevel.INFO.index);
 
     initialized = true;
   }

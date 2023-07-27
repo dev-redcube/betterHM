@@ -1,59 +1,73 @@
-import 'line.dart';
-import 'station.dart';
+import 'package:better_hm/home/dashboard/cards/mvg/transport_type.dart';
+import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
+import 'package:logging/logging.dart';
 
 class Departure {
-  final Line line;
-  final String direction;
-  final Station station;
-  final DateTime departurePlanned;
-  final DateTime? departureLive;
-  final bool inTime;
-  final String? error;
+  final DateTime plannedDepartureTime;
+  final bool realtime;
+  final int? delayInMinutes;
+  final DateTime realtimeDepartureTime;
+  final TransportType transportType;
+  final String label;
+  final String network;
+  final String? trainType;
+  final String destination;
+  final bool cancelled;
+  final bool sev;
+  final List messages;
+  final String? bannerHash;
+  final String? occupancy;
+  final String stopPointGlobalId;
 
   Departure({
-    required this.line,
-    required this.direction,
-    required this.station,
-    required this.departurePlanned,
-    this.departureLive,
-    required this.inTime,
-    this.error,
+    required this.plannedDepartureTime,
+    required this.realtime,
+    required this.delayInMinutes,
+    required this.realtimeDepartureTime,
+    required this.transportType,
+    required this.label,
+    required this.network,
+    this.trainType,
+    required this.destination,
+    required this.cancelled,
+    required this.sev,
+    required this.messages,
+    required this.bannerHash,
+    required this.occupancy,
+    required this.stopPointGlobalId,
   });
 
   factory Departure.fromJson(Map<String, dynamic> json) {
-    final date = DateTime.parse(json["departureDate"]);
-    final planned = json["departurePlanned"].split(":");
-    final departurePlanned = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      int.parse(planned[0]),
-      int.parse(planned[1]),
-    );
-    final pattern = RegExp(r'\d?\d:\d\d');
-    DateTime? departureLive;
-    String? error;
-    if (pattern.hasMatch(json["departureLive"])) {
-      final live = json["departureLive"].split(":");
-      departureLive = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        int.parse(live[0]),
-        int.parse(live[1]),
-      );
-    } else {
-      error = json["departurePlanned"];
-    }
+    try {
+      final plannedDepartureTime =
+          DateTime.fromMillisecondsSinceEpoch(json["plannedDepartureTime"]);
+      final realtimeDepartureTime =
+          DateTime.fromMillisecondsSinceEpoch(json["realtimeDepartureTime"]);
+      final transportType = TransportType.fromString(json["transportType"]);
 
-    return Departure(
-      line: Line.fromJson(json["line"]),
-      direction: json["direction"],
-      station: Station.fromJson(json["station"]),
-      departurePlanned: departurePlanned,
-      departureLive: departureLive,
-      inTime: json["inTime"],
-      error: error,
-    );
+      final departure = Departure(
+        plannedDepartureTime: plannedDepartureTime,
+        realtime: json["realtime"] ?? true,
+        delayInMinutes: json["delayInMinutes"] ?? 0,
+        realtimeDepartureTime: realtimeDepartureTime,
+        transportType: transportType,
+        label: json["label"],
+        network: json["network"] ?? "swm",
+        trainType:
+            json["trainType"].toString().isEmpty ? null : json["trainType"],
+        destination: json["destination"],
+        cancelled: json["cancelled"] ?? false,
+        sev: json["sev"] ?? false,
+        messages: json["messages"] ?? [],
+        bannerHash: json["bannerHash"],
+        occupancy: json["occupancy"],
+        stopPointGlobalId: json["stopPointGlobalId"],
+      );
+      return departure;
+    } catch (e, stacktrace) {
+      Logger("Departure")
+          .severe("Error while parsing Departure: $e", e, stacktrace);
+      throw IllegalArgumentsException(e.toString());
+    }
   }
 }

@@ -50,7 +50,7 @@
         "noDepartures": "Keine Abfahrten in den nächsten $minutes Minuten",
         "config": {
           "station": "Station",
-          "lines": "Linien",
+          "transportTypes": "Verkehrsmittel",
           "leadTime": "Vorlaufzeit"
         }
       }
@@ -99,6 +99,7 @@
     },
     "advanced": {
       "title": "Erweitert",
+      "logLevel": "Log level",
       "logs": {
         "open": "Logs öffnen",
         "title": "Logs",

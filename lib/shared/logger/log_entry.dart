@@ -28,7 +28,7 @@ class LogEntry {
   }
 }
 
-/// Log levels according to dart logging [Level]
+/// Log levels according to dart logging [Level.LEVELS]
 enum LogLevel {
   ALL,
   FINEST,

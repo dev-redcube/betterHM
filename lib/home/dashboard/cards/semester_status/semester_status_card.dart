@@ -1,12 +1,12 @@
 import 'package:better_hm/home/dashboard/cards/semester_status/models/semester_event.dart';
 import 'package:better_hm/home/dashboard/cards/semester_status/models/semester_event_with_single_date.dart';
+import 'package:better_hm/home/dashboard/cards/semester_status/semester_status_service.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/icard.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 
-import 'api_semester_status.dart';
 import 'deadlines_appointments.dart';
 import 'semester_progress.dart';
 
@@ -15,7 +15,7 @@ class SemesterStatusCard extends ICard<List<SemesterEvent>> {
   Widget render(data) => _CardRender(data);
 
   @override
-  Future<List<SemesterEvent>> future() => ApiSemesterStatus().getEvents();
+  Future<List<SemesterEvent>> future() => SemesterStatusService().getEvents();
 
   @override
   Widget? renderConfig(int cardIndex) => null;

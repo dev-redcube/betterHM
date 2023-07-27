@@ -6,6 +6,7 @@ import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 
 import 'card_service.dart';
 import 'manage_cards_screen.dart';
@@ -21,6 +22,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   late CardsList cards;
   final _cardService = CardService();
+  final _log = Logger('Dashboard Screen');
 
   late Future<List<dynamic>> cardsLoading;
 
@@ -42,6 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             .timeout(Duration(milliseconds: Prefs.cardTimeout.value))
             .onError((e, stackTrace) {
           errors.add(index);
+          _log.warning('Error loading card ${e.toString()}', e, stackTrace);
           return Future.value();
         }),
       ));
