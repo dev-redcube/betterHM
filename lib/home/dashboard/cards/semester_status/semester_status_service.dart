@@ -27,7 +27,6 @@ class SemesterStatusService {
             "Error Parsing Semester Status API. Please file a bug report",
             e,
             stacktrace);
-        print(e);
         throw ParsingException(
             "Error Parsing Semester Status API. Please file a bug report");
       }
