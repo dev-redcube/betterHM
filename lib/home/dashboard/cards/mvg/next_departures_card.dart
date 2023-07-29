@@ -38,7 +38,7 @@ class NextDeparturesCard extends ICard<List<Departure>> {
   @override
   Widget? renderConfig(int cardIndex) => NextDeparturesConfigScreen(
         config: _config,
-        onChanged: (config) {
+        onSave: (config) {
           _config = config;
           CardService()
               .replaceCardAt(cardIndex, Tuple(CardType.nextDepartures, this));

@@ -51,7 +51,9 @@
         "config": {
           "station": "Station",
           "transportTypes": "Verkehrsmittel",
-          "leadTime": "Vorlaufzeit"
+          "leadTime": "Vorlaufzeit",
+          "save": "Speichern",
+          "saved": "Einstellungen Gespeichert"
         }
       }
     },

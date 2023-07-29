@@ -14,11 +14,11 @@ class NextDeparturesConfigScreen extends StatefulWidget {
   const NextDeparturesConfigScreen({
     super.key,
     required this.config,
-    required this.onChanged,
+    required this.onSave,
   });
 
   final NextDeparturesConfig config;
-  final void Function(NextDeparturesConfig) onChanged;
+  final void Function(NextDeparturesConfig) onSave;
 
   @override
   State<NextDeparturesConfigScreen> createState() =>
@@ -27,25 +27,18 @@ class NextDeparturesConfigScreen extends StatefulWidget {
 
 class _NextDeparturesConfigScreenState
     extends State<NextDeparturesConfigScreen> {
-  late Station station;
-  late List<TransportType> transportTypes;
-  late int offset;
-
-  @override
-  void initState() {
-    super.initState();
-    station = widget.config.station;
-    offset = widget.config.offset;
-  }
-
   void save() {
-    if (transportTypes.isNotEmpty) {
-      widget.onChanged(NextDeparturesConfig(
-        station: station,
-        transportTypes: transportTypes,
-        offset: offset,
-      ));
-    }
+    // if (transportTypes.isNotEmpty) {
+    //   widget.onChanged(NextDeparturesConfig(
+    //     station: station,
+    //     transportTypes: transportTypes,
+    //     offset: offset,
+    //   ));
+    // }
+    widget.onSave(widget.config);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(t.dashboard.cards.nextDepartures.config.saved)),
+    );
   }
 
   @override
@@ -54,13 +47,12 @@ class _NextDeparturesConfigScreenState
       children: [
         DropdownListTile<Station>(
           title: t.dashboard.cards.nextDepartures.config.station,
-          initialValue: station,
+          initialValue: widget.config.station,
           onChanged: (Station? value) {
             if (value == null) return;
             setState(() {
-              station = value;
+              widget.config.station = value;
             });
-            save();
           },
           options: stationIds.map((e) => DropdownItem(e.name, e)),
         ),
@@ -78,9 +70,8 @@ class _NextDeparturesConfigScreenState
           ],
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
           maxLength: 2,
-          onFieldSubmitted: (value) {
-            offset = int.parse(value);
-            save();
+          onChanged: (value) {
+            widget.config.offset = int.parse(value);
           },
         ),
         ListTile(
@@ -94,9 +85,17 @@ class _NextDeparturesConfigScreenState
           child: _TransportTypeChooser(
             initial: widget.config.transportTypes,
             onChanged: (value) {
-              transportTypes = value;
+              widget.config.transportTypes = value;
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: ElevatedButton(
+            onPressed: () {
               save();
             },
+            child: Text(t.dashboard.cards.nextDepartures.config.save),
           ),
         ),
       ],
@@ -136,6 +135,7 @@ class _TransportTypeChooserState extends State<_TransportTypeChooser> {
                 title: Text(e.name),
                 key: ValueKey(e.name),
                 onChanged: (bool? value) {
+                  if (chosen.length == 1 && value == false) return;
                   setState(() {
                     if (value != null && value) {
                       chosen.add(e);

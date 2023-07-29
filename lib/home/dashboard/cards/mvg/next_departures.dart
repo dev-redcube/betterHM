@@ -5,6 +5,7 @@ import 'package:better_hm/home/dashboard/cards/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/cards/mvg/next_departures_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 
@@ -71,35 +72,43 @@ class _NextDeparturesState extends State<NextDepartures>
 
     final items = sorted.take(5).toList();
     return DashboardCard(
-      child: items.isEmpty
-          ? Center(
-              child: Text(
-                  t.dashboard.cards.nextDepartures.noDepartures(minutes: 30)))
-          : ListView.builder(
-              itemCount: items.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final departure = items[index];
-                return ListTile(
-                  key: ValueKey(departure),
-                  leading: LineIcon(departure.label),
-                  title: Text(departure.destination),
-                  contentPadding: EdgeInsets.zero,
-                  dense: false,
-                  visualDensity: const VisualDensity(vertical: -4),
-                  trailing: DepartureTimer(
-                    departure: departure,
-                    offset: widget.config.offset,
-                    onDone: () {
-                      setState(() {
-                        departures.remove(departure);
-                      });
-                    },
-                  ),
-                );
-              },
-            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.config.station.name,
+              style: context.theme.textTheme.headlineSmall),
+          const SizedBox(height: 8),
+          items.isEmpty
+              ? Center(
+                  child: Text(t.dashboard.cards.nextDepartures
+                      .noDepartures(minutes: 30)))
+              : ListView.builder(
+                  itemCount: items.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final departure = items[index];
+                    return ListTile(
+                      key: ValueKey(departure),
+                      leading: LineIcon(departure.label),
+                      title: Text(departure.destination),
+                      contentPadding: EdgeInsets.zero,
+                      dense: false,
+                      visualDensity: const VisualDensity(vertical: -4),
+                      trailing: DepartureTimer(
+                        departure: departure,
+                        offset: widget.config.offset,
+                        onDone: () {
+                          setState(() {
+                            departures.remove(departure);
+                          });
+                        },
+                      ),
+                    );
+                  },
+                ),
+        ],
+      ),
     );
   }
 }

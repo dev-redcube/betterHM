@@ -51,7 +51,9 @@
         "config": {
           "station": "Station",
           "transportTypes": "Means of transport",
-          "leadTime": "Vorlaufzeit"
+          "leadTime": "Lead time",
+          "save": "Save",
+          "saved": "saved"
         }
       }
     },
