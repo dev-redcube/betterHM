@@ -1,17 +1,29 @@
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppInfo extends StatelessWidget {
   const AppInfo({Key? key}) : super(key: key);
 
+  static final Uri priacyPolicy =
+      Uri.parse("https://github.com/huber1/betterhm/PRIVACY.md");
+
   void _showAboutDialog(
           BuildContext context, PackageInfo info, String versionText) =>
       showAboutDialog(
-        context: context,
-        applicationVersion: versionText,
-        applicationLegalese: t.app_info.licenseNotice(buildYear: "2023"),
-      );
+          context: context,
+          applicationVersion: versionText,
+          applicationLegalese: t.app_info.licenseNotice(buildYear: "2023"),
+          children: [
+            const SizedBox(height: 10),
+            TextButton(
+                onPressed: () => launchUrl(priacyPolicy),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(t.app_info.privacyPolicy),
+                )),
+          ]);
 
   @override
   Widget build(BuildContext context) {
