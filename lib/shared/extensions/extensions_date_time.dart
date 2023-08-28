@@ -30,7 +30,7 @@ abstract class _DateHelper {
 }
 
 extension Week on DateTime {
-  int get weekOfYear => _DateHelper.weekOfYear(this);
+  int get weekNumber => _DateHelper.weekOfYear(this);
 }
 
 extension Formats on DateTime {

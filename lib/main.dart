@@ -17,6 +17,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Prefs.init();
   LocaleSettings.useDeviceLocale();
+
   await loadDb();
   await Future.wait([
     initApp(),
