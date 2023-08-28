@@ -2,7 +2,7 @@ import 'package:better_hm/shared/networking/api.dart';
 
 import 'eat_api_service.dart';
 
-class EatApi extends API {
+class EatApi extends Api {
   final EatApiService eatApiService;
 
   EatApi(this.eatApiService);

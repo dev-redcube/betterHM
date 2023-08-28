@@ -20,22 +20,25 @@ class MealsScreen extends StatefulWidget {
 class _MealsScreenState extends State<MealsScreen> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Canteen>>(
-      future: CanteenService().getCanteens(),
+    return FutureBuilder<(DateTime?, List<Canteen>)>(
+      future: CanteenService.fetchCanteens(false),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return _Body(canteens: snapshot.data!);
+        return _Body(
+            lastUpdated: snapshot.data!.$1, canteens: snapshot.data!.$2);
       },
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key, required this.canteens}) : super(key: key);
+  const _Body({Key? key, required this.lastUpdated, required this.canteens})
+      : super(key: key);
 
+  final DateTime? lastUpdated;
   final List<Canteen> canteens;
 
   @override

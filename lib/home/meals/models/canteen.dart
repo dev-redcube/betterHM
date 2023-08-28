@@ -1,36 +1,46 @@
-import 'package:isar/isar.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'canteen.g.dart';
 
-@collection
-class Canteen {
-  Id id = Isar.autoIncrement;
+@JsonSerializable()
+class Canteens {
+  @JsonKey(name: "data")
+  final List<Canteen> canteens;
 
+  Canteens({required this.canteens});
+
+  factory Canteens.fromJson(Map<String, dynamic> json) =>
+      _$CanteensFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CanteensToJson(this);
+}
+
+@JsonSerializable()
+class Canteen {
+  @JsonKey(name: "enum_name")
   final String enumName;
 
   final String name;
+
+  @JsonKey(name: "canteen_id")
   final String canteenId;
 
   // final Location? location;
   final OpenHoursWeek? openHours;
 
-  Canteen(this.enumName, this.name, this.canteenId, this.openHours);
+  Canteen({
+    required this.enumName,
+    required this.name,
+    required this.canteenId,
+    this.openHours,
+  });
 
-  factory Canteen.fromJson(Map<String, dynamic> json) {
-    final c = Canteen(
-      json["enum_name"],
-      json["name"],
-      json["canteen_id"],
-      // Location.fromJson(json["location"]),
-      json["open_hours"] == null
-          ? null
-          : OpenHoursWeek.fromJson(json["open_hours"]),
-    );
-    return c;
-  }
+  factory Canteen.fromJson(Map<String, dynamic> json) =>
+      _$CanteenFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CanteenToJson(this);
 }
 
-@embedded
 class OpenHoursWeek {
   final OpenHoursDay? mon;
   final OpenHoursDay? tue;
@@ -62,6 +72,16 @@ class OpenHoursWeek {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        "mon": mon?.toJson(),
+        "tue": tue?.toJson(),
+        "wed": wed?.toJson(),
+        "thu": thu?.toJson(),
+        "fri": fri?.toJson(),
+        "sat": sat?.toJson(),
+        "sun": sun?.toJson(),
+      };
+
   OpenHoursDay? operator [](int day) {
     switch (day) {
       case 1:
@@ -84,15 +104,15 @@ class OpenHoursWeek {
   }
 }
 
-@embedded
+@JsonSerializable()
 class OpenHoursDay {
   final String? start;
   final String? end;
 
   OpenHoursDay({this.start, this.end});
 
-  static OpenHoursDay fromJson(Map<String, dynamic> json) => OpenHoursDay(
-        start: json["start"],
-        end: json["end"],
-      );
+  factory OpenHoursDay.fromJson(Map<String, dynamic> json) =>
+      _$OpenHoursDayFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OpenHoursDayToJson(this);
 }

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart' as dio;
 
-abstract class API {
+abstract class Api {
   String get baseUrl;
 
   String get path;

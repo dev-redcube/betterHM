@@ -1,9 +1,10 @@
-import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/main.dart';
 import 'package:better_hm/settings/settings_dropdown.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
+import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -39,16 +40,13 @@ class AdvancedSettingsSection extends StatelessWidget {
         ),
         ListTile(
           title: Text(t.settings.advanced.clearCaches.title),
-          onTap: () async {
-            await CanteenService().clearCanteens();
-
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(t.settings.advanced.clearCaches.snackbar),
-                ),
-              );
-            }
+          onTap: () {
+            getIt.get<MainApi>().clearCache();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(t.settings.advanced.clearCaches.snackbar),
+              ),
+            );
           },
         ),
       ],
