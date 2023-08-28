@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AppInfo extends StatelessWidget {
   const AppInfo({Key? key}) : super(key: key);
 
-  static final Uri priacyPolicy =
+  static final Uri privacyPolicy =
       Uri.parse("https://github.com/huber1/betterhm/PRIVACY.md");
 
   void _showAboutDialog(
@@ -18,7 +18,7 @@ class AppInfo extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             TextButton(
-                onPressed: () => launchUrl(priacyPolicy),
+                onPressed: () => launchUrl(privacyPolicy),
                 child: SizedBox(
                   width: double.infinity,
                   child: Text(t.app_info.privacyPolicy),
