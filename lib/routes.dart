@@ -5,7 +5,6 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/logs/log_details_screen.dart';
 import 'package:better_hm/settings/logs/logs_screen.dart';
 import 'package:better_hm/settings/settings_screen.dart';
-import 'package:better_hm/shared/main_drawer.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,8 +22,17 @@ final router = GoRouter(
       navigatorKey: _mainShellKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return Scaffold(
-          appBar: AppBar(title: Text(t.app_name)),
-          drawer: const MainDrawer(),
+          appBar: AppBar(
+            title: Text(t.app_name),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings_rounded),
+                onPressed: () {
+                  context.pushNamed(SettingsScreen.routeName);
+                },
+              ),
+            ],
+          ),
           body: child,
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: (int index) {
