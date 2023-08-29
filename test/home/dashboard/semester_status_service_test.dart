@@ -1,5 +1,5 @@
-import 'package:better_hm/home/dashboard/cards/semester_status/models/semester_event.dart';
-import 'package:better_hm/home/dashboard/cards/semester_status/semester_status_service.dart';
+import 'package:better_hm/home/dashboard/cards/dates/models/semester_event.dart';
+import 'package:better_hm/home/dashboard/cards/dates/semester_status_service.dart';
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
 import 'package:better_hm/shared/exceptions/parsing_exception.dart';
 import 'package:better_hm/shared/service/http_service.dart';

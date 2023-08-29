@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/cards.dart';
 import 'package:better_hm/home/dashboard/cards/mvg/next_departures_card.dart';
-import 'package:better_hm/home/dashboard/cards/semester_status/semester_status_card.dart';
 import 'package:better_hm/shared/models/tuple.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'cards/dates/semester_status_card.dart';
 
 class CardService extends ValueNotifier<CardsList> {
   static final CardService _instance = CardService._internal();
