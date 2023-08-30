@@ -21,7 +21,8 @@
   "navigation": {
     "dashboard": "Dashboard",
     "mealplan": "Essensplan",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "calendar": "Kalender"
   },
   "dashboard": {
     "error": {

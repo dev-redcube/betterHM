@@ -5,7 +5,6 @@ typedef CardWithType = Tuple<CardType, ICard>;
 typedef CardsList = List<CardWithType>;
 
 enum CardType {
-  semesterStatus,
   nextDepartures;
 
   @override

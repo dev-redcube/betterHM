@@ -1,3 +1,3 @@
 sealed class BetterHmService {}
 
-class BetterHmServiceDates extends BetterHmService {}
+class BetterHmServiceCalendar extends BetterHmService {}

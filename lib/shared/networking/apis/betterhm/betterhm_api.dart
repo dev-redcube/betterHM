@@ -15,7 +15,7 @@ class BetterHmApi extends Api {
   @override
   get paths {
     return switch (betterHmService) {
-      BetterHmServiceDates _ => "${path}dates-api/thisSemester/all.json",
+      BetterHmServiceCalendar _ => "${path}dates-api/thisSemester/all.json",
     };
   }
 

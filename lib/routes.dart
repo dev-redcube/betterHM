@@ -1,3 +1,4 @@
+import 'package:better_hm/home/calendar/calendar_screen.dart';
 import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
@@ -24,6 +25,7 @@ final router = GoRouter(
         return Scaffold(
           appBar: AppBar(
             title: Text(t.app_name),
+            centerTitle: true,
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings_rounded),
@@ -44,6 +46,10 @@ final router = GoRouter(
               NavigationDestination(
                 icon: const Icon(Icons.home_rounded),
                 label: t.navigation.dashboard,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.calendar_month_rounded),
+                label: t.navigation.calendar,
               ),
               NavigationDestination(
                 icon: const Icon(Icons.restaurant_rounded),
@@ -103,6 +109,13 @@ final homeRoutes = <GoRoute>[
           ],
         ),
       ]),
+  GoRoute(
+    name: "calendar",
+    path: "/calendar",
+    parentNavigatorKey: _mainShellKey,
+    pageBuilder: (context, state) =>
+        const NoTransitionPage(child: CalendarScreen()),
+  ),
   GoRoute(
     name: "meals",
     path: "/meals",

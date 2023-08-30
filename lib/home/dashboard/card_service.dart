@@ -6,8 +6,6 @@ import 'package:better_hm/shared/models/tuple.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'cards/dates/semester_status_card.dart';
-
 class CardService extends ValueNotifier<CardsList> {
   static final CardService _instance = CardService._internal();
 
@@ -70,7 +68,6 @@ class CardService extends ValueNotifier<CardsList> {
   static CardWithType getCardFromType(CardType type,
       [Map<String, dynamic>? config]) {
     return switch (type) {
-      CardType.semesterStatus => Tuple(type, SemesterStatusCard()),
       CardType.nextDepartures =>
         Tuple(type, NextDeparturesCard()..config = config),
     };
