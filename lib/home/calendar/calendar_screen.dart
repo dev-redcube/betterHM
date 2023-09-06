@@ -18,7 +18,8 @@ class CalendarScreen extends StatelessWidget {
         return ListView(
           children: snapshot.data!.$2
               .map((e) => ListTile(
-                    title: Text(e.title),
+                    title: Text(
+                        "${e.start.day}.${e.start.month}.${e.start.year}: ${e.title}"),
                   ))
               .toList(),
         );
