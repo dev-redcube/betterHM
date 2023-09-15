@@ -4,7 +4,7 @@ import 'package:better_hm/home/meals/meal_view.dart';
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/selected_canteen_provider.dart';
-import 'package:better_hm/home/meals/service/api_meals.dart';
+import 'package:better_hm/home/meals/service/meal_service.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -20,22 +20,25 @@ class MealsScreen extends StatefulWidget {
 class _MealsScreenState extends State<MealsScreen> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Canteen>>(
-      future: CanteenService().getCanteens(),
+    return FutureBuilder<(DateTime?, List<Canteen>)>(
+      future: CanteenService.fetchCanteens(false),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return _Body(canteens: snapshot.data!);
+        return _Body(
+            lastUpdated: snapshot.data!.$1, canteens: snapshot.data!.$2);
       },
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key, required this.canteens}) : super(key: key);
+  const _Body({Key? key, required this.lastUpdated, required this.canteens})
+      : super(key: key);
 
+  final DateTime? lastUpdated;
   final List<Canteen> canteens;
 
   @override
@@ -92,20 +95,20 @@ class _MealsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ApiMeals().getCombinedMeals(canteen),
+      future: MealService.getMeals(canteen, false),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done ||
             !snapshot.hasData) {
           return const LinearProgressIndicator();
         }
-        final days = snapshot.data!;
-        if (days.isEmpty) {
+        final data = snapshot.data!;
+        if (data.$2.isEmpty) {
           return Center(
             child: Text(t.mealplan.no_meals),
           );
         }
         return PageView(
-          children: days
+          children: data.$2
               .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
               .toList(),
         );

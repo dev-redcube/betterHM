@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
+import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +12,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:get_it/get_it.dart';
+
+final getIt = GetIt.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Prefs.init();
   LocaleSettings.useDeviceLocale();
+  getIt.registerSingleton<MainApi>(MainApi.cache());
+
   await loadDb();
   await Future.wait([
     initApp(),
@@ -30,7 +35,6 @@ Future<Isar> loadDb() async {
   Isar db = await Isar.open(
     [
       LogEntrySchema,
-      CanteenSchema,
     ],
     directory: dir.path,
     inspector: false,
