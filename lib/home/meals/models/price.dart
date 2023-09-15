@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'price.g.dart';
+
+@JsonSerializable()
 class MealPrice {
   final double? basePrice;
   final double? pricePerUnit;
@@ -5,13 +10,8 @@ class MealPrice {
 
   MealPrice(this.basePrice, this.pricePerUnit, this.unit);
 
-  static MealPrice fromJson(Map<String, dynamic> json) => MealPrice(
-        json["base_price"] == null
-            ? null
-            : double.parse(json["base_price"].toString()),
-        json["price_per_unit"] == null
-            ? null
-            : double.parse(json["price_per_unit"].toString()),
-        json["unit"],
-      );
+  factory MealPrice.fromJson(Map<String, dynamic> json) =>
+      _$MealPriceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MealPriceToJson(this);
 }

@@ -21,3 +21,9 @@ class EatApiServiceMenu extends EatApiService {
       : year = year ?? DateTime.now().year,
         week = week ?? DateTime.now().weekNumber;
 }
+
+class EatApiServiceMenuCombined extends EatApiService {
+  final String location;
+
+  EatApiServiceMenuCombined({required this.location});
+}

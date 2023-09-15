@@ -22,7 +22,9 @@ class EatApi extends Api {
       EatApiServiceAll _ => "${path}all.json",
       EatApiServiceAllRef _ => "${path}all_ref.json",
       EatApiServiceMenu menu =>
-        "$path${menu.location}/${menu.year}/${menu.week.toString().padLeft(1, "0")}.json"
+        "$path${menu.location}/${menu.year}/${menu.week.toString().padLeft(1, "0")}.json",
+      EatApiServiceMenuCombined menu =>
+        "$path${menu.location}/combined/combined.json",
     };
   }
 

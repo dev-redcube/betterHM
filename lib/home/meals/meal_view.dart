@@ -80,7 +80,7 @@ class _DishCardState extends State<DishCard> {
                   ),
                   if (Prefs.showFoodLabels.value)
                     GestureDetector(
-                      child: Text(widget.dish.labels.asIcons().join(" ")),
+                      child: Text(widget.dish.labelsAsIcons().join(" ")),
                       onTap: () {
                         showDialog(
                           context: context,
