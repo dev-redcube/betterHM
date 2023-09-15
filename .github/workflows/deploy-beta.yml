@@ -9,6 +9,7 @@ on:
       - 'lib/**'
       - 'ios/**'
       - 'android/**'
+      - 'pubspec.yaml'
 
 jobs:
   deploy:
