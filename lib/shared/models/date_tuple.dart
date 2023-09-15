@@ -1,5 +1,9 @@
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'date_tuple.g.dart';
+
+@JsonSerializable()
 class DateTuple {
   final DateTime start;
   final DateTime? end;
@@ -17,13 +21,8 @@ class DateTuple {
     return start.isBefore(now) && end != null && end!.isAfter(now);
   }
 
-  factory DateTuple.fromJson(Map<String, dynamic> json) => DateTuple(
-        DateTime.parse(json["start"]),
-        json["end"] == null ? null : DateTime.parse(json["end"]),
-      );
+  factory DateTuple.fromJson(Map<String, dynamic> json) =>
+      _$DateTupleFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "start": start.toIso8601String(),
-        "end": end?.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() => _$DateTupleToJson(this);
 }

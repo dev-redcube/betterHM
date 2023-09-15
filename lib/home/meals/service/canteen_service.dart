@@ -1,7 +1,8 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
-import 'package:better_hm/home/meals/service/api_canteen.dart';
-import 'package:isar/isar.dart';
-import 'package:logging/logging.dart';
+import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/networking/apis/eat_api/eat_api.dart';
+import 'package:better_hm/shared/networking/apis/eat_api/eat_api_service.dart';
+import 'package:better_hm/shared/networking/main_api.dart';
 
 class CanteenService {
   static const showCanteens = [
@@ -25,47 +26,18 @@ class CanteenService {
     "STUCAFE_KARLSTR",
     "MENSA_STRAUBING",
   ];
-  final Logger _log = Logger("CanteenService");
 
-  static const loggerTag = "canteen service";
+  static Future<(DateTime?, List<Canteen>)> fetchCanteens(
+      bool forcedRefresh) async {
+    MainApi mainApi = getIt<MainApi>();
+    final response = await mainApi.makeRequest<Canteens, EatApi>(
+        EatApi(EatApiServiceCanteens()), Canteens.fromJson, forcedRefresh);
 
-  Future<List<Canteen>> getCanteens() async {
-    final isar = Isar.getInstance()!;
-    final List<Canteen> canteens = await isar.canteens.where().findAll();
-    if (canteens.isEmpty) {
-      _log.info("Cache is Empty. Fetching Canteens from Server...");
-      var canteens = await ApiCanteen().getCanteens();
-
-      // filter and sort
-      canteens = canteens
+    return (
+      response.saved,
+      response.data.canteens
           .where((element) => showCanteens.contains(element.enumName))
-          .toList();
-      canteens
-          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
-      Canteen lothstr =
-          canteens.firstWhere((element) => element.enumName == "MENSA_LOTHSTR");
-      canteens.removeWhere((element) => element.enumName == "MENSA_LOTHSTR");
-      canteens.insert(0, lothstr);
-
-      storeCanteens(canteens);
-      return canteens;
-    }
-    return canteens;
-  }
-
-  storeCanteens(List<Canteen> canteens, {bool clear = true}) async {
-    final isar = Isar.getInstance()!;
-    await isar.writeTxn(() async {
-      if (clear) {
-        await isar.canteens.clear();
-      }
-      await isar.canteens.putAll(canteens);
-    });
-  }
-
-  clearCanteens() async {
-    final isar = Isar.getInstance()!;
-    await isar.writeTxn(() => isar.canteens.clear());
+          .toList(),
+    );
   }
 }

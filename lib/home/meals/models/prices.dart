@@ -1,5 +1,9 @@
 import 'package:better_hm/home/meals/models/price.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'prices.g.dart';
+
+@JsonSerializable()
 class MealPrices {
   final MealPrice? students;
   final MealPrice? staff;
@@ -7,11 +11,8 @@ class MealPrices {
 
   MealPrices(this.students, this.staff, this.guests);
 
-  static MealPrices fromJson(Map<String, dynamic> json) {
-    return MealPrices(
-      json["students"] == null ? null : MealPrice.fromJson(json["students"]),
-      json["staff"] == null ? null : MealPrice.fromJson(json["staff"]),
-      json["guests"] == null ? null : MealPrice.fromJson(json["guests"]),
-    );
-  }
+  factory MealPrices.fromJson(Map<String, dynamic> json) =>
+      _$MealPricesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MealPricesToJson(this);
 }

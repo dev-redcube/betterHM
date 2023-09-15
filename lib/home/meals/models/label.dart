@@ -1,22 +1,5 @@
 import 'package:better_hm/i18n/strings.g.dart';
 
-class Labels {
-  final List<Label> labels;
-
-  Labels(this.labels);
-
-  factory Labels.fromStringList(List<String> labels) =>
-      Labels(labels.map((e) => Label(e)).toList());
-
-  List<String> asIcons() {
-    return labels
-        .map((e) => e.icon)
-        .where((element) => element != null)
-        .map((e) => e!)
-        .toList();
-  }
-}
-
 class Label {
   final String label;
 
@@ -28,6 +11,10 @@ class Label {
 
   @override
   String toString() => label;
+
+  factory Label.fromJson(String label) => Label(label);
+
+  String toJson() => label;
 }
 
 const Map<String, String> labelIcons = {
