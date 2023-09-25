@@ -6,12 +6,17 @@ on:
       - "master"
     paths:
       - 'lib/**'
+      - 'pubspec.yaml'
+      - 'test/**'
+      - 'build.yaml'
+      - 'setup.txt'
   pull_request:
     branches-ignore:
       - "development"
       - "master"
     paths:
       - 'lib/**'
+  workflow_dispatch:
 
 jobs:
   build:
