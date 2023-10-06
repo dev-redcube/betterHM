@@ -7,6 +7,7 @@ import 'package:better_hm/home/meals/selected_canteen_provider.dart';
 import 'package:better_hm/home/meals/service/meal_service.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -109,6 +110,8 @@ class _MealsPageView extends StatelessWidget {
         }
         return PageView(
           children: data.$2
+              .skipWhile(
+                  (value) => value.date.isBefore(DateTime.now().withoutTime))
               .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
               .toList(),
         );

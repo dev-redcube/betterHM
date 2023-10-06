@@ -29,16 +29,16 @@ abstract class _DateHelper {
   }
 }
 
-extension Week on DateTime {
+extension DateTimeExtensions on DateTime {
   int get weekNumber => _DateHelper.weekOfYear(this);
-}
 
-extension Formats on DateTime {
   DateTime get onlyDate => DateTime(year, month, day);
 
   String get formatdMonth => DateFormat("d. MMMM").format(this);
 
   String get formatdMonthAbbr => "$day. ${t.months[month - 1].substring(0, 3)}";
+
+  DateTime get withoutTime => DateTime(year, month, day);
 }
 
 DateTime today() {
