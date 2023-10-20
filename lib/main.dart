@@ -79,7 +79,6 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive) {
-      debugPrint("[APP STATE] paused");
       HMLogger().flush();
     }
 
