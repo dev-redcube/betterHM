@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "87795912631",
+    "project_id": "better-hm",
+    "storage_bucket": "better-hm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87795912631:android:23020810889005a2992232",
+        "android_client_info": {
+          "package_name": "de.moritzhuber.betterHm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87795912631-qfq53g4uk0e357os7ufmiuc9p62iv1mq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnFIlSREpZNg0T1lQJj0EXOc6BaXqv6bA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87795912631-qfq53g4uk0e357os7ufmiuc9p62iv1mq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
