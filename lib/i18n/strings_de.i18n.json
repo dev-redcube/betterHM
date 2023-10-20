@@ -106,7 +106,7 @@
       "logLevel": "Log level",
       "crashlytics": {
         "label": "Crashlytics aktivieren",
-        "subtitle": "Sendet Crashreports an Firebase Crashlytics. Benötigt App-Neustart"
+        "subtitle": "Sendet Crashreports mit Firebase Crashlytics"
       },
       "logs": {
         "open": "Logs öffnen",
