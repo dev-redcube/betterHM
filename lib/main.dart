@@ -49,19 +49,24 @@ Future<Isar> loadDb() async {
 
 Future<void> initApp() async {
   HMLogger();
+  setErrorHandler();
+}
+
+Future<void> setErrorHandler() async {
   final log = Logger("HMErrorLogger");
+  await Prefs.enableCrashlytics.waitUntilLoaded();
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     log.severe(details.toString(), details, details.stack);
-    if (kReleaseMode) {
+    if (kReleaseMode && Prefs.enableCrashlytics.value) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     }
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
     log.severe(error.toString(), error, stack);
-    if (kReleaseMode) {
+    if (kReleaseMode && Prefs.enableCrashlytics.value) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     }
     return true;

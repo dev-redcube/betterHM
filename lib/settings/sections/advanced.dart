@@ -1,6 +1,7 @@
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/settings/settings_dropdown.dart';
+import 'package:better_hm/settings/settings_switch.dart';
 import 'package:better_hm/shared/components/dropdown_list_tile.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
@@ -29,6 +30,14 @@ class AdvancedSettingsSection extends StatelessWidget {
               .toList(),
           afterChange: (int value) {
             HMLogger().level = Level.LEVELS[value];
+          },
+        ),
+        SettingsSwitch(
+          title: t.settings.advanced.crashlytics.label,
+          subtitle: t.settings.advanced.crashlytics.subtitle,
+          pref: Prefs.enableCrashlytics,
+          afterChange: (_) async {
+            await setErrorHandler();
           },
         ),
         ListTile(

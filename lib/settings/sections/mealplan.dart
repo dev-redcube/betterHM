@@ -18,7 +18,7 @@ class MealplanSettingsSection extends StatelessWidget {
         SettingsSwitch(
           title: t.settings.mealplan.showFoodLabels,
           pref: Prefs.showFoodLabels,
-        )
+        ),
       ],
     );
   }
