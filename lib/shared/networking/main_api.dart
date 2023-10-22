@@ -10,7 +10,7 @@ import 'api_response.dart';
 
 class MainApi {
   late Dio dio;
-  late MemCacheStore memCacheStore;
+  MemCacheStore? memCacheStore;
 
   MainApi.cache() {
     final memCacheStore = MemCacheStore();
@@ -87,6 +87,6 @@ class MainApi {
   }
 
   clearCache() async {
-    memCacheStore.clean();
+    if (memCacheStore != null) memCacheStore!.clean();
   }
 }
