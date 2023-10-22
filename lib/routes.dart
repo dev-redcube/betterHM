@@ -1,4 +1,3 @@
-import 'package:better_hm/home/dashboard/card_settings_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -8,8 +7,6 @@ import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'home/dashboard/manage_cards_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainShellKey = GlobalKey<NavigatorState>();
@@ -85,24 +82,7 @@ final homeRoutes = <GoRoute>[
       path: "/",
       parentNavigatorKey: _mainShellKey,
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: DashboardScreen()),
-      routes: <GoRoute>[
-        GoRoute(
-          name: ManageCardsScreen.routeName,
-          path: "manageCards",
-          parentNavigatorKey: rootNavigatorKey,
-          builder: (context, state) => const ManageCardsScreen(),
-          routes: <GoRoute>[
-            GoRoute(
-              name: CardSettingsScreen.routeName,
-              path: "cardSettings",
-              parentNavigatorKey: rootNavigatorKey,
-              builder: (context, state) =>
-                  CardSettingsScreen(child: state.extra as Widget),
-            )
-          ],
-        ),
-      ]),
+          const NoTransitionPage(child: DashboardScreen())),
   GoRoute(
     name: "meals",
     path: "/meals",

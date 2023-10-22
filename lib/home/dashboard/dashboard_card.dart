@@ -1,36 +1,34 @@
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 
-// TODO Card Title
 class DashboardCard extends StatelessWidget {
-  const DashboardCard({
-    Key? key,
-    required this.child,
-    this.maxHeight = 500,
-    this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
-
-  final EdgeInsetsGeometry padding;
-  final double maxHeight;
-
   final Widget child;
+  final void Function()? onTap;
+
+  const DashboardCard({
+    super.key,
+    required this.child,
+    this.onTap,
+  });
+
+  Widget buildChild(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: child,
+      );
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: maxHeight,
-      ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Card(
-            child: Padding(
-              padding: padding,
-              child: child,
+    return Card(
+      color: context.theme.colorScheme.primaryContainer,
+      elevation: 0,
+      clipBehavior: Clip.hardEdge,
+      child: onTap == null
+          ? buildChild(context)
+          : InkWell(
+              onTap: onTap,
+              splashColor: context.theme.colorScheme.primary.withOpacity(0.5),
+              child: buildChild(context),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

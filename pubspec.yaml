@@ -59,6 +59,7 @@ dependencies:
   json_annotation: ^4.8.1
   firebase_core: ^2.19.0
   firebase_crashlytics: ^3.4.1
+  flutter_inappwebview: ^5.8.0
 
 dev_dependencies:
   flutter_test:
