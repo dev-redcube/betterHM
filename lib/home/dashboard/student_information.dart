@@ -31,9 +31,9 @@ class TopInformation extends StatelessWidget {
                 url: "https://nine.hm.edu",
               ),
               WebOpenCard(
-                label: "NINE",
+                label: "HORST",
                 icon: Icons.language_rounded,
-                url: "https://nine.hm.edu",
+                url: "https://horst.hm.edu",
               ),
             ],
           ),
@@ -58,6 +58,7 @@ class WebOpenCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DashboardCard(
+      usePrimaryColor: true,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -80,6 +81,7 @@ class StudentInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DashboardCard(
+      usePrimaryColor: true,
       child: Row(
         children: [
           CircleAvatar(

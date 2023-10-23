@@ -1,4 +1,4 @@
-import 'package:better_hm/home/dashboard/sections/mvg_section.dart';
+import 'package:better_hm/home/dashboard/sections/mvg/mvg_section.dart';
 import 'package:better_hm/home/dashboard/student_information.dart';
 import 'package:flutter/material.dart';
 
