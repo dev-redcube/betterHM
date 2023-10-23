@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'models/semester_event_with_single_date.dart';
 
 class EventWidget extends StatelessWidget {
-  const EventWidget({Key? key, required this.event}) : super(key: key);
+  const EventWidget({super.key, required this.event});
 
   final SemesterEventWithSingleDate event;
 

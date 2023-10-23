@@ -7,8 +7,7 @@ import 'models/semester_event_with_single_date.dart';
 import 'tags.dart';
 
 class DeadlinesAppointments extends StatelessWidget {
-  const DeadlinesAppointments({Key? key, required this.events})
-      : super(key: key);
+  const DeadlinesAppointments({super.key, required this.events});
 
   final List<SemesterEventWithSingleDate> events;
 
