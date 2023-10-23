@@ -7,9 +7,8 @@ import 'package:better_hm/shared/models/range.dart';
 import 'package:flutter/material.dart';
 
 class SemesterProgress extends StatelessWidget {
-  SemesterProgress({Key? key, required this.date})
-      : assert(date.end != null, "Needs a DateTuple with start and end"),
-        super(key: key);
+  SemesterProgress({super.key, required this.date})
+      : assert(date.end != null, "Needs a DateTuple with start and end");
 
   final DateTuple date;
 

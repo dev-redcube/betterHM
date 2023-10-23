@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MealsScreen extends StatefulWidget {
-  const MealsScreen({Key? key}) : super(key: key);
+  const MealsScreen({super.key});
 
   @override
   State<MealsScreen> createState() => _MealsScreenState();
@@ -36,8 +36,7 @@ class _MealsScreenState extends State<MealsScreen> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key, required this.lastUpdated, required this.canteens})
-      : super(key: key);
+  const _Body({required this.lastUpdated, required this.canteens});
 
   final DateTime? lastUpdated;
   final List<Canteen> canteens;
@@ -89,7 +88,7 @@ class _MealsPage extends StatelessWidget {
 }
 
 class _MealsPageView extends StatelessWidget {
-  const _MealsPageView({Key? key, required this.canteen}) : super(key: key);
+  const _MealsPageView({required this.canteen});
 
   final Canteen canteen;
 

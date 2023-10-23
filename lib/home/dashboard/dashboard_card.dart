@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 // TODO Card Title
 class DashboardCard extends StatelessWidget {
   const DashboardCard({
-    Key? key,
+    super.key,
     required this.child,
     this.maxHeight = 500,
     this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  });
 
   final EdgeInsetsGeometry padding;
   final double maxHeight;

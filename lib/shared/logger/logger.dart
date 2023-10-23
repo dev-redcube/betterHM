@@ -1,4 +1,5 @@
 /// THIS FILE IS A MODIFIED VERSION OF https://github.com/immich-app/immich/blob/main/mobile/lib/shared/services/immich_logger.service.dart
+library;
 import 'dart:async';
 import 'dart:io';
 
