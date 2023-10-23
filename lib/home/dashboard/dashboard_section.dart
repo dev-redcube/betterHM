@@ -36,7 +36,7 @@ class DashboardSection extends StatelessWidget {
                       color: context.theme.colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
                   if (right != null) right!,
                 ],
               ),

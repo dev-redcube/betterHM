@@ -1,19 +1,27 @@
+import 'dart:async';
+
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_section.dart';
+import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
+import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MvgSection extends StatelessWidget {
   const MvgSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const DashboardSection(
-      title: 'MVG',
-      height: 200,
-      right: SelectStationWidget(),
-      child: Expanded(
-        child: DashboardCard(
-          child: Text("Hi"),
+    return ChangeNotifierProvider(
+      create: (_) => StationProvider(),
+      child: const DashboardSection(
+        title: "Departures",
+        height: 200,
+        right: SelectStationWidget(),
+        child: Expanded(
+          child: DashboardCard(
+            child: Text("Hi"),
+          ),
         ),
       ),
     );
@@ -36,46 +44,150 @@ class _SelectStationWidgetState extends State<SelectStationWidget> {
     useLiveLocation = false;
   }
 
-  liveLocationIndicator() =>
-      const [Icon(Icons.my_location_rounded, size: 16), SizedBox(width: 6)];
-
   showStationSelector(BuildContext context) {
+    final provider = Provider.of<StationProvider>(context, listen: false);
     showModalBottomSheet(
       context: context,
       enableDrag: true,
       showDragHandle: true,
       useRootNavigator: true,
-      builder: (context) => ListView(
-        shrinkWrap: true,
-        children: const [
-          ListTile(
-            title: Text("HELLO"),
-          ),
-        ],
-      ),
+      builder: (context) => ChangeNotifierProvider.value(
+          value: provider, child: const StationBottomSheet()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return TextButton(
+      onPressed: () => showStationSelector(context),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.fromLTRB(12, 2, 2, 2),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        minimumSize: Size.zero,
+      ),
+      child: Row(
+        children: [
+          // if (useLiveLocation)
+          const LiveLocationIndicator(updating: true),
+          Consumer<StationProvider>(
+            builder: (context, provider, child) {
+              return Text(
+                provider.station.name,
+                overflow: TextOverflow.clip,
+              );
+            },
+          ),
+          const SizedBox(width: 4),
+          const Icon(Icons.arrow_drop_down_rounded),
+        ],
+      ),
+    );
+  }
+}
+
+class LiveLocationIndicator extends StatefulWidget {
+  final bool updating;
+
+  const LiveLocationIndicator({
+    super.key,
+    required this.updating,
+  });
+
+  @override
+  State<LiveLocationIndicator> createState() => _LiveLocationIndicatorState();
+}
+
+class _LiveLocationIndicatorState extends State<LiveLocationIndicator> {
+  late bool _updating;
+  bool currentStatus = false;
+  late Timer timer;
+
+  final duration = const Duration(milliseconds: 750);
+
+  @override
+  void initState() {
+    super.initState();
+    _updating = widget.updating;
+
+    if (_updating) {
+      timer = Timer.periodic(duration, timerFunc);
+    }
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant LiveLocationIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.updating != widget.updating) {
+      _updating = widget.updating;
+      if (_updating) {
+        timer = Timer.periodic(duration, timerFunc);
+      } else {
+        timer.cancel();
+      }
+    }
+  }
+
+  void timerFunc(Timer timer) {
+    setState(() {
+      currentStatus = !currentStatus;
+    });
+  }
+
+  IconData get icon {
+    if (!_updating) return Icons.my_location_rounded;
+
+    return currentStatus
+        ? Icons.my_location_rounded
+        : Icons.location_searching_rounded;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: Icon(icon, size: 16),
+    );
+  }
+}
+
+class StationBottomSheet extends StatelessWidget {
+  const StationBottomSheet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
       children: [
-        TextButton(
-          onPressed: () => showStationSelector(context),
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.fromLTRB(12, 2, 2, 2),
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            minimumSize: Size.zero,
-          ),
-          child: Row(
-            children: [
-              if (useLiveLocation) ...liveLocationIndicator(),
-              const Text("Lothstraße"),
-              const SizedBox(width: 4),
-              const Icon(Icons.arrow_drop_down_rounded),
-            ],
-          ),
+        ListTile(
+          leading: const Icon(Icons.my_location_rounded),
+          title: const Text("Automatisch"),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          onTap: () {
+            Navigator.pop(context);
+          },
         ),
+        ...stations
+            .map(
+              (e) => ListTile(
+                leading: Icon(e.icon),
+                title: Text(e.name),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                onTap: () {
+                  Provider.of<StationProvider>(context, listen: false).station =
+                      e;
+                  Navigator.pop(context);
+                },
+              ),
+            )
+            .toList(),
       ],
     );
   }

@@ -40,9 +40,9 @@ class Departure {
   factory Departure.fromJson(Map<String, dynamic> json) {
     try {
       final plannedDepartureTime =
-      DateTime.fromMillisecondsSinceEpoch(json["plannedDepartureTime"]);
+          DateTime.fromMillisecondsSinceEpoch(json["plannedDepartureTime"]);
       final realtimeDepartureTime =
-      DateTime.fromMillisecondsSinceEpoch(json["realtimeDepartureTime"]);
+          DateTime.fromMillisecondsSinceEpoch(json["realtimeDepartureTime"]);
       final transportType = TransportType.fromString(json["transportType"]);
 
       final departure = Departure(
@@ -54,7 +54,7 @@ class Departure {
         label: json["label"],
         network: json["network"] ?? "swm",
         trainType:
-        json["trainType"].toString().isEmpty ? null : json["trainType"],
+            json["trainType"].toString().isEmpty ? null : json["trainType"],
         destination: json["destination"],
         cancelled: json["cancelled"] ?? false,
         sev: json["sev"] ?? false,

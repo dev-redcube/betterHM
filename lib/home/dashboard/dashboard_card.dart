@@ -1,5 +1,4 @@
 import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 class DashboardCard extends StatelessWidget {

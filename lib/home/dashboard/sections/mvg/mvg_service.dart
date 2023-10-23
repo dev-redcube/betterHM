@@ -69,7 +69,7 @@ class MvgService {
 
         /// cannot use queryParameters because there variables would be encoded
         query:
-        "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${transportTypes.map((e) => e.name).join(",")}");
+            "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${transportTypes.map((e) => e.name).join(",")}");
 
     final stopwatch = Stopwatch()..start();
     final response = await HttpService().client.get(uri);
@@ -81,7 +81,7 @@ class MvgService {
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         List<dynamic> departures = json;
         final List<Departure> parsed =
-        departures.map((e) => Departure.fromJson(e)).toList();
+            departures.map((e) => Departure.fromJson(e)).toList();
         return parsed;
       } catch (e, stacktrace) {
         _log.severe(
