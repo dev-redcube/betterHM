@@ -17,7 +17,7 @@ class MvgSection extends StatelessWidget {
       create: (_) => StationProvider(),
       child: DashboardSection(
         title: "Departures",
-        height: 200,
+        height: 275,
         right: const SelectStationWidget(),
         child: Expanded(
           child: DashboardCard(

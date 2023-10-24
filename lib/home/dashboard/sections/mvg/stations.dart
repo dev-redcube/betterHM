@@ -39,12 +39,12 @@ final stations = <Station>[
     icon: Icons.directions_bus_rounded,
   ),
   Station(
-    id: "ID",
+    id: "de:09162:53",
     name: "Ottostraße",
     icon: Icons.tram_rounded,
   ),
   Station(
-    id: "ID",
+    id: "de:09162:16",
     name: "Lenbachplatz",
     icon: Icons.tram_rounded,
   ),
