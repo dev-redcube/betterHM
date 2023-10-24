@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_section.dart';
+import 'package:better_hm/home/dashboard/sections/mvg/departures.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,16 @@ class MvgSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => StationProvider(),
-      child: const DashboardSection(
+      child: DashboardSection(
         title: "Departures",
         height: 200,
-        right: SelectStationWidget(),
+        right: const SelectStationWidget(),
         child: Expanded(
           child: DashboardCard(
-            child: Text("Hi"),
+            child: Consumer<StationProvider>(
+              builder: (context, provider, child) =>
+                  Departures(station: provider.station),
+            ),
           ),
         ),
       ),
@@ -36,14 +40,6 @@ class SelectStationWidget extends StatefulWidget {
 }
 
 class _SelectStationWidgetState extends State<SelectStationWidget> {
-  late bool useLiveLocation = false;
-
-  @override
-  void initState() {
-    super.initState();
-    useLiveLocation = false;
-  }
-
   showStationSelector(BuildContext context) {
     final provider = Provider.of<StationProvider>(context, listen: false);
     showModalBottomSheet(
@@ -67,8 +63,7 @@ class _SelectStationWidgetState extends State<SelectStationWidget> {
       ),
       child: Row(
         children: [
-          // if (useLiveLocation)
-          const LiveLocationIndicator(updating: true),
+          // const LiveLocationIndicator(updating: true),
           Consumer<StationProvider>(
             builder: (context, provider, child) {
               return Text(
@@ -163,32 +158,22 @@ class StationBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      children: [
-        ListTile(
-          leading: const Icon(Icons.my_location_rounded),
-          title: const Text("Automatisch"),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ...stations
-            .map(
-              (e) => ListTile(
-                leading: Icon(e.icon),
-                title: Text(e.name),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                onTap: () {
-                  Provider.of<StationProvider>(context, listen: false).station =
-                      e;
-                  Navigator.pop(context);
-                },
-              ),
-            )
-            .toList(),
-      ],
+      physics: const NeverScrollableScrollPhysics(),
+      children: stations
+          .map(
+            (e) => ListTile(
+              leading: Icon(e.icon),
+              title: Text(e.name),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              onTap: () {
+                Provider.of<StationProvider>(context, listen: false).station =
+                    e;
+                Navigator.pop(context);
+              },
+            ),
+          )
+          .toList(),
     );
   }
 }

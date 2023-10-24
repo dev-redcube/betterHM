@@ -55,11 +55,8 @@ class MvgService {
   Future<List<Departure>> getDepartures({
     required String stationId,
     int limit = 20,
-    required List<TransportType> transportTypes,
     Duration offset = const Duration(minutes: 1),
   }) async {
-    assert(transportTypes.isNotEmpty, "Specify at least one transport Type");
-
     _log.info("Fetching departures for stop $stationId");
 
     final uri = Uri(
@@ -69,7 +66,7 @@ class MvgService {
 
         /// cannot use queryParameters because there variables would be encoded
         query:
-            "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${transportTypes.map((e) => e.name).join(",")}");
+            "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}");
 
     final stopwatch = Stopwatch()..start();
     final response = await HttpService().client.get(uri);
