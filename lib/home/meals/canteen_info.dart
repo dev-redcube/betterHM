@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CanteenInfo extends StatelessWidget {
-  const CanteenInfo({Key? key, required this.canteen, required this.date})
-      : super(key: key);
+  const CanteenInfo({super.key, required this.canteen, required this.date});
 
   final Canteen canteen;
   final DateTime date;

@@ -1,5 +1,6 @@
 /// This File is taken mostly from https://github.com/adil192/saber/blob/main/lib/data/prefs.dart
 /// Credit for this file goes to adil192
+library;
 
 import 'dart:collection';
 import 'dart:convert';

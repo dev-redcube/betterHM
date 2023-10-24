@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class SettingsSwitch extends StatefulWidget {
   const SettingsSwitch({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.icon,
     this.iconBuilder,
     required this.pref,
     this.afterChange,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? subtitle;

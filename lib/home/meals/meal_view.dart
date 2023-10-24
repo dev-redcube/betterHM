@@ -27,9 +27,9 @@ class MealView extends StatelessWidget {
 
 class DishCard extends StatefulWidget {
   const DishCard({
-    Key? key,
+    super.key,
     required this.dish,
-  }) : super(key: key);
+  });
 
   final Dish dish;
 
