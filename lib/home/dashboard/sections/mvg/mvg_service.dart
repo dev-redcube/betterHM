@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:better_hm/home/dashboard/sections/mvg/departure.dart';
+import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/transport_type.dart';
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
 import 'package:better_hm/shared/exceptions/parsing_exception.dart';
@@ -53,11 +54,11 @@ class MvgService {
   final Logger _log = Logger("MvgService");
 
   Future<List<Departure>> getDepartures({
-    required String stationId,
+    required Station station,
     int limit = 20,
     Duration offset = const Duration(minutes: 1),
   }) async {
-    _log.info("Fetching departures for stop $stationId");
+    _log.info("Fetching departures for stop ${station.name} (${station.id})");
 
     final uri = Uri(
         scheme: "https",
@@ -66,7 +67,7 @@ class MvgService {
 
         /// cannot use queryParameters because there variables would be encoded
         query:
-            "globalId=$stationId&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}");
+            "globalId=${station.id}&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}");
 
     final stopwatch = Stopwatch()..start();
     final response = await HttpService().client.get(uri);

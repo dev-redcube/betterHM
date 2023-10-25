@@ -41,7 +41,7 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: MvgService().getDepartures(stationId: widget.station.id),
+      future: MvgService().getDepartures(station: widget.station),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const DeparturesListShimmer();
