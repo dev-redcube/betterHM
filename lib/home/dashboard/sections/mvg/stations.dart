@@ -22,7 +22,7 @@ abstract class StationService {
 final stations = <Station>[
   Station(
     id: "de:09162:12",
-    name: "Hochschule München Lothstr.",
+    name: "Hochschule Lothstr.",
     campus: "Innenstadt",
     icon: Icons.tram_rounded,
   ),

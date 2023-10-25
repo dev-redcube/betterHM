@@ -7,12 +7,12 @@ final lineColors = <String, (Color, BoxDecoration)>{
   "19": (Colors.white, const BoxDecoration(color: Color(0xFFe30613))),
   "27": (Colors.white, const BoxDecoration(color: Color(0xFFf7a600))),
   "28": (
-  const Color(0xFFf7a600),
-  BoxDecoration(border: Border.all(color: const Color(0xFFf7a600), width: 2))
+    const Color(0xFFf7a600),
+    BoxDecoration(border: Border.all(color: const Color(0xFFf7a600), width: 2))
   ),
   "29": (
-  const Color(0xFFD02E26),
-  BoxDecoration(border: Border.all(color: const Color(0xFFD02E26), width: 2))
+    const Color(0xFFD02E26),
+    BoxDecoration(border: Border.all(color: const Color(0xFFD02E26), width: 2))
   ),
   "153": (Colors.white, const BoxDecoration(color: Color(0xFF205060))),
   "160": (Colors.white, const BoxDecoration(color: Color(0xFF005262))),

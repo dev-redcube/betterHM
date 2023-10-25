@@ -25,19 +25,7 @@
     "calendar": "Calendar"
   },
   "dashboard": {
-    "error": {
-      "text": "Card $card could not be loaded",
-      "logs": "logs"
-    },
-    "manage": {
-      "manageCards": "Manage Cards",
-      "title": "Manage Cards",
-      "add": {
-        "title": "Add Card",
-        "cancel": "cancel"
-      }
-    },
-    "cards": {
+    "sections": {
       "semesterStatus": {
         "title": "Semester Information",
         "summer_semester": "Summer semester",
@@ -47,21 +35,10 @@
         "today": "Today",
         "tomorrow": "Tomorrow"
       },
-      "nextDepartures": {
-        "title": "Next Departures",
-        "noDepartures": "No Departures in the next $minutes minutes",
-        "config": {
-          "station": "Station",
-          "transportTypes": "Means of transport",
-          "leadTime": "Lead time",
-          "save": "Save",
-          "saved": "saved"
-        }
+      "mvg": {
+        "title": "Departures",
+        "error": "Error fetching departures for station $station"
       }
-    },
-    "cardTitles(map)": {
-      "semesterStatus": "Events and Deadlines",
-      "nextDepartures": "Next Departures"
     }
   },
   "mealplan": {

@@ -5,6 +5,7 @@ import 'package:better_hm/home/dashboard/dashboard_section.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/departures.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,15 +17,12 @@ class MvgSection extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => StationProvider(),
       child: DashboardSection(
-        title: "Departures",
-        height: 275,
+        title: t.dashboard.sections.mvg.title,
         right: const SelectStationWidget(),
-        child: Expanded(
-          child: DashboardCard(
-            child: Consumer<StationProvider>(
-              builder: (context, provider, child) =>
-                  Departures(station: provider.station),
-            ),
+        child: DashboardCard(
+          child: Consumer<StationProvider>(
+            builder: (context, provider, child) =>
+                Departures(station: provider.station),
           ),
         ),
       ),

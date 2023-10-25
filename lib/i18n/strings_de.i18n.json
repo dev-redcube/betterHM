@@ -25,19 +25,7 @@
     "calendar": "Kalender"
   },
   "dashboard": {
-    "error": {
-      "text": "Karte $card konnte nicht geladen werden",
-      "logs": "Logs"
-    },
-    "manage": {
-      "manageCards": "Karten verwalten",
-      "title": "Karten verwalten",
-      "add": {
-        "title": "Karte hinzufügen",
-        "cancel": "abbrechen"
-      }
-    },
-    "cards": {
+    "sections": {
       "semesterStatus": {
         "title": "Semesterinformationen",
         "summer_semester": "Sommersemester",
@@ -47,21 +35,10 @@
         "today": "Heute",
         "tomorrow": "Morgen"
       },
-      "nextDepartures": {
-        "title": "Abfahrtszeiten",
-        "noDepartures": "Keine Abfahrten in den nächsten $minutes Minuten",
-        "config": {
-          "station": "Station",
-          "transportTypes": "Verkehrsmittel",
-          "leadTime": "Vorlaufzeit",
-          "save": "Speichern",
-          "saved": "Einstellungen Gespeichert"
-        }
+      "mvg": {
+        "title": "Abfahrten",
+        "error": "Fehler beim Abfragen der Daten für $station"
       }
-    },
-    "cardTitles(map)": {
-      "semesterStatus": "Fristen & Termine",
-      "nextDepartures": "MVG Abfahrten"
     }
   },
   "mealplan": {
