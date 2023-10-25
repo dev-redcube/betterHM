@@ -6,6 +6,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
@@ -29,8 +30,7 @@ abstract class Prefs {
   static late final PlainPref<String> initialLocation;
 
   // Dashboard
-  static late final PlainPref<List<String>> cards;
-  static late final PlainPref<int> cardTimeout;
+  static late final PlainPref<String> selectedMvgStation;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
@@ -47,8 +47,7 @@ abstract class Prefs {
     initialLocation = PlainPref("initialLocation", "/");
 
     // Dashboard
-    cards = PlainPref("cards", []);
-    cardTimeout = PlainPref("cardTimeout", 4000);
+    selectedMvgStation = PlainPref("selectedMvgStation", stations.first.id);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);

@@ -6,6 +6,7 @@ import 'package:better_hm/home/dashboard/sections/mvg/departures.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -167,6 +168,7 @@ class StationBottomSheet extends StatelessWidget {
               onTap: () {
                 Provider.of<StationProvider>(context, listen: false).station =
                     e;
+                Prefs.selectedMvgStation.value = e.id;
                 Navigator.pop(context);
               },
             ),
