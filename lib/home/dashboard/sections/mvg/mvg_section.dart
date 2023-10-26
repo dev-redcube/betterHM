@@ -163,6 +163,7 @@ class StationBottomSheet extends StatelessWidget {
             (e) => ListTile(
               leading: Icon(e.icon),
               title: Text(e.name),
+              subtitle: e.campus == null ? null : Text(e.campus!),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               onTap: () {
