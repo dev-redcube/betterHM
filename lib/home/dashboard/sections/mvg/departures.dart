@@ -33,7 +33,7 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     // If user reopens the app, refresh departures
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed && mounted) {
       setState(() {});
     }
   }
