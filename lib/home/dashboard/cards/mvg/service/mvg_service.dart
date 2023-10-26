@@ -85,7 +85,9 @@ class MvgService {
         return parsed;
       } catch (e, stacktrace) {
         _log.severe(
-            "Error parsing MVG API. Please file a bug report", e, stacktrace);
+            "Error parsing MVG API. Please file a bug report. json: ${jsonDecode(utf8.decode(response.bodyBytes))}",
+            e,
+            stacktrace);
         throw ParsingException(
             "Error parsing MVG API. Please file a bug report");
       }
