@@ -18,6 +18,7 @@ class Movies {
 class Movie {
   final String title;
   final DateTime date;
+  @JsonKey(name: "times")
   final List<String> showTimes;
   final String fsk;
   final String genre;

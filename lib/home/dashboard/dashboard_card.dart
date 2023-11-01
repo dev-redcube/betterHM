@@ -6,6 +6,7 @@ class DashboardCard extends StatelessWidget {
   final void Function()? onTap;
   final bool usePrimaryColor;
   final double? height;
+  final EdgeInsets? padding;
 
   const DashboardCard({
     super.key,
@@ -13,10 +14,11 @@ class DashboardCard extends StatelessWidget {
     this.onTap,
     this.usePrimaryColor = false,
     this.height,
+    this.padding,
   });
 
   Widget buildChild(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
+        padding: padding ?? const EdgeInsets.all(16),
         child: child,
       );
 

@@ -1,6 +1,7 @@
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_section.dart';
 import 'package:better_hm/home/dashboard/sections/kino/kino_service.dart';
+import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
 import 'package:flutter/material.dart';
 
 class KinoSection extends StatelessWidget {
@@ -15,13 +16,16 @@ class KinoSection extends StatelessWidget {
         child: FutureBuilder(
             future: KinoService().getMovies(),
             builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Text("loading");
+              } else if (!snapshot.hasData) {
+                return const Text("no data");
+              }
+
               return ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  MovieCard(),
-                  MovieCard(),
-                  MovieCard(),
-                ],
+                children:
+                    snapshot.data!.$2.map((e) => MovieCard(movie: e)).toList(),
               );
             }),
       ),
@@ -30,10 +34,21 @@ class KinoSection extends StatelessWidget {
 }
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({super.key});
+  final Movie movie;
+
+  const MovieCard({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
-    return const DashboardCard(child: Text("Hello This is a long movie"));
+    return const DashboardCard(
+      padding: EdgeInsets.zero,
+      child: AspectRatio(
+        aspectRatio: 4 / 6,
+        child: Placeholder(),
+        // child: CachedNetworkImage(
+        //   imageUrl: movie.coverUrl,
+        // ),
+      ),
+    );
   }
 }
