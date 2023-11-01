@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
                 brightness: Brightness.dark,
               ),
         ),
-        themeMode: ThemeMode.dark,
+        // themeMode: ThemeMode.dark,
         locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,
         localizationsDelegates: GlobalMaterialLocalizations.delegates,

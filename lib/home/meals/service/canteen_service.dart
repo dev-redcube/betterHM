@@ -1,7 +1,5 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/networking/apis/eat_api/eat_api.dart';
-import 'package:better_hm/shared/networking/apis/eat_api/eat_api_service.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 
 class CanteenService {
@@ -30,8 +28,14 @@ class CanteenService {
   static Future<(DateTime?, List<Canteen>)> fetchCanteens(
       bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<Canteens, EatApi>(
-        EatApi(EatApiServiceCanteens()), Canteens.fromJson, forcedRefresh);
+
+    final uri = Uri(
+      scheme: "https",
+      host: "tum-dev.github.io",
+      path: "/eat-api/enums/canteens.json",
+    );
+
+    final response = await mainApi.get(uri, Canteens.fromJson);
 
     return (
       response.saved,
