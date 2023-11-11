@@ -37,7 +37,7 @@ class TopInformation extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

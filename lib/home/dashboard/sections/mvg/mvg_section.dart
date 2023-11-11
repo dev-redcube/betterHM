@@ -47,7 +47,9 @@ class _SelectStationWidgetState extends State<SelectStationWidget> {
       showDragHandle: true,
       useRootNavigator: true,
       builder: (context) => ChangeNotifierProvider.value(
-          value: provider, child: const StationBottomSheet()),
+        value: provider,
+        child: const StationBottomSheet(),
+      ),
     );
   }
 

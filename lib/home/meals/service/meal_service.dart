@@ -39,9 +39,9 @@ class MealService {
         try {
           List weeks = json["weeks"];
           List days = weeks.fold(
-              [],
-              (previousValue, element) =>
-                  previousValue..addAll(element["days"]));
+            [],
+            (previousValue, element) => previousValue..addAll(element["days"]),
+          );
           return MealDays.fromJson({"days": days});
         } catch (exception, stacktrace) {
           Logger("EatService")

@@ -10,20 +10,25 @@ class AppInfo extends StatelessWidget {
       Uri.parse("https://github.com/huber1/betterhm/PRIVACY.md");
 
   void _showAboutDialog(
-          BuildContext context, PackageInfo info, String versionText) =>
+    BuildContext context,
+    PackageInfo info,
+    String versionText,
+  ) =>
       showAboutDialog(
-          context: context,
-          applicationVersion: versionText,
-          applicationLegalese: t.app_info.licenseNotice(buildYear: "2023"),
-          children: [
-            const SizedBox(height: 10),
-            TextButton(
-                onPressed: () => launchUrl(privacyPolicy),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(t.app_info.privacyPolicy),
-                )),
-          ]);
+        context: context,
+        applicationVersion: versionText,
+        applicationLegalese: t.app_info.licenseNotice(buildYear: "2023"),
+        children: [
+          const SizedBox(height: 10),
+          TextButton(
+            onPressed: () => launchUrl(privacyPolicy),
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(t.app_info.privacyPolicy),
+            ),
+          ),
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {

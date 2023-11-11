@@ -61,13 +61,14 @@ class MvgService {
     _log.info("Fetching departures for stop ${station.name} (${station.id})");
 
     final uri = Uri(
-        scheme: "https",
-        host: "www.mvg.de",
-        path: "api/fib/v2/departure",
+      scheme: "https",
+      host: "www.mvg.de",
+      path: "api/fib/v2/departure",
 
-        /// cannot use queryParameters because there variables would be encoded
-        query:
-            "globalId=${station.id}&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}");
+      /// cannot use queryParameters because there variables would be encoded
+      query:
+          "globalId=${station.id}&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}",
+    );
 
     final stopwatch = Stopwatch()..start();
     final response = await HttpService().client.get(uri);
@@ -83,16 +84,23 @@ class MvgService {
         return parsed;
       } catch (e, stacktrace) {
         _log.severe(
-            "Error parsing MVG API. Please file a bug report", e, stacktrace);
+          "Error parsing MVG API. Please file a bug report",
+          e,
+          stacktrace,
+        );
         throw ParsingException(
-            "Error parsing MVG API. Please file a bug report");
+          "Error parsing MVG API. Please file a bug report",
+        );
       }
     }
 
-    _log.warning("MVG Api call failed with status code ${response.statusCode}",
-        response.body);
+    _log.warning(
+      "MVG Api call failed with status code ${response.statusCode}",
+      response.body,
+    );
     throw ApiException(
-        message: "MVG Api call failed with status code ${response.statusCode}",
-        response: response);
+      message: "MVG Api call failed with status code ${response.statusCode}",
+      response: response,
+    );
   }
 }

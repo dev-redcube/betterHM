@@ -155,7 +155,8 @@ class _DeparturesListState extends State<DeparturesList> {
     super.initState();
     final departuresTemp = List.of(widget.departures);
     departuresTemp.sort(
-        (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime));
+      (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime),
+    );
     _departures = departuresTemp.take(15).toList();
   }
 

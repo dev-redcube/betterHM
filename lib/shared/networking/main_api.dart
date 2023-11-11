@@ -23,20 +23,23 @@ class MainApi {
 
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
-    dio.options = BaseOptions(responseDecoder: (data, options, body) {
-      final decoded = utf8.decoder.convert(data);
-      return decoded;
-    });
+    dio.options = BaseOptions(
+      responseDecoder: (data, options, body) {
+        final decoded = utf8.decoder.convert(data);
+        return decoded;
+      },
+    );
 
     this.dio = dio;
   }
 
   Future<ApiResponse<T>>
       makeRequestWithException<T, S extends Api, U extends ApiException>(
-          S endpoint,
-          dynamic Function(Map<String, dynamic>) createObject,
-          dynamic Function(Map<String, dynamic>) createError,
-          bool forcedRefresh) async {
+    S endpoint,
+    dynamic Function(Map<String, dynamic>) createObject,
+    dynamic Function(Map<String, dynamic>) createError,
+    bool forcedRefresh,
+  ) async {
     Response<String> response;
     if (forcedRefresh) {
       Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);

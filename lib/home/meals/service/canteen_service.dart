@@ -26,7 +26,8 @@ class CanteenService {
   ];
 
   static Future<(DateTime?, List<Canteen>)> fetchCanteens(
-      bool forcedRefresh) async {
+    bool forcedRefresh,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
 
     final uri = Uri(
