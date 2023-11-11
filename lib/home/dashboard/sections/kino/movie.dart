@@ -22,6 +22,7 @@ class Movie {
   final List<String> showTimes;
   final String fsk;
   final String genre;
+  final int length;
   final String info;
   final String content;
   final String coverUrl;
@@ -33,6 +34,7 @@ class Movie {
     required this.showTimes,
     required this.fsk,
     required this.genre,
+    required this.length,
     required this.info,
     required this.content,
     required this.coverUrl,

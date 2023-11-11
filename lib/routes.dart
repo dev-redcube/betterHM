@@ -1,4 +1,5 @@
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
+import 'package:better_hm/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/logs/log_details_screen.dart';
@@ -7,6 +8,8 @@ import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'home/dashboard/sections/kino/movie.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainShellKey = GlobalKey<NavigatorState>();
@@ -35,8 +38,11 @@ final router = GoRouter(
             onDestinationSelected: (int index) {
               context.goNamed(homeRoutes[index].name!);
             },
-            selectedIndex: homeRoutes.indexOf(homeRoutes
-                .firstWhere((element) => element.path == state.uri.toString())),
+            selectedIndex: homeRoutes.indexOf(
+              homeRoutes.firstWhere(
+                (element) => element.path == state.uri.toString(),
+              ),
+            ),
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.home_rounded),
@@ -70,19 +76,28 @@ final router = GoRouter(
           parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) =>
               LogDetailsScreen(id: state.pathParameters["id"]),
-        )
+        ),
       ],
+    ),
+    GoRoute(
+      name: MovieDetailScreen.routeName,
+      path: "/movie",
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => MovieDetailScreen(
+        movie: state.extra as Movie,
+      ),
     ),
   ],
 );
 
 final homeRoutes = <GoRoute>[
   GoRoute(
-      name: "index",
-      path: "/",
-      parentNavigatorKey: _mainShellKey,
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: DashboardScreen())),
+    name: "index",
+    path: "/",
+    parentNavigatorKey: _mainShellKey,
+    pageBuilder: (context, state) =>
+        const NoTransitionPage(child: DashboardScreen()),
+  ),
   GoRoute(
     name: "meals",
     path: "/meals",
