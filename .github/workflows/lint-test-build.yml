@@ -1,7 +1,17 @@
 name: Lint, Test and Build
 on:
-  push:
-    branches-ignore:
+  #  push:
+  #    branches-ignore:
+  #      - "development"
+  #      - "master"
+  #    paths:
+  #      - 'lib/**'
+  #      - 'pubspec.yaml'
+  #      - 'test/**'
+  #      - 'build.yaml'
+  #      - 'setup.txt'
+  pull_request:
+    branches:
       - "development"
       - "master"
     paths:
@@ -10,12 +20,7 @@ on:
       - 'test/**'
       - 'build.yaml'
       - 'setup.txt'
-  pull_request:
-    branches-ignore:
-      - "development"
-      - "master"
-    paths:
-      - 'lib/**'
+      - 'integration_test/**'
   workflow_dispatch:
 
 jobs:
