@@ -6,6 +6,7 @@ import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:go_router/go_router.dart';
 
 class KinoSection extends StatelessWidget {
@@ -66,7 +67,13 @@ class MovieCard extends StatelessWidget {
           // AspectRation 4/6
           Hero(
             tag: movie,
-            child: const AspectRatio(aspectRatio: 4 / 6, child: Placeholder()),
+            child: AspectRatio(
+              aspectRatio: 4 / 6,
+              child: movie.coverBlurhash != null
+                  ? BlurHash(hash: movie.coverBlurhash!)
+                  : const Placeholder(),
+              // child: Placeholder(),
+            ),
           ),
           Expanded(
             child: Column(

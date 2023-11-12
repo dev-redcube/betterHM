@@ -3,6 +3,7 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   static const routeName = "movie";
@@ -22,9 +23,11 @@ class MovieDetailScreen extends StatelessWidget {
           children: [
             Hero(
               tag: movie,
-              child: const AspectRatio(
+              child: AspectRatio(
                 aspectRatio: 4 / 6,
-                child: Placeholder(),
+                child: movie.coverBlurhash != null
+                    ? BlurHash(hash: movie.coverBlurhash!)
+                    : const Placeholder(),
               ),
             ),
             Padding(

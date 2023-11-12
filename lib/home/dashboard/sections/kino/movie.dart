@@ -26,6 +26,7 @@ class Movie {
   final String info;
   final String content;
   final String coverUrl;
+  final String? coverBlurhash;
   final String unifilmUrl;
 
   Movie({
@@ -38,10 +39,13 @@ class Movie {
     required this.info,
     required this.content,
     required this.coverUrl,
+    required this.coverBlurhash,
     required this.unifilmUrl,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
+  factory Movie.fromJson(Map<String, dynamic> json) {
+    return _$MovieFromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
 }
