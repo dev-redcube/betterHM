@@ -3,9 +3,7 @@ import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   static const routeName = "movie";
@@ -70,9 +68,9 @@ class _MovieDetails extends StatelessWidget {
               icon: Icons.today_rounded,
               text: movie.date.formatdMonthAbbr,
             ),
-            const _IconWithText(
+            _IconWithText(
               icon: Icons.location_on_rounded,
-              text: "LOCATION",
+              text: movie.room,
             ),
           ],
         ),

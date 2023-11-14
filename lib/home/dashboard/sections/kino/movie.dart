@@ -25,6 +25,7 @@ class Movie {
   final int length;
   final String info;
   final String content;
+  final String room;
   final String coverUrl;
   final String? coverBlurhash;
   final String unifilmUrl;
@@ -38,6 +39,7 @@ class Movie {
     required this.length,
     required this.info,
     required this.content,
+    required this.room,
     required this.coverUrl,
     required this.coverBlurhash,
     required this.unifilmUrl,
