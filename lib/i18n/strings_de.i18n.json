@@ -26,18 +26,15 @@
   },
   "dashboard": {
     "sections": {
-      "semesterStatus": {
-        "title": "Semesterinformationen",
-        "summer_semester": "Sommersemester",
-        "winter_semester": "Wintersemester",
-        "deadlines_appointments": "Fristen & Termine",
-        "no_data": "Keine Termine oder Fehler beim Laden",
-        "today": "Heute",
-        "tomorrow": "Morgen"
-      },
       "mvg": {
         "title": "Abfahrten",
         "error": "Fehler beim Abfragen der Daten für $station"
+      },
+      "kino": {
+        "title": "Kino",
+        "movie": {
+          "length": "$minutes Minuten"
+        }
       }
     }
   },

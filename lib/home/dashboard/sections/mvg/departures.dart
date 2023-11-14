@@ -23,6 +23,8 @@ class Departures extends StatefulWidget {
 }
 
 class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
+  DateTime lastRender = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -33,8 +35,12 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     // If user reopens the app, refresh departures
-    if (state == AppLifecycleState.resumed && mounted) {
-      setState(() {});
+    if (state == AppLifecycleState.resumed &&
+        mounted &&
+        DateTime.now().difference(lastRender).inSeconds > 15) {
+      setState(() {
+        lastRender = DateTime.now();
+      });
     }
   }
 
@@ -149,7 +155,8 @@ class _DeparturesListState extends State<DeparturesList> {
     super.initState();
     final departuresTemp = List.of(widget.departures);
     departuresTemp.sort(
-        (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime));
+      (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime),
+    );
     _departures = departuresTemp.take(15).toList();
   }
 

@@ -64,13 +64,15 @@ class _SettingsDropdownState<T> extends State<SettingsDropdown<T>> {
           subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
           trailing: DropdownButton<T>(
             items: widget.options
-                .map((e) => DropdownMenuItem(
-                      value: e.value,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(e.name),
-                      ),
-                    ))
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e.value,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(e.name),
+                    ),
+                  ),
+                )
                 .toList(),
             value: widget.pref.value,
             onChanged: (T? value) {

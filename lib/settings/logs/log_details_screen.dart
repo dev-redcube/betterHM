@@ -92,8 +92,11 @@ class _CardWithTitle extends StatelessWidget {
                       Clipboard.setData(ClipboardData(text: text)).then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content: Text(t.settings.advanced.logs.details
-                                  .copiedToClipboard)),
+                            content: Text(
+                              t.settings.advanced.logs.details
+                                  .copiedToClipboard,
+                            ),
+                          ),
                         );
                       });
                     },
@@ -102,7 +105,7 @@ class _CardWithTitle extends StatelessWidget {
                       size: 16.0,
                       color: context.theme.colorScheme.primary,
                     ),
-                  )
+                  ),
               ],
             ),
           ),
@@ -117,10 +120,11 @@ class _CardWithTitle extends StatelessWidget {
               child: SelectableText(
                 text,
                 style: TextStyle(
-                    color: context.theme.colorScheme.onSurface,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.0,
-                    fontFamily: "Inconsolata"),
+                  color: context.theme.colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.0,
+                  fontFamily: "Inconsolata",
+                ),
               ),
             ),
           ),

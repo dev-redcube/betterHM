@@ -87,28 +87,30 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
-      return MaterialApp.router(
-        title: t.app_name,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: lightColorScheme ??
-              ColorScheme.fromSeed(seedColor: const Color(0xFFE8605B)),
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: darkColorScheme ??
-              ColorScheme.fromSeed(
-                seedColor: const Color(0xFFE8605B),
-                brightness: Brightness.dark,
-              ),
-        ),
-        themeMode: ThemeMode.dark,
-        locale: TranslationProvider.of(context).flutterLocale,
-        supportedLocales: AppLocaleUtils.supportedLocales,
-        localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        routerConfig: router,
-      );
-    });
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp.router(
+          title: t.app_name,
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme ??
+                ColorScheme.fromSeed(seedColor: const Color(0xFFE8605B)),
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme ??
+                ColorScheme.fromSeed(
+                  seedColor: const Color(0xFFE8605B),
+                  brightness: Brightness.dark,
+                ),
+          ),
+          // themeMode: ThemeMode.dark,
+          locale: TranslationProvider.of(context).flutterLocale,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          routerConfig: router,
+        );
+      },
+    );
   }
 }

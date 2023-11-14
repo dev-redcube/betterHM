@@ -46,10 +46,12 @@ class _DropdownListTileState<T> extends State<DropdownListTile<T>> {
           widget.onChanged?.call(newValue);
         },
         items: widget.options
-            .map((e) => DropdownMenuItem(
-                  value: e.value,
-                  child: Text(e.name),
-                ))
+            .map(
+              (e) => DropdownMenuItem(
+                value: e.value,
+                child: Text(e.name),
+              ),
+            )
             .toList(),
         underline: const SizedBox.shrink(),
       ),

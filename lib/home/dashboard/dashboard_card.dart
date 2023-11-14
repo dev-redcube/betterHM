@@ -6,6 +6,8 @@ class DashboardCard extends StatelessWidget {
   final void Function()? onTap;
   final bool usePrimaryColor;
   final double? height;
+  final double? width;
+  final EdgeInsets? padding;
 
   const DashboardCard({
     super.key,
@@ -13,10 +15,12 @@ class DashboardCard extends StatelessWidget {
     this.onTap,
     this.usePrimaryColor = false,
     this.height,
+    this.width,
+    this.padding,
   });
 
   Widget buildChild(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
+        padding: padding ?? const EdgeInsets.all(16),
         child: child,
       );
 
@@ -24,6 +28,7 @@ class DashboardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
+      width: width,
       child: Card(
         color: usePrimaryColor
             ? context.theme.colorScheme.primaryContainer.withOpacity(0.5)

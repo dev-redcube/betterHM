@@ -61,6 +61,8 @@ dependencies:
   firebase_crashlytics: ^3.4.1
   flutter_inappwebview: ^5.8.0
   shimmer: ^3.0.0
+  cached_network_image: ^3.3.0
+  flutter_blurhash: ^0.7.0
 
 dev_dependencies:
   flutter_test:

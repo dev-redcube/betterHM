@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 
 /// API for MVG
 /// example shows all departures from Lothstraße
-/// example: https://www.mvv-mu2enchen.de/?eID=departuresFinder&action=get_departures&stop_id=de%3A09162%3A12&requested_timestamp=1685906480&lines=JmxpbmU9c3dtJTNBMDIwMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyMDIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMjAyMSUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDIwMjElM0FHJTNBUiUzQTAxMyZsaW5lPXN3bSUzQTAyMDI5JTNBRyUzQUglM0EwMTMmbGluZT1zd20lM0EwMjAyOSUzQUclM0FSJTNBMDEzJmxpbmU9c3dtJTNBMDJOMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyTjIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMzE1MyUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDMxNTMlM0FHJTNBUiUzQTAxMw%3D%3D
+/// example: https://www.mvv-muenchen.de/?eID=departuresFinder&action=get_departures&stop_id=de%3A09162%3A12&requested_timestamp=1685906480&lines=JmxpbmU9c3dtJTNBMDIwMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyMDIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMjAyMSUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDIwMjElM0FHJTNBUiUzQTAxMyZsaW5lPXN3bSUzQTAyMDI5JTNBRyUzQUglM0EwMTMmbGluZT1zd20lM0EwMjAyOSUzQUclM0FSJTNBMDEzJmxpbmU9c3dtJTNBMDJOMjAlM0FHJTNBSCUzQTAxMyZsaW5lPXN3bSUzQTAyTjIwJTNBRyUzQVIlM0EwMTMmbGluZT1zd20lM0EwMzE1MyUzQUclM0FIJTNBMDEzJmxpbmU9c3dtJTNBMDMxNTMlM0FHJTNBUiUzQTAxMw%3D%3D
 ///
 /// Breakdown:
 /// https://www.mvv-muenchen.de/?eID=departuresFinder // root url
@@ -61,13 +61,14 @@ class MvgService {
     _log.info("Fetching departures for stop ${station.name} (${station.id})");
 
     final uri = Uri(
-        scheme: "https",
-        host: "www.mvg.de",
-        path: "api/fib/v2/departure",
+      scheme: "https",
+      host: "www.mvg.de",
+      path: "api/fib/v2/departure",
 
-        /// cannot use queryParameters because there variables would be encoded
-        query:
-            "globalId=${station.id}&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}");
+      /// cannot use queryParameters because there variables would be encoded
+      query:
+          "globalId=${station.id}&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}",
+    );
 
     final stopwatch = Stopwatch()..start();
     final response = await HttpService().client.get(uri);
@@ -83,16 +84,23 @@ class MvgService {
         return parsed;
       } catch (e, stacktrace) {
         _log.severe(
-            "Error parsing MVG API. Please file a bug report", e, stacktrace);
+          "Error parsing MVG API. Please file a bug report. json: ${jsonDecode(utf8.decode(response.bodyBytes))}",
+          e,
+          stacktrace,
+        );
         throw ParsingException(
-            "Error parsing MVG API. Please file a bug report");
+          "Error parsing MVG API. Please file a bug report",
+        );
       }
     }
 
-    _log.warning("MVG Api call failed with status code ${response.statusCode}",
-        response.body);
+    _log.warning(
+      "MVG Api call failed with status code ${response.statusCode}",
+      response.body,
+    );
     throw ApiException(
-        message: "MVG Api call failed with status code ${response.statusCode}",
-        response: response);
+      message: "MVG Api call failed with status code ${response.statusCode}",
+      response: response,
+    );
   }
 }

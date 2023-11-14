@@ -23,7 +23,8 @@ class _CanteenPickerState extends State<CanteenPicker> {
     final prefs = await SharedPreferences.getInstance();
     final String? canteenEnum = prefs.getString("selected-canteen");
     final Canteen canteen = widget.canteens.firstWhere(
-        (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"));
+      (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"),
+    );
     provider.canteen = canteen;
   }
 
@@ -49,8 +50,12 @@ class _CanteenPickerState extends State<CanteenPicker> {
               hint: Text(t.mealplan.choose_canteen),
               value: provider.canteen,
               items: widget.canteens
-                  .map((canteen) => DropdownMenuItem(
-                      value: canteen, child: Text(canteen.name)))
+                  .map(
+                    (canteen) => DropdownMenuItem(
+                      value: canteen,
+                      child: Text(canteen.name),
+                    ),
+                  )
                   .toList(),
             ),
           ),

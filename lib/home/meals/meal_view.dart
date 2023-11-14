@@ -17,7 +17,8 @@ class MealView extends StatelessWidget {
         shrinkWrap: true,
         children: day.dishes
             .where(
-                (element) => !["Aktion", "Beilagen"].contains(element.dishType))
+              (element) => !["Aktion", "Beilagen"].contains(element.dishType),
+            )
             .map((dish) => DishCard(dish: dish))
             .toList(),
       ),
@@ -58,77 +59,82 @@ class _DishCardState extends State<DishCard> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(100)),
-                            color: context.theme.colorScheme.primaryContainer),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 2.0, horizontal: 8.0),
-                        child: Text(widget.dish.dishType),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(100)),
+                        color: context.theme.colorScheme.primaryContainer,
                       ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 2.0,
+                        horizontal: 8.0,
+                      ),
+                      child: Text(widget.dish.dishType),
                     ),
                   ),
-                  if (Prefs.showFoodLabels.value)
-                    GestureDetector(
-                      child: Text(widget.dish.labelsAsIcons().join(" ")),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SimpleDialog(
-                              title: const Text("Legende"),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: labelIcons.entries
-                                        .map((e) => Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Text(
-                                                "${e.value}  ${labelLocals[e.key]}",
-                                                style: context
-                                                    .theme.textTheme.bodyLarge,
-                                              ),
-                                            ))
-                                        .toList(),
-                                  ),
+                ),
+                if (Prefs.showFoodLabels.value)
+                  GestureDetector(
+                    child: Text(widget.dish.labelsAsIcons().join(" ")),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            title: const Text("Legende"),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
                                 ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.dish.name,
-                      style: context.theme.textTheme.bodyLarge,
-                    ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: labelIcons.entries
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Text(
+                                            "${e.value}  ${labelLocals[e.key]}",
+                                            style: context
+                                                .theme.textTheme.bodyLarge,
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
-                ],
-              ),
-            ],
-          )),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.dish.name,
+                    style: context.theme.textTheme.bodyLarge,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

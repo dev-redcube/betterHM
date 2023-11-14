@@ -153,17 +153,23 @@ abstract class IPref<T> extends ValueNotifier<T> {
 class PlainPref<T> extends IPref<T> {
   SharedPreferences? _prefs;
 
-  PlainPref(super.key, super.defaultValue,
-      {super.historicalKeys, super.deprecatedKeys}) {
+  PlainPref(
+    super.key,
+    super.defaultValue, {
+    super.historicalKeys,
+    super.deprecatedKeys,
+  }) {
     // Accepted types
-    assert(T == bool ||
-        T == int ||
-        T == double ||
-        T == String ||
-        T == typeOf<Uint8List?>() ||
-        T == typeOf<List<String>>() ||
-        T == typeOf<Set<String>>() ||
-        T == typeOf<Queue<String>>());
+    assert(
+      T == bool ||
+          T == int ||
+          T == double ||
+          T == String ||
+          T == typeOf<Uint8List?>() ||
+          T == typeOf<List<String>>() ||
+          T == typeOf<Set<String>>() ||
+          T == typeOf<Queue<String>>(),
+    );
   }
 
   @override

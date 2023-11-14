@@ -29,7 +29,9 @@ class _MealsScreenState extends State<MealsScreen> {
         }
 
         return _Body(
-            lastUpdated: snapshot.data!.$1, canteens: snapshot.data!.$2);
+          lastUpdated: snapshot.data!.$1,
+          canteens: snapshot.data!.$2,
+        );
       },
     );
   }
@@ -110,7 +112,8 @@ class _MealsPageView extends StatelessWidget {
         return PageView(
           children: data.$2
               .skipWhile(
-                  (value) => value.date.isBefore(DateTime.now().withoutTime))
+                (value) => value.date.isBefore(DateTime.now().withoutTime),
+              )
               .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
               .toList(),
         );

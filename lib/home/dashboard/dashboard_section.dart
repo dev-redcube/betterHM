@@ -41,7 +41,7 @@ class DashboardSection extends StatelessWidget {
                 ],
               ),
             ),
-            child
+            child,
           ],
         ),
       ),
