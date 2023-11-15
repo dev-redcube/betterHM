@@ -5,11 +5,43 @@ import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 
-class MovieDetailScreen extends StatelessWidget {
+class MovieDetailsScreen extends StatefulWidget {
+  final List<Movie> movies;
+  final int initialMovie;
+
+  const MovieDetailsScreen({
+    super.key,
+    required this.movies,
+    required this.initialMovie,
+  });
+
+  @override
+  State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
+}
+
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: widget.initialMovie);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      controller: _pageController,
+      children: widget.movies.map((e) => MovieDetailPage(movie: e)).toList(),
+    );
+  }
+}
+
+class MovieDetailPage extends StatelessWidget {
   static const routeName = "movie";
   final Movie movie;
 
-  const MovieDetailScreen({super.key, required this.movie});
+  const MovieDetailPage({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {

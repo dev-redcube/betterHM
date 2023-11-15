@@ -37,7 +37,14 @@ class KinoSection extends StatelessWidget {
 
             return ListView(
               scrollDirection: Axis.horizontal,
-              children: movies.map((e) => MovieCard(movie: e)).toList(),
+              children: movies
+                  .map(
+                    (e) => MovieCard(
+                      movie: e,
+                      movies: movies,
+                    ),
+                  )
+                  .toList(),
             );
           },
         ),
@@ -48,8 +55,9 @@ class KinoSection extends StatelessWidget {
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
+  final List<Movie> movies;
 
-  const MovieCard({super.key, required this.movie});
+  const MovieCard({super.key, required this.movie, required this.movies});
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +66,8 @@ class MovieCard extends StatelessWidget {
       width: 125,
       onTap: () {
         context.pushNamed(
-          MovieDetailScreen.routeName,
-          extra: movie,
+          MovieDetailPage.routeName,
+          extra: (movies, movies.indexOf(movie)),
         );
       },
       child: Column(
@@ -104,7 +112,7 @@ class MovieImage extends StatelessWidget {
       fit: BoxFit.cover,
       errorWidget: (context, url, error) => const Center(
         child: Icon(Icons.error),
-      )
+      ),
     );
   }
 }

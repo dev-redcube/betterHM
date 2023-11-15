@@ -80,12 +80,16 @@ final router = GoRouter(
       ],
     ),
     GoRoute(
-      name: MovieDetailScreen.routeName,
+      name: MovieDetailPage.routeName,
       path: "/movie",
       parentNavigatorKey: rootNavigatorKey,
-      builder: (context, state) => MovieDetailScreen(
-        movie: state.extra as Movie,
-      ),
+      builder: (context, state) {
+        final x = state.extra as (List<Movie>, int);
+        return MovieDetailsScreen(
+          movies: x.$1,
+          initialMovie: x.$2,
+        );
+      },
     ),
   ],
 );
