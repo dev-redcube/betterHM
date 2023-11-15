@@ -21,6 +21,7 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   late final PageController _pageController;
+  final _scrollController = TrackingScrollController();
 
   @override
   void initState() {
@@ -32,7 +33,14 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   Widget build(BuildContext context) {
     return PageView(
       controller: _pageController,
-      children: widget.movies.map((e) => MovieDetailPage(movie: e)).toList(),
+      children: widget.movies
+          .map(
+            (e) => MovieDetailPage(
+              movie: e,
+              scrollController: _scrollController,
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -40,8 +48,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 class MovieDetailPage extends StatelessWidget {
   static const routeName = "movie";
   final Movie movie;
+  final ScrollController scrollController;
 
-  const MovieDetailPage({super.key, required this.movie});
+  const MovieDetailPage({
+    super.key,
+    required this.movie,
+    required this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +63,7 @@ class MovieDetailPage extends StatelessWidget {
         title: Text(movie.title),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
