@@ -27,7 +27,7 @@ class Movie {
   final String content;
   final String room;
   final String coverUrl;
-  final String? coverBlurhash;
+  final String coverBlurhash;
   final String unifilmUrl;
 
   Movie({
