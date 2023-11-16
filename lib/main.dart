@@ -7,6 +7,7 @@ import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
+import 'package:better_hm/shared/service/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
   Prefs.init();
   LocaleSettings.useDeviceLocale();
   getIt.registerSingleton<MainApi>(MainApi.cache());
+  getIt.registerSingleton<LocationService>(LocationService());
 
   await loadDb();
   await Future.wait([

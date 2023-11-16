@@ -3,12 +3,31 @@ import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/foundation.dart';
 
 class StationProvider with ChangeNotifier {
-  Station _station = StationService.getFromId(Prefs.selectedMvgStation.value)!;
+  StationState _state = StationState(
+    StationService.getFromId(Prefs.lastMvgStation.value)!,
+    Prefs.autoMvgStation.value
+        ? StationLocationState.searching
+        : StationLocationState.manual,
+  );
 
-  Station get station => _station;
+  StationState get state => _state;
 
-  set station(Station station) {
-    _station = station;
+  set state(StationState state) {
+    _state = state;
     notifyListeners();
   }
+}
+
+class StationState {
+  final Station station;
+  final StationLocationState locationState;
+
+  StationState(this.station, this.locationState);
+}
+
+enum StationLocationState {
+  manual,
+  searching,
+  found,
+  error,
 }

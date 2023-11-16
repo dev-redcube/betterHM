@@ -28,7 +28,14 @@
     "sections": {
       "mvg": {
         "title": "Departures",
-        "error": "Error fetching departures for station $station"
+        "error": "Error fetching departures for station $station",
+        "selector": {
+          "automatic": {
+            "title": "Automatic",
+            "description": "Automatically selects the nearest station",
+            "disabledText": "App needs Location permission"
+          }
+        }
       },
       "kino": {
         "title": "Cinema",

@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:better_hm/home/dashboard/sections/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/transport_type.dart';
-import 'package:better_hm/shared/exceptions/api/api_exception.dart';
-import 'package:better_hm/shared/exceptions/parsing_exception.dart';
-import 'package:better_hm/shared/service/http_service.dart';
+import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:logging/logging.dart';
 
 /// API for MVG
@@ -70,37 +67,10 @@ class MvgService {
           "globalId=${station.id}&limit=$limit&offsetInMinutes=${offset.inMinutes}&transportTypes=${TransportType.values.map((e) => e.name).join(",")}",
     );
 
-    final stopwatch = Stopwatch()..start();
-    final response = await HttpService().client.get(uri);
-    stopwatch.stop();
+    final mainApi = getIt<MainApi>();
 
-    _log.fine("MVG Api call took ${stopwatch.elapsedMilliseconds}ms");
-    if (200 == response.statusCode) {
-      try {
-        final json = jsonDecode(utf8.decode(response.bodyBytes));
-        List<dynamic> departures = json;
-        final List<Departure> parsed =
-            departures.map((e) => Departure.fromJson(e)).toList();
-        return parsed;
-      } catch (e, stacktrace) {
-        _log.severe(
-          "Error parsing MVG API. Please file a bug report. json: ${jsonDecode(utf8.decode(response.bodyBytes))}",
-          e,
-          stacktrace,
-        );
-        throw ParsingException(
-          "Error parsing MVG API. Please file a bug report",
-        );
-      }
-    }
+    final departures = await mainApi.get(uri, DeparturesWrapper.fromJson);
 
-    _log.warning(
-      "MVG Api call failed with status code ${response.statusCode}",
-      response.body,
-    );
-    throw ApiException(
-      message: "MVG Api call failed with status code ${response.statusCode}",
-      response: response,
-    );
+    return departures.data.departures;
   }
 }

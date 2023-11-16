@@ -28,7 +28,6 @@ class KinoService {
       """),
       );
 
-      print(movies);
       return (now(), movies.movies);
     } catch (e, x) {
       print(e);

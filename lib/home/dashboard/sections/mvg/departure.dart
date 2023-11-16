@@ -1,6 +1,9 @@
 import 'package:better_hm/home/dashboard/sections/mvg/transport_type.dart';
 import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
+
+part 'departure.g.dart';
 
 class Departure {
   final DateTime plannedDepartureTime;
@@ -70,4 +73,15 @@ class Departure {
       throw IllegalArgumentsException(e.toString());
     }
   }
+}
+
+@JsonSerializable(createToJson: false)
+class DeparturesWrapper {
+  @JsonKey(name: "data")
+  final List<Departure> departures;
+
+  DeparturesWrapper(this.departures);
+
+  factory DeparturesWrapper.fromJson(Map<String, dynamic> json) =>
+      _$DeparturesWrapperFromJson(json);
 }

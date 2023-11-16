@@ -37,7 +37,7 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
     // If user reopens the app, refresh departures
     if (state == AppLifecycleState.resumed &&
         mounted &&
-        DateTime.now().difference(lastRender).inSeconds > 15) {
+        DateTime.now().difference(lastRender).inSeconds > 30) {
       setState(() {
         lastRender = DateTime.now();
       });
@@ -46,7 +46,7 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<List<Departure>>(
       future: MvgService().getDepartures(station: widget.station),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

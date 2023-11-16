@@ -30,7 +30,8 @@ abstract class Prefs {
   static late final PlainPref<String> initialLocation;
 
   // Dashboard
-  static late final PlainPref<String> selectedMvgStation;
+  static late final PlainPref<String> lastMvgStation;
+  static late final PlainPref<bool> autoMvgStation;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
@@ -47,7 +48,8 @@ abstract class Prefs {
     initialLocation = PlainPref("initialLocation", "/");
 
     // Dashboard
-    selectedMvgStation = PlainPref("selectedMvgStation", stations.first.id);
+    lastMvgStation = PlainPref("lastMvgStation", stations.first.id);
+    autoMvgStation = PlainPref("autoMvgStation", false);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);

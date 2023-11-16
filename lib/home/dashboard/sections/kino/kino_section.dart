@@ -117,29 +117,40 @@ class MovieImage extends StatelessWidget {
 class _ErrorWidget extends StatelessWidget {
   final Movie movie;
 
-  _ErrorWidget(this.movie) {
-    print("ERROR PAINTED");
-  }
+  const _ErrorWidget(this.movie);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        BlurHash(hash: movie.coverBlurhash),
-        Center(
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.theme.colorScheme.primary,
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Icon(
-              Icons.error,
-              color: context.theme.colorScheme.onPrimary,
-            ),
-          ),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: context.theme.colorScheme.primary,
         ),
-      ],
+        padding: const EdgeInsets.all(8),
+        child: Icon(
+          Icons.error,
+          color: context.theme.colorScheme.onPrimary,
+        ),
+      ),
     );
+    // return Stack(
+    //   children: [
+    //     BlurHash(hash: movie.coverBlurhash),
+    //     Center(
+    //       child: Container(
+    //         decoration: BoxDecoration(
+    //           shape: BoxShape.circle,
+    //           color: context.theme.colorScheme.primary,
+    //         ),
+    //         padding: const EdgeInsets.all(8),
+    //         child: Icon(
+    //           Icons.error,
+    //           color: context.theme.colorScheme.onPrimary,
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 }

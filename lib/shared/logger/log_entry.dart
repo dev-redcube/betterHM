@@ -16,7 +16,7 @@ class LogEntry {
 
   LogEntry({
     required this.message,
-    this.level = LogLevel.INFO,
+    this.level = LogLevel.WARNING,
     required this.timestamp,
     this.context1,
     this.context2,
