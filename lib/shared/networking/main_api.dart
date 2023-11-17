@@ -8,6 +8,7 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 import 'api_response.dart';
 
+// https://stackoverflow.com/questions/67249487/how-do-i-implement-dio-http-cache-alongside-my-interceptor
 class MainApi {
   late Dio dio;
   MemCacheStore? memCacheStore;
@@ -17,7 +18,7 @@ class MainApi {
     final cacheOptions = CacheOptions(
       store: memCacheStore,
       policy: CachePolicy.forceCache,
-      maxStale: const Duration(days: 1),
+      maxStale: const Duration(hours: 1),
       hitCacheOnErrorExcept: [401, 404],
     );
 
