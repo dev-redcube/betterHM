@@ -57,6 +57,7 @@ dependencies:
   get_it: ^7.6.0
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
+  kalender: ^0.1.8
 
 dev_dependencies:
   flutter_test:
