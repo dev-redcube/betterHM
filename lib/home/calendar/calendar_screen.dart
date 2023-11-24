@@ -24,9 +24,11 @@ class CalendarScreen extends StatelessWidget {
       tileBuilder:
           (CalendarEvent<EventData> event, TileConfiguration tileConfig) =>
               _tileBuilder(event, tileConfig, context),
-      viewConfiguration: WeekConfiguration(),
-      multiDayTileBuilder: (CalendarEvent<EventData> event,
-              MultiDayTileConfiguration configuration) =>
+      viewConfiguration: WorkWeekConfiguration(),
+      multiDayTileBuilder: (
+        CalendarEvent<EventData> event,
+        MultiDayTileConfiguration configuration,
+      ) =>
           _multiDayTileBuilder(event, configuration, context),
       scheduleTileBuilder: (CalendarEvent<EventData> event, DateTime date) =>
           _scheduleTileBuilder(event, date, context),
@@ -34,7 +36,9 @@ class CalendarScreen extends StatelessWidget {
   }
 
   (Color, Color) getColors(
-      CalendarEvent<EventData> event, BuildContext context) {
+    CalendarEvent<EventData> event,
+    BuildContext context,
+  ) {
     final color = event.eventData?.color ?? context.theme.colorScheme.primary;
     late final Color textColor;
     if (event.eventData != null && event.eventData?.color != null) {
@@ -99,7 +103,10 @@ class CalendarScreen extends StatelessWidget {
   }
 
   Widget _scheduleTileBuilder(
-      CalendarEvent<EventData> event, DateTime date, BuildContext context) {
+    CalendarEvent<EventData> event,
+    DateTime date,
+    BuildContext context,
+  ) {
     final colors = getColors(event, context);
 
     return DecoratedBox(
