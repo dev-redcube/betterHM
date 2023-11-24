@@ -72,10 +72,10 @@ class MainApi {
 
   Future<ApiResponse<T>> get<T>(
     Uri endpoint,
-    T Function(Map<String, dynamic>) createObject, [
+    T Function(Map<String, dynamic>) createObject, {
     Options? options,
     bool forcedRefresh = false,
-  ]) async {
+  }) async {
     Response<String> response;
 
     if (forcedRefresh) {

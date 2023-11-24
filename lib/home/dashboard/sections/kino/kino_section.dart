@@ -6,9 +6,9 @@ import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
+import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:go_router/go_router.dart';
 
 class KinoSection extends StatelessWidget {
@@ -107,7 +107,7 @@ class MovieImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: movie.coverUrl,
-      placeholder: (context, url) => BlurHash(hash: movie.coverBlurhash),
+      placeholder: (context, url) => BlurhashFfi(hash: movie.coverBlurhash),
       fit: BoxFit.cover,
       errorWidget: (context, url, error) => _ErrorWidget(movie),
     );
@@ -121,36 +121,36 @@ class _ErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: context.theme.colorScheme.primary,
-        ),
-        padding: const EdgeInsets.all(8),
-        child: Icon(
-          Icons.error,
-          color: context.theme.colorScheme.onPrimary,
-        ),
-      ),
-    );
-    // return Stack(
-    //   children: [
-    //     BlurHash(hash: movie.coverBlurhash),
-    //     Center(
-    //       child: Container(
-    //         decoration: BoxDecoration(
-    //           shape: BoxShape.circle,
-    //           color: context.theme.colorScheme.primary,
-    //         ),
-    //         padding: const EdgeInsets.all(8),
-    //         child: Icon(
-    //           Icons.error,
-    //           color: context.theme.colorScheme.onPrimary,
-    //         ),
-    //       ),
+    // return Center(
+    //   child: Container(
+    //     decoration: BoxDecoration(
+    //       shape: BoxShape.circle,
+    //       color: context.theme.colorScheme.primary,
     //     ),
-    //   ],
+    //     padding: const EdgeInsets.all(8),
+    //     child: Icon(
+    //       Icons.error,
+    //       color: context.theme.colorScheme.onPrimary,
+    //     ),
+    //   ),
     // );
+    return Stack(
+      children: [
+        BlurhashFfi(hash: movie.coverBlurhash),
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.theme.colorScheme.primary,
+            ),
+            padding: const EdgeInsets.all(8),
+            child: Icon(
+              Icons.error,
+              color: context.theme.colorScheme.onPrimary,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
