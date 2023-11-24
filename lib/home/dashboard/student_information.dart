@@ -10,7 +10,7 @@ class TopInformation extends StatelessWidget {
     return const Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        StudentInformation(),
+        // StudentInformation(),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
