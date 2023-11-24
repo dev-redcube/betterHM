@@ -1,12 +1,20 @@
+import 'package:better_hm/home/calendar/calendar_service.dart';
+import 'package:better_hm/home/calendar/providers/events_deadlines_event_provider.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
-class CalendarScreen extends StatelessWidget {
-  CalendarScreen({super.key});
+class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
 
+  @override
+  State<CalendarScreen> createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
   final calendarController = CalendarController<EventData>();
+
   final eventsController = CalendarEventsController<EventData>();
 
   final List<ViewConfiguration> viewConfigurations = [
@@ -15,6 +23,19 @@ class CalendarScreen extends StatelessWidget {
     MonthConfiguration(),
     ScheduleConfiguration(),
   ];
+
+  late final Stream<List<CalendarEvent<EventData>>> eventStream;
+
+  @override
+  void initState() {
+    super.initState();
+    eventStream = CalendarService()
+        .fetchEventproviders([DeadlinesAppointmentsEventProvider()]);
+
+    eventStream.listen((events) {
+      eventsController.addEvents(events);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +60,8 @@ class CalendarScreen extends StatelessWidget {
     CalendarEvent<EventData> event,
     BuildContext context,
   ) {
-    final color = event.eventData?.color ?? context.theme.colorScheme.primary;
+    final color =
+        event.eventData?.color ?? context.theme.colorScheme.primaryContainer;
     late final Color textColor;
     if (event.eventData != null && event.eventData?.color != null) {
       textColor =
@@ -48,7 +70,7 @@ class CalendarScreen extends StatelessWidget {
               ? Colors.black
               : Colors.white;
     } else {
-      textColor = context.theme.colorScheme.onPrimary;
+      textColor = context.theme.colorScheme.onPrimaryContainer;
     }
 
     return (color, textColor);
@@ -71,7 +93,10 @@ class CalendarScreen extends StatelessWidget {
         child: tileConfig.tileType != TileType.ghost
             ? Text(
                 event.eventData?.title ?? "No data",
-                style: TextStyle(color: colors.$2),
+                style: TextStyle(
+                  color: colors.$2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               )
             : null,
       ),
@@ -89,13 +114,17 @@ class CalendarScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 2),
       elevation: configuration.tileType == TileType.selected ? 8 : 0,
       color: configuration.tileType == TileType.ghost
-          ? colors.$2.withAlpha(100)
-          : colors.$2,
-      child: Center(
+          ? colors.$1.withAlpha(100)
+          : colors.$1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: configuration.tileType != TileType.ghost
             ? Text(
                 event.eventData?.title ?? 'No data',
-                style: TextStyle(color: colors.$2),
+                style: TextStyle(
+                  color: colors.$2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               )
             : null,
       ),
@@ -116,7 +145,7 @@ class CalendarScreen extends StatelessWidget {
       ),
       child: Text(
         event.eventData?.title ?? 'No data',
-        style: TextStyle(color: colors.$2),
+        style: TextStyle(color: colors.$2, overflow: TextOverflow.ellipsis),
       ),
     );
   }

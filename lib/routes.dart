@@ -110,7 +110,8 @@ final homeRoutes = <GoRoute>[
     name: "calendar",
     path: "/calendar",
     parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) => NoTransitionPage(child: CalendarScreen()),
+    pageBuilder: (context, state) =>
+        const NoTransitionPage(child: CalendarScreen()),
   ),
   GoRoute(
     name: "meals",

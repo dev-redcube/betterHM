@@ -96,6 +96,13 @@ class MainApi {
     );
   }
 
+  Future<ApiResponse<String>> getRawString(Uri endpoint,
+      {Options? options}) async {
+    Response<String> response;
+    response = await dio.getUri(endpoint, options: options);
+    return ApiResponse<String>(data: response.data.toString());
+  }
+
   clearCache() async {
     if (memCacheStore != null) memCacheStore!.clean();
   }

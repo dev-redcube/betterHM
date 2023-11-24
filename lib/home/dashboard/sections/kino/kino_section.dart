@@ -31,10 +31,10 @@ class KinoSection extends StatelessWidget {
 
             final movies = snapshot.data!.$2;
             movies.sort((a, b) => a.date.compareTo(b.date));
-            final firstAfterToday = movies.firstWhere(
-              (e) => e.date.isAfter(DateTime.now()),
-              orElse: () => movies.first,
-            );
+            // final firstAfterToday = movies.firstWhere(
+            //   (e) => e.date.isAfter(DateTime.now()),
+            //   orElse: () => movies.first,
+            // );
 
             return ListView(
               scrollDirection: Axis.horizontal,
