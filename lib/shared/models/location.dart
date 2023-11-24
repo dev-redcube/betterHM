@@ -1,25 +1,39 @@
-class Location {
-  /// Readable Adress
-  final String? address;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:latlong2/latlong.dart';
 
-  final double? latitude;
-  final double? longitude;
+part 'location.g.dart';
+
+@JsonSerializable()
+class Location {
+  final double latitude;
+  final double longitude;
 
   Location(
-    this.address, {
     this.latitude,
     this.longitude,
-  });
+  );
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        json["address"] as String?,
-        latitude: json["latitude"] as double?,
-        longitude: json["longitude"] as double?,
-      );
+  double distanceToLocation(
+    Location other, [
+    LengthUnit unit = LengthUnit.Meter,
+  ]) {
+    const distance = Distance();
+    return distance.as(unit, asLatLng, other.asLatLng);
+  }
 
-  Map<String, dynamic> toJson() => {
-        "address": address,
-        "latitude": latitude,
-        "longitude": longitude,
-      };
+  double distanceTo(
+    double lat,
+    double lon, [
+    LengthUnit unit = LengthUnit.Meter,
+  ]) {
+    const distance = Distance();
+    return distance.as(unit, asLatLng, LatLng(lat, lon));
+  }
+
+  LatLng get asLatLng => LatLng(latitude, longitude);
+
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LocationToJson(this);
 }

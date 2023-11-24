@@ -7,6 +7,7 @@ import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
+import 'package:better_hm/shared/service/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
   Prefs.init();
   LocaleSettings.useDeviceLocale();
   getIt.registerSingleton<MainApi>(MainApi.cache());
+  getIt.registerSingleton<LocationService>(LocationService());
 
   await loadDb();
   await Future.wait([
@@ -87,28 +89,30 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
-      return MaterialApp.router(
-        title: t.app_name,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: lightColorScheme ??
-              ColorScheme.fromSeed(seedColor: const Color(0xFFE8605B)),
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: darkColorScheme ??
-              ColorScheme.fromSeed(
-                seedColor: const Color(0xFFE8605B),
-                brightness: Brightness.dark,
-              ),
-        ),
-        // themeMode: ThemeMode.dark,
-        locale: TranslationProvider.of(context).flutterLocale,
-        supportedLocales: AppLocaleUtils.supportedLocales,
-        localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        routerConfig: router,
-      );
-    });
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp.router(
+          title: t.app_name,
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme ??
+                ColorScheme.fromSeed(seedColor: const Color(0xFFE8605B)),
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme ??
+                ColorScheme.fromSeed(
+                  seedColor: const Color(0xFFE8605B),
+                  brightness: Brightness.dark,
+                ),
+          ),
+          themeMode: ThemeMode.dark,
+          locale: TranslationProvider.of(context).flutterLocale,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          routerConfig: router,
+        );
+      },
+    );
   }
 }

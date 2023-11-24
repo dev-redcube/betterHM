@@ -25,43 +25,24 @@
     "calendar": "Kalender"
   },
   "dashboard": {
-    "error": {
-      "text": "Karte $card konnte nicht geladen werden",
-      "logs": "Logs"
-    },
-    "manage": {
-      "manageCards": "Karten verwalten",
-      "title": "Karten verwalten",
-      "add": {
-        "title": "Karte hinzufügen",
-        "cancel": "abbrechen"
-      }
-    },
-    "cards": {
-      "semesterStatus": {
-        "title": "Semesterinformationen",
-        "summer_semester": "Sommersemester",
-        "winter_semester": "Wintersemester",
-        "deadlines_appointments": "Fristen & Termine",
-        "no_data": "Keine Termine oder Fehler beim Laden",
-        "today": "Heute",
-        "tomorrow": "Morgen"
+    "sections": {
+      "mvg": {
+        "title": "Abfahrten",
+        "error": "Fehler beim Abfragen der Daten für $station",
+        "selector": {
+          "automatic": {
+            "title": "Automatisch",
+            "description": "Wählt automatisch die nächste Station",
+            "disabledText": "App benötigt Standortzugriff"
+          }
+        }
       },
-      "nextDepartures": {
-        "title": "Abfahrtszeiten",
-        "noDepartures": "Keine Abfahrten in den nächsten $minutes Minuten",
-        "config": {
-          "station": "Station",
-          "transportTypes": "Verkehrsmittel",
-          "leadTime": "Vorlaufzeit",
-          "save": "Speichern",
-          "saved": "Einstellungen Gespeichert"
+      "kino": {
+        "title": "Kino",
+        "movie": {
+          "length": "$minutes Minuten"
         }
       }
-    },
-    "cardTitles(map)": {
-      "semesterStatus": "Fristen & Termine",
-      "nextDepartures": "MVG Abfahrten"
     }
   },
   "mealplan": {

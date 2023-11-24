@@ -10,7 +10,9 @@ class DateTuple {
 
   DateTuple(this.start, this.end)
       : assert(
-            end?.isAfter(start) ?? true, "End date must be after start date");
+          end?.isAfter(start) ?? true,
+          "End date must be after start date",
+        );
 
   bool get isSingleDay => end == null;
 

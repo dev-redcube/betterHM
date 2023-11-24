@@ -6,6 +6,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
@@ -29,8 +30,8 @@ abstract class Prefs {
   static late final PlainPref<String> initialLocation;
 
   // Dashboard
-  static late final PlainPref<List<String>> cards;
-  static late final PlainPref<int> cardTimeout;
+  static late final PlainPref<String> lastMvgStation;
+  static late final PlainPref<bool> autoMvgStation;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
@@ -47,8 +48,8 @@ abstract class Prefs {
     initialLocation = PlainPref("initialLocation", "/");
 
     // Dashboard
-    cards = PlainPref("cards", []);
-    cardTimeout = PlainPref("cardTimeout", 4000);
+    lastMvgStation = PlainPref("lastMvgStation", stations.first.id);
+    autoMvgStation = PlainPref("autoMvgStation", false);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);
@@ -154,17 +155,23 @@ abstract class IPref<T> extends ValueNotifier<T> {
 class PlainPref<T> extends IPref<T> {
   SharedPreferences? _prefs;
 
-  PlainPref(super.key, super.defaultValue,
-      {super.historicalKeys, super.deprecatedKeys}) {
+  PlainPref(
+    super.key,
+    super.defaultValue, {
+    super.historicalKeys,
+    super.deprecatedKeys,
+  }) {
     // Accepted types
-    assert(T == bool ||
-        T == int ||
-        T == double ||
-        T == String ||
-        T == typeOf<Uint8List?>() ||
-        T == typeOf<List<String>>() ||
-        T == typeOf<Set<String>>() ||
-        T == typeOf<Queue<String>>());
+    assert(
+      T == bool ||
+          T == int ||
+          T == double ||
+          T == String ||
+          T == typeOf<Uint8List?>() ||
+          T == typeOf<List<String>>() ||
+          T == typeOf<Set<String>>() ||
+          T == typeOf<Queue<String>>(),
+    );
   }
 
   @override

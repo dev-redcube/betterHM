@@ -62,28 +62,29 @@ class _LogsScreenState extends State<LogsScreen> {
         ],
       ),
       body: FutureBuilder(
-          future: logger.entries(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final List<LogEntry> entries = snapshot.data!;
-              return ListView.separated(
-                controller: _controller,
-                separatorBuilder: (context, index) => Divider(
-                  height: 0,
-                  color: context.theme.brightness == Brightness.dark
-                      ? Colors.white70
-                      : Colors.grey[600],
-                ),
-                itemCount: entries.length,
-                itemBuilder: (context, index) {
-                  final i = entries.length - index - 1;
-                  final entry = entries[i];
-                  return _LogEntry(entry, i);
-                },
-              );
-            }
-            return const SizedBox.shrink();
-          }),
+        future: logger.entries(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final List<LogEntry> entries = snapshot.data!;
+            return ListView.separated(
+              controller: _controller,
+              separatorBuilder: (context, index) => Divider(
+                height: 0,
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.white70
+                    : Colors.grey[600],
+              ),
+              itemCount: entries.length,
+              itemBuilder: (context, index) {
+                final i = entries.length - index - 1;
+                final entry = entries[i];
+                return _LogEntry(entry, i);
+              },
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
       floatingActionButton: showFab
           ? FloatingActionButton(
               child: const Icon(Icons.arrow_upward_rounded),
@@ -152,8 +153,10 @@ class _LogEntry extends StatelessWidget {
       leading: buildLeadingIcon(entry.level),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () {
-        context.pushNamed(LogDetailsScreen.routeName,
-            pathParameters: {"id": entry.id.toString()});
+        context.pushNamed(
+          LogDetailsScreen.routeName,
+          pathParameters: {"id": entry.id.toString()},
+        );
       },
       title: RichText(
         maxLines: 20,
