@@ -1,5 +1,7 @@
+import 'package:better_hm/home/calendar/calendar_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
+import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
 import 'package:better_hm/home/meals/meals_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/logs/log_details_screen.dart';
@@ -8,8 +10,6 @@ import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'home/dashboard/sections/kino/movie.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainShellKey = GlobalKey<NavigatorState>();
@@ -47,6 +47,10 @@ final router = GoRouter(
               NavigationDestination(
                 icon: const Icon(Icons.home_rounded),
                 label: t.navigation.dashboard,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.calendar_month_rounded),
+                label: t.navigation.calendar,
               ),
               NavigationDestination(
                 icon: const Icon(Icons.restaurant_rounded),
@@ -101,6 +105,12 @@ final homeRoutes = <GoRoute>[
     parentNavigatorKey: _mainShellKey,
     pageBuilder: (context, state) =>
         const NoTransitionPage(child: DashboardScreen()),
+  ),
+  GoRoute(
+    name: "calendar",
+    path: "/calendar",
+    parentNavigatorKey: _mainShellKey,
+    pageBuilder: (context, state) => NoTransitionPage(child: CalendarScreen()),
   ),
   GoRoute(
     name: "meals",
