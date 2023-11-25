@@ -24,7 +24,8 @@ class KinoSection extends StatelessWidget {
           future: KinoService().getMovies(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text("loading");
+              // TODO
+              return const _MoviesPlaceholder();
             } else if (!snapshot.hasData) {
               return const Text("no data");
             }
@@ -54,6 +55,15 @@ class KinoSection extends StatelessWidget {
   }
 }
 
+class _MoviesPlaceholder extends StatelessWidget {
+  const _MoviesPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row();
+  }
+}
+
 class MovieCard extends StatelessWidget {
   final Movie movie;
   final List<Movie> movies;
@@ -74,12 +84,15 @@ class MovieCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // AspectRation 4/6
           Hero(
             tag: movie,
-            child: AspectRatio(
-              aspectRatio: 4 / 6,
-              child: MovieImage(movie),
+            child: ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12.0)),
+              child: AspectRatio(
+                aspectRatio: 4 / 6,
+                child: MovieImage(movie),
+              ),
             ),
           ),
           Expanded(

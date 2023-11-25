@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:better_hm/home/dashboard/dashboard_section.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/departure.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/mvg_service.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'line_icon.dart';
 
@@ -78,11 +77,7 @@ class DeparturesListShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 144.5,
-      child: Shimmer.fromColors(
-        period: const Duration(seconds: 2),
-        baseColor:
-            context.theme.colorScheme.secondaryContainer.withOpacity(0.5),
-        highlightColor: context.theme.colorScheme.primary.withOpacity(0.25),
+      child: DashboardSectionShimmer(
         child: ListView.separated(
           itemCount: 5,
           separatorBuilder: (__, _) => const SizedBox(height: 8),
