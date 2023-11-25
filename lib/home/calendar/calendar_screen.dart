@@ -1,8 +1,11 @@
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/providers/events_deadlines_event_provider.dart';
+import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kalender/kalender.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -39,20 +42,43 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CalendarView<EventData>(
-      controller: calendarController,
-      eventsController: eventsController,
-      tileBuilder:
-          (CalendarEvent<EventData> event, TileConfiguration tileConfig) =>
-              _tileBuilder(event, tileConfig, context),
-      viewConfiguration: WorkWeekConfiguration(),
-      multiDayTileBuilder: (
-        CalendarEvent<EventData> event,
-        MultiDayTileConfiguration configuration,
-      ) =>
-          _multiDayTileBuilder(event, configuration, context),
-      scheduleTileBuilder: (CalendarEvent<EventData> event, DateTime date) =>
-          _scheduleTileBuilder(event, date, context),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(t.app_name),
+        backgroundColor:
+            context.theme.colorScheme.secondaryContainer.withAlpha(100),
+        scrolledUnderElevation: 0.0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.today_rounded),
+            onPressed: () {
+              calendarController.animateToDate(DateTime.now());
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings_rounded),
+            onPressed: () {
+              context.pushNamed(SettingsScreen.routeName);
+            },
+            tooltip: t.navigation.settings,
+          ),
+        ],
+      ),
+      body: CalendarView<EventData>(
+        controller: calendarController,
+        eventsController: eventsController,
+        tileBuilder:
+            (CalendarEvent<EventData> event, TileConfiguration tileConfig) =>
+                _tileBuilder(event, tileConfig, context),
+        viewConfiguration: WorkWeekConfiguration(),
+        multiDayTileBuilder: (
+          CalendarEvent<EventData> event,
+          MultiDayTileConfiguration configuration,
+        ) =>
+            _multiDayTileBuilder(event, configuration, context),
+        scheduleTileBuilder: (CalendarEvent<EventData> event, DateTime date) =>
+            _scheduleTileBuilder(event, date, context),
+      ),
     );
   }
 

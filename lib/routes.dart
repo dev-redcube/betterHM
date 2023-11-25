@@ -22,17 +22,6 @@ final router = GoRouter(
       navigatorKey: _mainShellKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text(t.app_name),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.settings_rounded),
-                onPressed: () {
-                  context.pushNamed(SettingsScreen.routeName);
-                },
-              ),
-            ],
-          ),
           body: child,
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: (int index) {

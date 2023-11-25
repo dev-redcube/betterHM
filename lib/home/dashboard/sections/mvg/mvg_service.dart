@@ -70,7 +70,7 @@ class MvgService {
     final mainApi = getIt<MainApi>();
 
     final departures =
-        await mainApi.get(uri, DeparturesWrapper.fromJson, forcedRefresh: true);
+        await mainApi.getNeverCache(uri, DeparturesWrapper.fromJson);
 
     return departures.data.departures;
   }

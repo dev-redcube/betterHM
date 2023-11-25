@@ -4,11 +4,13 @@ import 'package:better_hm/home/meals/meal_view.dart';
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/selected_canteen_provider.dart';
-import 'package:better_hm/home/meals/service/meal_service.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
+import 'package:better_hm/home/meals/service/meal_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class MealsScreen extends StatefulWidget {
@@ -21,18 +23,31 @@ class MealsScreen extends StatefulWidget {
 class _MealsScreenState extends State<MealsScreen> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<(DateTime?, List<Canteen>)>(
-      future: CanteenService.fetchCanteens(false),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(t.app_name),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_rounded),
+            onPressed: () {
+              context.pushNamed(SettingsScreen.routeName);
+            },
+          ),
+        ],
+      ),
+      body: FutureBuilder<(DateTime?, List<Canteen>)>(
+        future: CanteenService.fetchCanteens(false),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        return _Body(
-          lastUpdated: snapshot.data!.$1,
-          canteens: snapshot.data!.$2,
-        );
-      },
+          return _Body(
+            lastUpdated: snapshot.data!.$1,
+            canteens: snapshot.data!.$2,
+          );
+        },
+      ),
     );
   }
 }

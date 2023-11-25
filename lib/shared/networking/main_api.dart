@@ -11,6 +11,7 @@ import 'api_response.dart';
 // https://stackoverflow.com/questions/67249487/how-do-i-implement-dio-http-cache-alongside-my-interceptor
 class MainApi {
   late Dio dio;
+  late Dio noCacheDio;
   MemCacheStore? memCacheStore;
 
   MainApi.cache() {
@@ -32,6 +33,14 @@ class MainApi {
     );
 
     this.dio = dio;
+
+    noCacheDio = Dio();
+    noCacheDio.options = BaseOptions(
+      responseDecoder: (data, options, body) {
+        final decoded = utf8.decoder.convert(data);
+        return decoded;
+      },
+    );
   }
 
   Future<ApiResponse<T>>
@@ -86,6 +95,24 @@ class MainApi {
     } else {
       response = await dio.getUri(endpoint, options: options);
     }
+
+    log("${response.statusCode}: ${response.realUri}");
+
+    return ApiResponse<T>.fromJson(
+      jsonDecode(response.data.toString()),
+      response.headers,
+      createObject,
+    );
+  }
+
+  Future<ApiResponse<T>> getNeverCache<T>(
+    Uri endpoint,
+    T Function(Map<String, dynamic>) createObject, {
+    Options? options,
+  }) async {
+    Response<String> response;
+
+    response = await noCacheDio.getUri(endpoint, options: options);
 
     log("${response.statusCode}: ${response.realUri}");
 
