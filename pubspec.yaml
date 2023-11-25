@@ -38,7 +38,6 @@ dependencies:
   http: ^1.1.0
   intl: ^0.18.0
   shared_preferences: ^2.0.20
-  workmanager: ^0.5.1
   isar: ^3.0.5
   isar_flutter_libs: ^3.0.5
   go_router: ^12.0.0

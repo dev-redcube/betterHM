@@ -1,5 +1,6 @@
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DashboardSection extends StatelessWidget {
   final String title;
@@ -47,4 +48,19 @@ class DashboardSection extends StatelessWidget {
       ),
     );
   }
+}
+
+class DashboardSectionShimmer extends StatelessWidget {
+  final Widget child;
+
+  const DashboardSectionShimmer({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) => Shimmer.fromColors(
+        period: const Duration(seconds: 2),
+        baseColor:
+            context.theme.colorScheme.secondaryContainer.withOpacity(0.5),
+        highlightColor: context.theme.colorScheme.primary.withOpacity(0.25),
+        child: child,
+      );
 }
