@@ -10,10 +10,15 @@ on:
       - 'ios/**'
       - 'android/**'
       - 'pubspec.yaml'
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest #macos-latest
+
+    concurrency:
+      group: deploy-beta
+      cancel-in-progress: true
 
     strategy:
       matrix:
