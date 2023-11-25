@@ -89,7 +89,7 @@ jobs:
           ANDROID_KEYSTORE_FILE: ${{ secrets.SIGNING_STORE_BASE64 }}
 
       - if: matrix.platform == 'android'
-        name: Deploy to Google Play Store
+        name: Build and Deploy to Google Play Store
         run: |
           cd ./android
           bundle exec fastlane android_beta
