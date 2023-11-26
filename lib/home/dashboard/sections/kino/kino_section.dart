@@ -10,6 +10,7 @@ import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class KinoSection extends StatelessWidget {
   const KinoSection({super.key});
@@ -31,22 +32,27 @@ class KinoSection extends StatelessWidget {
             }
 
             final movies = snapshot.data!.$2;
-            movies.sort((a, b) => a.date.compareTo(b.date));
+            movies.sort((a, b) {
+              int cmp = a.date.compareTo(b.date);
+              if (cmp != 0) return cmp;
+              return a.showTimes.first.compareTo(b.showTimes.first);
+            });
             // final firstAfterToday = movies.firstWhere(
             //   (e) => e.date.isAfter(DateTime.now()),
             //   orElse: () => movies.first,
             // );
 
-            return ListView(
+            final startIndex = movies.lastIndexWhere(
+                  (element) => element.date.isBefore(DateTime.now()),
+                ) +
+                1;
+
+            return ScrollablePositionedList.builder(
               scrollDirection: Axis.horizontal,
-              children: movies
-                  .map(
-                    (e) => MovieCard(
-                      movie: e,
-                      movies: movies,
-                    ),
-                  )
-                  .toList(),
+              itemCount: movies.length,
+              initialScrollIndex: startIndex,
+              itemBuilder: (context, index) =>
+                  MovieCard(movie: movies[index], movies: movies),
             );
           },
         ),
