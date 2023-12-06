@@ -5,7 +5,6 @@ import 'package:better_hm/home/dashboard/sections/mvg/select_station.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +15,11 @@ class MvgSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => StationProvider(),
-      child: const _MvgContent(),
+      create: (_) => SearchingStateProvider(),
+      child: ChangeNotifierProvider(
+        create: (_) => StationProvider(),
+        child: const _MvgContent(),
+      ),
     );
   }
 }
@@ -30,13 +32,22 @@ class _MvgContent extends StatefulWidget {
 }
 
 class _MvgContentState extends State<_MvgContent> {
-  StationProvider? provider;
+  StationProvider? stationProvider;
+  SearchingStateProvider? searchingStateProvider;
+
+  Logger log = Logger("MvgSection");
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    provider ??= Provider.of<StationProvider>(context);
-    provider!.addListener(stationConfigChanged);
+    stationProvider ??= Provider.of<StationProvider>(context);
+    stationProvider!.addListener(stationConfigChanged);
+    searchingStateProvider ??= Provider.of<SearchingStateProvider>(context);
     updateLocation();
   }
 
@@ -45,29 +56,35 @@ class _MvgContentState extends State<_MvgContent> {
   }
 
   void updateLocation() async {
-    if (!Prefs.autoMvgStation.value ||
-        provider!.state.locationState != StationLocationState.searching) {
+    if (stationProvider!.station != null ||
+        searchingStateProvider!.state == StationLocationState.error) {
       return;
     }
 
-    Logger("MvgSection").info("Updating Location");
+    if (searchingStateProvider!.state != StationLocationState.searching) {
+      searchingStateProvider!.state = StationLocationState.searching;
+    }
 
-    Station? nearest = await StationService.getNearestStation();
+    log.fine("Updating Location");
+
+    Station? nearest = await StationService.getNearestStation().timeout(
+      const Duration(seconds: 10),
+      onTimeout: () => Future.value(null),
+    );
 
     if (nearest != null) {
-      provider!.state = StationState(nearest, StationLocationState.found);
-      Prefs.lastMvgStation.value = nearest.id;
+      stationProvider!.station = nearest;
+      searchingStateProvider!.state = StationLocationState.found;
+      log.fine("Found nearest Station ${nearest.name}");
     } else {
-      provider!.state = StationState(
-        provider!.state.station,
-        StationLocationState.error,
-      );
+      log.warning("Could not find nearest station");
+      searchingStateProvider!.state = StationLocationState.error;
     }
   }
 
   @override
   void dispose() {
-    provider!.removeListener(stationConfigChanged);
+    stationProvider!.removeListener(stationConfigChanged);
     super.dispose();
   }
 
@@ -78,10 +95,24 @@ class _MvgContentState extends State<_MvgContent> {
       right: const SelectStationWidget(),
       child: DashboardCard(
         child: Consumer<StationProvider>(
-          builder: (context, provider, child) => Departures(
-            key: ObjectKey(provider.state.station),
-            station: provider.state.station,
-          ),
+          builder: (context, provider, child) {
+            if (stationProvider!.station == null) {
+              return Consumer<SearchingStateProvider>(
+                builder: (context, provider, child) {
+                  if (provider.state == StationLocationState.error) {
+                    return Center(
+                      child: Text(t.dashboard.sections.mvg.positionError),
+                    );
+                  }
+                  return const DeparturesListShimmer();
+                },
+              );
+            }
+            return Departures(
+              key: ObjectKey(stationProvider!.station),
+              station: stationProvider!.station!,
+            );
+          },
         ),
       ),
     );

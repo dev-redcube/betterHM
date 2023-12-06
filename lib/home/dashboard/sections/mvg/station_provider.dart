@@ -3,26 +3,32 @@ import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/foundation.dart';
 
 class StationProvider with ChangeNotifier {
-  StationState _state = StationState(
-    StationService.getFromId(Prefs.lastMvgStation.value)!,
-    Prefs.autoMvgStation.value
-        ? StationLocationState.searching
-        : StationLocationState.manual,
-  );
+  Station? _station = Prefs.lastMvgStation.value.isEmpty
+      ? null
+      : StationService.getFromId(Prefs.lastMvgStation.value);
 
-  StationState get state => _state;
+  Station? get station => _station;
 
-  set state(StationState state) {
-    _state = state;
+  set station(Station? station) {
+    _station = station;
     notifyListeners();
   }
 }
 
-class StationState {
-  final Station station;
-  final StationLocationState locationState;
+class SearchingStateProvider with ChangeNotifier {
+  StationLocationState _state = Prefs.lastMvgStation.value.isEmpty
+      ? StationLocationState.searching
+      : StationLocationState.manual;
 
-  StationState(this.station, this.locationState);
+  StationLocationState get state => _state;
+
+  set state(StationLocationState state) {
+    _state = state;
+    notifyListeners();
+  }
+
+  @override
+  bool get hasListeners => super.hasListeners;
 }
 
 enum StationLocationState {

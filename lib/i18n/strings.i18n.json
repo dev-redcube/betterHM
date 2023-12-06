@@ -29,8 +29,11 @@
       "mvg": {
         "title": "Departures",
         "error": "Error fetching departures for station $station",
+        "positionError": "Could not determine Position. Select a station manually",
         "selector": {
+          "searching": "Searching",
           "automatic": {
+            "error": "Error",
             "title": "Automatic",
             "description": "Automatically selects the nearest station",
             "disabledText": "App needs Location permission"

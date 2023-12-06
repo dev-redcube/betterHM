@@ -52,7 +52,7 @@ class MvgService {
 
   Future<List<Departure>> getDepartures({
     required Station station,
-    int limit = 20,
+    int limit = 30,
     Duration offset = const Duration(minutes: 1),
   }) async {
     _log.info("Fetching departures for stop ${station.name} (${station.id})");
@@ -71,6 +71,11 @@ class MvgService {
 
     final departures =
         await mainApi.getNeverCache(uri, DeparturesWrapper.fromJson);
+
+    _log.info(
+      "Fetched ${departures.data.departures.length} departures for stop ${station.name} (${station.id})",
+      departures.data.departures.map((e) => e.toJson()),
+    );
 
     return departures.data.departures;
   }

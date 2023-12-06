@@ -19,7 +19,12 @@ class SelectStationWidget extends StatefulWidget {
 
 class _SelectStationWidgetState extends State<SelectStationWidget> {
   void showStationSelector(BuildContext context) {
-    final provider = Provider.of<StationProvider>(context, listen: false);
+    final stationProvider =
+        Provider.of<StationProvider>(context, listen: false);
+    final searchingStateProvider = Provider.of<SearchingStateProvider>(
+      context,
+      listen: false,
+    );
     final permission = getIt<LocationService>().permission;
     if (mounted) {
       showModalBottomSheet(
@@ -29,10 +34,13 @@ class _SelectStationWidgetState extends State<SelectStationWidget> {
         useRootNavigator: true,
         isScrollControlled: true,
         builder: (context) => ChangeNotifierProvider.value(
-          value: provider,
-          child: StationBottomSheet(
-            locationDeniedForever:
-                permission == LocationPermission.deniedForever,
+          value: searchingStateProvider,
+          child: ChangeNotifierProvider.value(
+            value: stationProvider,
+            child: StationBottomSheet(
+              locationDeniedForever:
+                  permission == LocationPermission.deniedForever,
+            ),
           ),
         ),
       );
@@ -48,23 +56,29 @@ class _SelectStationWidgetState extends State<SelectStationWidget> {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         minimumSize: Size.zero,
       ),
-      child: Consumer<StationProvider>(
-        builder: (context, provider, child) {
-          return Row(
-            children: [
-              if (provider.state.locationState != StationLocationState.manual)
-                LiveLocationIndicator(
-                  state: provider.state.locationState,
-                ),
-              Text(
-                provider.state.station.name,
-                overflow: TextOverflow.clip,
-              ),
-              const SizedBox(width: 4),
-              const Icon(Icons.arrow_drop_down_rounded),
-            ],
-          );
-        },
+      child: Row(
+        children: [
+          Consumer<SearchingStateProvider>(
+            builder: (context, provider, child) =>
+                LiveLocationIndicator(state: provider.state),
+          ),
+          Consumer<StationProvider>(
+            builder: (context, provider, child) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    provider.station?.name ??
+                        t.dashboard.sections.mvg.selector.searching,
+                    overflow: TextOverflow.clip,
+                  ),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.arrow_drop_down_rounded),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -76,7 +90,7 @@ class LiveLocationIndicator extends StatefulWidget {
   const LiveLocationIndicator({
     super.key,
     required this.state,
-  }) : assert(state != StationLocationState.manual);
+  });
 
   @override
   State<LiveLocationIndicator> createState() => _LiveLocationIndicatorState();
@@ -125,19 +139,21 @@ class _LiveLocationIndicatorState extends State<LiveLocationIndicator> {
     });
   }
 
-  IconData get icon => switch (state) {
+  IconData? get icon => switch (state) {
         StationLocationState.searching => Icons.location_searching_rounded,
         StationLocationState.found => Icons.my_location_rounded,
         StationLocationState.error => Icons.error_rounded,
-        StationLocationState.manual => Icons.crisis_alert_rounded,
+        _ => null,
       };
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 6),
-      child: Icon(icon, size: 16),
-    );
+    return icon == null
+        ? const SizedBox.shrink()
+        : Padding(
+            padding: const EdgeInsets.only(right: 6),
+            child: Icon(icon, size: 16),
+          );
   }
 }
 
@@ -162,13 +178,10 @@ class StationBottomSheet extends StatelessWidget {
           ),
           enabled: !locationDeniedForever,
           onTap: () {
-            final provider =
-                Provider.of<StationProvider>(context, listen: false);
-            provider.state = StationState(
-              provider.state.station,
-              StationLocationState.searching,
-            );
-            Prefs.autoMvgStation.value = true;
+            Provider.of<StationProvider>(context, listen: false).station = null;
+            Provider.of<SearchingStateProvider>(context, listen: false).state =
+                StationLocationState.searching;
+            Prefs.lastMvgStation.value = "";
             Navigator.pop(context);
           },
         ),
@@ -180,10 +193,10 @@ class StationBottomSheet extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             onTap: () {
-              Provider.of<StationProvider>(context, listen: false).state =
-                  StationState(e, StationLocationState.manual);
+              Provider.of<StationProvider>(context, listen: false).station = e;
+              Provider.of<SearchingStateProvider>(context, listen: false)
+                  .state = StationLocationState.manual;
               Prefs.lastMvgStation.value = e.id;
-              Prefs.autoMvgStation.value = false;
               Navigator.pop(context);
             },
           ),

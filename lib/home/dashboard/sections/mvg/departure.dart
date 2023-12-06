@@ -73,6 +73,24 @@ class Departure {
       throw IllegalArgumentsException(e.toString());
     }
   }
+
+  Map<String, dynamic> toJson() => {
+        "plannedDepartureTime": plannedDepartureTime,
+        "realtime": realtime,
+        "delayInMinutes": delayInMinutes,
+        "realtimeDepartureTime": realtimeDepartureTime,
+        "transportType": transportType,
+        "label": label,
+        "network": network,
+        "trainType": trainType,
+        "destination": destination,
+        "cancelled": cancelled,
+        "sev": sev,
+        "messages": messages,
+        "bannerHash": bannerHash,
+        "occupancy": occupancy,
+        "stopPointGlobalId": stopPointGlobalId,
+      };
 }
 
 @JsonSerializable(createToJson: false)

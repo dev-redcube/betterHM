@@ -9,6 +9,7 @@ import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 import 'line_icon.dart';
 
@@ -51,6 +52,9 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const DeparturesListShimmer();
         } else if (!snapshot.hasData) {
+          if (snapshot.hasError) {
+            Logger("MvgSection").severe(snapshot.error);
+          }
           return Center(
             child: Text(
               t.dashboard.sections.mvg.error(station: widget.station.name),
@@ -152,7 +156,7 @@ class _DeparturesListState extends State<DeparturesList> {
     departuresTemp.sort(
       (a, b) => a.realtimeDepartureTime.compareTo(b.realtimeDepartureTime),
     );
-    _departures = departuresTemp.take(15).toList();
+    _departures = departuresTemp.take(20).toList();
   }
 
   @override
@@ -178,10 +182,10 @@ class _DeparturesListState extends State<DeparturesList> {
                 DepartureTimer(
                   departure: e,
                   onDone: () {
-                    if (_departures.length <= 8) {
-                      widget.refresh.call();
-                      return;
-                    }
+                    // if (_departures.length <= 8) {
+                    //   widget.refresh.call();
+                    //   return;
+                    // }
                     setState(() {
                       _departures.remove(e);
                     });
