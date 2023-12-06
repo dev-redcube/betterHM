@@ -29,8 +29,11 @@
       "mvg": {
         "title": "Abfahrten",
         "error": "Fehler beim Abfragen der Daten für $station",
+        "positionError": "Position konnte nicht bestimmt werden. Bitte manuell Station auswählen",
         "selector": {
+          "searching": "Suche...",
           "automatic": {
+            "error": "Fehler",
             "title": "Automatisch",
             "description": "Wählt automatisch die nächste Station",
             "disabledText": "App benötigt Standortzugriff"
