@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:better_hm/firebase_options.dart';
+import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
@@ -42,6 +43,7 @@ Future<Isar> loadDb() async {
   Isar db = await Isar.open(
     [
       LogEntrySchema,
+      CalendarSchema,
     ],
     directory: dir.path,
     inspector: false,

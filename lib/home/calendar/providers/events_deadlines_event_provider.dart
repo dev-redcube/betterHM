@@ -7,6 +7,7 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:kalender/kalender.dart';
 import 'package:logging/logging.dart';
 
+// TODO rewrite for all icals
 class DeadlinesAppointmentsEventProvider extends EventProvider {
   final uri = Uri(
     scheme: "https",
