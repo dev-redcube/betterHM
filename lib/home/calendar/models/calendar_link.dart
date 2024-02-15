@@ -4,10 +4,12 @@ part 'calendar_link.g.dart';
 
 @JsonSerializable()
 class CalendarLink {
+  String id;
   String name;
   String url;
 
   CalendarLink({
+    required this.id,
     required this.name,
     required this.url,
   });

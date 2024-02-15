@@ -1,7 +1,5 @@
-import 'package:better_hm/home/calendar/calendar_service.dart';
-import 'package:better_hm/home/calendar/providers/events_deadlines_event_provider.dart';
+import 'package:better_hm/home/calendar/edit_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
@@ -32,12 +30,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-    eventStream = CalendarService()
-        .fetchEventproviders([DeadlinesAppointmentsEventProvider()]);
-
-    eventStream.listen((events) {
-      eventsController.addEvents(events);
-    });
+    // eventStream = CalendarService().fetchEventproviders([]);
+    //
+    // eventStream.listen((events) {
+    //   eventsController.addEvents(events);
+    // });
   }
 
   @override
@@ -56,9 +53,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.settings_rounded),
+            icon: const Icon(Icons.edit_calendar_rounded),
             onPressed: () {
-              context.pushNamed(SettingsScreen.routeName);
+              context.pushNamed(CalendarEditScreen.routeName);
             },
             tooltip: t.navigation.settings,
           ),

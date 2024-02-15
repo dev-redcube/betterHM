@@ -1,4 +1,6 @@
+import 'package:better_hm/home/calendar/add_screen.dart';
 import 'package:better_hm/home/calendar/calendar_screen.dart';
+import 'package:better_hm/home/calendar/edit_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
 import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
@@ -101,6 +103,22 @@ final homeRoutes = <GoRoute>[
     parentNavigatorKey: _mainShellKey,
     pageBuilder: (context, state) =>
         const NoTransitionPage(child: CalendarScreen()),
+    routes: <GoRoute>[
+      GoRoute(
+        name: CalendarEditScreen.routeName,
+        path: "edit",
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => CalendarEditScreen(),
+        routes: <GoRoute>[
+          GoRoute(
+            name: AddCalendarScreen.routeName,
+            path: "add",
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const AddCalendarScreen(),
+          ),
+        ],
+      ),
+    ],
   ),
   GoRoute(
     name: "meals",
