@@ -1,6 +1,10 @@
 import 'package:better_hm/home/calendar/calendar_service.dart';
+import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/models/calendar_link.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
 
 class AddCalendarScreen extends StatelessWidget {
   const AddCalendarScreen({super.key});
@@ -90,7 +94,7 @@ class _AddExistingCalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<List<CalendarLink>>(
       future: CalendarService().getAvailableCalendars(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,10 +114,25 @@ class _AddExistingCalendarWidget extends StatelessWidget {
         return ListView.builder(
           itemCount: calendars!.length,
           itemBuilder: (context, index) {
+            final link = calendars[index];
             return ListTile(
-              title: Text(calendars[index].name),
-              onTap: () {
+              title: Text(link.name),
+              onTap: () async {
                 // Add the calendar to the database
+                final calendar = Calendar(
+                  id: link.id,
+                  isActive: true,
+                  numOfFails: 0,
+                  name: link.name,
+                  url: link.url,
+                );
+                final db = Isar.getInstance()!;
+                await db.writeTxn(() async {
+                  await db.calendars.put(calendar);
+                });
+                if (context.mounted) {
+                  context.pop();
+                }
               },
             );
           },

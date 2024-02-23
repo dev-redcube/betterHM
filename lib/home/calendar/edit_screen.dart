@@ -16,6 +16,13 @@ class CalendarEditScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Calendar"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            context.pop();
+            // TODO update here
+          },
+        ),
       ),
       // Listen to any changes in the Calendars storage
       body: StreamBuilder(
@@ -110,7 +117,7 @@ class _CalendarRow extends StatelessWidget {
       title: Text(calendar.name),
       trailing: IconButton(
         icon: const Icon(Icons.close_rounded),
-        onPressed: () {},
+        onPressed: delete,
       ),
     );
   }
