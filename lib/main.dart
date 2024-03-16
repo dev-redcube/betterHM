@@ -35,6 +35,7 @@ Future<void> main() async {
     initApp(),
     Prefs.initialLocation.waitUntilLoaded(),
   ]);
+
   runApp(TranslationProvider(child: const MyApp()));
 }
 

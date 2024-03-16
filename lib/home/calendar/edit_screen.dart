@@ -23,6 +23,12 @@ class CalendarEditScreen extends StatelessWidget {
             // TODO update here
           },
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh_rounded),
+            onPressed: () {},
+          ),
+        ],
       ),
       // Listen to any changes in the Calendars storage
       body: StreamBuilder(
