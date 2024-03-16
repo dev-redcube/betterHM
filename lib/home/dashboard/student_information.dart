@@ -69,7 +69,7 @@ class WebOpenCard extends StatelessWidget {
         ],
       ),
       onTap: () {
-        ChromeSafariBrowser().open(url: Uri.parse(url));
+        ChromeSafariBrowser().open(url: WebUri(url));
       },
     );
   }
