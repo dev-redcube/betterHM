@@ -82,18 +82,15 @@ dev_dependencies:
   slang_build_runner: ^3.17.0
   mockito: ^5.4.2
   riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.3.10
   custom_lint: ^0.6.4
 
+# flutter_generator locks analyzer <6.0.0 which conflicts with riverpod_lint
+dependency_overrides:
+  analyzer: ^6.4.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
   fonts:
     - family: Inconsolata
