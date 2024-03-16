@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:better_hm/firebase_options.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
@@ -10,8 +9,6 @@ import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:better_hm/shared/service/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -24,7 +21,6 @@ final getIt = GetIt.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Prefs.init();
   LocaleSettings.useDeviceLocale();
   getIt.registerSingleton<MainApi>(MainApi.cache());
@@ -64,16 +60,10 @@ Future<void> setErrorHandler() async {
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     log.severe(details.toString(), details, details.stack);
-    if (kReleaseMode && Prefs.enableCrashlytics.value) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-    }
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
     log.severe(error.toString(), error, stack);
-    if (kReleaseMode && Prefs.enableCrashlytics.value) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    }
     return true;
   };
 }
