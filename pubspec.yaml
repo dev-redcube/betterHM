@@ -56,8 +56,6 @@ dependencies:
   get_it: ^7.6.0
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
-  firebase_core: ^2.19.0
-  firebase_crashlytics: ^3.4.1
   flutter_inappwebview: ^5.8.0
   shimmer: ^3.0.0
   cached_network_image: ^3.3.0
