@@ -28,11 +28,15 @@ class ICalSyncStateNotifier extends _$ICalSyncStateNotifier {
   }
 
   Future<void> sync() async {
+    // Prevent multiple simultaneous syncs
+    if (state.value?.syncProgress == ICalSyncProgressEnum.inProgress) {
+      return;
+    }
     state = AsyncValue.data(
       ICalSyncState(syncProgress: ICalSyncProgressEnum.inProgress),
     );
 
-    final icalSyncService = IcalSyncService();
+    final icalSyncService = ICalService();
 
     await icalSyncService.sync(
       onSyncProgress: (synced, total) {
@@ -43,14 +47,12 @@ class ICalSyncStateNotifier extends _$ICalSyncStateNotifier {
           ),
         );
       },
-      onSyncDone: () {
-        state = AsyncValue.data(
-          ICalSyncState(
-            syncProgress: ICalSyncProgressEnum.done,
-            progressInPercent: 1,
-          ),
-        );
-      },
+    );
+    state = AsyncValue.data(
+      ICalSyncState(
+        syncProgress: ICalSyncProgressEnum.done,
+        progressInPercent: 1,
+      ),
     );
   }
 }

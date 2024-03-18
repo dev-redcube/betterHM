@@ -1,10 +1,13 @@
 import 'package:better_hm/home/calendar/add_screen.dart';
+import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
-class CalendarEditScreen extends StatelessWidget {
+class CalendarEditScreen extends ConsumerWidget {
   CalendarEditScreen({super.key});
 
   static const routeName = "calendar.edit";
@@ -12,7 +15,7 @@ class CalendarEditScreen extends StatelessWidget {
   final Isar _db = Isar.getInstance()!;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Calendar"),
@@ -20,15 +23,10 @@ class CalendarEditScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () {
             context.pop();
-            // TODO update here
+            // TODO check if updated
+            // ref.read(iCalSyncStateNotifierProvider.notifier).sync();
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh_rounded),
-            onPressed: () {},
-          ),
-        ],
       ),
       // Listen to any changes in the Calendars storage
       body: StreamBuilder(
@@ -93,32 +91,43 @@ class _CalendarEditScreenBody extends StatelessWidget {
   }
 }
 
-class _CalendarRow extends StatelessWidget {
+class _CalendarRow extends ConsumerWidget {
   _CalendarRow({super.key, required this.calendar});
 
   final Calendar calendar;
 
   final Isar _db = Isar.getInstance()!;
 
-  Future<void> toggle(bool? state) async {
+  Future<void> toggle(bool? state, WidgetRef ref) async {
     await _db.writeTxn(() async {
       calendar.isActive = state!;
       await _db.calendars.put(calendar);
     });
+
+    if (state!) {
+      final events = await parseEvents(calendar);
+      eventsController.addEvents(events.toList());
+    } else {
+      eventsController.removeWhere(
+        (element) => element.eventData?.calendarId == calendar.id,
+      );
+    }
   }
 
   Future<void> delete() async {
     await _db.writeTxn(() async {
       await _db.calendars.delete(calendar.isarId);
     });
+    eventsController
+        .removeWhere((element) => element.eventData?.calendarId == calendar.id);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       leading: Checkbox.adaptive(
         value: calendar.isActive,
-        onChanged: toggle,
+        onChanged: (state) => toggle(state, ref),
       ),
       title: Text(calendar.name),
       trailing: IconButton(

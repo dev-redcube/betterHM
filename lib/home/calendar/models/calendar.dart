@@ -9,6 +9,7 @@ class Calendar {
   Id get isarId => fastHash(id);
   bool isActive;
   int numOfFails;
+  DateTime? lastUpdate;
   String name;
   String url;
 

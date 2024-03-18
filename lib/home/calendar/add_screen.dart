@@ -1,8 +1,12 @@
+import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/models/calendar_link.dart';
+import 'package:better_hm/home/calendar/parse_events.dart';
+import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
@@ -18,22 +22,27 @@ class AddCalendarScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Add Calendar"),
       ),
+      // body: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     const SizedBox(height: 16.0),
+      //     Text("Add Own Calendar", style: textStyle),
+      //     const Padding(
+      //       padding: EdgeInsets.only(top: 8.0, bottom: 32.0),
+      //       child: _AddNewCalendarWidget(),
+      //     ),
+      //     Text("Or add existing", style: textStyle),
+      //     const Expanded(
+      //       child: Padding(
+      //         padding: EdgeInsets.only(top: 8.0),
+      //         child: _AddExistingCalendarWidget(),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16.0),
-          Text("Add Own Calendar", style: textStyle),
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0, bottom: 32.0),
-            child: _AddNewCalendarWidget(),
-          ),
-          Text("Or add existing", style: textStyle),
-          const Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 8.0),
-              child: _AddExistingCalendarWidget(),
-            ),
-          ),
+          const _AddExistingCalendarWidget(),
         ],
       ),
     );
@@ -41,16 +50,19 @@ class AddCalendarScreen extends StatelessWidget {
 }
 
 class _AddNewCalendarWidget extends StatefulWidget {
-  const _AddNewCalendarWidget({super.key});
+  const _AddNewCalendarWidget();
 
   @override
   State<_AddNewCalendarWidget> createState() => _AddNewCalendarWidgetState();
 }
 
 class _AddNewCalendarWidgetState extends State<_AddNewCalendarWidget> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Column(
         children: [
           TextFormField(
@@ -79,7 +91,9 @@ class _AddNewCalendarWidgetState extends State<_AddNewCalendarWidget> {
           ),
           ElevatedButton(
             onPressed: () {
-              // Add the calendar to the database
+              if (formKey.currentState!.validate()) {
+                // add
+              }
             },
             child: const Text("Add"),
           ),
@@ -89,11 +103,11 @@ class _AddNewCalendarWidgetState extends State<_AddNewCalendarWidget> {
   }
 }
 
-class _AddExistingCalendarWidget extends StatelessWidget {
-  const _AddExistingCalendarWidget({super.key});
+class _AddExistingCalendarWidget extends ConsumerWidget {
+  const _AddExistingCalendarWidget();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<CalendarLink>>(
       future: CalendarService().getAvailableCalendars(),
       builder: (context, snapshot) {
@@ -111,13 +125,16 @@ class _AddExistingCalendarWidget extends StatelessWidget {
 
         final calendars = snapshot.data;
 
-        return ListView.builder(
+        return ListView.separated(
           itemCount: calendars!.length,
+          separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             final link = calendars[index];
             return ListTile(
               title: Text(link.name),
               onTap: () async {
+                final db = Isar.getInstance()!;
+                // TODO check if already exists
                 // Add the calendar to the database
                 final calendar = Calendar(
                   id: link.id,
@@ -126,9 +143,13 @@ class _AddExistingCalendarWidget extends StatelessWidget {
                   name: link.name,
                   url: link.url,
                 );
-                final db = Isar.getInstance()!;
                 await db.writeTxn(() async {
                   await db.calendars.put(calendar);
+                });
+                final icalService = ICalService();
+                icalService.syncSingle(calendar).then((_) async {
+                  final events = await parseEvents(calendar);
+                  eventsController.addEvents(events.toList());
                 });
                 if (context.mounted) {
                   context.pop();

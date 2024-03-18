@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
@@ -12,6 +14,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
@@ -32,7 +35,9 @@ Future<void> main() async {
     Prefs.initialLocation.waitUntilLoaded(),
   ]);
 
-  runApp(TranslationProvider(child: const MyApp()));
+  parseAllEvents().then((value) => eventsController.addEvents(value));
+
+  runApp(ProviderScope(child: TranslationProvider(child: const MyApp())));
 }
 
 Future<Isar> loadDb() async {
