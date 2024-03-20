@@ -114,7 +114,7 @@ final homeRoutes = <GoRoute>[
             name: AddCalendarScreen.routeName,
             path: "add",
             parentNavigatorKey: rootNavigatorKey,
-            builder: (context, state) => const AddCalendarScreen(),
+            builder: (context, state) => AddCalendarScreen(),
           ),
         ],
       ),

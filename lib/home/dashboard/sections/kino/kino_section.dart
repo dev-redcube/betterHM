@@ -35,7 +35,7 @@ class KinoSection extends StatelessWidget {
             movies.sort((a, b) {
               int cmp = a.date.compareTo(b.date);
               if (cmp != 0) return cmp;
-              return a.showTimes.first.compareTo(b.showTimes.first);
+              return a.time.compareTo(b.time);
             });
             // final firstAfterToday = movies.firstWhere(
             //   (e) => e.date.isAfter(DateTime.now()),
@@ -107,7 +107,7 @@ class MovieCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(movie.date.formatdMonthAbbr),
-                Text(movie.showTimes.join(" & ")),
+                Text(movie.time),
               ],
             ),
           ),
