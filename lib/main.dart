@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
@@ -12,14 +11,10 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:workmanager/workmanager.dart';
-
-import 'home/calendar/background_service/background_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -35,15 +30,7 @@ Future<void> main() async {
     initApp(),
     Prefs.initialLocation.waitUntilLoaded(),
   ]);
-
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
-  Workmanager().registerPeriodicTask(
-    calendarSyncKey,
-    calendarSyncKey,
-    frequency: const Duration(hours: 12),
-  );
-
-  runApp(ProviderScope(child: TranslationProvider(child: const MyApp())));
+  runApp(TranslationProvider(child: const MyApp()));
 }
 
 Future<Isar> loadDb() async {
@@ -51,7 +38,6 @@ Future<Isar> loadDb() async {
   Isar db = await Isar.open(
     [
       LogEntrySchema,
-      CalendarSchema,
     ],
     directory: dir.path,
     inspector: false,

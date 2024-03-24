@@ -126,7 +126,7 @@ class _MovieDetails extends StatelessWidget {
           children: [
             _IconWithText(
               icon: Icons.access_time_rounded,
-              text: movie.time,
+              text: movie.showTimes.join(" & "),
             ),
             _IconWithText(
               icon: Icons.hourglass_top_rounded,

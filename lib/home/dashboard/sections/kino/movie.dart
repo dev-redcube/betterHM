@@ -18,7 +18,8 @@ class Movies {
 class Movie {
   final String title;
   final DateTime date;
-  final String time;
+  @JsonKey(name: "times")
+  final List<String> showTimes;
   final String fsk;
   final String genre;
   final int length;
@@ -32,7 +33,7 @@ class Movie {
   Movie({
     required this.title,
     required this.date,
-    required this.time,
+    required this.showTimes,
     required this.fsk,
     required this.genre,
     required this.length,

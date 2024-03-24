@@ -13,8 +13,6 @@ analyzer:
   exclude:
     - "lib/**.g.dart"
     - "**.mocks.dart"
-  plugins:
-    - custom_lint
 
 linter:
   # The lint rules applied to this project can be customized in the
