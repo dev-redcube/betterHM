@@ -1,3 +1,4 @@
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,17 +26,28 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
       controller: calendarController,
       eventsController: eventsController,
       viewConfiguration: WorkWeekConfiguration(),
-      tileBuilder: _tileBuilder,
-      multiDayTileBuilder: _multiDayTileBuilder,
+      tileBuilder: (event, config) => _tileBuilder(event, config, context),
+      multiDayTileBuilder: (event, config) =>
+          _multiDayTileBuilder(event, config, context),
       scheduleTileBuilder: _scheduleTileBuilder,
     );
+  }
+
+  (Color, Color) getColors(
+    CalendarEvent<EventData> event,
+    BuildContext context,
+  ) {
+    final color = context.theme.colorScheme.primaryContainer;
+    final Color textColor = context.theme.colorScheme.onPrimaryContainer;
+    return (color, textColor);
   }
 
   Widget _tileBuilder(
     CalendarEvent<EventData> event,
     TileConfiguration configuration,
+    BuildContext context,
   ) {
-    const color = Colors.blue;
+    final colors = getColors(event, context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -43,13 +55,15 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
       margin: EdgeInsets.zero,
       elevation: configuration.tileType == TileType.ghost ? 0 : 8,
       color: configuration.tileType != TileType.ghost
-          ? color
-          : color.withAlpha(100),
-      child: Center(
+          ? colors.$1
+          : colors.$1.withAlpha(100),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2),
         child: configuration.tileType != TileType.ghost
             ? Text(
                 event.eventData?.title ?? "No data",
-                style: const TextStyle(overflow: TextOverflow.ellipsis),
+                style: TextStyle(color: colors.$2),
+                softWrap: true,
               )
             : null,
       ),
@@ -59,19 +73,21 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
   Widget _multiDayTileBuilder(
     CalendarEvent<EventData> event,
     MultiDayTileConfiguration configuration,
+    BuildContext context,
   ) {
-    const color = Colors.blue;
+    final colors = getColors(event, context);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 2),
       elevation: configuration.tileType == TileType.selected ? 8 : 0,
       color: configuration.tileType == TileType.ghost
-          ? color.withAlpha(100)
-          : color,
+          ? colors.$1.withAlpha(100)
+          : colors.$1,
       child: Center(
         child: configuration.tileType != TileType.ghost
             ? Text(
-                event.eventData?.title ?? 'No data',
-                style: const TextStyle(overflow: TextOverflow.ellipsis),
+                event.eventData?.title ?? "No data",
+                style: TextStyle(color: colors.$2),
+                softWrap: true,
               )
             : null,
       ),
