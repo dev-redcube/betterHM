@@ -39,13 +39,14 @@ class CalendarScreen extends StatelessWidget {
         children: [
           CalendarBody(),
           SyncProgress(),
-          SButton(),
+          // SButton(),
         ],
       ),
     );
   }
 }
 
+// Sync Button
 class SButton extends ConsumerWidget {
   const SButton({super.key});
 
