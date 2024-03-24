@@ -1,16 +1,14 @@
-import 'package:flutter/material.dart';
-
 class EventData {
   final String title;
   final String? description;
-  final Color? color;
+  final String? calendarId;
 
   EventData({
     required this.title,
     this.description,
-    this.color,
+    this.calendarId,
   });
 
   @override
-  String toString() => "$title: $description, $color";
+  String toString() => "EventData(title: $title, description: $description)";
 }
