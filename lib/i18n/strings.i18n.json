@@ -43,7 +43,8 @@
       "kino": {
         "title": "Cinema",
         "movie": {
-          "length": "$minutes minutes"
+          "length": "$minutes minutes",
+          "noImage": "No Image"
         }
       }
     }
