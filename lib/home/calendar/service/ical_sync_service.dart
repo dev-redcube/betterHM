@@ -41,12 +41,15 @@ class ICalService {
 
   Future<void> syncSingle(Calendar calendar) async {
     final path = await getPath();
+    if (!await path.exists()) await path.create();
     final file = File("${path.path}/${calendar.id}.ics");
     _log.info("Downloading calendar ${calendar.name}");
     final response = await httpClient.get(
       Uri.parse(calendar.url),
     );
+
     await file.writeAsBytes(response.bodyBytes);
+    _log.info("Saved calendar ${calendar.name} to ${file.path}");
 
     await _db.writeTxn(() async {
       calendar.lastUpdate = DateTime.now();
