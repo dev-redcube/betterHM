@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logging/logging.dart';
 
 part 'movie.g.dart';
 
@@ -19,33 +20,39 @@ class Movie {
   final String title;
   final DateTime date;
   final String time;
-  final String fsk;
-  final String genre;
+  final String? fsk;
+  final String? genre;
   final int length;
-  final String info;
-  final String content;
-  final String room;
-  final String coverUrl;
-  final String coverBlurhash;
-  final String unifilmUrl;
+  final String? info;
+  final String? content;
+  final String? room;
+  final String? coverUrl;
+  final String? coverBlurhash;
+  final String? unifilmUrl;
 
   Movie({
     required this.title,
     required this.date,
     required this.time,
-    required this.fsk,
-    required this.genre,
+    this.fsk,
+    this.genre,
     required this.length,
-    required this.info,
-    required this.content,
-    required this.room,
-    required this.coverUrl,
-    required this.coverBlurhash,
-    required this.unifilmUrl,
+    this.info,
+    this.content,
+    this.room,
+    this.coverUrl,
+    this.coverBlurhash,
+    this.unifilmUrl,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
-    return _$MovieFromJson(json);
+    try {
+      return _$MovieFromJson(json);
+    } catch (e) {
+      Logger("Movie")
+          .severe("Failed to parse movie $json", e, StackTrace.current);
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
