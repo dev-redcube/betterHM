@@ -24,13 +24,14 @@ class CalendarScreen extends StatelessWidget {
             onPressed: () {
               calendarController.animateToDate(DateTime.now());
             },
+            tooltip: t.calendar.today,
           ),
           IconButton(
             icon: const Icon(Icons.edit_calendar_rounded),
             onPressed: () {
               context.pushNamed(CalendarEditScreen.routeName);
             },
-            tooltip: t.navigation.settings,
+            tooltip: t.calendar.edit.tooltip,
           ),
         ],
       ),

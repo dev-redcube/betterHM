@@ -1,6 +1,6 @@
+import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/selected_canteen_provider.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

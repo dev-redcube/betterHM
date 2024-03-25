@@ -1,5 +1,5 @@
-import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/home/meals/models/canteen.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

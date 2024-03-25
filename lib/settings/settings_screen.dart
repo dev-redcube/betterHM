@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
   static const initiallyExpanded = true;
   static const routeName = "settings";
 

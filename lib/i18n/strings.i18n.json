@@ -48,6 +48,36 @@
       }
     }
   },
+  "calendar": {
+    "add": "Add",
+    "today": "Today",
+    "edit": {
+      "tooltip": "Edit",
+      "title": "Edit Calendar",
+      "noCalendars": "No Calendars found.\n Add your first one!",
+      "warning": {
+        "title": "Warning",
+        "message": "This calendar failed to load $numOfFails Times in a row.\nLast sync happened on $lastSync.\nPlease check the calendar url",
+        "close": "close"
+      },
+      "add": {
+        "title": "Add Calendar",
+        "ownCalendar": "Own Calendar",
+        "url": "Calendar URL",
+        "name": {
+          "label": "Calendar Name",
+          "hint": "e.g. Timetable"
+        },
+        "add": "Add",
+        "errors": {
+          "alreadyExists": "Calendar already exists",
+          "invalidUrl": "Invalid URL",
+          "emptyName": "Name cannot be empty"
+        },
+        "existingCalendar": "Existing Calendar"
+      }
+    }
+  },
   "mealplan": {
     "opening_hours": "Opening hours",
     "choose_canteen": "Select canteen",
