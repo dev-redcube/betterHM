@@ -34,8 +34,10 @@ extension DateTimeExtensions on DateTime {
 
   DateTime get onlyDate => DateTime(year, month, day);
 
+  // 5. April
   String get formatdMonth => DateFormat("d. MMMM").format(this);
 
+  // 5. Apr
   String get formatdMonthAbbr => "$day. ${t.months[month - 1].substring(0, 3)}";
 
   DateTime get withoutTime => DateTime(year, month, day);

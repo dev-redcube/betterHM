@@ -44,17 +44,38 @@ class ICalService {
     if (!await path.exists()) await path.create();
     final file = File("${path.path}/${calendar.id}.ics");
     _log.info("Downloading calendar ${calendar.name}");
-    final response = await httpClient.get(
-      Uri.parse(calendar.url),
-    );
+    try {
+      final response = await httpClient.get(
+        Uri.parse(calendar.url),
+      );
 
-    await file.writeAsBytes(response.bodyBytes);
-    _log.info("Saved calendar ${calendar.name} to ${file.path}");
+      if (200 != response.statusCode) {
+        _log.warning(
+          "Failed to download calendar ${calendar.name} with status code ${response.statusCode}",
+          response.body,
+        );
+        await _db.writeTxn(() async {
+          calendar.numOfFails++;
+          await _db.calendars.put(calendar);
+        });
+        return;
+      }
 
-    await _db.writeTxn(() async {
-      calendar.lastUpdate = DateTime.now();
-      await _db.calendars.put(calendar);
-    });
+      await file.writeAsBytes(response.bodyBytes);
+      _log.info("Saved calendar ${calendar.name} to ${file.path}");
+
+      await _db.writeTxn(() async {
+        calendar.lastUpdate = DateTime.now();
+        calendar.numOfFails = 0;
+        await _db.calendars.put(calendar);
+      });
+    } catch (e) {
+      _log.warning("Failed to download calendar ${calendar.name}", e);
+      await _db.writeTxn(() async {
+        calendar.numOfFails++;
+        await _db.calendars.put(calendar);
+      });
+    }
   }
 
   void cleanupOldCalendars(Directory path, Iterable<Calendar> calendars) {

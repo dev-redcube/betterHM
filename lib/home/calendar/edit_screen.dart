@@ -1,7 +1,9 @@
-import 'package:better_hm/home/calendar/add_screen.dart';
+import 'package:better_hm/home/calendar/add/add_screen.dart';
 import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
+import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,15 +20,7 @@ class CalendarEditScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Calendar"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: () {
-            context.pop();
-            // TODO check if updated
-            // ref.read(iCalSyncStateNotifierProvider.notifier).sync();
-          },
-        ),
+        title: Text(t.calendar.edit.title),
       ),
       // Listen to any changes in the Calendars storage
       body: StreamBuilder(
@@ -37,10 +31,7 @@ class CalendarEditScreen extends ConsumerWidget {
             future: _db.calendars.where().findAll(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Align(
-                  alignment: Alignment.topLeft,
-                  child: LinearProgressIndicator(),
-                );
+                return const SizedBox.shrink();
               }
               if (snapshot.hasError) {
                 return Center(
@@ -59,7 +50,7 @@ class CalendarEditScreen extends ConsumerWidget {
         onPressed: () {
           context.pushNamed(AddCalendarScreen.routeName);
         },
-        label: const Text("Add"),
+        label: Text(t.calendar.add),
         icon: const Icon(Icons.add_rounded),
       ),
     );
@@ -79,14 +70,14 @@ class _CalendarEditScreenBody extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = calendars[index];
           return _CalendarRow(
-            key: ValueKey(item.id),
+            key: ValueKey("calendar-${item.id}"),
             calendar: item,
           );
         },
       );
     }
-    return const Center(
-      child: Text("No calendars found"),
+    return Center(
+      child: Text(t.calendar.edit.noCalendars),
     );
   }
 }
@@ -122,17 +113,55 @@ class _CalendarRow extends ConsumerWidget {
         .removeWhere((element) => element.eventData?.calendarId == calendar.id);
   }
 
+  void _warningPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.calendar.edit.warning.title),
+          content: Text(
+            t.calendar.edit.warning.message(
+              numOfFails: calendar.numOfFails,
+              lastSync: calendar.lastUpdate?.formatdMonth ?? "Never",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(t.calendar.edit.warning.close),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      leading: Checkbox.adaptive(
-        value: calendar.isActive,
-        onChanged: (state) => toggle(state, ref),
-      ),
-      title: Text(calendar.name),
-      trailing: IconButton(
-        icon: const Icon(Icons.close_rounded),
-        onPressed: delete,
+    return Card(
+      child: ListTile(
+        leading: Checkbox.adaptive(
+          value: calendar.isActive,
+          onChanged: (state) => toggle(state, ref),
+        ),
+        title: Text(calendar.name),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (calendar.numOfFails != 0)
+              IconButton(
+                icon: const Icon(
+                  Icons.warning_rounded,
+                  color: Colors.orange,
+                ),
+                onPressed: () => _warningPopup(context),
+              ),
+            IconButton(
+              icon: const Icon(Icons.close_rounded),
+              onPressed: delete,
+            ),
+          ],
+        ),
       ),
     );
   }
