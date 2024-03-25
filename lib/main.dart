@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
@@ -42,6 +44,8 @@ Future<void> main() async {
     calendarSyncKey,
     frequency: const Duration(hours: 12),
   );
+
+  parseAllEvents().then((value) => eventsController.addEvents(value));
 
   runApp(ProviderScope(child: TranslationProvider(child: const MyApp())));
 }
