@@ -38,9 +38,17 @@ extension DateTimeExtensions on DateTime {
   String get formatdMonth => DateFormat("d. MMMM").format(this);
 
   // 5. Apr
-  String get formatdMonthAbbr => "$day. ${t.months[month - 1].substring(0, 3)}";
+  String get formatdMonthAbbr =>
+      "$day. ${t.general.date.months[month - 1].substring(0, 3)}";
 
   DateTime get withoutTime => DateTime(year, month, day);
+
+  String get formatTime => DateFormat("HH:mm").format(toLocal());
+
+  bool sameDayAs(DateTime other) =>
+      year == other.year && month == other.month && day == other.day;
+
+  bool isMidnight() => hour == 0 && minute == 0 && second == 0;
 }
 
 DateTime today() {

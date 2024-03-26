@@ -55,7 +55,12 @@ Future<Iterable<CalendarEvent<EventData>>> parseICal(
 
     final event = CalendarEvent(
       dateTimeRange: range,
-      eventData: EventData(title: e["summary"], calendarId: calendar.id),
+      eventData: EventData(
+        title: e["summary"],
+        calendarId: calendar.id,
+        description: e.containsKey("description") ? e["description"] : null,
+        location: e.containsKey("location") ? e["location"] : null,
+      ),
     );
 
     return event;

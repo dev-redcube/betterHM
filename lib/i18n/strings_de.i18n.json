@@ -4,20 +4,36 @@
     "licenseNotice": "Better HM Copyright (c) 2023-$buildYear Moritz Huber \nDieses Programm kommt ohne Gewährleistung. Dies ist freie Stoftware. Du darft diese Software unter bestimmten Bedingungen gerne bearbeiten und weiterverteilen.",
     "privacyPolicy": "Datenschutzerklärung"
   },
-  "months": [
-    "Januar",
-    "Februar",
-    "März",
-    "April",
-    "Mai",
-    "Juni",
-    "July",
-    "August",
-    "September",
-    "Oktober",
-    "November",
-    "Dezember"
-  ],
+  "general": {
+    "date": {
+      "yesterday": "Gestern",
+      "today": "Heute",
+      "tomorrow": "Morgen",
+      "weekdays": [
+        "Montag",
+        "Dienstag",
+        "Mittwoch",
+        "Donnerstag",
+        "Freitag",
+        "Samstag",
+        "Sonntag"
+      ],
+      "months": [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "July",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ]
+    }
+  },
   "navigation": {
     "dashboard": "Dashboard",
     "mealplan": "Essensplan",

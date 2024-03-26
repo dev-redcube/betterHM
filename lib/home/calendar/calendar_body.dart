@@ -1,3 +1,5 @@
+import 'package:animations/animations.dart';
+import 'package:better_hm/home/calendar/detail_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
@@ -48,24 +50,39 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     BuildContext context,
   ) {
     final colors = getColors(event, context);
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      margin: EdgeInsets.zero,
-      elevation: configuration.tileType == TileType.ghost ? 0 : 8,
-      color: configuration.tileType != TileType.ghost
-          ? colors.$1
-          : colors.$1.withAlpha(100),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2),
-        child: configuration.tileType != TileType.ghost
-            ? Text(
-                event.eventData?.title ?? "No data",
-                style: TextStyle(color: colors.$2),
-                softWrap: true,
-              )
-            : null,
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: OpenContainer(
+        closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide.none,
+        ),
+        useRootNavigator: true,
+        openBuilder: (context, action) {
+          return CalendarDetailScreen(event: event);
+        },
+        closedBuilder: (context, action) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            color: configuration.tileType != TileType.ghost
+                ? colors.$1
+                : colors.$1.withAlpha(100),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 2),
+              child: configuration.tileType != TileType.ghost
+                  ? Text(
+                      event.eventData?.title ?? "No data",
+                      style: TextStyle(color: colors.$2),
+                      softWrap: true,
+                    )
+                  : null,
+            ),
+          );
+        },
       ),
     );
   }
@@ -76,20 +93,46 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     BuildContext context,
   ) {
     final colors = getColors(event, context);
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      elevation: configuration.tileType == TileType.selected ? 8 : 0,
-      color: configuration.tileType == TileType.ghost
-          ? colors.$1.withAlpha(100)
-          : colors.$1,
-      child: Center(
-        child: configuration.tileType != TileType.ghost
-            ? Text(
-                event.eventData?.title ?? "No data",
-                style: TextStyle(color: colors.$2),
-                softWrap: true,
-              )
-            : null,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: OpenContainer(
+        closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        useRootNavigator: true,
+        openBuilder: (context, action) {
+          return CalendarDetailScreen(event: event);
+        },
+        closedBuilder: (context, action) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: colors.$1),
+            ),
+            margin: EdgeInsets.zero,
+            elevation: configuration.tileType == TileType.selected ? 8 : 0,
+            color: configuration.tileType == TileType.ghost
+                ? colors.$1.withAlpha(100)
+                : colors.$1,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 2),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: configuration.tileType != TileType.ghost
+                    ? Text(
+                        event.eventData?.title ?? "No data",
+                        // style: TextStyle(color: colors.$2),
+                        style: context.theme.textTheme.bodySmall?.copyWith(
+                          color: colors.$2,
+                        ),
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
+                      )
+                    : null,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
