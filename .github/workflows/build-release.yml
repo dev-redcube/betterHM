@@ -1,0 +1,72 @@
+name: Build mobile release
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-sign-android:
+    name: Build and sign Android
+    runs-on: macos-14
+
+    steps:
+      - name: Determine ref
+        id: get-ref
+        run: |
+          input_ref="${{ inputs.ref }}"
+          github_ref="${{ github.sha }}"
+          ref="${input_ref:-$github_ref}"
+          echo "ref=$ref" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-ref.outputs.ref }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+          cache: "gradle"
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Deserialize Keystore File
+        run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ secrets.SIGNING_STORE_BASE64 }}
+
+      - name: Get Packages
+        run: flutter pub get
+
+      - name: Build Runner
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Android Apk & App Bundle
+        run: |
+          flutter build appbundle --release
+          flutter build apk --split-per-abi --release
+        env:
+          ANDROID_KEYSTORE_FILE: ./upload-keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+
+      - name: Publish Android Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-binaries-signed
+          path: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/bundle/release/app-release.aab

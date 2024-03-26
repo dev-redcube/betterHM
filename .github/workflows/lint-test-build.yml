@@ -1,15 +1,5 @@
 name: Lint, Test and Build
 on:
-  #  push:
-  #    branches-ignore:
-  #      - "development"
-  #      - "master"
-  #    paths:
-  #      - 'lib/**'
-  #      - 'pubspec.yaml'
-  #      - 'test/**'
-  #      - 'build.yaml'
-  #      - 'setup.txt'
   pull_request:
     branches:
       - "development"
@@ -19,7 +9,8 @@ on:
       - 'pubspec.yaml'
       - 'test/**'
       - 'build.yaml'
-      - 'setup.txt'
+      - 'analysis_options.yaml'
+      - 'setup.sh'
       - 'integration_test/**'
   workflow_dispatch:
 
@@ -31,7 +22,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: temurin
+          distribution: zulu
           java-version: 17
 
       - name: Setup flutter
