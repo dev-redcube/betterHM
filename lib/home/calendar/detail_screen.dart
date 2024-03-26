@@ -3,6 +3,7 @@ import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kalender/kalender.dart';
 
 class CalendarDetailScreen extends StatelessWidget {
@@ -28,11 +29,13 @@ class CalendarDetailScreen extends StatelessWidget {
             _PropertyRow(
               leading: const Icon(Icons.location_on_outlined),
               label: Text(event.eventData!.location!),
+              copy: event.eventData!.location,
             ),
           if (event.eventData?.description != null)
             _PropertyRow(
               leading: const Icon(Icons.subject_rounded),
               label: Text(event.eventData!.description!),
+              copy: event.eventData!.description,
             ),
         ],
       ),
@@ -150,11 +153,13 @@ class _PropertyRow extends StatelessWidget {
     required this.leading,
     required this.label,
     this.subtitle,
+    this.copy,
   });
 
   final Widget leading;
   final Widget label;
   final Widget? subtitle;
+  final String? copy;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +167,11 @@ class _PropertyRow extends StatelessWidget {
       leading: leading,
       title: label,
       subtitle: subtitle,
+      onLongPress: copy == null
+          ? null
+          : () {
+              Clipboard.setData(ClipboardData(text: copy!));
+            },
     );
   }
 }
