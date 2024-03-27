@@ -1,9 +1,9 @@
 BUMP="$1"
 
-CURRENT_BUILD_NUMBER=$(grep "^version: .*+[0-9]\+$" pubspec.yaml | cut -d "+" -f2)
-NEXT_BUILD_NUMBER=$CURRENT_BUILD_NUMBER
+#CURRENT_BUILD_NUMBER=$(grep "^version: .*+[0-9]\+$" pubspec.yaml | cut -d "+" -f2)
+#NEXT_BUILD_NUMBER=$CURRENT_BUILD_NUMBER
 
-set $((NEXT_BUILD_NUMBER++))
+#set $((NEXT_BUILD_NUMBER++))
 
 CURRENT_VERSION=$(grep -o -P "(?<=version: )\d+\.\d+\.\d+" pubspec.yaml)
 MAJOR=$(echo "$CURRENT_VERSION" | cut -d '.' -f1)
@@ -28,6 +28,6 @@ fi
 
 NEXT_VERSION=$MAJOR.$MINOR.$PATCH
 
-sed -i -e "s/version: $CURRENT_VERSION+$CURRENT_BUILD_NUMBER/version: $NEXT_VERSION+$NEXT_BUILD_NUMBER/" pubspec.yaml
+sed -i -e "s/version: $CURRENT_VERSION/version: $NEXT_VERSION/" pubspec.yaml
 
 echo "APP_VERSION=v$NEXT_VERSION" >> "$GITHUB_ENV"

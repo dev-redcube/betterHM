@@ -1,0 +1,34 @@
+opt_out_usage
+
+default_platform(:android)
+
+platform :android do
+  desc "Deploy a new version to the Google Play"
+
+  lane :build_number do
+    nextVersion = latest_google_play_version_code
+
+    puts "new build number: #{nextVersion}"
+
+    sh("echo BUILD_NUMBER=#{nextVersion} >> $GITHUB_ENV")
+  end
+
+  def latest_google_play_version_code
+    json_key_data = ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"]
+    productionVersionCodes = google_play_track_version_codes(track: 'production', json_key_data: json_key_data)
+    betaVersionCodes = google_play_track_version_codes(track: 'beta', json_key_data: json_key_data)
+    # alphaVersionCodes = google_play_track_version_codes(track: 'alpha', json_key_data: json_key_data)
+    internalVersionCodes = google_play_track_version_codes(track: 'internal', json_key_data: json_key_data)
+
+    # puts version codes from all tracks into the same array
+    versionCodes = [
+      productionVersionCodes,
+      betaVersionCodes,
+      # alphaVersionCodes,
+      internalVersionCodes
+    ].reduce([], :concat)
+
+    # returns the highest version code from array
+    return versionCodes.max+1
+  end
+end
