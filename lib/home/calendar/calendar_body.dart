@@ -57,6 +57,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
           borderRadius: BorderRadius.circular(8),
           side: BorderSide.none,
         ),
+        closedColor: colors.$1,
         useRootNavigator: true,
         openBuilder: (context, action) {
           return CalendarDetailScreen(event: event);

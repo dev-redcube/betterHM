@@ -6,6 +6,7 @@ import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
 import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:icalendar_parser/icalendar_parser.dart';
+import 'package:icalendar/icalendar.dart' as ic;
 import 'package:kalender/kalender.dart';
 
 Future<List<CalendarEvent<EventData>>> parseAllEvents() async {
@@ -42,6 +43,11 @@ Future<Iterable<CalendarEvent<EventData>>> parseICal(
 ) async {
   final body = utf8.decode(await file.readAsBytes());
   final ical = ICalendar.fromString(body);
+
+  final events = ic.ICalendar.fromICalendarString(body);
+
+  final e = events.first;
+  print(e);
 
   // TODO split repeated events into multiple
   final mapped = ical.data.map((e) {
