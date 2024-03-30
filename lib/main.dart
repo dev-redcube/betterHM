@@ -58,7 +58,7 @@ Future<Isar> loadDb() async {
       CalendarSchema,
     ],
     directory: dir.path,
-    inspector: false,
+    inspector: true,
   );
   return db;
 }

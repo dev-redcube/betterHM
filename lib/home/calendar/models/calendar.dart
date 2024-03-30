@@ -1,3 +1,4 @@
+import 'package:flutter/painting.dart';
 import 'package:isar/isar.dart';
 
 part 'calendar.g.dart';
@@ -12,6 +13,7 @@ class Calendar {
   DateTime? lastUpdate;
   String name;
   String url;
+  int? hexColor;
 
   Calendar({
     required this.id,
@@ -19,7 +21,11 @@ class Calendar {
     required this.numOfFails,
     required this.name,
     required this.url,
-  });
+    Color? color,
+  }) : hexColor = color?.value;
+
+  @ignore
+  Color? get color => hexColor == null ? null : Color(hexColor!);
 
   @override
   String toString() =>
