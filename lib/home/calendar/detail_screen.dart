@@ -1,18 +1,18 @@
+import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:icalendar/icalendar.dart';
-import 'package:kalender/kalender.dart';
 
 class CalendarDetailScreen extends StatelessWidget {
   const CalendarDetailScreen({super.key, required this.event});
 
-  final CalendarEvent<EventComponent> event;
+  final CustomCalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
+    final component = event.eventData!.component;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -25,17 +25,17 @@ class CalendarDetailScreen extends StatelessWidget {
       body: ListView(
         children: [
           _TitleRow(event: event),
-          if (event.eventData?.location != null)
+          if (component.location != null)
             _PropertyRow(
               leading: const Icon(Icons.location_on_outlined),
-              label: Text(event.eventData!.location!.value.value),
-              copy: event.eventData?.location?.value.value,
+              label: Text(component.location!.value.value),
+              copy: component.location?.value.value,
             ),
-          if (event.eventData?.description != null)
+          if (component.description != null)
             _PropertyRow(
               leading: const Icon(Icons.subject_rounded),
-              label: Text(event.eventData!.description!.value.value),
-              copy: event.eventData?.description?.value.value,
+              label: Text(component.description!.value.value),
+              copy: component.description?.value.value,
             ),
         ],
       ),
@@ -46,7 +46,7 @@ class CalendarDetailScreen extends StatelessWidget {
 class _TitleRow extends StatelessWidget {
   const _TitleRow({required this.event});
 
-  final CalendarEvent<EventComponent> event;
+  final CustomCalendarEvent event;
 
   String dateNotation(DateTime day) {
     return "${t.general.date.weekdays[day.weekday - 1]}, ${day.formatdMonthAbbr}";
@@ -110,7 +110,7 @@ class _TitleRow extends StatelessWidget {
         ),
       ),
       label: Text(
-        "Software Entwicklung II (W) (2.Teilgruppe)",
+        event.eventData?.component.summary?.value.value ?? "No title",
         style: context.theme.textTheme.headlineSmall,
       ),
       subtitle: buildSubtitle(),
@@ -172,6 +172,7 @@ class _PropertyRow extends StatelessWidget {
           : () {
               Clipboard.setData(ClipboardData(text: copy!));
             },
+      tileColor: context.theme.colorScheme.background,
     );
   }
 }

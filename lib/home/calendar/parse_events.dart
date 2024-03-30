@@ -3,18 +3,19 @@ import 'dart:io';
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
+import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:icalendar/icalendar.dart';
 import 'package:kalender/kalender.dart';
 import 'package:logging/logging.dart';
 import 'package:rrule/rrule.dart' as rrule;
 
-Future<List<CalendarEvent<EventComponent>>> parseAllEvents() async {
+Future<List<CustomCalendarEvent>> parseAllEvents() async {
   final iCalService = ICalService();
   final activeCalendars = await iCalService.getActiveCalendars();
   final path = await ICalService.getPath();
 
-  final List<CalendarEvent<EventComponent>> events = [];
+  final List<CustomCalendarEvent> events = [];
 
   for (final calendar in activeCalendars) {
     final file = File("${path.path}/${calendar.id}.ics");
@@ -27,7 +28,7 @@ Future<List<CalendarEvent<EventComponent>>> parseAllEvents() async {
   return events;
 }
 
-Future<Iterable<CalendarEvent<EventComponent>>> parseEvents(
+Future<Iterable<CustomCalendarEvent>> parseEvents(
   Calendar calendar,
 ) async {
   final path = await ICalService.getPath();
@@ -37,7 +38,7 @@ Future<Iterable<CalendarEvent<EventComponent>>> parseEvents(
   return parseICal(file, calendar);
 }
 
-Future<Iterable<Event>> parseICal(
+Future<Iterable<CustomCalendarEvent>> parseICal(
   File file,
   Calendar calendar,
 ) async {
@@ -56,12 +57,12 @@ Future<Iterable<Event>> parseICal(
     return Future.value([]);
   }
 
-  final List<CalendarEvent<EventComponent>> events = [];
+  final List<CustomCalendarEvent> events = [];
 
   // VCALENDAR
-  for (final calendar in ical) {
+  for (final cal in ical) {
     // VEVENT
-    for (final component in calendar.components) {
+    for (final component in cal.components) {
       if (component is EventComponent) {
         // start and either end or duration must be specified
         if (component.dateTimeStart == null) continue;
@@ -74,7 +75,10 @@ Future<Iterable<Event>> parseICal(
                 component.dateTimeStart!.value.value
                     .add(component.duration!.value.value),
           ),
-          eventData: component,
+          eventData: EventData(
+            calendarId: calendar.id,
+            component: component,
+          ),
           modifiable: false,
         );
         events.add(event);
@@ -88,13 +92,13 @@ Future<Iterable<Event>> parseICal(
   return splitEvents(events);
 }
 
-List<Event> splitEvents(List<Event> events) {
-  final List<Event> splitEvents = [];
+List<CustomCalendarEvent> splitEvents(List<CustomCalendarEvent> events) {
+  final List<CustomCalendarEvent> splitEvents = [];
   for (final event in events) {
     // add original event
     splitEvents.add(event);
 
-    final data = event.eventData!;
+    final data = event.eventData!.component;
 
     // RecurrenceDateTimes, "skip" if none
     if (data.recurrenceDateTimes != null) {
@@ -109,9 +113,9 @@ List<Event> splitEvents(List<Event> events) {
   return splitEvents;
 }
 
-List<Event> _splitRecurrenceDates(Event event) {
-  final List<Event> splitEvents = [];
-  for (final time in event.eventData!.recurrenceDateTimes!) {
+List<CustomCalendarEvent> _splitRecurrenceDates(CustomCalendarEvent event) {
+  final List<CustomCalendarEvent> splitEvents = [];
+  for (final time in event.eventData!.component.recurrenceDateTimes!) {
     for (final t in time.value.values) {
       final start = t.value.copyWith(
         hour: event.dateTimeRange.start.hour,
@@ -132,9 +136,9 @@ List<Event> _splitRecurrenceDates(Event event) {
   return splitEvents;
 }
 
-List<Event> splitRRule(Event event) {
-  final List<Event> splitEvents = [];
-  final data = event.eventData!;
+List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
+  final List<CustomCalendarEvent> splitEvents = [];
+  final data = event.eventData!.component;
   for (final rule in data.recurrenceRules!) {
     final recur = rrule.RecurrenceRule.fromString(rule.toString());
     final instances = recur.getInstances(

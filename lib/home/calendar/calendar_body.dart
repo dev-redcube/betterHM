@@ -1,13 +1,14 @@
 import 'package:animations/animations.dart';
+import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/detail_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
+import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:icalendar/icalendar.dart';
 import 'package:kalender/kalender.dart';
 
-final calendarController = CalendarController<EventComponent>();
-final eventsController = CalendarEventsController<EventComponent>();
+final calendarController = CalendarController<EventData>();
+final eventsController = CalendarEventsController<EventData>();
 
 class CalendarBody extends ConsumerStatefulWidget {
   const CalendarBody({super.key});
@@ -36,7 +37,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
   }
 
   (Color, Color) getColors(
-    CalendarEvent<EventComponent> event,
+    CustomCalendarEvent event,
     BuildContext context,
   ) {
     final color = context.theme.colorScheme.primaryContainer;
@@ -45,7 +46,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
   }
 
   Widget _tileBuilder(
-    CalendarEvent<EventComponent> event,
+    CustomCalendarEvent event,
     TileConfiguration configuration,
     BuildContext context,
   ) {
@@ -58,10 +59,14 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
           side: BorderSide.none,
         ),
         closedColor: colors.$1,
+        openColor: context.theme.colorScheme.background,
         closedElevation: 0,
         useRootNavigator: true,
         openBuilder: (context, action) {
-          return CalendarDetailScreen(event: event);
+          return CalendarDetailScreen(
+            key: ObjectKey(event),
+            event: event,
+          );
         },
         closedBuilder: (context, action) {
           return Card(
@@ -77,7 +82,8 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
               padding: const EdgeInsets.only(left: 2),
               child: configuration.tileType != TileType.ghost
                   ? Text(
-                      event.eventData?.summary?.value.value ?? "No title",
+                      event.eventData?.component.summary?.value.value ??
+                          "No title",
                       style: TextStyle(color: colors.$2),
                       softWrap: true,
                     )
@@ -90,7 +96,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
   }
 
   Widget _multiDayTileBuilder(
-    CalendarEvent<EventComponent> event,
+    CustomCalendarEvent event,
     MultiDayTileConfiguration configuration,
     BuildContext context,
   ) {
@@ -102,6 +108,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
           borderRadius: BorderRadius.circular(8),
         ),
         closedColor: colors.$1,
+        openColor: context.theme.colorScheme.background,
         closedElevation: 0,
         useRootNavigator: true,
         openBuilder: (context, action) {
@@ -124,7 +131,8 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
                 alignment: Alignment.centerLeft,
                 child: configuration.tileType != TileType.ghost
                     ? Text(
-                        event.eventData?.summary?.value.value ?? "No title",
+                        event.eventData?.component.summary?.value.value ??
+                            "No title",
                         // style: TextStyle(color: colors.$2),
                         style: context.theme.textTheme.bodySmall?.copyWith(
                           color: colors.$2,
@@ -142,7 +150,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
   }
 
   Widget _scheduleTileBuilder(
-    CalendarEvent<EventComponent> event,
+    CustomCalendarEvent event,
     DateTime date,
   ) {
     return DecoratedBox(
@@ -150,7 +158,8 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
         color: Colors.blue,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(event.eventData?.summary?.value.value ?? 'No title'),
+      child:
+          Text(event.eventData?.component.summary?.value.value ?? 'No title'),
     );
   }
 }
