@@ -1,15 +1,15 @@
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:icalendar/icalendar.dart';
 import 'package:kalender/kalender.dart';
 
 class CalendarDetailScreen extends StatelessWidget {
   const CalendarDetailScreen({super.key, required this.event});
 
-  final CalendarEvent<EventData> event;
+  final CalendarEvent<EventComponent> event;
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +28,14 @@ class CalendarDetailScreen extends StatelessWidget {
           if (event.eventData?.location != null)
             _PropertyRow(
               leading: const Icon(Icons.location_on_outlined),
-              label: Text(event.eventData!.location!),
-              copy: event.eventData!.location,
+              label: Text(event.eventData!.location!.value.value),
+              copy: event.eventData?.location?.value.value,
             ),
           if (event.eventData?.description != null)
             _PropertyRow(
               leading: const Icon(Icons.subject_rounded),
-              label: Text(event.eventData!.description!),
-              copy: event.eventData!.description,
+              label: Text(event.eventData!.description!.value.value),
+              copy: event.eventData?.description?.value.value,
             ),
         ],
       ),
@@ -46,7 +46,7 @@ class CalendarDetailScreen extends StatelessWidget {
 class _TitleRow extends StatelessWidget {
   const _TitleRow({required this.event});
 
-  final CalendarEvent<EventData> event;
+  final CalendarEvent<EventComponent> event;
 
   String dateNotation(DateTime day) {
     return "${t.general.date.weekdays[day.weekday - 1]}, ${day.formatdMonthAbbr}";

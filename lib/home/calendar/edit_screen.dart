@@ -1,8 +1,11 @@
 import 'package:better_hm/home/calendar/add/add_screen.dart';
 import 'package:better_hm/home/calendar/calendar_body.dart';
+import 'package:better_hm/home/calendar/calendar_screen.dart';
+import 'package:better_hm/home/calendar/ical_sync_state.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/event_data.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,30 +24,44 @@ class CalendarEditScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.calendar.edit.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: t.calendar.edit.refresh.tooltip,
+            onPressed: () {
+              ref.read(iCalSyncStateNotifierProvider.notifier).sync();
+            },
+          ),
+        ],
       ),
       // Listen to any changes in the Calendars storage
-      body: StreamBuilder(
-        stream: _db.calendars.watchLazy(),
-        builder: (context, snapshot) {
-          // When changes occur, fire a FutureBuilder to rebuild the UI
-          return FutureBuilder<List<Calendar>>(
-            future: _db.calendars.where().findAll(),
+      body: Stack(
+        children: [
+          StreamBuilder(
+            stream: _db.calendars.watchLazy(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox.shrink();
-              }
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text("Error: ${snapshot.error}"),
-                );
-              }
+              // When changes occur, fire a FutureBuilder to rebuild the UI
+              return FutureBuilder<List<Calendar>>(
+                future: _db.calendars.where().findAll(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox.shrink();
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error: ${snapshot.error}"),
+                    );
+                  }
 
-              final calendars = snapshot.data!;
+                  final calendars = snapshot.data!;
 
-              return _CalendarEditScreenBody(calendars);
+                  return _CalendarEditScreenBody(calendars);
+                },
+              );
             },
-          );
-        },
+          ),
+          const SyncProgress(),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

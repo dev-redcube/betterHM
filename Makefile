@@ -1,6 +1,6 @@
 setup:
 	# copy pre-commit to git folder
-	/bin/cp -f hooks/pre-commit .git/hooks/pre-commit
+	/bin/cp -f hooks/pre-commit.sh .git/hooks/pre-commit
 	chmod +x .git/hooks/pre-commit
 
 	flutter clean
@@ -16,3 +16,9 @@ buildrunner:
 
 apk:
 	flutter build apk
+
+fix:
+	dart fix --apply
+
+format:
+	dart format .

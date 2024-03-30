@@ -20,6 +20,10 @@ class Calendar {
     required this.name,
     required this.url,
   });
+
+  @override
+  String toString() =>
+      "Calendar(id: $id, isActive: $isActive, numOfFails: $numOfFails, lastUpdate: $lastUpdate, name: $name, url: $url)";
 }
 
 /// FNV-1a 64bit Hash-Algorithmus optimiert für Dart-Strings

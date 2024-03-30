@@ -63,7 +63,6 @@ dependencies:
   geolocator: ^11.0.0
   latlong2: ^0.9.0
   kalender: ^0.2.2
-  icalendar_parser: ^2.0.0
   scrollable_positioned_list: ^0.3.8
   state_notifier: ^1.0.0
   cancellation_token: ^2.0.1
@@ -72,6 +71,11 @@ dependencies:
   riverpod_annotation: ^2.3.5
   uuid: ^4.3.3
   workmanager: ^0.5.2
+  icalendar:
+    git:
+      url: https://github.com/dev-redcube/icalendar-dart.git
+      ref: main
+  rrule: ^0.2.16
 
 dev_dependencies:
   flutter_test:
