@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:icalendar/icalendar.dart';
 import 'package:kalender/kalender.dart';
 import 'package:logging/logging.dart';
+import 'package:rrule/rrule.dart' as rrule;
 
 Future<List<CalendarEvent<EventComponent>>> parseAllEvents() async {
   final iCalService = ICalService();
@@ -27,7 +28,8 @@ Future<List<CalendarEvent<EventComponent>>> parseAllEvents() async {
 }
 
 Future<Iterable<CalendarEvent<EventComponent>>> parseEvents(
-    Calendar calendar,) async {
+  Calendar calendar,
+) async {
   final path = await ICalService.getPath();
   final file = File("${path.path}/${calendar.id}.ics");
   if (!await file.exists()) return Future.value([]);
@@ -35,10 +37,13 @@ Future<Iterable<CalendarEvent<EventComponent>>> parseEvents(
   return parseICal(file, calendar);
 }
 
-Future<Iterable<CalendarEvent<EventComponent>>> parseICal(File file,
-    Calendar calendar,) async {
+Future<Iterable<CalendarEvent<EventComponent>>> parseICal(
+  File file,
+  Calendar calendar,
+) async {
   final lines = await file.readAsLines();
 
+  final stopwatch = Stopwatch()..start();
   late final List<ICalendar> ical;
   try {
     ical = ICalendar.fromICalendarLines(lines);
@@ -75,13 +80,66 @@ Future<Iterable<CalendarEvent<EventComponent>>> parseICal(File file,
       }
     }
   }
-
+  stopwatch.stop();
+  Logger("IcalParser").info(
+    "Calendar $calendar parsed in ${stopwatch.elapsed.inSeconds} seconds",
+  );
   return events;
 }
 
 List<Event> splitEvents(List<Event> events) {
   final List<Event> splitEvents = [];
   for (final event in events) {
-    if (event.)
+    // add original event
+    splitEvents.add(event);
+
+    final data = event.eventData!;
+    if (data.recurrenceDateTimes == null && data.recurrenceRules == null) {
+      continue;
+    }
+
+    // RecurrenceDateTimes, "skip" if none
+    if (data.recurrenceDateTimes != null) {
+      splitEvents.addAll(_splitRecurrenceDates(event));
+    }
+
+    // RRULE
+    if (data.recurrenceRules != null) {
+      splitEvents.addAll(splitRRule(event));
+    }
+  }
+  return [];
+}
+
+List<Event> _splitRecurrenceDates(Event event) {
+  final List<Event> splitEvents = [];
+  for (final time in event.eventData!.recurrenceDateTimes!) {
+    for (final t in time.value.values) {
+      final start = t.value.copyWith(
+        hour: event.dateTimeRange.start.hour,
+        minute: event.dateTimeRange.start.minute,
+      );
+      splitEvents.add(
+        CalendarEvent(
+          dateTimeRange: DateTimeRange(
+            start: start,
+            end: start.add(event.duration),
+          ),
+          eventData: event.eventData,
+        ),
+      );
+    }
+  }
+  return splitEvents;
+}
+
+List<Event> splitRRule(Event event) {
+  final List<Event> splitEvents = [];
+  final data = event.eventData!;
+  for (final rule in data.recurrenceRules!) {
+    final value = rule.value.value;
+    final recur = rrule.RecurrenceRule(
+      frequency: value.frequency,
+    );
   }
 }
