@@ -67,7 +67,7 @@ Future<Iterable<Event>> parseICal(
         if (component.dateTimeStart == null) continue;
         if (component.end == null && component.duration == null) continue;
 
-        final event = CalendarEvent<EventComponent>(
+        final event = CalendarEvent(
           dateTimeRange: DateTimeRange(
             start: component.dateTimeStart!.value.value,
             end: component.end?.value.value ??
@@ -75,6 +75,7 @@ Future<Iterable<Event>> parseICal(
                     .add(component.duration!.value.value),
           ),
           eventData: component,
+          modifiable: false,
         );
         events.add(event);
       }
@@ -82,7 +83,7 @@ Future<Iterable<Event>> parseICal(
   }
   stopwatch.stop();
   Logger("IcalParser").info(
-    "Calendar $calendar parsed in ${stopwatch.elapsed.inSeconds} seconds",
+    "$calendar parsed in ${stopwatch.elapsed.inSeconds} seconds",
   );
   return splitEvents(events);
 }
@@ -123,6 +124,7 @@ List<Event> _splitRecurrenceDates(Event event) {
             end: start.add(event.duration),
           ),
           eventData: event.eventData,
+          modifiable: false,
         ),
       );
     }
@@ -152,6 +154,7 @@ List<Event> splitRRule(Event event) {
             end: instance.add(event.duration),
           ),
           eventData: event.eventData,
+          modifiable: false,
         ),
       );
     }
