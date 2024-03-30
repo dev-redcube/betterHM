@@ -40,7 +40,7 @@ class CalendarScreen extends StatelessWidget {
         children: [
           CalendarBody(),
           SyncProgress(),
-          // SButton(),
+          SButton(),
         ],
       ),
     );
