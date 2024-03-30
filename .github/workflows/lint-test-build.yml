@@ -5,13 +5,17 @@ on:
       - "development"
       - "master"
     paths:
+      - 'android/**'
+      - 'assets/**'
+      - 'fonts/**'
+      - 'ios/**'
       - 'lib/**'
-      - 'pubspec.yaml'
       - 'test/**'
-      - 'build.yaml'
       - 'analysis_options.yaml'
+      - 'build.yaml'
+      - 'Makefile'
+      - 'pubspec.yaml'
       - 'setup.sh'
-      - 'integration_test/**'
   workflow_dispatch:
 
 jobs:

@@ -3,6 +3,16 @@ name: Build and publish nightly release
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'android/**'
+      - 'assets/**'
+      - 'fonts/**'
+      - 'ios/**'
+      - 'lib/**'
+      - 'test/**'
+      - 'analysis_options.yaml'
+      - 'build.yaml'
+      - 'pubspec.yaml'
 
 concurrency:
   group: release
