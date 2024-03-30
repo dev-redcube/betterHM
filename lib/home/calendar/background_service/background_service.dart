@@ -10,6 +10,7 @@ void callbackDispatcher() {
   WidgetsFlutterBinding.ensureInitialized();
   final logger = Logger("BackgroundService");
   Workmanager().executeTask((taskName, inputData) async {
+    Logger("BackgroundService").info("Executing task $taskName", inputData);
     switch (taskName) {
       case calendarSyncKey:
         logger.info("Syncing calendars");
