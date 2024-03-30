@@ -105,7 +105,8 @@ class _TitleRow extends StatelessWidget {
         height: 16,
         width: 16,
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: event.eventData?.color ??
+              context.theme.colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(4),
         ),
       ),

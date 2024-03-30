@@ -40,8 +40,17 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     CustomCalendarEvent event,
     BuildContext context,
   ) {
-    final color = context.theme.colorScheme.primaryContainer;
-    final Color textColor = context.theme.colorScheme.onPrimaryContainer;
+    final color =
+        event.eventData?.color ?? context.theme.colorScheme.primaryContainer;
+
+    late final Color textColor;
+    if (event.eventData?.color != null) {
+      textColor = event.eventData!.color!.computeLuminance() > 0.5
+          ? Colors.black
+          : context.theme.colorScheme.onBackground;
+    } else {
+      textColor = context.theme.colorScheme.onPrimaryContainer;
+    }
     return (color, textColor);
   }
 
