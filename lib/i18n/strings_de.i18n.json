@@ -77,6 +77,9 @@
         "message": "Dieser Kalender konnte $numOfFails mal nicht geladen werden.\nLetzter sync fand am $lastSync statt.\nBitte überprüfe die Kalender-URL",
         "close": "schließen"
       },
+      "refresh": {
+        "tooltip": "Kalender aktualisieren"
+      },
       "add": {
         "title": "Kalender hinzufügen",
         "ownCalendar": "Eigenen Kalender",

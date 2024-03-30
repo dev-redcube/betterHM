@@ -40,24 +40,8 @@ class CalendarScreen extends StatelessWidget {
         children: [
           CalendarBody(),
           SyncProgress(),
-          SButton(),
         ],
       ),
-    );
-  }
-}
-
-// Sync Button
-class SButton extends ConsumerWidget {
-  const SButton({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ElevatedButton(
-      child: const Text("Sync"),
-      onPressed: () {
-        ref.read(iCalSyncStateNotifierProvider.notifier).sync();
-      },
     );
   }
 }

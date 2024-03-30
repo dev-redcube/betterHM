@@ -77,6 +77,9 @@
         "message": "This calendar failed to load $numOfFails Times in a row.\nLast sync happened on $lastSync.\nPlease check the calendar url",
         "close": "close"
       },
+      "refresh": {
+        "tooltip": "Re-sync calendars"
+      },
       "add": {
         "title": "Add Calendar",
         "ownCalendar": "Own Calendar",
