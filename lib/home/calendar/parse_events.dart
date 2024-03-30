@@ -37,7 +37,7 @@ Future<Iterable<CalendarEvent<EventComponent>>> parseEvents(
   return parseICal(file, calendar);
 }
 
-Future<Iterable<CalendarEvent<EventComponent>>> parseICal(
+Future<Iterable<Event>> parseICal(
   File file,
   Calendar calendar,
 ) async {
@@ -84,7 +84,7 @@ Future<Iterable<CalendarEvent<EventComponent>>> parseICal(
   Logger("IcalParser").info(
     "Calendar $calendar parsed in ${stopwatch.elapsed.inSeconds} seconds",
   );
-  return events;
+  return splitEvents(events);
 }
 
 List<Event> splitEvents(List<Event> events) {
@@ -94,9 +94,6 @@ List<Event> splitEvents(List<Event> events) {
     splitEvents.add(event);
 
     final data = event.eventData!;
-    if (data.recurrenceDateTimes == null && data.recurrenceRules == null) {
-      continue;
-    }
 
     // RecurrenceDateTimes, "skip" if none
     if (data.recurrenceDateTimes != null) {
@@ -108,7 +105,7 @@ List<Event> splitEvents(List<Event> events) {
       splitEvents.addAll(splitRRule(event));
     }
   }
-  return [];
+  return splitEvents;
 }
 
 List<Event> _splitRecurrenceDates(Event event) {
@@ -137,9 +134,28 @@ List<Event> splitRRule(Event event) {
   final List<Event> splitEvents = [];
   final data = event.eventData!;
   for (final rule in data.recurrenceRules!) {
-    final value = rule.value.value;
-    final recur = rrule.RecurrenceRule(
-      frequency: value.frequency,
+    final recur = rrule.RecurrenceRule.fromString(rule.toString());
+    final instances = recur.getInstances(
+      start: DateTime.now().add(const Duration(days: 365)),
     );
+
+    // year before and after today
+    final ranged = instances.takeWhile(
+      (value) => value.year.compareTo(DateTime.now().year).abs() < 2,
+    );
+
+    for (final instance in ranged) {
+      splitEvents.add(
+        CalendarEvent(
+          dateTimeRange: DateTimeRange(
+            start: instance,
+            end: instance.add(event.duration),
+          ),
+          eventData: event.eventData,
+        ),
+      );
+    }
   }
+
+  return splitEvents;
 }

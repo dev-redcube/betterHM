@@ -16,3 +16,9 @@ buildrunner:
 
 apk:
 	flutter build apk
+
+fix:
+	dart fix --apply
+
+format:
+	dart format .

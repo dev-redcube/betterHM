@@ -142,7 +142,9 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
   }
 
   Widget _scheduleTileBuilder(
-      CalendarEvent<EventComponent> event, DateTime date) {
+    CalendarEvent<EventComponent> event,
+    DateTime date,
+  ) {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.blue,
