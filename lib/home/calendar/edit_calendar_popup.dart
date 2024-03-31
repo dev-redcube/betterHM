@@ -1,6 +1,7 @@
 import 'package:better_hm/home/calendar/add/add_new_calendar.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
@@ -50,6 +51,12 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                   labelText: "Name",
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return t.calendar.edit.add.errors.emptyName;
+                  }
+                  return null;
+                },
               ),
             ),
             const SizedBox(height: 8),
@@ -60,6 +67,12 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                   labelText: "URL",
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                  if (Uri.tryParse(value ?? "")?.hasAbsolutePath ?? false) {
+                    return null;
+                  }
+                  return t.calendar.edit.add.errors.invalidUrl;
+                },
               ),
             ),
           ],
@@ -74,6 +87,8 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
         ),
         TextButton(
           onPressed: () async {
+            if (!formKey.currentState!.validate()) return;
+
             final db = Isar.getInstance();
             await db?.writeTxn(() async {
               widget.calendar.name = nameController.text;
