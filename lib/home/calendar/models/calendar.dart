@@ -13,7 +13,7 @@ class Calendar {
   DateTime? lastUpdate;
   String name;
   String url;
-  int? hexColor;
+  int? colorValue;
 
   Calendar({
     required this.id,
@@ -22,10 +22,12 @@ class Calendar {
     required this.name,
     required this.url,
     Color? color,
-  }) : hexColor = color?.value;
+  }) : colorValue = color?.value;
 
   @ignore
-  Color? get color => hexColor == null ? null : Color(hexColor!);
+  Color? get color => colorValue == null ? null : Color(colorValue!);
+
+  set color(Color? color) => colorValue = color?.value;
 
   @override
   String toString() =>

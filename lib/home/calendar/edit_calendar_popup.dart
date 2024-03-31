@@ -19,12 +19,14 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
 
   late final TextEditingController nameController;
   late final TextEditingController urlController;
+  late Color? color;
 
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController(text: widget.calendar.name);
     urlController = TextEditingController(text: widget.calendar.url);
+    color = widget.calendar.color;
   }
 
   @override
@@ -75,6 +77,15 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                 },
               ),
             ),
+            const SizedBox(height: 8),
+            CalendarColorPicker(
+              color: color,
+              onColorChanged: (newColor) {
+                setState(() {
+                  color = newColor;
+                });
+              },
+            ),
           ],
         ),
       ),
@@ -93,6 +104,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
             await db?.writeTxn(() async {
               widget.calendar.name = nameController.text;
               widget.calendar.url = urlController.text;
+              widget.calendar.color = color;
               db.calendars.put(widget.calendar);
             });
             final icalService = ICalService(updateCalendarController: true);

@@ -83,11 +83,12 @@
       "add": {
         "title": "Add Calendar",
         "ownCalendar": "Own Calendar",
-        "url": "Calendar URL",
         "name": {
           "label": "Calendar Name",
           "hint": "e.g. Timetable"
         },
+        "url": "Calendar URL",
+        "color": "Color",
         "add": "Add",
         "errors": {
           "alreadyExists": "Calendar already exists",
@@ -160,6 +161,13 @@
         "snackbar": "Cache cleared"
       },
       "cardTimeout": "Card loading timeout"
+    }
+  },
+  "shared": {
+    "colorPicker": {
+      "title": "Pick Color",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     }
   }
 }

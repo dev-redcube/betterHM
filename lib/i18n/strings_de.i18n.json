@@ -83,11 +83,12 @@
       "add": {
         "title": "Kalender hinzufügen",
         "ownCalendar": "Eigenen Kalender",
-        "url": "Kalender-URL",
         "name": {
           "label": "Kalender-Name",
           "hint": "z.B. Stundenplan"
         },
+        "url": "Kalender-URL",
+        "color": "Farbe",
         "add": "Hinzufügen",
         "errors": {
           "alreadyExists": "Kalender existiert bereits",
@@ -160,6 +161,13 @@
         "snackbar": "Cache geleert"
       },
       "cardTimeout": "Dashboard lade Timeout"
+    }
+  },
+  "shared": {
+    "colorPicker": {
+      "title": "Farbe wählen",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen"
     }
   }
 }
