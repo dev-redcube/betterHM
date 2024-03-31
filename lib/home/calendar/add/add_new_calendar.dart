@@ -31,7 +31,24 @@ class AddNewCalendarWidget extends StatelessWidget {
                 style: context.theme.textTheme.headlineSmall,
               ),
               const SizedBox(height: 16.0),
-              _InputContainer(
+              InputContainer(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: t.calendar.edit.add.name.label,
+                    hintText: t.calendar.edit.add.name.hint,
+                    border: InputBorder.none,
+                  ),
+                  controller: nameController,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return t.calendar.edit.add.errors.emptyName;
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              InputContainer(
                 child: TextFormField(
                   decoration: InputDecoration(
                     labelText: t.calendar.edit.add.url,
@@ -48,23 +65,6 @@ class AddNewCalendarWidget extends StatelessWidget {
                       return null;
                     }
                     return t.calendar.edit.add.errors.invalidUrl;
-                  },
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              _InputContainer(
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: t.calendar.edit.add.name.label,
-                    hintText: t.calendar.edit.add.name.hint,
-                    border: InputBorder.none,
-                  ),
-                  controller: nameController,
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return t.calendar.edit.add.errors.emptyName;
-                    }
-                    return null;
                   },
                 ),
               ),
@@ -96,8 +96,8 @@ class AddNewCalendarWidget extends StatelessWidget {
   }
 }
 
-class _InputContainer extends StatelessWidget {
-  const _InputContainer({required this.child});
+class InputContainer extends StatelessWidget {
+  const InputContainer({super.key, required this.child});
 
   final Widget child;
 

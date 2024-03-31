@@ -183,7 +183,7 @@ class _CalendarRow extends ConsumerWidget {
           // open popup to edit calendar
           showDialog(
             context: context,
-            builder: (context) => const EditCalendarPopup(),
+            builder: (context) => EditCalendarPopup(calendar: calendar),
           );
         },
       ),

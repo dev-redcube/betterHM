@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:http/http.dart' as http;
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
@@ -10,8 +12,10 @@ class ICalService {
   final httpClient = http.Client();
   final Isar _db;
   final Logger _log = Logger("IcalSyncService");
+  final bool updateCalendarController;
 
-  ICalService() : _db = Isar.getInstance()!;
+  ICalService({this.updateCalendarController = false})
+      : _db = Isar.getInstance()!;
 
   static Future<Directory> getPath() async =>
       Directory("${(await getApplicationSupportDirectory()).path}/calendars");
@@ -64,6 +68,16 @@ class ICalService {
       await file.writeAsBytes(response.bodyBytes);
       _log.info("Saved calendar ${calendar.name} to ${file.path}");
 
+      // Update calendar
+      if (updateCalendarController) {
+        eventsController.removeWhere(
+          (element) => element.eventData?.calendarId == calendar.id,
+        );
+
+        final events = await parseEvents(calendar);
+        eventsController.addEvents(events.toList());
+      }
+
       await _db.writeTxn(() async {
         calendar.lastUpdate = DateTime.now();
         calendar.numOfFails = 0;
@@ -71,6 +85,11 @@ class ICalService {
       });
     } catch (e) {
       _log.warning("Failed to download calendar ${calendar.name}", e);
+      if (updateCalendarController) {
+        eventsController.removeWhere(
+          (element) => element.eventData?.calendarId == calendar.id,
+        );
+      }
       await _db.writeTxn(() async {
         calendar.numOfFails++;
         await _db.calendars.put(calendar);
