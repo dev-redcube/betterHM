@@ -1,3 +1,4 @@
+import 'package:flutter/painting.dart';
 import 'package:isar/isar.dart';
 
 part 'calendar.g.dart';
@@ -12,6 +13,7 @@ class Calendar {
   DateTime? lastUpdate;
   String name;
   String url;
+  int? colorValue;
 
   Calendar({
     required this.id,
@@ -19,7 +21,13 @@ class Calendar {
     required this.numOfFails,
     required this.name,
     required this.url,
-  });
+    Color? color,
+  }) : colorValue = color?.value;
+
+  @ignore
+  Color? get color => colorValue == null ? null : Color(colorValue!);
+
+  set color(Color? color) => colorValue = color?.value;
 
   @override
   String toString() =>

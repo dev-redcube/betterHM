@@ -78,6 +78,7 @@ Future<Iterable<CustomCalendarEvent>> parseICal(
           eventData: EventData(
             calendarId: calendar.id,
             component: component,
+            color: calendar.color,
           ),
           modifiable: false,
         );

@@ -1,3 +1,4 @@
+import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -27,7 +28,9 @@ class ICalSyncStateNotifier extends _$ICalSyncStateNotifier {
     return Future.value(syncState);
   }
 
-  Future<void> sync() async {
+  // TODO queue
+
+  Future<void> sync([Calendar? calendar]) async {
     // Prevent multiple simultaneous syncs
     if (state.value?.syncProgress == ICalSyncProgressEnum.inProgress) {
       return;
@@ -36,18 +39,22 @@ class ICalSyncStateNotifier extends _$ICalSyncStateNotifier {
       ICalSyncState(syncProgress: ICalSyncProgressEnum.inProgress),
     );
 
-    final icalSyncService = ICalService();
+    final icalSyncService = ICalService(updateCalendarController: true);
 
-    await icalSyncService.sync(
-      onSyncProgress: (synced, total) {
-        state = AsyncValue.data(
-          ICalSyncState(
-            syncProgress: ICalSyncProgressEnum.inProgress,
-            progressInPercent: synced / total,
-          ),
-        );
-      },
-    );
+    if (calendar == null) {
+      await icalSyncService.sync(
+        onSyncProgress: (synced, total) {
+          state = AsyncValue.data(
+            ICalSyncState(
+              syncProgress: ICalSyncProgressEnum.inProgress,
+              progressInPercent: synced / total,
+            ),
+          );
+        },
+      );
+    } else {
+      await icalSyncService.syncSingle(calendar);
+    }
     state = AsyncValue.data(
       ICalSyncState(
         syncProgress: ICalSyncProgressEnum.done,
