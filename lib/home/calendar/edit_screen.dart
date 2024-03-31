@@ -1,6 +1,7 @@
 import 'package:better_hm/home/calendar/add/add_screen.dart';
 import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/calendar_screen.dart';
+import 'package:better_hm/home/calendar/edit_calendar_popup.dart';
 import 'package:better_hm/home/calendar/ical_sync_state.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
@@ -178,6 +179,13 @@ class _CalendarRow extends ConsumerWidget {
             ),
           ],
         ),
+        onLongPress: () {
+          // open popup to edit calendar
+          showDialog(
+            context: context,
+            builder: (context) => const EditCalendarPopup(),
+          );
+        },
       ),
     );
   }
