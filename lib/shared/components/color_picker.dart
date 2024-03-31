@@ -36,7 +36,7 @@ class _ColorWrapperState extends State<ColorPicker> {
 
           return _Color(
             color: color,
-            isActive: color == activeColor,
+            isActive: color.value == activeColor?.value,
             key: ValueKey(color),
             onTap: () {
               setState(() {
