@@ -54,7 +54,15 @@ final router = GoRouter(
                         context.goNamed(homeRoutes[index].name!);
                       },
                     ),
-                  Expanded(child: child),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 800),
+                        child: child,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               bottomNavigationBar: constraints.maxWidth < 550
