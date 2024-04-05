@@ -161,7 +161,10 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
 
     // year before and after today
     final ranged = instances.takeWhile(
-      (value) => value.year == DateTime.now().year,
+      (value) {
+        final diff = value.difference(DateTime.now()).inDays;
+        return diff >= -2 && diff <= 6;
+      },
     );
 
     for (final instance in ranged) {
