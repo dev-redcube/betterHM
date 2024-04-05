@@ -36,6 +36,23 @@ jobs:
       - name: Bump version
         run: "tools/bump-version.sh ${{ inputs.versionBump }}"
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+          bundler-cache: true
+
+      - name: Install Bundle
+        working-directory: android
+        run: bundle install
+
+      - name: Get Build Number
+        working-directory: android
+        run: bundle exec fastlane build_number
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+
+
       - name: Commit and tag
         id: push-tag
         uses: EndBug/add-and-commit@v9
