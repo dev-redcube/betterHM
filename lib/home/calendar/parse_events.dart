@@ -155,7 +155,7 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
     print(recur);
     final instances = recur.getInstances(
       start: DateTime.now()
-          .subtract(const Duration(days: 365))
+          .subtract(const Duration(days: 60))
           .copyWith(isUtc: true),
     );
 
@@ -163,7 +163,8 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
     final ranged = instances.takeWhile(
       (value) {
         final diff = value.difference(DateTime.now()).inDays;
-        return diff >= -2 && diff <= 6;
+        print(diff);
+        return diff >= -61 && diff <= 6 * 30;
       },
     );
 
