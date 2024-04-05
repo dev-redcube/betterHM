@@ -149,10 +149,7 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
   final List<CustomCalendarEvent> splitEvents = [];
   final data = event.eventData!.component;
   for (final rule in data.recurrenceRules!) {
-    print("---------------------------------------------");
-    print(rule.toString());
     final recur = rrule.RecurrenceRule.fromString(rule.toString());
-    print(recur);
     final instances = recur.getInstances(
       start: DateTime.now()
           .subtract(const Duration(days: 60))
@@ -163,7 +160,6 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
     final ranged = instances.takeWhile(
       (value) {
         final diff = value.difference(DateTime.now()).inDays;
-        print(diff);
         return diff >= -61 && diff <= 6 * 30;
       },
     );
