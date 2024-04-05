@@ -23,32 +23,68 @@ final router = GoRouter(
     ShellRoute(
       navigatorKey: _mainShellKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {
-        return Scaffold(
-          body: child,
-          bottomNavigationBar: NavigationBar(
-            onDestinationSelected: (int index) {
-              context.goNamed(homeRoutes[index].name!);
-            },
-            selectedIndex: homeRoutes.indexOf(
-              homeRoutes.firstWhere(
-                (element) => element.path == state.uri.toString(),
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return Scaffold(
+              body: Row(
+                children: [
+                  if (constraints.maxWidth >= 550)
+                    NavigationRail(
+                      extended: constraints.maxWidth > 800,
+                      destinations: [
+                        NavigationRailDestination(
+                          icon: const Icon(Icons.home_rounded),
+                          label: Text(t.navigation.dashboard),
+                        ),
+                        NavigationRailDestination(
+                          icon: const Icon(Icons.calendar_month_rounded),
+                          label: Text(t.navigation.calendar),
+                        ),
+                        NavigationRailDestination(
+                          icon: const Icon(Icons.restaurant_rounded),
+                          label: Text(t.navigation.mealplan),
+                        ),
+                      ],
+                      selectedIndex: homeRoutes.indexOf(
+                        homeRoutes.firstWhere(
+                          (element) => element.path == state.uri.toString(),
+                        ),
+                      ),
+                      onDestinationSelected: (int index) {
+                        context.goNamed(homeRoutes[index].name!);
+                      },
+                    ),
+                  Expanded(child: child),
+                ],
               ),
-            ),
-            destinations: [
-              NavigationDestination(
-                icon: const Icon(Icons.home_rounded),
-                label: t.navigation.dashboard,
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.calendar_month_rounded),
-                label: t.navigation.calendar,
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.restaurant_rounded),
-                label: t.navigation.mealplan,
-              ),
-            ],
-          ),
+              bottomNavigationBar: constraints.maxWidth < 550
+                  ? NavigationBar(
+                      onDestinationSelected: (int index) {
+                        context.goNamed(homeRoutes[index].name!);
+                      },
+                      selectedIndex: homeRoutes.indexOf(
+                        homeRoutes.firstWhere(
+                          (element) => element.path == state.uri.toString(),
+                        ),
+                      ),
+                      destinations: [
+                        NavigationDestination(
+                          icon: const Icon(Icons.home_rounded),
+                          label: t.navigation.dashboard,
+                        ),
+                        NavigationDestination(
+                          icon: const Icon(Icons.calendar_month_rounded),
+                          label: t.navigation.calendar,
+                        ),
+                        NavigationDestination(
+                          icon: const Icon(Icons.restaurant_rounded),
+                          label: t.navigation.mealplan,
+                        ),
+                      ],
+                    )
+                  : null,
+            );
+          },
         );
       },
       routes: homeRoutes,
