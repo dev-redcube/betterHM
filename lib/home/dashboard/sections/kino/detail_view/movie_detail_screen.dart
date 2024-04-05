@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:better_hm/home/dashboard/sections/kino/kino_section.dart';
 import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
 import 'package:better_hm/i18n/strings.g.dart';
@@ -56,52 +58,104 @@ class MovieDetailPage extends StatelessWidget {
     required this.scrollController,
   });
 
+  Widget hero(Movie movie) => Hero(
+        tag: movie,
+        child: AspectRatio(
+          aspectRatio: 4 / 6,
+          child: MovieImage(movie),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(movie.title),
       ),
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Hero(
-              tag: movie,
-              child: AspectRatio(
-                aspectRatio: 4 / 6,
-                child: MovieImage(movie),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text(
-                    movie.title,
-                    style: context.theme.textTheme.displayMedium,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth >= 700) {
+            return Row(
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: min(
+                      constraints.maxWidth / 2,
+                      constraints.maxHeight / 6 * 4,
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  _MovieDetails(movie: movie),
-                  if (movie.content != null) const SizedBox(height: 32),
-                  if (movie.content != null) _DescriptionText(movie.content!),
-                  if (movie.info != null) const SizedBox(height: 24),
-                  if (movie.info != null) _DescriptionText(movie.info!),
-                ],
-              ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: hero(movie),
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: 600,
+                        ),
+                        child: _MovieInformation(movie: movie),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: constraints.maxHeight * 0.85,
+                  ),
+                  child: hero(movie),
+                ),
+                _MovieInformation(movie: movie),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 }
 
-class _MovieDetails extends StatelessWidget {
+class _MovieInformation extends StatelessWidget {
+  const _MovieInformation({required this.movie});
+
   final Movie movie;
 
-  const _MovieDetails({required this.movie});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text(
+            movie.title,
+            style: context.theme.textTheme.displayMedium,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          _MovieQuickInfos(movie: movie),
+          if (movie.content != null) const SizedBox(height: 32),
+          if (movie.content != null) _DescriptionText(movie.content!),
+          if (movie.info != null) const SizedBox(height: 24),
+          if (movie.info != null) _DescriptionText(movie.info!),
+        ],
+      ),
+    );
+  }
+}
+
+class _MovieQuickInfos extends StatelessWidget {
+  final Movie movie;
+
+  const _MovieQuickInfos({required this.movie});
 
   @override
   Widget build(BuildContext context) {
