@@ -52,7 +52,6 @@ jobs:
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_JSON }}
 
-
       - name: Commit and tag
         id: push-tag
         uses: EndBug/add-and-commit@v9
@@ -74,7 +73,7 @@ jobs:
         working-directory: android
         run: bundle install
 
-      - name: Bump version
+      - name: Increase Version
         working-directory: android
         run: bundle exec fastlane build_number
         env:
@@ -86,7 +85,7 @@ jobs:
     needs: bump_version
     secrets: inherit
     with:
-      build_number: ${{ needs.get_build_number.outputs.build_number }}
+      build_number: ${{ needs.bump_version.outputs.build_number }}
       ref: ${{ needs.bump_version.outputs.ref }}
 
 
