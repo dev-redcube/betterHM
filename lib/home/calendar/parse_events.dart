@@ -4,6 +4,7 @@ import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
 import 'package:better_hm/shared/models/event_data.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:icalendar/icalendar.dart';
 import 'package:kalender/kalender.dart';
@@ -39,6 +40,13 @@ Future<Iterable<CustomCalendarEvent>> parseEvents(
 }
 
 Future<Iterable<CustomCalendarEvent>> parseICal(
+  File file,
+  Calendar calendar,
+) async {
+  return await compute((_) => _parseICal(file, calendar), null);
+}
+
+Future<Iterable<CustomCalendarEvent>> _parseICal(
   File file,
   Calendar calendar,
 ) async {
@@ -141,14 +149,19 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
   final List<CustomCalendarEvent> splitEvents = [];
   final data = event.eventData!.component;
   for (final rule in data.recurrenceRules!) {
+    print("---------------------------------------------");
+    print(rule.toString());
     final recur = rrule.RecurrenceRule.fromString(rule.toString());
+    print(recur);
     final instances = recur.getInstances(
-      start: DateTime.now().add(const Duration(days: 365)),
+      start: DateTime.now()
+          .subtract(const Duration(days: 365))
+          .copyWith(isUtc: true),
     );
 
     // year before and after today
     final ranged = instances.takeWhile(
-      (value) => value.year.compareTo(DateTime.now().year).abs() < 2,
+      (value) => value.year == DateTime.now().year,
     );
 
     for (final instance in ranged) {
