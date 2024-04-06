@@ -3,6 +3,7 @@ import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/detail_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/models/event_data.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kalender/kalender.dart';
@@ -17,10 +18,33 @@ class CalendarBody extends ConsumerStatefulWidget {
   ConsumerState<CalendarBody> createState() => _CalendarBodyState();
 }
 
+final List<ViewConfiguration> calendarViewConfigurations = [
+  DayConfiguration(),
+  WorkWeekConfiguration(),
+  MonthConfiguration(),
+];
+
 class _CalendarBodyState extends ConsumerState<CalendarBody> {
   @override
   void initState() {
     super.initState();
+    Prefs.calendarViewConfiguration.addListener(_setViewConfiguration);
+  }
+
+  late ViewConfiguration currentViewConfiguration =
+      calendarViewConfigurations[Prefs.calendarViewConfiguration.value];
+
+  _setViewConfiguration() {
+    setState(() {
+      currentViewConfiguration =
+          calendarViewConfigurations[Prefs.calendarViewConfiguration.value];
+    });
+  }
+
+  @override
+  void dispose() {
+    Prefs.calendarViewConfiguration.removeListener(_setViewConfiguration);
+    super.dispose();
   }
 
   @override
@@ -28,7 +52,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     return CalendarView(
       controller: calendarController,
       eventsController: eventsController,
-      viewConfiguration: WorkWeekConfiguration(),
+      viewConfiguration: currentViewConfiguration,
       tileBuilder: (event, config) => _tileBuilder(event, config, context),
       multiDayTileBuilder: (event, config) =>
           _multiDayTileBuilder(event, config, context),
