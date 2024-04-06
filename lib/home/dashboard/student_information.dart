@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TopInformation extends StatelessWidget {
   const TopInformation({super.key});
@@ -69,7 +72,11 @@ class WebOpenCard extends StatelessWidget {
         ],
       ),
       onTap: () {
-        ChromeSafariBrowser().open(url: WebUri(url));
+        if (Platform.isAndroid || Platform.isIOS) {
+          ChromeSafariBrowser().open(url: WebUri(url));
+        } else {
+          launchUrl(Uri.parse(url));
+        }
       },
     );
   }
