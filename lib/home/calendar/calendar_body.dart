@@ -47,7 +47,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     if (event.eventData?.color != null) {
       textColor = event.eventData!.color!.computeLuminance() > 0.5
           ? Colors.black
-          : context.theme.colorScheme.onBackground;
+          : Colors.white;
     } else {
       textColor = context.theme.colorScheme.onPrimaryContainer;
     }
