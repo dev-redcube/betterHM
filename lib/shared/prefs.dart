@@ -32,6 +32,9 @@ abstract class Prefs {
   // Dashboard
   static late final PlainPref<String> lastMvgStation;
 
+  // Calendar
+  static late final PlainPref<int> calendarViewConfiguration;
+
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
 
@@ -48,6 +51,9 @@ abstract class Prefs {
 
     // Dashboard
     lastMvgStation = PlainPref("lastMvgStation", stations.first.id);
+
+    // Calendar
+    calendarViewConfiguration = PlainPref("calendarViewConfiguration", 1);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);
