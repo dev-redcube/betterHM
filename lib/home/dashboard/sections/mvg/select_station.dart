@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
@@ -168,23 +169,25 @@ class StationBottomSheet extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        ListTile(
-          leading: const Icon(Icons.my_location_rounded),
-          title: Text(t.dashboard.sections.mvg.selector.automatic.title),
-          subtitle: Text(
-            locationDeniedForever
-                ? t.dashboard.sections.mvg.selector.automatic.disabledText
-                : t.dashboard.sections.mvg.selector.automatic.description,
+        if (!Platform.isLinux)
+          ListTile(
+            leading: const Icon(Icons.my_location_rounded),
+            title: Text(t.dashboard.sections.mvg.selector.automatic.title),
+            subtitle: Text(
+              locationDeniedForever
+                  ? t.dashboard.sections.mvg.selector.automatic.disabledText
+                  : t.dashboard.sections.mvg.selector.automatic.description,
+            ),
+            enabled: !locationDeniedForever,
+            onTap: () {
+              Provider.of<StationProvider>(context, listen: false).station =
+                  null;
+              Provider.of<SearchingStateProvider>(context, listen: false)
+                  .state = StationLocationState.searching;
+              Prefs.lastMvgStation.value = "";
+              Navigator.pop(context);
+            },
           ),
-          enabled: !locationDeniedForever,
-          onTap: () {
-            Provider.of<StationProvider>(context, listen: false).station = null;
-            Provider.of<SearchingStateProvider>(context, listen: false).state =
-                StationLocationState.searching;
-            Prefs.lastMvgStation.value = "";
-            Navigator.pop(context);
-          },
-        ),
         ...stations.map(
           (e) => ListTile(
             leading: Icon(e.icon),

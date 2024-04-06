@@ -40,7 +40,11 @@ class AppInfo extends StatelessWidget {
         if (!snapshot.hasData) {
           text = "loading version info";
         } else {
-          text = "v${info!.version} (${info.buildNumber})";
+          if (info?.buildNumber != null && info?.buildNumber != "") {
+            text = "v${info!.version} (${info.buildNumber})";
+          } else {
+            text = "v${info!.version}";
+          }
         }
         return TextButton(
           child: Text(text),
