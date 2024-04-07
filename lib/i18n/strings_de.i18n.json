@@ -139,10 +139,6 @@
     "advanced": {
       "title": "Erweitert",
       "logLevel": "Log level",
-      "crashlytics": {
-        "label": "Crashlytics aktivieren",
-        "subtitle": "Sendet Crashreports mit Firebase Crashlytics"
-      },
       "logs": {
         "open": "Logs öffnen",
         "title": "Logs",
@@ -155,6 +151,14 @@
           "context1": "Ursprung",
           "context2": "Stacktrace"
         }
+      },
+      "crashlytics": {
+        "label": "Crashlytics aktivieren",
+        "subtitle": "Sendet Crashreports mit Firebase Crashlytics"
+      },
+      "showBackgroundJobNotification": {
+        "label": "Benachrichtige bei Hintergrundaufgaben",
+        "subtitle": "Benötigt Benachrichtigungsrechte"
       },
       "clearCaches": {
         "title": "Cache leeren",

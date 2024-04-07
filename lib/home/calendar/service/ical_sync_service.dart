@@ -33,13 +33,14 @@ class ICalService {
 
     int synced = 0;
 
+    _log.info("Syncing ${activeCalendars.length} calendars");
+
     for (final calendar in activeCalendars) {
       await syncSingle(calendar);
 
       synced++;
       onSyncProgress?.call(synced, activeCalendars.length);
     }
-
     return true;
   }
 
