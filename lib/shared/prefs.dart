@@ -40,7 +40,7 @@ abstract class Prefs {
 
   // Advanced
   static late final PlainPref<int> logLevel;
-  static late final PlainPref<bool> enableCrashlytics;
+  static late final PlainPref<bool> mouseScroll;
 
   static void init() {
     if (initialized) {
@@ -60,7 +60,7 @@ abstract class Prefs {
 
     // Advanced
     logLevel = PlainPref("logLevel", LogLevel.INFO.index);
-    enableCrashlytics = PlainPref("enableCrashlytics", true);
+    mouseScroll = PlainPref("mouseScroll", false);
 
     initialized = true;
   }

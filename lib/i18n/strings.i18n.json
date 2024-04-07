@@ -139,9 +139,9 @@
     "advanced": {
       "title": "Advanced Settings",
       "logLevel": "Log level",
-      "crashlytics": {
-        "label": "Enable Crashlytics",
-        "subtitle": "Send crash reports using Firebase Crashlytics"
+      "mouseScroll": {
+        "label": "Enable Mouse Scroll",
+        "subtitle": "Might be necessary on devices with touch screen"
       },
       "logs": {
         "open": "open logs",

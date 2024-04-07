@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/settings/settings_dropdown.dart';
@@ -32,14 +34,12 @@ class AdvancedSettingsSection extends StatelessWidget {
             HMLogger().level = Level.LEVELS[value];
           },
         ),
-        SettingsSwitch(
-          title: t.settings.advanced.crashlytics.label,
-          subtitle: t.settings.advanced.crashlytics.subtitle,
-          pref: Prefs.enableCrashlytics,
-          afterChange: (_) async {
-            await setErrorHandler();
-          },
-        ),
+        if (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+          SettingsSwitch(
+            title: t.settings.advanced.mouseScroll.label,
+            subtitle: t.settings.advanced.mouseScroll.subtitle,
+            pref: Prefs.mouseScroll,
+          ),
         ListTile(
           title: Text(t.settings.advanced.logs.open),
           trailing: const Icon(Icons.open_in_new_rounded),

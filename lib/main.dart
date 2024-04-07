@@ -36,6 +36,7 @@ Future<void> main() async {
   await Future.wait([
     initApp(),
     Prefs.initialLocation.waitUntilLoaded(),
+    Prefs.mouseScroll.waitUntilLoaded(),
   ]);
 
   Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
@@ -70,7 +71,6 @@ Future<void> initApp() async {
 
 Future<void> setErrorHandler() async {
   final log = Logger("HMErrorLogger");
-  await Prefs.enableCrashlytics.waitUntilLoaded();
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
@@ -83,9 +83,28 @@ Future<void> setErrorHandler() async {
   };
 }
 
-class MyApp extends StatelessWidget with WidgetsBindingObserver {
+class CustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => <PointerDeviceKind>{
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.touch,
+        PointerDeviceKind.stylus,
+        PointerDeviceKind.invertedStylus,
+        PointerDeviceKind.trackpad,
+        // The VoiceAccess sends pointer events with unknown type when scrolling
+        // scrollables.
+        PointerDeviceKind.unknown,
+      };
+}
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive) {
@@ -96,11 +115,29 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Prefs.mouseScroll.addListener(onPrefChange);
+  }
+
+  void onPrefChange() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    Prefs.mouseScroll.removeListener(onPrefChange);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (lightColorScheme, darkColorScheme) {
         return MaterialApp.router(
           title: t.app_name,
+          scrollBehavior:
+              Prefs.mouseScroll.value ? CustomScrollBehavior() : null,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme ??
