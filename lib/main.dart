@@ -39,8 +39,10 @@ Future<void> main() async {
     Prefs.showBackgroundJobNotification.waitUntilLoaded(),
   ]);
 
-  Workmanager().initialize(callbackDispatcher,
-      isInDebugMode: kDebugMode || Prefs.showBackgroundJobNotification.value);
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: kDebugMode || Prefs.showBackgroundJobNotification.value,
+  );
   Workmanager().registerPeriodicTask(
     calendarSyncKey,
     calendarSyncKey,
