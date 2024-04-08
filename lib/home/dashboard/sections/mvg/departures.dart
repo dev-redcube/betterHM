@@ -213,12 +213,14 @@ class DepartureTimer extends StatefulWidget {
 class _DepartureTimerState extends State<DepartureTimer> {
   late Timer timer;
   late int remaining;
+  late bool onTime;
 
   @override
   void initState() {
     super.initState();
     remaining =
         widget.departure.realtimeDepartureTime.difference(now()).inMinutes;
+    onTime = widget.departure.delayInMinutes == 0;
     startTimer();
   }
 
@@ -246,7 +248,10 @@ class _DepartureTimerState extends State<DepartureTimer> {
   Widget build(BuildContext context) {
     return Text(
       "${remaining < 0 ? 0 : remaining} min",
-      style: const TextStyle(fontFeatures: [FontFeature.tabularFigures()]),
+      style: TextStyle(
+        fontFeatures: const [FontFeature.tabularFigures()],
+        color: onTime ? null : Colors.red,
+      ),
     );
   }
 }
