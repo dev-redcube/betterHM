@@ -55,8 +55,7 @@ class AdvancedSettingsSection extends StatelessWidget {
           afterChange: (val) async {
             if (!val) return;
             PermissionStatus? status = await Permission.notification.request();
-            print(status);
-            if (status != PermissionStatus.granted) {
+            if (status != PermissionStatus.granted && context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Enable Notifications"),
