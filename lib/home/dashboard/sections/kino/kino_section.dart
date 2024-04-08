@@ -164,17 +164,22 @@ class MovieCard extends StatelessWidget {
 
 class MovieImage extends StatelessWidget {
   final Movie movie;
+  final bool isBig;
 
-  const MovieImage(this.movie, {super.key});
+  const MovieImage(this.movie, {super.key, this.isBig = false});
 
   @override
   Widget build(BuildContext context) {
+    final inPast = movie.date.isBefore(DateTime.now().withoutTime);
+
     if (movie.coverUrl != null && movie.coverBlurhash != null) {
       return CachedNetworkImage(
         imageUrl: movie.coverUrl!,
         placeholder: (context, url) => BlurhashFfi(hash: movie.coverBlurhash!),
         fit: BoxFit.cover,
         errorWidget: (context, url, error) => _ErrorWidget(movie),
+        colorBlendMode: inPast && !isBig ? BlendMode.saturation : null,
+        color: inPast && !isBig ? Colors.grey : null,
       );
     }
     return Center(
