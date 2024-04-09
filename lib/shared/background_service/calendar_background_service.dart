@@ -1,45 +1,13 @@
-import 'package:better_hm/shared/background_service/background_service.dart';
-import 'package:logging/logging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workmanager/workmanager.dart';
+import 'package:pigeon/pigeon.dart';
 
-Future<void> calendarSyncTask() async {
-  final prefs = await SharedPreferences.getInstance();
-  final registeredOn =
-      prefs.getString("workmanager.$calendarSyncKey.registeredOn");
-  final lastSync = prefs.getString("workmanager.$calendarSyncKey.lastSync");
+@ConfigurePigeon(
+  PigeonOptions(
+    dartOut: 'lib/shared/background_service/calendar_background_service.g.dart',
+  ),
+)
+class InitCalendarTaskMessage {}
 
-  // Not registered, register
-  if (DateTime.tryParse(registeredOn ?? "") == null) {
-    _register(prefs);
-    return;
-  }
-
-  final lastSyncDate = DateTime.tryParse(lastSync ?? "");
-  // Task registered, but unknown if it was executed
-  // Need time to decide if it should be registered again
-  if (lastSyncDate == null) return;
-
-  /// Last sync was more than 12 hours ago,
-  /// assume the task was not registered
-  if (lastSyncDate.difference(DateTime.now()) > const Duration(hours: 12)) {
-    _register(prefs);
-    return;
-  }
-}
-
-Future<void> _register(SharedPreferences prefs) async {
-  await Workmanager().registerPeriodicTask(
-    calendarSyncKey,
-    calendarSyncKey,
-    frequency: const Duration(hours: 6),
-    initialDelay: const Duration(hours: 6),
-  );
-
-  Logger("BackgroundService").info("Registered task $calendarSyncKey");
-
-  prefs.setString(
-    "workmanager.$calendarSyncKey.lastSync",
-    DateTime.now().toIso8601String(),
-  );
+@FlutterApi()
+abstract class CalendarSyncFlutterApi {
+  void syncCalendars();
 }

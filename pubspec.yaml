@@ -70,13 +70,13 @@ dependencies:
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
   uuid: ^4.3.3
-  workmanager: ^0.5.2
   icalendar:
     git:
       url: https://github.com/dev-redcube/icalendar-dart.git
       ref: main
   rrule: ^0.2.16
   permission_handler: ^11.3.1
+  pigeon: ^18.0.0
 
 dev_dependencies:
   flutter_test:

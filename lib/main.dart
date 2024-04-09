@@ -5,8 +5,6 @@ import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
-import 'package:better_hm/shared/background_service/background_service.dart';
-import 'package:better_hm/shared/background_service/calendar_background_service.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
@@ -21,7 +19,6 @@ import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:workmanager/workmanager.dart';
 
 final getIt = GetIt.instance;
 
@@ -60,12 +57,6 @@ Future<Isar> loadDb() async {
 Future<void> initApp() async {
   HMLogger();
   setErrorHandler();
-  initWorkManager();
-}
-
-Future<void> initWorkManager() async {
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
-  await calendarSyncTask();
 }
 
 Future<void> setErrorHandler() async {
