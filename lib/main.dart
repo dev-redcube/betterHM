@@ -5,6 +5,8 @@ import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
+import 'package:better_hm/shared/background_service/background_service.dart';
+import 'package:better_hm/shared/background_service/calendar_background_service.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
@@ -21,8 +23,6 @@ import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:workmanager/workmanager.dart';
 
-import 'home/calendar/background_service/background_service.dart';
-
 final getIt = GetIt.instance;
 
 Future<void> main() async {
@@ -38,17 +38,6 @@ Future<void> main() async {
     Prefs.initialLocation.waitUntilLoaded(),
     Prefs.showBackgroundJobNotification.waitUntilLoaded(),
   ]);
-
-  Workmanager().initialize(
-    callbackDispatcher,
-    isInDebugMode: kDebugMode || Prefs.showBackgroundJobNotification.value,
-  );
-  Workmanager().registerPeriodicTask(
-    calendarSyncKey,
-    calendarSyncKey,
-    frequency: const Duration(hours: 12),
-    initialDelay: const Duration(hours: 12),
-  );
 
   parseAllEvents().then((value) => eventsController.addEvents(value));
 
@@ -71,6 +60,12 @@ Future<Isar> loadDb() async {
 Future<void> initApp() async {
   HMLogger();
   setErrorHandler();
+  initWorkManager();
+}
+
+Future<void> initWorkManager() async {
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
+  await calendarSyncTask();
 }
 
 Future<void> setErrorHandler() async {

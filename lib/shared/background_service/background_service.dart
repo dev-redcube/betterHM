@@ -3,6 +3,7 @@ import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 const calendarSyncKey = "de.moritzhuber.betterHm.syncCalendars";
@@ -35,9 +36,14 @@ void callbackDispatcher() {
 }
 
 Future<bool> func(String taskName, Map<String, dynamic>? inputData) async {
+  final prefs = await SharedPreferences.getInstance();
   switch (taskName) {
     case calendarSyncKey:
       final res = await ICalService().sync();
+      await prefs.setString(
+        "workmanager.$calendarSyncKey.lastSync",
+        DateTime.now().toIso8601String(),
+      );
       return res;
     default:
       throw Exception('Task not implemented');
