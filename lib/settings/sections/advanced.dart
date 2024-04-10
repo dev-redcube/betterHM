@@ -41,14 +41,6 @@ class AdvancedSettingsSection extends StatelessWidget {
           },
         ),
         SettingsSwitch(
-          title: t.settings.advanced.crashlytics.label,
-          subtitle: t.settings.advanced.crashlytics.subtitle,
-          pref: Prefs.enableCrashlytics,
-          afterChange: (_) async {
-            await setErrorHandler();
-          },
-        ),
-        SettingsSwitch(
           title: t.settings.advanced.showBackgroundJobNotification.label,
           subtitle: t.settings.advanced.showBackgroundJobNotification.subtitle,
           pref: Prefs.showBackgroundJobNotification,
