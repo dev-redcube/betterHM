@@ -36,14 +36,19 @@ Future<void> main() async {
   await Future.wait([
     initApp(),
     Prefs.initialLocation.waitUntilLoaded(),
+    Prefs.showBackgroundJobNotification.waitUntilLoaded(),
     Prefs.mouseScroll.waitUntilLoaded(),
   ]);
 
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: kDebugMode || Prefs.showBackgroundJobNotification.value,
+  );
   Workmanager().registerPeriodicTask(
     calendarSyncKey,
     calendarSyncKey,
     frequency: const Duration(hours: 12),
+    initialDelay: const Duration(hours: 12),
   );
 
   parseAllEvents().then((value) => eventsController.addEvents(value));

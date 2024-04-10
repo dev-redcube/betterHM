@@ -31,7 +31,12 @@ class HMLogger {
 
   HMLogger._internal() {
     _removeOverflowMessages();
-    final int levelId = Prefs.logLevel.value;
+    late final int levelId;
+    try {
+      levelId = Prefs.logLevel.value;
+    } catch (e) {
+      levelId = Level.LEVELS.indexOf(Level.INFO);
+    }
     Logger.root.level = Level.LEVELS[levelId];
     Logger.root.onRecord.listen(_writeLogToDatabase);
   }

@@ -62,7 +62,7 @@ class MovieDetailPage extends StatelessWidget {
         tag: movie,
         child: AspectRatio(
           aspectRatio: 4 / 6,
-          child: MovieImage(movie),
+          child: MovieImage(movie, isBig: true),
         ),
       );
 

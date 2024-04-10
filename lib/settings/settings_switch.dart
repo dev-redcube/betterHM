@@ -9,6 +9,7 @@ class SettingsSwitch extends StatefulWidget {
     this.subtitle,
     this.icon,
     this.iconBuilder,
+    this.enabled,
     required this.pref,
     this.afterChange,
   });
@@ -17,6 +18,7 @@ class SettingsSwitch extends StatefulWidget {
   final String? subtitle;
   final IconData? icon;
   final IconData? Function(bool)? iconBuilder;
+  final bool? enabled;
   final IPref<bool> pref;
   final ValueChanged<bool>? afterChange;
 

@@ -12,6 +12,7 @@ import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AdvancedSettingsSection extends StatelessWidget {
   const AdvancedSettingsSection({super.key});
@@ -45,6 +46,23 @@ class AdvancedSettingsSection extends StatelessWidget {
           trailing: const Icon(Icons.open_in_new_rounded),
           onTap: () {
             context.pushNamed("logs");
+          },
+        ),
+        SettingsSwitch(
+          title: t.settings.advanced.showBackgroundJobNotification.label,
+          subtitle: t.settings.advanced.showBackgroundJobNotification.subtitle,
+          pref: Prefs.showBackgroundJobNotification,
+          afterChange: (val) async {
+            if (!val) return;
+            PermissionStatus? status = await Permission.notification.request();
+            if (status != PermissionStatus.granted && context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Enable Notifications"),
+                ),
+              );
+              Prefs.showBackgroundJobNotification.value = false;
+            }
           },
         ),
         ListTile(

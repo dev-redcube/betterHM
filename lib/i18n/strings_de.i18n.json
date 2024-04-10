@@ -156,6 +156,10 @@
           "context2": "Stacktrace"
         }
       },
+      "showBackgroundJobNotification": {
+        "label": "Benachrichtige bei Hintergrundaufgaben",
+        "subtitle": "Benötigt Benachrichtigungsrechte"
+      },
       "clearCaches": {
         "title": "Cache leeren",
         "snackbar": "Cache geleert"

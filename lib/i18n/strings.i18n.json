@@ -156,6 +156,10 @@
           "context2": "Stacktrace"
         }
       },
+      "showBackgroundJobNotification": {
+        "label": "Show Background Job Notification",
+        "subtitle": "Needs Notification Permission"
+      },
       "clearCaches": {
         "title": "clear cache",
         "snackbar": "Cache cleared"
