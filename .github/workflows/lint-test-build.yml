@@ -4,18 +4,6 @@ on:
     branches:
       - "development"
       - "master"
-    paths:
-      - 'android/**'
-      - 'assets/**'
-      - 'fonts/**'
-      - 'ios/**'
-      - 'lib/**'
-      - 'test/**'
-      - 'analysis_options.yaml'
-      - 'build.yaml'
-      - 'Makefile'
-      - 'pubspec.yaml'
-      - 'setup.sh'
   workflow_dispatch:
 
 jobs:
