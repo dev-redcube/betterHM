@@ -34,6 +34,7 @@ abstract class Prefs {
 
   // Calendar
   static late final PlainPref<int> calendarViewConfiguration;
+  static late final PlainPref<bool> calendarOnlySyncOnWifi;
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
@@ -54,6 +55,7 @@ abstract class Prefs {
 
     // Calendar
     calendarViewConfiguration = PlainPref("calendarViewConfiguration", 1);
+    calendarOnlySyncOnWifi = PlainPref("calendar.onlySyncOnWifi", true);
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);

@@ -34,7 +34,6 @@ Future<void> main() async {
   await Future.wait([
     initApp(),
     Prefs.initialLocation.waitUntilLoaded(),
-    Prefs.showBackgroundJobNotification.waitUntilLoaded(),
   ]);
 
   parseAllEvents().then((value) => eventsController.addEvents(value));

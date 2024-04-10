@@ -132,6 +132,10 @@
       "title": "Dashboard",
       "numberOfEventsToShow": "Number of Events to show"
     },
+    "calendar": {
+      "title": "Kalender",
+      "onlySyncOnWifi": "Nur bei WLAN-Verbindung aktualisieren"
+    },
     "mealplan": {
       "title": "Essensplan",
       "showFoodLabels": "Allergene anzeigen"

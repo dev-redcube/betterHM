@@ -1,6 +1,7 @@
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/app_info.dart';
 import 'package:better_hm/settings/sections/advanced.dart';
+import 'package:better_hm/settings/sections/calendar.dart';
 import 'package:better_hm/settings/sections/general.dart';
 import 'package:better_hm/settings/sections/mealplan.dart';
 import 'package:better_hm/shared/prefs.dart';
@@ -59,6 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           AppInfo(),
           GeneralSettingsSection(),
+          CalendarSettingsSection(),
           MealplanSettingsSection(),
           AdvancedSettingsSection(),
         ],

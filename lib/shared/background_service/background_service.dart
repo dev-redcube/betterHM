@@ -1,13 +1,12 @@
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
 import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/background_service/calendar_background_service.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 import 'package:workmanager/workmanager.dart';
-
-const calendarSyncKey = "de.moritzhuber.betterHm.syncCalendars";
 
 void setupWorkmanager() async {
   await Prefs.showBackgroundJobNotification.waitUntilLoaded();
@@ -17,7 +16,7 @@ void setupWorkmanager() async {
     isInDebugMode: kDebugMode || Prefs.showBackgroundJobNotification.value,
   );
 
-  // TODO Check if calendar task already registered, probably available in workmanager 0.5.3
+  await setupCalendarBackgroundService();
 }
 
 @pragma("vm:entry-point")

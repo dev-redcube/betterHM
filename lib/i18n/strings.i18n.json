@@ -132,6 +132,10 @@
       "title": "Dashboard",
       "numberOfEventsToShow": "Number of Events to show"
     },
+    "calendar": {
+      "title": "Calendar",
+      "onlySyncOnWifi": "Only sync on wifi"
+    },
     "mealplan": {
       "title": "Mealplan",
       "showFoodLabels": "Show Food Labels"
