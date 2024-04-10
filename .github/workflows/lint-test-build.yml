@@ -4,6 +4,22 @@ on:
     branches:
       - "development"
       - "master"
+    paths:
+      - '.github/**'
+      - 'android/**'
+      - 'assets/**'
+      - 'fonts/**'
+      - 'ios/**'
+      - 'lib/**'
+      - 'linux/**'
+      - 'macos/**'
+      - 'test/**'
+      - 'windows/**'
+      - 'analysis_options.yaml'
+      - 'build.yaml'
+      - 'Makefile'
+      - 'pubspec.yaml'
+      - 'setup.sh'
   workflow_dispatch:
 
 jobs:
