@@ -75,7 +75,6 @@ Future<void> initApp() async {
 
 Future<void> setErrorHandler() async {
   final log = Logger("HMErrorLogger");
-  await Prefs.enableCrashlytics.waitUntilLoaded();
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);

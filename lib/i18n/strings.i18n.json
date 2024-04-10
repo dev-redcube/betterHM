@@ -152,10 +152,6 @@
           "context2": "Stacktrace"
         }
       },
-      "crashlytics": {
-        "label": "Enable Crashlytics",
-        "subtitle": "Send crash reports using Firebase Crashlytics"
-      },
       "showBackgroundJobNotification": {
         "label": "Show Background Job Notification",
         "subtitle": "Needs Notification Permission"
