@@ -77,6 +77,7 @@ dependencies:
   rrule: ^0.2.16
   permission_handler: ^11.3.1
   pigeon: ^18.0.0
+  workmanager: 0.5.2
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
+import 'package:better_hm/shared/background_service/background_service.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
@@ -56,7 +57,8 @@ Future<Isar> loadDb() async {
 
 Future<void> initApp() async {
   HMLogger();
-  setErrorHandler();
+  await setErrorHandler();
+  setupWorkmanager();
 }
 
 Future<void> setErrorHandler() async {
