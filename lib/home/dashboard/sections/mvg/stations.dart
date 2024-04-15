@@ -31,7 +31,9 @@ abstract class StationService {
     final locationService = getIt<LocationService>();
     Position? position;
     try {
-      position = await locationService.determinePosition();
+      position = await locationService.determinePosition(
+        desiredAccuracy: LocationAccuracy.medium,
+      );
     } catch (e, stacktrace) {
       logger.warning("Failed to get location", e, stacktrace);
       return null;
