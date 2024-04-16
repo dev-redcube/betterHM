@@ -3,24 +3,16 @@ import 'package:better_hm/home/meals/canteen_picker.dart';
 import 'package:better_hm/home/meals/meal_view.dart';
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
-import 'package:better_hm/home/meals/selected_canteen_provider.dart';
-import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/home/meals/service/meal_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/settings_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-class MealsScreen extends StatefulWidget {
+class MealsScreen extends StatelessWidget {
   const MealsScreen({super.key});
 
-  @override
-  State<MealsScreen> createState() => _MealsScreenState();
-}
-
-class _MealsScreenState extends State<MealsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,52 +27,14 @@ class _MealsScreenState extends State<MealsScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<(DateTime?, List<Canteen>)>(
-        future: CanteenService.fetchCanteens(false),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return _Body(
-            lastUpdated: snapshot.data!.$1,
-            canteens: snapshot.data!.$2,
-          );
-        },
+      body: const Column(
+        children: [
+          CanteenPicker(),
+          _MealsPageView(),
+        ],
       ),
     );
   }
-}
-
-class _Body extends StatelessWidget {
-  const _Body({required this.lastUpdated, required this.canteens});
-
-  final DateTime? lastUpdated;
-  final List<Canteen> canteens;
-
-  @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (_) => SelectedCanteenProvider(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: CanteenPicker(
-              canteens: canteens,
-            ),
-          ),
-          body: Consumer<SelectedCanteenProvider>(
-            builder: (context, provider, child) {
-              if (provider.canteen == null) {
-                return Center(
-                  child: Text(t.mealplan.choose_canteen),
-                );
-              }
-              return _MealsPageView(
-                canteen: provider.canteen!,
-              );
-            },
-          ),
-        ),
-      );
 }
 
 class _MealsPage extends StatelessWidget {

@@ -1,17 +1,28 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/selected_canteen_provider.dart';
+import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class CanteenPickerS extends ConsumerWidget {
+  const CanteenPickerS({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCanteen = ref.watch(selectedCanteenProvider);
+    return;
+  }
+}
 
 class CanteenPicker extends StatefulWidget {
   const CanteenPicker({
     super.key,
-    required this.canteens,
   });
 
-  final List<Canteen> canteens;
+  final List<Canteen> canteens = [];
 
   @override
   State<CanteenPicker> createState() => _CanteenPickerState();
