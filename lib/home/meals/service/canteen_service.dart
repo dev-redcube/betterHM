@@ -1,6 +1,8 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
+import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,4 +70,35 @@ class SelectedCanteenProvider {
   final Canteen? canteen;
 
   SelectedCanteenProvider({required this.isAutomatic, this.canteen});
+}
+
+@riverpod
+Future<List<MealDay>?> meals(MealsRef ref) async {
+  final selectedCanteen = await ref.watch(selectedCanteenProvider.future);
+  if (selectedCanteen.canteen == null) return null;
+
+  MainApi mainApi = getIt<MainApi>();
+  final uri = Uri(
+    scheme: "https",
+    host: "tum-dev.github.io",
+    path:
+        "/eat-api/${selectedCanteen.canteen!.canteenId}/combined/combined.json",
+  );
+
+  final response = await mainApi.get(uri, (json) {
+    try {
+      List weeks = json["weeks"];
+      List days = weeks.fold(
+        [],
+        (previousValue, element) => previousValue..addAll(element["days"]),
+      );
+      return MealDays.fromJson({"days": days});
+    } catch (exception, stacktrace) {
+      Logger("EatService")
+          .severe("Eatservice Parser fail", exception, stacktrace);
+      rethrow;
+    }
+  });
+
+  return response.data.mealDays;
 }

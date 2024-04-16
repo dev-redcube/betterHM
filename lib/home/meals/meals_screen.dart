@@ -1,11 +1,12 @@
-import 'package:better_hm/home/meals/canteen_info.dart';
 import 'package:better_hm/home/meals/canteen_picker.dart';
 import 'package:better_hm/home/meals/meal_view.dart';
-import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
+import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/settings_screen.dart';
+import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class MealsScreen extends StatelessWidget {
@@ -28,30 +29,44 @@ class MealsScreen extends StatelessWidget {
       body: const Column(
         children: [
           CanteenPicker(),
-          _MealsPageView(),
+          Expanded(child: _MealsConsumerWrapper()),
         ],
       ),
     );
   }
 }
 
-class _MealsPage extends StatelessWidget {
-  const _MealsPage({required this.canteen, required this.day});
+class _MealsConsumerWrapper extends ConsumerWidget {
+  const _MealsConsumerWrapper();
 
-  final Canteen canteen;
-  final MealDay day;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final meals = ref.watch(mealsProvider);
+
+    switch (meals) {
+      case AsyncData(:final value):
+        if (value == null) return const SizedBox.shrink();
+        return _MealsBody(mealDays: value);
+      case _:
+        return const SizedBox.shrink();
+    }
+  }
+}
+
+class _MealsBody extends StatelessWidget {
+  const _MealsBody({required this.mealDays});
+
+  final List<MealDay> mealDays;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CanteenInfo(canteen: canteen, date: day.date),
-          Flexible(flex: 1, child: MealView(day: day)),
-        ],
-      ),
+    return PageView(
+      children: mealDays
+          .skipWhile(
+            (value) => value.date.isBefore(DateTime.now().withoutTime),
+          )
+          .map((MealDay day) => MealView(day: day))
+          .toList(),
     );
   }
 }

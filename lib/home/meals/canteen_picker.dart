@@ -16,7 +16,7 @@ class CanteenPicker extends ConsumerWidget {
     switch (selectedCanteen) {
       case AsyncData(:final value):
         return _CanteenPickerButton(canteen: value);
-      case AsyncError(:final error):
+      case AsyncError():
         return const Text("Error loading");
       case _:
         return const SizedBox.shrink();
