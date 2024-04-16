@@ -2,6 +2,7 @@ import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'canteen_service.g.dart';
 
@@ -45,7 +46,22 @@ Future<List<Canteen>> canteens(CanteensRef ref) async {
 }
 
 @riverpod
-SelectedCanteenProvider selectedCanteen(SelectedCanteenRef ref) {}
+class SelectedCanteen extends _$SelectedCanteen {
+  @override
+  Future<SelectedCanteenProvider> build() async {
+    final canteens = await ref.watch(canteensProvider.future);
+    final prefs = await SharedPreferences.getInstance();
+    String? canteenEnum = prefs.getString("selected-canteen");
+    final Canteen canteen = canteens.firstWhere(
+      (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"),
+    );
+    return SelectedCanteenProvider(isAutomatic: false, canteen: canteen);
+  }
+
+  void set(SelectedCanteenProvider provider) {
+    state = AsyncValue.data(provider);
+  }
+}
 
 class SelectedCanteenProvider {
   final bool isAutomatic;

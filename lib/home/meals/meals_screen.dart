@@ -3,10 +3,8 @@ import 'package:better_hm/home/meals/canteen_picker.dart';
 import 'package:better_hm/home/meals/meal_view.dart';
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
-import 'package:better_hm/home/meals/service/meal_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/settings_screen.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -59,34 +57,33 @@ class _MealsPage extends StatelessWidget {
 }
 
 class _MealsPageView extends StatelessWidget {
-  const _MealsPageView({required this.canteen});
-
-  final Canteen canteen;
+  const _MealsPageView();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: MealService.getMeals(canteen, false),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done ||
-            !snapshot.hasData) {
-          return const LinearProgressIndicator();
-        }
-        final data = snapshot.data!;
-        if (data.$2.isEmpty) {
-          return Center(
-            child: Text(t.mealplan.no_meals),
-          );
-        }
-        return PageView(
-          children: data.$2
-              .skipWhile(
-                (value) => value.date.isBefore(DateTime.now().withoutTime),
-              )
-              .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
-              .toList(),
-        );
-      },
-    );
+    // return FutureBuilder(
+    //   future: MealService.getMeals(canteen, false),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState != ConnectionState.done ||
+    //         !snapshot.hasData) {
+    //       return const LinearProgressIndicator();
+    //     }
+    //     final data = snapshot.data!;
+    //     if (data.$2.isEmpty) {
+    //       return Center(
+    //         child: Text(t.mealplan.no_meals),
+    //       );
+    //     }
+    //     return PageView(
+    //       children: data.$2
+    //           .skipWhile(
+    //             (value) => value.date.isBefore(DateTime.now().withoutTime),
+    //           )
+    //           .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
+    //           .toList(),
+    //     );
+    //   },
+    // );
+    return const Text("MEALS");
   }
 }

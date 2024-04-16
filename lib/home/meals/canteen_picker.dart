@@ -1,15 +1,13 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
-import 'package:better_hm/home/meals/selected_canteen_provider.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/components/text_button_round_with_icons.dart';
+import 'package:better_hm/shared/components/live_location_indicator.dart';
+import 'package:better_hm/shared/components/select_sheet_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CanteenPickerS extends ConsumerWidget {
-  const CanteenPickerS({super.key});
+class CanteenPicker extends ConsumerWidget {
+  const CanteenPicker({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,77 +24,54 @@ class CanteenPickerS extends ConsumerWidget {
   }
 }
 
-class _CanteenPickerButton extends StatelessWidget {
+class _CanteenPickerButton extends ConsumerWidget {
   const _CanteenPickerButton({required this.canteen});
 
   final SelectedCanteenProvider canteen;
 
-  void openSheet() {}
+  LiveLocationState get locationState {
+    if (canteen.canteen == null) return LiveLocationState.searching;
 
-  @override
-  Widget build(BuildContext context) {
-    return TextButtonRoundWithIcons(
-      onPressed: openSheet,
-      text: canteen.canteen == null ? "Loading" : canteen.canteen!.name,
-    );
-  }
-}
-
-class CanteenPicker extends StatefulWidget {
-  CanteenPicker({
-    super.key,
-  });
-
-  final List<Canteen> canteens = [];
-
-  @override
-  State<CanteenPicker> createState() => _CanteenPickerState();
-}
-
-class _CanteenPickerState extends State<CanteenPicker> {
-  void loadDefaultCanteen() async {
-    final provider = Provider.of<SelectedCanteenProvider>(context);
-    final prefs = await SharedPreferences.getInstance();
-    final String? canteenEnum = prefs.getString("selected-canteen");
-    final Canteen canteen = widget.canteens.firstWhere(
-      (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"),
-    );
-    provider.canteen = canteen;
-  }
-
-  void saveCanteen(Canteen? canteen) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("selected-canteen", canteen?.enumName ?? "");
+    return canteen.isAutomatic
+        ? LiveLocationState.found
+        : LiveLocationState.off;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<SelectedCanteenProvider>(
-      builder: (context, provider, child) {
-        if (provider.canteen == null) {
-          loadDefaultCanteen();
-        }
-        return Center(
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<Canteen>(
-              onChanged: (canteen) {
-                provider.canteen = canteen;
-                saveCanteen(canteen);
-              },
-              hint: Text(t.mealplan.choose_canteen),
-              value: provider.canteen,
-              items: widget.canteens
-                  .map(
-                    (canteen) => DropdownMenuItem(
-                      value: canteen,
-                      child: Text(canteen.name),
-                    ),
-                  )
-                  .toList(),
-            ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SelectSheetButton(
+      locationState: locationState,
+      text: canteen.canteen?.name ?? "Searching",
+      itemsBuilder: () async {
+        final canteens = await ref.read(canteensProvider.future);
+        return canteens.map(
+          (e) => SelectBottomSheetItem(
+            title: e.name,
+            icon: Icons.restaurant_rounded,
+            data: e,
           ),
         );
       },
+      onSelect: (item) {
+        ref.read(selectedCanteenProvider.notifier).set(
+              SelectedCanteenProvider(isAutomatic: false, canteen: item.data),
+            );
+      },
     );
   }
+}
+
+void loadDefaultCanteen() async {
+  // final provider = Provider.of<SelectedCanteenProvider>(context);
+  // final prefs = await SharedPreferences.getInstance();
+  // final String? canteenEnum = prefs.getString("selected-canteen");
+  // final Canteen canteen = widget.canteens.firstWhere(
+  //   (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"),
+  // );
+  // provider.canteen = canteen;
+}
+
+void saveCanteen(Canteen? canteen) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString("selected-canteen", canteen?.enumName ?? "");
 }

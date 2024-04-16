@@ -19,7 +19,7 @@ class LiveLocationIndicator extends StatefulWidget {
 }
 
 class _LiveLocationIndicatorState extends State<LiveLocationIndicator> {
-  late Timer timer;
+  Timer? timer;
   final duration = const Duration(milliseconds: 750);
 
   late LiveLocationState state;
@@ -41,14 +41,14 @@ class _LiveLocationIndicatorState extends State<LiveLocationIndicator> {
       if (state == LiveLocationState.searching) {
         timer = Timer.periodic(duration, timerFunc);
       } else {
-        timer.cancel();
+        timer?.cancel();
       }
     }
   }
 
   @override
   void dispose() {
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 

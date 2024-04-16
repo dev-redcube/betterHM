@@ -2,22 +2,30 @@ import 'package:better_hm/shared/components/live_location_indicator.dart';
 import 'package:better_hm/shared/components/text_button_round_with_icons.dart';
 import 'package:flutter/material.dart';
 
+typedef SelectBottomSheetItemList<T> = Iterable<SelectBottomSheetItem<T>>;
+
 class SelectSheetButton<T> extends StatelessWidget {
   const SelectSheetButton({
     super.key,
     required this.locationState,
     required this.text,
-    required this.items,
+    this.items,
+    this.itemsBuilder,
     required this.onSelect,
-  });
+  })  : assert(items != null || itemsBuilder != null),
+        assert(items == null || itemsBuilder == null);
 
-  final List<SelectBottomSheetItem<T>> items;
+  final SelectBottomSheetItemList<T>? items;
+  final Future<SelectBottomSheetItemList<T>> Function()? itemsBuilder;
   final void Function(SelectBottomSheetItem<T> item) onSelect;
 
   final LiveLocationState locationState;
   final String text;
 
-  void showBottomSheet(BuildContext context) {
+  void showBottomSheet(BuildContext context) async {
+    SelectBottomSheetItemList<T>? sheetItems = items;
+    sheetItems ??= await itemsBuilder?.call();
+
     if (context.mounted) {
       showModalBottomSheet(
         context: context,
@@ -28,7 +36,7 @@ class SelectSheetButton<T> extends StatelessWidget {
         builder: (context) => DraggableScrollableSheet(
           expand: false,
           builder: (context, scrollController) => ListView(
-            children: items
+            children: sheetItems!
                 .map(
                   (e) => ListTile(
                     title: Text(e.title),
