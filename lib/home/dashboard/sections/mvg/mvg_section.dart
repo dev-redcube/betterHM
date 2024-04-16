@@ -5,6 +5,7 @@ import 'package:better_hm/home/dashboard/sections/mvg/select_station.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/components/live_location_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -57,12 +58,12 @@ class _MvgContentState extends State<_MvgContent> {
 
   void updateLocation() async {
     if (stationProvider!.station != null ||
-        searchingStateProvider!.state == StationLocationState.error) {
+        searchingStateProvider!.state == LiveLocationState.error) {
       return;
     }
 
-    if (searchingStateProvider!.state != StationLocationState.searching) {
-      searchingStateProvider!.state = StationLocationState.searching;
+    if (searchingStateProvider!.state != LiveLocationState.searching) {
+      searchingStateProvider!.state = LiveLocationState.searching;
     }
 
     log.fine("Updating Location");
@@ -74,11 +75,11 @@ class _MvgContentState extends State<_MvgContent> {
 
     if (nearest != null) {
       stationProvider!.station = nearest;
-      searchingStateProvider!.state = StationLocationState.found;
+      searchingStateProvider!.state = LiveLocationState.found;
       log.fine("Found nearest Station ${nearest.name}");
     } else {
       log.warning("Could not find nearest station");
-      searchingStateProvider!.state = StationLocationState.error;
+      searchingStateProvider!.state = LiveLocationState.error;
     }
   }
 
@@ -99,7 +100,7 @@ class _MvgContentState extends State<_MvgContent> {
             if (stationProvider!.station == null) {
               return Consumer<SearchingStateProvider>(
                 builder: (context, provider, child) {
-                  if (provider.state == StationLocationState.error) {
+                  if (provider.state == LiveLocationState.error) {
                     return Center(
                       child: Text(t.dashboard.sections.mvg.positionError),
                     );

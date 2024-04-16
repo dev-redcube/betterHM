@@ -1,4 +1,5 @@
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/shared/components/live_location_indicator.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/foundation.dart';
 
@@ -16,24 +17,17 @@ class StationProvider with ChangeNotifier {
 }
 
 class SearchingStateProvider with ChangeNotifier {
-  StationLocationState _state = Prefs.lastMvgStation.value.isEmpty
-      ? StationLocationState.searching
-      : StationLocationState.manual;
+  LiveLocationState _state = Prefs.lastMvgStation.value.isEmpty
+      ? LiveLocationState.searching
+      : LiveLocationState.off;
 
-  StationLocationState get state => _state;
+  LiveLocationState get state => _state;
 
-  set state(StationLocationState state) {
+  set state(LiveLocationState state) {
     _state = state;
     notifyListeners();
   }
 
   @override
   bool get hasListeners => super.hasListeners;
-}
-
-enum StationLocationState {
-  manual,
-  searching,
-  found,
-  error,
 }
