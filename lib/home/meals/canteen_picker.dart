@@ -1,10 +1,8 @@
-import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/shared/components/live_location_indicator.dart';
 import 'package:better_hm/shared/components/select_sheet_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CanteenPicker extends ConsumerWidget {
   const CanteenPicker({super.key});
@@ -29,49 +27,37 @@ class _CanteenPickerButton extends ConsumerWidget {
 
   final SelectedCanteenProvider canteen;
 
-  LiveLocationState get locationState {
-    if (canteen.canteen == null) return LiveLocationState.searching;
-
-    return canteen.isAutomatic
-        ? LiveLocationState.found
-        : LiveLocationState.off;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SelectSheetButton(
-      locationState: locationState,
+      locationState: canteen.locationState,
       text: canteen.canteen?.name ?? "Searching",
       itemsBuilder: () async {
         final canteens = await ref.read(canteensProvider.future);
-        return canteens.map(
-          (e) => SelectBottomSheetItem(
-            title: e.name,
-            icon: Icons.restaurant_rounded,
-            data: e,
+        return [
+          SelectBottomSheetItem(
+            title: "Automatic",
+            icon: Icons.my_location_rounded,
           ),
-        );
+          ...canteens.map(
+            (e) => SelectBottomSheetItem(
+              title: e.name,
+              icon: Icons.restaurant_rounded,
+              data: e,
+            ),
+          ),
+        ];
       },
       onSelect: (item) {
         ref.read(selectedCanteenProvider.notifier).set(
-              SelectedCanteenProvider(isAutomatic: false, canteen: item.data),
+              SelectedCanteenProvider(
+                locationState: item.data == null
+                    ? LiveLocationState.searching
+                    : LiveLocationState.off,
+                canteen: item.data,
+              ),
             );
       },
     );
   }
-}
-
-void loadDefaultCanteen() async {
-  // final provider = Provider.of<SelectedCanteenProvider>(context);
-  // final prefs = await SharedPreferences.getInstance();
-  // final String? canteenEnum = prefs.getString("selected-canteen");
-  // final Canteen canteen = widget.canteens.firstWhere(
-  //   (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"),
-  // );
-  // provider.canteen = canteen;
-}
-
-void saveCanteen(Canteen? canteen) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString("selected-canteen", canteen?.enumName ?? "");
 }

@@ -77,35 +77,3 @@ class _MealsBody extends StatelessWidget {
     );
   }
 }
-
-class _MealsPageView extends StatelessWidget {
-  const _MealsPageView();
-
-  @override
-  Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //   future: MealService.getMeals(canteen, false),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState != ConnectionState.done ||
-    //         !snapshot.hasData) {
-    //       return const LinearProgressIndicator();
-    //     }
-    //     final data = snapshot.data!;
-    //     if (data.$2.isEmpty) {
-    //       return Center(
-    //         child: Text(t.mealplan.no_meals),
-    //       );
-    //     }
-    //     return PageView(
-    //       children: data.$2
-    //           .skipWhile(
-    //             (value) => value.date.isBefore(DateTime.now().withoutTime),
-    //           )
-    //           .map((MealDay day) => _MealsPage(canteen: canteen, day: day))
-    //           .toList(),
-    //     );
-    //   },
-    // );
-    return const Text("MEALS");
-  }
-}

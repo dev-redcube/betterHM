@@ -36,12 +36,16 @@ class SelectSheetButton<T> extends StatelessWidget {
         builder: (context) => DraggableScrollableSheet(
           expand: false,
           builder: (context, scrollController) => ListView(
+            shrinkWrap: true,
             children: sheetItems!
                 .map(
                   (e) => ListTile(
+                    leading: Icon(e.icon),
                     title: Text(e.title),
                     subtitle: e.subtitle == null ? null : Text(e.subtitle!),
                     enabled: e.enabled,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     onTap: () {
                       onSelect.call(e);
                       Navigator.pop(context);

@@ -1,3 +1,4 @@
+import 'package:better_hm/shared/models/location.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'canteen.g.dart';
@@ -25,7 +26,7 @@ class Canteen {
   @JsonKey(name: "canteen_id")
   final String canteenId;
 
-  // final Location? location;
+  final Location location;
   final OpenHoursWeek? openHours;
 
   Canteen({
@@ -33,6 +34,7 @@ class Canteen {
     required this.name,
     required this.canteenId,
     this.openHours,
+    required this.location,
   });
 
   factory Canteen.fromJson(Map<String, dynamic> json) =>
