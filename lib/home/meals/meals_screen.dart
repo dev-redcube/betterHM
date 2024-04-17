@@ -28,7 +28,14 @@ class MealsScreen extends StatelessWidget {
       ),
       body: const Column(
         children: [
-          CanteenPicker(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox.shrink(),
+              CanteenPicker(),
+            ],
+          ),
+          SizedBox(height: 8),
           Expanded(child: _MealsConsumerWrapper()),
         ],
       ),
