@@ -1,33 +1,80 @@
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
-import 'package:better_hm/shared/components/live_location_indicator.dart';
-import 'package:better_hm/shared/prefs.dart';
-import 'package:flutter/foundation.dart';
+import 'package:better_hm/shared/extensions/extensions_list.dart';
+import 'package:better_hm/shared/service/location_service.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class StationProvider with ChangeNotifier {
-  Station? _station = Prefs.lastMvgStation.value.isEmpty
-      ? null
-      : StationService.getFromId(Prefs.lastMvgStation.value);
+part 'station_provider.g.dart';
 
-  Station? get station => _station;
+class SelectedStationWrapper {
+  final bool isAutomatic;
+  final Station? station;
 
-  set station(Station? station) {
-    _station = station;
-    notifyListeners();
-  }
+  SelectedStationWrapper({required this.isAutomatic, this.station});
 }
 
-class SearchingStateProvider with ChangeNotifier {
-  LiveLocationState _state = Prefs.lastMvgStation.value.isEmpty
-      ? LiveLocationState.searching
-      : LiveLocationState.off;
+@riverpod
+class SelectedStation extends _$SelectedStation {
+  @override
+  Future<SelectedStationWrapper> build() async {
+    final prefs = await SharedPreferences.getInstance();
 
-  LiveLocationState get state => _state;
+    late final String? stationId;
+    // Empty String means automatic, no key => use default
+    if (!prefs.containsKey("selected-station")) {
+      stationId = stations.first.id;
+    } else {
+      stationId = prefs.getString("selected-station");
+    }
 
-  set state(LiveLocationState state) {
-    _state = state;
-    notifyListeners();
+    final station =
+        stations.firstWhereOrNull((element) => element.id == stationId);
+
+    final isAutomatic = station == null;
+
+    if (isAutomatic) _setToNearest();
+
+    return SelectedStationWrapper(isAutomatic: isAutomatic, station: station);
   }
 
-  @override
-  bool get hasListeners => super.hasListeners;
+  void set(SelectedStationWrapper wrapper) {
+    _setState(wrapper);
+
+    if (wrapper.isAutomatic && wrapper.station == null) _setToNearest();
+  }
+
+  _setState(SelectedStationWrapper wrapper) {
+    state = AsyncValue.data(wrapper);
+    _saveStation(wrapper);
+  }
+
+  _saveStation(SelectedStationWrapper wrapper) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      "selected-station",
+      wrapper.isAutomatic ? "" : wrapper.station?.id ?? "",
+    );
+  }
+
+  _setToNearest() async {
+    final position = await LocationService()
+        .determinePosition(desiredAccuracy: LocationAccuracy.medium);
+
+    final nearest = stations
+        .map(
+          (e) => (
+            e,
+            e.location.distanceTo(position.latitude, position.longitude),
+          ),
+        )
+        .toList();
+
+    nearest.sort((a, b) => a.$2.compareTo(b.$2));
+    final nearestStation = nearest.first.$1;
+
+    set(
+      SelectedStationWrapper(isAutomatic: true, station: nearestStation),
+    );
+  }
 }

@@ -4,7 +4,6 @@ import 'package:better_hm/shared/components/live_location_indicator.dart';
 import 'package:better_hm/shared/components/select_sheet_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CanteenPicker extends ConsumerWidget {
   const CanteenPicker({super.key});
@@ -75,19 +74,4 @@ class _CanteenPickerButton extends ConsumerWidget {
       },
     );
   }
-}
-
-void loadDefaultCanteen() async {
-  // final provider = Provider.of<SelectedCanteenProvider>(context);
-  // final prefs = await SharedPreferences.getInstance();
-  // final String? canteenEnum = prefs.getString("selected-canteen");
-  // final Canteen canteen = widget.canteens.firstWhere(
-  //   (element) => element.enumName == (canteenEnum ?? "MENSA_LOTHSTR"),
-  // );
-  // provider.canteen = canteen;
-}
-
-void saveCanteen(Canteen? canteen) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString("selected-canteen", canteen?.enumName ?? "");
 }
