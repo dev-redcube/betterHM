@@ -33,14 +33,18 @@ class Canteen {
     required this.enumName,
     required this.name,
     required this.canteenId,
-    this.openHours,
     required this.location,
+    this.openHours,
   });
 
   factory Canteen.fromJson(Map<String, dynamic> json) =>
       _$CanteenFromJson(json);
 
   Map<String, dynamic> toJson() => _$CanteenToJson(this);
+
+  @override
+  String toString() =>
+      "Canteen(enumName: $enumName, name: $name, canteenId: $canteenId, location: $location)";
 }
 
 class OpenHoursWeek {

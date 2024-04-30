@@ -7,11 +7,13 @@ part 'location.g.dart';
 class Location {
   final double latitude;
   final double longitude;
+  final String? address;
 
   Location(
     this.latitude,
-    this.longitude,
-  );
+    this.longitude, {
+    this.address,
+  });
 
   double distanceToLocation(
     Location other, [
@@ -36,4 +38,8 @@ class Location {
       _$LocationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
+
+  @override
+  String toString() =>
+      "Location(latitude: $latitude, longitude: $longitude, address: $address)";
 }

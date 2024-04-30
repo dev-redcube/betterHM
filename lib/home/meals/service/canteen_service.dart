@@ -1,20 +1,36 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/components/live_location_indicator.dart';
+import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:better_hm/shared/service/location_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'canteen_service.g.dart';
 
 const showCanteens = [
+  "MENSA_ARCISSTR",
+  "MENSA_GARCHING",
+  "MENSA_LEOPOLDSTR",
   "MENSA_LOTHSTR",
+  "MENSA_MARTINSRIED",
   "MENSA_PASING",
+  "MENSA_WEIHENSTEPHAN",
+  "STUBISTRO_ARCISSTR",
+  "STUBISTRO_GOETHESTR",
+  "STUBISTRO_GROSSHADERN",
+  "STUBISTRO_ROSENHEIM",
+  "STUBISTRO_SCHELLINGSTR",
+  "STUBISTRO_MARTINSRIED",
+  "STUCAFE_ADALBERTSTR",
+  "STUCAFE_AKADEMIE_WEIHENSTEPHAN",
+  "STUCAFE_CONNOLLYSTR",
+  "STUCAFE_GARCHING",
   "STUCAFE_KARLSTR",
+  "MENSA_STRAUBING",
 ];
 
 @riverpod
@@ -37,88 +53,75 @@ Future<List<Canteen>> canteens(CanteensRef ref) async {
 @riverpod
 class SelectedCanteen extends _$SelectedCanteen {
   @override
-  FutureOr<SelectedCanteenProvider> build() async {
+  Future<SelectedCanteenProvider> build() async {
     final canteens = await ref.watch(canteensProvider.future);
-    final lastCanteen = Prefs.lastCanteen.value;
+    final prefs = await SharedPreferences.getInstance();
+    String? canteenEnum = prefs.getString("selected-canteen");
+    final Canteen? canteen = canteens.firstWhereOrNull(
+      (element) => element.enumName == canteenEnum,
+    );
 
-    if (lastCanteen.isEmpty) {
-      _nearestCanteen();
-      return SelectedCanteenProvider(
-        locationState: LiveLocationState.searching,
-      );
-    }
+    final isAutomatic = canteen == null;
 
-    final Canteen canteen =
-        canteens.firstWhere((element) => element.enumName == lastCanteen);
+    if (isAutomatic) _setToNearest();
+
     return SelectedCanteenProvider(
-      locationState: LiveLocationState.off,
+      isAutomatic: canteen == null,
       canteen: canteen,
     );
   }
 
-  void _nearestCanteen() async {
-    final logger = Logger("SelectedCanteen");
+  void set(SelectedCanteenProvider provider) {
+    _setState(provider);
+
+    if (provider.isAutomatic && provider.canteen == null) _setToNearest();
+  }
+
+  _setState(SelectedCanteenProvider provider) async {
+    state = AsyncValue.data(provider);
+    _saveCanteen(provider);
+  }
+
+  _saveCanteen(SelectedCanteenProvider provider) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      "selected-canteen",
+      provider.isAutomatic ? "" : provider.canteen?.enumName ?? "",
+    );
+  }
+
+  _setToNearest() async {
+    final position = await LocationService()
+        .determinePosition(desiredAccuracy: LocationAccuracy.medium);
+
     final canteens = await ref.read(canteensProvider.future);
-
-    final locationService = getIt<LocationService>();
-    Position? position;
-
-    try {
-      position = await locationService.getLastKnownOrNew(
-        LocationAccuracy.medium,
-      );
-    } catch (e, stacktrace) {
-      logger.warning("Failed to get location", e, stacktrace);
-      state = AsyncData(
-        SelectedCanteenProvider(locationState: LiveLocationState.error),
-      );
-      return;
-    }
 
     final nearest = canteens
         .map(
           (e) => (
             e,
-            e.location.distanceTo(position!.latitude, position.longitude)
+            e.location.distanceTo(position.latitude, position.longitude),
           ),
         )
         .toList();
 
     nearest.sort((a, b) => a.$2.compareTo(b.$2));
-    final nearestCanteen = nearest.firstOrNull?.$1;
-    if (nearestCanteen != null) {
-      logger.info(
-        "Nearest Canteen: ${nearestCanteen.name}. Location: lat. ${position.latitude} lon. ${position.longitude}. Accuracy: ${position.accuracy}",
-      );
-    } else {
-      logger.warning(
-        "Failed to get nearest Station. Location: lat. ${position.latitude} lon. ${position.longitude}. Accuracy: ${position.accuracy}",
-      );
-    }
+    final nearestCanteen = nearest.first.$1;
 
-    state = AsyncData(
+    set(
       SelectedCanteenProvider(
-        locationState: LiveLocationState.found,
+        isAutomatic: true,
         canteen: nearestCanteen,
       ),
     );
   }
-
-  void set(SelectedCanteenProvider provider) {
-    if (provider.locationState != LiveLocationState.off) {
-      return _nearestCanteen();
-    }
-
-    state = AsyncValue.data(provider);
-    Prefs.lastCanteen.value = provider.canteen?.enumName ?? "";
-  }
 }
 
 class SelectedCanteenProvider {
-  final LiveLocationState locationState;
+  final bool isAutomatic;
   final Canteen? canteen;
 
-  SelectedCanteenProvider({required this.locationState, this.canteen});
+  SelectedCanteenProvider({required this.isAutomatic, this.canteen});
 }
 
 @riverpod

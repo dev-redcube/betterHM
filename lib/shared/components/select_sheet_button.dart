@@ -86,4 +86,8 @@ class SelectBottomSheetItem<T> {
     this.enabled = true,
     this.data,
   });
+
+  @override
+  String toString() =>
+      "SelectBottomSheetItem<$T>(title: $title, subtitle: $subtitle, icon: $icon, enabled: $enabled, data: $data)";
 }
