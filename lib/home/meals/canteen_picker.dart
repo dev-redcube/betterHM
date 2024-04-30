@@ -59,7 +59,6 @@ class _CanteenPickerButton extends ConsumerWidget {
           ...canteens.map(
             (e) => SelectBottomSheetItem(
               title: e.name,
-              icon: Icons.restaurant_rounded,
               data: e,
             ),
           ),

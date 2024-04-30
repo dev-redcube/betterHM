@@ -12,8 +12,10 @@ class SelectSheetButton<T> extends StatelessWidget {
     this.items,
     this.itemsBuilder,
     required this.onSelect,
+    this.initialChildSize = 0.5,
   })  : assert(items != null || itemsBuilder != null),
-        assert(items == null || itemsBuilder == null);
+        assert(items == null || itemsBuilder == null),
+        assert(initialChildSize >= 0.25 && initialChildSize <= 0.9);
 
   final SelectBottomSheetItemList<T>? items;
   final Future<SelectBottomSheetItemList<T>> Function()? itemsBuilder;
@@ -22,6 +24,8 @@ class SelectSheetButton<T> extends StatelessWidget {
   final LiveLocationState locationState;
   final String text;
 
+  final double initialChildSize;
+
   void showBottomSheet(BuildContext context) async {
     SelectBottomSheetItemList<T>? sheetItems = items;
     sheetItems ??= await itemsBuilder?.call();
@@ -29,27 +33,29 @@ class SelectSheetButton<T> extends StatelessWidget {
     if (context.mounted) {
       showModalBottomSheet(
         context: context,
-        isScrollControlled: true,
         isDismissible: true,
-        showDragHandle: true,
         useRootNavigator: true,
+        useSafeArea: true,
+        showDragHandle: true,
+        isScrollControlled: true,
         builder: (context) => DraggableScrollableSheet(
           expand: false,
+          initialChildSize: initialChildSize,
           builder: (context, scrollController) => ListView(
-            shrinkWrap: true,
+            controller: scrollController,
             children: sheetItems!
                 .map(
                   (e) => ListTile(
-                    leading: Icon(e.icon),
                     title: Text(e.title),
+                    leading: Icon(e.icon),
                     subtitle: e.subtitle == null ? null : Text(e.subtitle!),
                     enabled: e.enabled,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     onTap: () {
                       onSelect.call(e);
                       Navigator.pop(context);
                     },
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   ),
                 )
                 .toList(),
@@ -75,14 +81,14 @@ class SelectSheetButton<T> extends StatelessWidget {
 class SelectBottomSheetItem<T> {
   final String title;
   final String? subtitle;
-  final IconData icon;
+  final IconData? icon;
   final bool enabled;
   final T? data;
 
   SelectBottomSheetItem({
     required this.title,
     this.subtitle,
-    required this.icon,
+    this.icon,
     this.enabled = true,
     this.data,
   });
