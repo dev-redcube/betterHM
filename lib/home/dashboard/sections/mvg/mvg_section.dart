@@ -1,13 +1,16 @@
 import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:better_hm/home/dashboard/dashboard_section.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/departures.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/station_provider.dart';
+import 'package:better_hm/home/dashboard/sections/mvg/selected_station_wrapper.dart';
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/components/live_location_indicator.dart';
 import 'package:better_hm/shared/components/select_sheet_button.dart';
+import 'package:better_hm/shared/service/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MvgSection extends StatelessWidget {
   const MvgSection({super.key});
@@ -46,6 +49,8 @@ class _StationPickerButton extends ConsumerWidget {
   final SelectedStationWrapper stationWrapper;
 
   LiveLocationState get locationState {
+    if (stationWrapper.hasError) return LiveLocationState.error;
+
     if (stationWrapper.station == null) return LiveLocationState.searching;
 
     return stationWrapper.isAutomatic
@@ -57,7 +62,8 @@ class _StationPickerButton extends ConsumerWidget {
     if (!stationWrapper.isAutomatic) {
       return stationWrapper.station?.name ?? "Unknown";
     }
-    return stationWrapper.station?.name ?? "Searching";
+    return stationWrapper.station?.name ??
+        t.dashboard.sections.mvg.selector.searching;
   }
 
   @override
@@ -65,18 +71,30 @@ class _StationPickerButton extends ConsumerWidget {
     return SelectSheetButton<Station>(
       locationState: locationState,
       text: _text,
-      items: [
-        SelectBottomSheetItem(
-          title: "AUTOMATIC",
-          icon: Icons.my_location_rounded,
-        ),
-        ...stations.map(
-          (e) => SelectBottomSheetItem(
-            title: e.name,
-            data: e,
+      itemsBuilder: () async {
+        final permission = getIt<LocationService>().permission;
+        final deniedForever = permission == LocationPermission.deniedForever;
+        return [
+          SelectBottomSheetItem(
+            title: deniedForever
+                ? t.dashboard.sections.mvg.selector.automatic.disabledText
+                : t.dashboard.sections.mvg.selector.automatic.title,
+            subtitle: deniedForever
+                ? null
+                : t.dashboard.sections.mvg.selector.automatic.description,
+            enabled: !deniedForever,
+            icon: Icons.my_location_rounded,
           ),
-        ),
-      ],
+          ...stations.map(
+            (e) => SelectBottomSheetItem(
+              title: e.name,
+              subtitle: e.campus,
+              icon: e.icon,
+              data: e,
+            ),
+          ),
+        ];
+      },
       onSelect: (item) {
         final isAutomatic = item.data == null;
         ref.read(selectedStationProvider.notifier).set(

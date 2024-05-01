@@ -40,6 +40,8 @@ class SelectSheetButton<T> extends StatelessWidget {
         isScrollControlled: true,
         builder: (context) => DraggableScrollableSheet(
           expand: false,
+          snap: true,
+          snapSizes: [initialChildSize],
           initialChildSize: initialChildSize,
           builder: (context, scrollController) => ListView(
             controller: scrollController,

@@ -101,7 +101,6 @@
   },
   "mealplan": {
     "opening_hours": "Öffnungszeiten",
-    "choose_canteen": "Mensa wählen",
     "no_meals": "Heute gibt's nix zu essen",
     "legend": "Legende",
     "labels": {
@@ -112,6 +111,15 @@
       "pork": "Schwein",
       "vegetarian": "Vegetarisch",
       "vegan": "Vegan"
+    },
+    "selector": {
+      "searching": "Suche...",
+      "automatic": {
+        "error": "Fehler",
+        "title": "Automatisch",
+        "description": "Wählt automatisch die nächste Mensa",
+        "disabledText": "App benötigt Standortzugriff"
+      }
     }
   },
   "settings": {

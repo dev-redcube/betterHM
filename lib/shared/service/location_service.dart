@@ -11,6 +11,7 @@ class LocationServicePermissionException implements Exception {
   String toString() => "LocationPermissionException(permission: $permission)";
 }
 
+/// Use getIt<LocationService>()
 class LocationService {
   LocationPermission? _permission;
 

@@ -1,17 +1,24 @@
 import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:better_hm/shared/service/location_service.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'station_provider.g.dart';
+part 'selected_station_wrapper.g.dart';
 
 class SelectedStationWrapper {
   final bool isAutomatic;
+  final bool hasError;
   final Station? station;
 
-  SelectedStationWrapper({required this.isAutomatic, this.station});
+  SelectedStationWrapper({
+    required this.isAutomatic,
+    this.station,
+    this.hasError = false,
+  });
 }
 
 @riverpod
@@ -58,20 +65,36 @@ class SelectedStation extends _$SelectedStation {
   }
 
   _setToNearest() async {
-    final position = await LocationService()
-        .determinePosition(desiredAccuracy: LocationAccuracy.medium);
+    final logger = Logger("MvgSection");
+
+    final locationService = getIt<LocationService>();
+    Position? position;
+
+    try {
+      position = await locationService.determinePosition(
+        desiredAccuracy: LocationAccuracy.medium,
+      );
+    } catch (e, stacktrace) {
+      logger.warning("Failed to get Location", e, stacktrace);
+      set(SelectedStationWrapper(isAutomatic: true, hasError: true));
+      return;
+    }
 
     final nearest = stations
         .map(
           (e) => (
             e,
-            e.location.distanceTo(position.latitude, position.longitude),
+            e.location.distanceTo(position!.latitude, position.longitude),
           ),
         )
         .toList();
 
     nearest.sort((a, b) => a.$2.compareTo(b.$2));
+
     final nearestStation = nearest.first.$1;
+    logger.info(
+      "Found nearest station $nearestStation. Location: lat. ${position.latitude}, lon. ${position.longitude}",
+    );
 
     set(
       SelectedStationWrapper(isAutomatic: true, station: nearestStation),
