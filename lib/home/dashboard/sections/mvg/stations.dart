@@ -1,9 +1,5 @@
-import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/models/location.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:logging/logging.dart';
 
 class Station {
   final String name;
@@ -19,50 +15,6 @@ class Station {
     required this.location,
     this.campus,
   });
-}
-
-abstract class StationService {
-  static Station? getFromId(String id) =>
-      stations.where((element) => element.id == id).firstOrNull;
-
-  static Future<Station?> getNearestStation() async {
-    final logger = Logger("MvgSection");
-
-    final locationService = getIt<LocationService>();
-    Position? position;
-    try {
-      position = await locationService.determinePosition(
-        desiredAccuracy: LocationAccuracy.medium,
-      );
-    } catch (e, stacktrace) {
-      logger.warning("Failed to get location", e, stacktrace);
-      return null;
-    }
-
-    final nearest = stations
-        .map(
-          (e) => (
-            e,
-            e.location.distanceTo(position!.latitude, position.longitude)
-          ),
-        )
-        .toList();
-    nearest.sort((a, b) => a.$2.compareTo(b.$2));
-
-    final nearestStation = nearest.firstOrNull?.$1;
-
-    if (nearestStation != null) {
-      logger.info(
-        "Nearest Station: ${nearestStation.name}. Location: lat. ${position.latitude} lon. ${position.longitude}. Accuracy: ${position.accuracy}",
-      );
-    } else {
-      logger.warning(
-        "Failed to get nearest Station. Location: lat. ${position.latitude} lon. ${position.longitude}. Accuracy: ${position.accuracy}",
-      );
-    }
-
-    return nearestStation;
-  }
 }
 
 final stations = <Station>[

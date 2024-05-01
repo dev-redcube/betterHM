@@ -37,6 +37,7 @@ abstract class Prefs {
 
   // Mealplan
   static late final PlainPref<bool> showFoodLabels;
+  static late final PlainPref<String> lastCanteen;
 
   // Advanced
   static late final PlainPref<int> logLevel;
@@ -57,6 +58,7 @@ abstract class Prefs {
 
     // Mealplan
     showFoodLabels = PlainPref("showFoodLabels", true);
+    lastCanteen = PlainPref("lastCanteen", "MENSA_LOTHSTR");
 
     // Advanced
     logLevel = PlainPref("logLevel", LogLevel.INFO.index);
