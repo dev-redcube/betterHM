@@ -48,7 +48,8 @@ class SelectedStation extends _$SelectedStation {
   void set(SelectedStationWrapper wrapper) {
     _setState(wrapper);
 
-    if (wrapper.isAutomatic && wrapper.station == null) _setToNearest();
+    if (wrapper.isAutomatic && wrapper.station == null && !wrapper.hasError)
+      _setToNearest();
   }
 
   _setState(SelectedStationWrapper wrapper) {

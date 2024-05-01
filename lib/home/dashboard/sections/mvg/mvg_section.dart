@@ -11,6 +11,7 @@ import 'package:better_hm/shared/service/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logging/logging.dart';
 
 class MvgSection extends StatelessWidget {
   const MvgSection({super.key});
@@ -35,7 +36,9 @@ class _StationPicker extends ConsumerWidget {
     switch (selectedStation) {
       case AsyncData(:final value):
         return _StationPickerButton(stationWrapper: value);
-      case AsyncError():
+      case AsyncError(:final error):
+        Logger("_StationPicker")
+            .severe("Error while getting selected Station", error);
         return const Text("Error loading");
       case _:
         return const SizedBox.shrink();
@@ -125,7 +128,9 @@ class _DeparturesConsumerWrapper extends ConsumerWidget {
                   station: value.station!,
                 ),
         );
-      case AsyncError():
+      case AsyncError(:final error):
+        Logger("_DeparturesConsumerWrapper")
+            .severe("Error while getting selected Station", error);
         return const Text("Error loading");
       case _:
         return const SizedBox.shrink();

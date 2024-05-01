@@ -46,7 +46,8 @@ class SelectedCanteen extends _$SelectedCanteen {
   void set(SelectedCanteenWrapper wrapper) {
     _setState(wrapper);
 
-    if (wrapper.isAutomatic && wrapper.canteen == null) _setToNearest();
+    if (wrapper.isAutomatic && wrapper.canteen == null && !wrapper.hasError)
+      _setToNearest();
   }
 
   _setState(SelectedCanteenWrapper wrapper) async {

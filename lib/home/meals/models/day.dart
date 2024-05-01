@@ -27,4 +27,7 @@ class MealDay {
       _$MealDayFromJson(json);
 
   Map<String, dynamic> toJson() => _$MealDayToJson(this);
+
+  @override
+  String toString() => "MealDay(date: $date, dishes: $dishes)";
 }

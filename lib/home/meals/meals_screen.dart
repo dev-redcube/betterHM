@@ -8,6 +8,7 @@ import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({super.key});
@@ -55,6 +56,7 @@ class _MealsConsumerWrapper extends ConsumerWidget {
         if (value == null) return const SizedBox.shrink();
         return _MealsBody(mealDays: value);
       case _:
+        // Loading
         return const SizedBox.shrink();
     }
   }
@@ -72,8 +74,33 @@ class _MealsBody extends StatelessWidget {
           .skipWhile(
             (value) => value.date.isBefore(DateTime.now().withoutTime),
           )
-          .map((MealDay day) => MealView(day: day))
+          .map(
+            (MealDay day) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _DayInfo(date: day.date),
+                Expanded(child: MealView(day: day)),
+              ],
+            ),
+          )
           .toList(),
+    );
+  }
+}
+
+class _DayInfo extends StatelessWidget {
+  const _DayInfo({required this.date});
+
+  final DateTime date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        DateFormat.yMMMMEEEEd().format(date),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
     );
   }
 }
