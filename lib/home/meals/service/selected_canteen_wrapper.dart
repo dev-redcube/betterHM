@@ -28,7 +28,14 @@ class SelectedCanteen extends _$SelectedCanteen {
   Future<SelectedCanteenWrapper> build() async {
     final canteens = await ref.watch(canteensProvider.future);
     final prefs = await SharedPreferences.getInstance();
-    String? canteenEnum = prefs.getString("selected-canteen");
+
+    late final String? canteenEnum;
+    // Empty String means automatic, no key => use default
+    if (!prefs.containsKey("selected-canteen"))
+      canteenEnum = "MENSA_LOTHSTR";
+    else
+      canteenEnum = prefs.getString("selected-canteen");
+
     final Canteen? canteen = canteens.firstWhereOrNull(
       (element) => element.enumName == canteenEnum,
     );
