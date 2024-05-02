@@ -19,8 +19,12 @@ class CalendarBody extends ConsumerStatefulWidget {
 }
 
 final List<ViewConfiguration> calendarViewConfigurations = [
-  DayConfiguration(),
-  WorkWeekConfiguration(),
+  DayConfiguration(
+    startHour: 5,
+  ),
+  WorkWeekConfiguration(
+    startHour: 5,
+  ),
   MonthConfiguration(),
 ];
 
