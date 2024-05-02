@@ -7,7 +7,7 @@ class AppInfo extends StatelessWidget {
   const AppInfo({super.key});
 
   static final Uri privacyPolicy =
-      Uri.parse("https://github.com/huber1/betterhm/PRIVACY.md");
+      Uri.parse("https://github.com/dev-redcube/betterHM/blob/master/PRIVACY.md");
 
   void _showAboutDialog(
     BuildContext context,
