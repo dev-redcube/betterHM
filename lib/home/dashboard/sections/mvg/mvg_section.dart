@@ -75,19 +75,28 @@ class _StationPickerButton extends ConsumerWidget {
       locationState: locationState,
       text: _text,
       itemsBuilder: () async {
-        final permission = getIt<LocationService>().permission;
-        final deniedForever = permission == LocationPermission.deniedForever;
+        final locationService = getIt<LocationService>();
+
+        late final LocationPermission? permission;
+        late final bool deniedForever;
+
+        if (locationService.checkPlatform()) {
+          permission = locationService.permission;
+          deniedForever = permission == LocationPermission.deniedForever;
+        }
+
         return [
-          SelectBottomSheetItem(
-            title: deniedForever
-                ? t.dashboard.sections.mvg.selector.automatic.disabledText
-                : t.dashboard.sections.mvg.selector.automatic.title,
-            subtitle: deniedForever
-                ? null
-                : t.dashboard.sections.mvg.selector.automatic.description,
-            enabled: !deniedForever,
-            icon: Icons.my_location_rounded,
-          ),
+          if (locationService.checkPlatform())
+            SelectBottomSheetItem(
+              title: deniedForever
+                  ? t.dashboard.sections.mvg.selector.automatic.disabledText
+                  : t.dashboard.sections.mvg.selector.automatic.title,
+              subtitle: deniedForever
+                  ? null
+                  : t.dashboard.sections.mvg.selector.automatic.description,
+              enabled: !deniedForever,
+              icon: Icons.my_location_rounded,
+            ),
           ...stations.map(
             (e) => SelectBottomSheetItem(
               title: e.name,

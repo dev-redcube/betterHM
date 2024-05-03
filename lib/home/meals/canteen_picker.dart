@@ -58,20 +58,27 @@ class _CanteenPickerButton extends ConsumerWidget {
       itemsBuilder: () async {
         final canteens = await ref.read(canteensProvider.future);
 
-        final permission = getIt<LocationService>().permission;
-        final deniedForever = permission == LocationPermission.deniedForever;
+        final locationService = getIt<LocationService>();
+
+        late final LocationPermission? permission;
+        late final bool deniedForever;
+        if (locationService.checkPlatform()) {
+          permission = locationService.permission;
+          deniedForever = permission == LocationPermission.deniedForever;
+        }
 
         return [
-          SelectBottomSheetItem(
-            title: deniedForever
-                ? t.mealplan.selector.automatic.disabledText
-                : t.mealplan.selector.automatic.title,
-            subtitle: deniedForever
-                ? null
-                : t.mealplan.selector.automatic.description,
-            enabled: !deniedForever,
-            icon: Icons.my_location_rounded,
-          ),
+          if (locationService.checkPlatform())
+            SelectBottomSheetItem(
+              title: deniedForever
+                  ? t.mealplan.selector.automatic.disabledText
+                  : t.mealplan.selector.automatic.title,
+              subtitle: deniedForever
+                  ? null
+                  : t.mealplan.selector.automatic.description,
+              enabled: !deniedForever,
+              icon: Icons.my_location_rounded,
+            ),
           ...canteens.map(
             (e) => SelectBottomSheetItem(
               title: e.name,

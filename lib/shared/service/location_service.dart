@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
 
@@ -16,8 +17,10 @@ class LocationService {
   LocationPermission? _permission;
 
   LocationService() {
-    setPermission();
+    if (checkPlatform()) setPermission();
   }
+
+  bool checkPlatform() => Platform.isAndroid || Platform.isIOS;
 
   Future<void> setPermission() async {
     _permission = await Geolocator.checkPermission();
@@ -55,6 +58,8 @@ class LocationService {
   Future<Position> determinePosition({
     LocationAccuracy? desiredAccuracy,
   }) async {
+    assert(checkPlatform());
+
     desiredAccuracy ??= LocationAccuracy.best;
     final req = await _checkRequirements();
     if (req == false) {
@@ -69,11 +74,15 @@ class LocationService {
     return Geolocator.getCurrentPosition(desiredAccuracy: desiredAccuracy);
   }
 
-  static Future<Position?> getLastKnown() async {
+  Future<Position?> getLastKnown() async {
+    assert(checkPlatform());
+
     return await Geolocator.getLastKnownPosition();
   }
 
   Future<Position> getLastKnownOrNew(LocationAccuracy? desiredAccuracy) async {
+    assert(checkPlatform());
+
     return await getLastKnown() ??
         await determinePosition(desiredAccuracy: desiredAccuracy);
   }
