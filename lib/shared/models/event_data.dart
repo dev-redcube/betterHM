@@ -11,4 +11,8 @@ class EventData {
     this.color,
     required this.component,
   });
+
+  @override
+  String toString() =>
+      "EventData(calendarId: $calendarId, color: $color, component: $component)";
 }

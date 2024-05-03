@@ -19,8 +19,12 @@ class CalendarBody extends ConsumerStatefulWidget {
 }
 
 final List<ViewConfiguration> calendarViewConfigurations = [
-  DayConfiguration(),
-  WorkWeekConfiguration(),
+  DayConfiguration(
+    startHour: 5,
+  ),
+  WorkWeekConfiguration(
+    startHour: 5,
+  ),
   MonthConfiguration(),
 ];
 
@@ -60,6 +64,8 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     );
   }
 
+  Map<Color, double> luminances = {};
+
   (Color, Color) getColors(
     CustomCalendarEvent event,
     BuildContext context,
@@ -69,9 +75,15 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
 
     late final Color textColor;
     if (event.eventData?.color != null) {
-      textColor = event.eventData!.color!.computeLuminance() > 0.5
-          ? Colors.black
-          : Colors.white;
+      final color = event.eventData!.color!;
+      double? luminance = luminances[color];
+
+      if (luminance == null) {
+        luminance = color.computeLuminance();
+        luminances[color] = luminance;
+      }
+
+      textColor = luminance > 0.5 ? Colors.black : Colors.white;
     } else {
       textColor = context.theme.colorScheme.onPrimaryContainer;
     }

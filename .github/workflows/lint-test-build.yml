@@ -22,6 +22,10 @@ on:
       - 'setup.sh'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -66,4 +70,10 @@ jobs:
         run: flutter test
 
       - name: Build
-        run: flutter build apk --debug
+        run: flutter build apk --profile
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Profile build ${{ github.head_ref }}
+          path: build/app/outputs/flutter-apk/app-profile.apk
