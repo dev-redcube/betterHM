@@ -1,6 +1,7 @@
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/models/dish.dart';
 import 'package:better_hm/home/meals/models/label.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _DishCardState extends State<DishCard> {
                         context: context,
                         builder: (context) {
                           return SimpleDialog(
-                            title: const Text("Legende"),
+                            title: Text(t.mealplan.legend),
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(

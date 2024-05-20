@@ -101,9 +101,8 @@
   },
   "mealplan": {
     "opening_hours": "Opening hours",
-    "choose_canteen": "Select canteen",
     "no_meals": "No meals today",
-    "legend": "legend",
+    "legend": "Legend",
     "labels": {
       "alcohol": "alcohol",
       "beef": "beef",
@@ -112,6 +111,15 @@
       "pork": "pork",
       "vegetarian": "vegetarian",
       "vegan": "vegan"
+    },
+    "selector": {
+      "searching": "Searching",
+      "automatic": {
+        "title": "Automatic",
+        "error": "Error",
+        "description": "Automatically selects the nearest canteen",
+        "disabledText": "App needs Location permission"
+      }
     }
   },
   "settings": {

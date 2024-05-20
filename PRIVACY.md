@@ -7,6 +7,8 @@ Wir verwenden jedoch APIs von folgenden Drittanbietern:
 - TUM Eat-API, gehostet bei GitHub für den Mensaplan
   Diese Dienste erhalten jeweils die IP Adresse des Benutzers
 
+Bitte beachte, dass Google durch die Verwendung des Playstores auch gewisse Daten sammelt
+
 # Benutzen wir Cookies?
 
 Nein, keiner unserer Dienste benutzt Cookies

@@ -1,3 +1,4 @@
+import 'package:better_hm/shared/models/location.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'canteen.g.dart';
@@ -25,13 +26,14 @@ class Canteen {
   @JsonKey(name: "canteen_id")
   final String canteenId;
 
-  // final Location? location;
+  final Location location;
   final OpenHoursWeek? openHours;
 
   Canteen({
     required this.enumName,
     required this.name,
     required this.canteenId,
+    required this.location,
     this.openHours,
   });
 
@@ -39,6 +41,10 @@ class Canteen {
       _$CanteenFromJson(json);
 
   Map<String, dynamic> toJson() => _$CanteenToJson(this);
+
+  @override
+  String toString() =>
+      "Canteen(enumName: $enumName, name: $name, canteenId: $canteenId, location: $location)";
 }
 
 class OpenHoursWeek {
