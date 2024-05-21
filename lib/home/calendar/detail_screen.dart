@@ -137,7 +137,7 @@ class _DotWithWidget extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: context.theme.colorScheme.onBackground,
+            color: context.theme.colorScheme.onSurface,
           ),
           height: 4,
           width: 4,
@@ -173,7 +173,6 @@ class _PropertyRow extends StatelessWidget {
           : () {
               Clipboard.setData(ClipboardData(text: copy!));
             },
-      tileColor: context.theme.colorScheme.background,
     );
   }
 }

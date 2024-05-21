@@ -104,7 +104,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
           side: BorderSide.none,
         ),
         closedColor: colors.$1,
-        openColor: context.theme.colorScheme.background,
+        openColor: context.theme.colorScheme.surface,
         closedElevation: 0,
         useRootNavigator: true,
         openBuilder: (context, action) {
@@ -153,7 +153,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
           borderRadius: BorderRadius.circular(8),
         ),
         closedColor: colors.$1,
-        openColor: context.theme.colorScheme.background,
+        openColor: context.theme.colorScheme.surface,
         closedElevation: 0,
         useRootNavigator: true,
         openBuilder: (context, action) {
