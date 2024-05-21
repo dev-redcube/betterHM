@@ -64,11 +64,17 @@ jobs:
           name: nightly-binaries
           path: binaries
 
+      - name: Save release notes to file
+        run: |
+          mkdir whatsnew
+          echo "${{ github.event.head_commit.message }}" > whatsnew/whatsnew-de-DE
+
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: de.moritzhuber.betterHm
           releaseFiles: binaries/**/*.aab
+          whatsNewDirectory: whatsnew
           track: internal
           status: completed
