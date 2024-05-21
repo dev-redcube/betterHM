@@ -111,7 +111,7 @@ class _CardWithTitle extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: context.theme.colorScheme.surfaceVariant,
+              color: context.theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(16.0),
             ),
             // color: context.theme.cardColor,
