@@ -88,14 +88,15 @@ dev_dependencies:
   build_runner: ^2.4.8
   rename: ^3.0.0
   slang_build_runner: ^3.17.0
-  mockito: ^5.4.2
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
   custom_lint: ^0.6.4
 
-# flutter_generator locks analyzer <6.0.0 which conflicts with riverpod_lint
 dependency_overrides:
-  analyzer: ^6.4.0
+  # Riverpod lint requires analyzer 6.5, flutter sdk 6.4
+  analyzer: ^6.5.0
+  meta: ^1.14.0
+
   intl: ^0.19.0
 
 flutter:
