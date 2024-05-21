@@ -57,6 +57,11 @@ class AdvancedSettingsSection extends StatelessWidget {
             }
           },
         ),
+        SettingsSwitch(
+          title: t.settings.advanced.devMode.title,
+          subtitle: t.settings.advanced.devMode.subtitle,
+          pref: Prefs.devMode,
+        ),
         ListTile(
           title: Text(t.settings.advanced.clearCaches.title),
           onTap: () {

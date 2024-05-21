@@ -164,6 +164,10 @@
         "label": "Show Background Job Notification",
         "subtitle": "Needs Notification Permission"
       },
+      "devMode": {
+        "title": "Dev Mode",
+        "subtitle": "Shows additional information at some places"
+      },
       "clearCaches": {
         "title": "clear cache",
         "snackbar": "Cache cleared"
