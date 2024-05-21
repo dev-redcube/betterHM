@@ -2,6 +2,7 @@ import 'package:better_hm/home/calendar/add/add_new_calendar.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
@@ -86,6 +87,11 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                 });
               },
             ),
+            if (Prefs.devMode.value) const SizedBox(height: 8),
+            if (Prefs.devMode.value)
+              Text(
+                "Id: ${widget.calendar.id}\nLast sync: ${widget.calendar.lastUpdate}\nNumOfFails: ${widget.calendar.numOfFails}",
+              ),
           ],
         ),
       ),
