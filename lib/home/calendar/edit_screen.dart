@@ -6,6 +6,7 @@ import 'package:better_hm/home/calendar/ical_sync_state.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -156,6 +157,8 @@ class _CalendarRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
+      color: context.theme.colorScheme.surfaceContainer,
+      elevation: 0,
       child: ListTile(
         leading: Checkbox.adaptive(
           value: calendar.isActive,

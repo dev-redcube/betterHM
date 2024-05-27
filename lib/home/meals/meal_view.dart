@@ -59,6 +59,8 @@ class _DishCardState extends State<DishCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: context.theme.colorScheme.surfaceContainer,
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
