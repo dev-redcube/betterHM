@@ -42,6 +42,7 @@ abstract class Prefs {
   // Advanced
   static late final PlainPref<int> logLevel;
   static late final PlainPref<bool> showBackgroundJobNotification;
+  static late final PlainPref<bool> devMode;
   static late final PlainPref<bool> mouseScroll;
 
   static void init() {
@@ -65,6 +66,7 @@ abstract class Prefs {
     logLevel = PlainPref("logLevel", LogLevel.INFO.index);
     showBackgroundJobNotification =
         PlainPref("showBackgroundJobNotification", false);
+    devMode = PlainPref("devMode", false);
     mouseScroll = PlainPref("mouseScroll", false);
 
     initialized = true;

@@ -168,6 +168,10 @@
         "label": "Benachrichtige bei Hintergrundaufgaben",
         "subtitle": "Benötigt Benachrichtigungsrechte"
       },
+      "devMode": {
+        "title": "Entwicklermodus",
+        "subtitle": "Zeigt an manchen Stellen zusätzliche Informationen"
+      },
       "clearCaches": {
         "title": "Cache leeren",
         "snackbar": "Cache geleert"
