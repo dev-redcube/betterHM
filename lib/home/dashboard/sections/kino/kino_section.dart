@@ -121,6 +121,16 @@ class MovieCard extends StatelessWidget {
 
   const MovieCard({super.key, required this.movie, required this.movies});
 
+  String _dateString(Movie movie) {
+    final today = DateTime.now();
+    if (movie.date.sameDayAs(today))
+      return t.general.date.today;
+    else if (movie.date.sameDayAs(today.add(const Duration(days: 1))))
+      return t.general.date.tomorrow;
+
+    return movie.date.formatdMonthAbbr;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DashboardCard(
@@ -151,7 +161,7 @@ class MovieCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(movie.date.formatdMonthAbbr),
+                Text(_dateString(movie)),
                 Text(movie.time),
               ],
             ),
