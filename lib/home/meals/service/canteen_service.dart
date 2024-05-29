@@ -3,16 +3,19 @@ import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
+import 'package:better_hm/shared/prefs.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'canteen_service.g.dart';
 
-const showCanteens = [
-  "MENSA_LOTHSTR",
-  "MENSA_PASING",
-  "STUCAFE_KARLSTR",
-];
+_getCanteensToShow() => [
+      "MENSA_LOTHSTR",
+      "MENSA_PASING",
+      "STUCAFE_KARLSTR",
+      if (Prefs.devMode.value) "MENSA_GARCHING",
+      if (Prefs.devMode.value) "MENSA_ARCISSTR",
+    ];
 
 @riverpod
 Future<List<Canteen>> canteens(CanteensRef ref) async {
@@ -27,7 +30,7 @@ Future<List<Canteen>> canteens(CanteensRef ref) async {
   final response = await mainApi.get(uri, Canteens.fromJson);
 
   return response.data.canteens
-      .where((element) => showCanteens.contains(element.enumName))
+      .where((element) => _getCanteensToShow().contains(element.enumName))
       .toList();
 }
 
