@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:icalendar/icalendar.dart';
+import 'package:isar/isar.dart';
 
 class EventData {
   final String calendarId;

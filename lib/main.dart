@@ -48,6 +48,10 @@ Future<void> main() async {
     calendarSyncKey,
     frequency: const Duration(hours: 12),
     initialDelay: const Duration(hours: 12),
+    constraints: Constraints(
+      networkType: NetworkType.unmetered,
+      requiresBatteryNotLow: true,
+    ),
   );
 
   parseAllEvents().then((value) => eventsController.addEvents(value));

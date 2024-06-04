@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/models/calendar_event_save.dart';
 import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
-import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:icalendar/icalendar.dart';
@@ -65,7 +65,7 @@ Future<Iterable<CustomCalendarEvent>> _parseICal(
     return Future.value([]);
   }
 
-  final List<CustomCalendarEvent> events = [];
+  final List<CalendarEventSave> events = [];
 
   // VCALENDAR
   for (final cal in ical) {
@@ -76,20 +76,16 @@ Future<Iterable<CustomCalendarEvent>> _parseICal(
         if (component.dateTimeStart == null) continue;
         if (component.end == null && component.duration == null) continue;
 
-        final event = CalendarEvent(
-          dateTimeRange: DateTimeRange(
-            start: component.dateTimeStart!.value.value,
-            end: component.end?.value.value ??
-                component.dateTimeStart!.value.value
-                    .add(component.duration!.value.value),
-          ),
-          eventData: EventData(
-            calendarId: calendar.id,
-            component: component,
-            color: calendar.color,
-          ),
-          modifiable: false,
+        final event = CalendarEventSave(
+          summary: component.summary?.value.value,
+          description: component.description?.value.value,
+          start: component.dateTimeStart!.value.value,
+          end: component.end?.value.value ??
+              component.dateTimeStart!.value.value
+                  .add(component.duration!.value.value),
+          location: component.location?.value.value,
         );
+
         events.add(event);
       }
     }

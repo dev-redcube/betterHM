@@ -18,7 +18,7 @@ class ICalService {
       : _db = Isar.getInstance()!;
 
   static Future<Directory> getPath() async =>
-      Directory("${(await getApplicationSupportDirectory()).path}/calendars");
+      Directory("${(await getTemporaryDirectory()).path}/calendars");
 
   Future<bool> sync({
     void Function(int synced, int total)? onSyncProgress,
