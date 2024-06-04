@@ -4,7 +4,6 @@ import 'package:better_hm/home/calendar/calendar_screen.dart';
 import 'package:better_hm/home/calendar/edit_calendar_popup.dart';
 import 'package:better_hm/home/calendar/ical_sync_state.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';

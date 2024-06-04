@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/detail_screen.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/models/event_data.dart';
+import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -2,23 +2,25 @@ import 'dart:io';
 
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/models/calendar_event_save.dart';
-import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:flutter/foundation.dart';
 import 'package:icalendar/icalendar.dart';
 import 'package:logging/logging.dart';
 
 class CalendarHelpers {
-  static Future<Iterable<CalendarEventSave>> parseIcal(File file,
-      Calendar calendar,) async {
-    return compute((_) => _parseIcal(file, calendar), null);
+  static Future<Iterable<CalendarEventSave>> parseICal(
+    File file,
+    Calendar calendar,
+  ) async {
+    return compute((_) => _parseICal(file, calendar), null);
   }
 
-  static Future<Iterable<CalendarEventSave>> _parseIcal(File file,
-      Calendar calendar) async {
+  static Future<Iterable<CalendarEventSave>> _parseICal(
+    File file,
+    Calendar calendar,
+  ) async {
     final lines = await file.readAsLines();
 
-    final stopwatch = Stopwatch()
-      ..start();
+    final stopwatch = Stopwatch()..start();
     late final List<ICalendar> ical;
     try {
       ical = ICalendar.fromICalendarLines(lines);
@@ -42,47 +44,29 @@ class CalendarHelpers {
           if (component.dateTimeStart == null) continue;
           if (component.end == null && component.duration == null) continue;
 
-          final event = CalendarEventSave(
-            summary: component.summary?.value.value,
-            description: component.description?.value.value,
-            start: component.dateTimeStart!.value.value,
-            end: component.end?.value.value ??
-                component.dateTimeStart!.value.value
-                    .add(component.duration!.value.value),
-            location: component.location?.value.value,
-          );
+          final splitUp = component.splitComponent();
 
-          events.add(event);
+          for (final split in splitUp) {
+            final event = CalendarEventSave(
+              summary: split.summary?.value.value,
+              description: split.description?.value.value,
+              start: split.dateTimeStart!.value.value,
+              end: split.end?.value.value ??
+                  split.dateTimeStart!.value.value
+                      .add(split.duration!.value.value),
+              location: split.location?.value.value,
+            );
+
+            events.add(event);
+          }
         }
       }
     }
 
     stopwatch.stop();
-    Logger("IcalParser").fine(
+    Logger("IcalParser").finest(
       "$calendar parsed in ${stopwatch.elapsed.inSeconds} seconds",
     );
-    return splitEvents(events);
+    return events;
   }
-
-  /// If an EventComponent has RecurrenceDateTimes or an RecurrenceRule,
-  /// split it into multiple Components
-  List<EventComponent> splitEvents(Iterable<EventComponent> components) {
-    final List<EventComponent> splitEvents = [];
-    for (var event in components) {
-      // RecurrenceDateTimes, "skip" if none
-      if (event.recurrenceDateTimes != null) {
-        splitEvents.addAll(_splitRecurrenceDates(event));
-      }
-
-      // RRULE
-      if (event.recurrenceRules != null) {
-        splitEvents.addAll(_splitRRule(event));
-      }
-
-      // Add Event itself, TODO copyWith function in lib
-      splitEvents.add(event);
-    }
-  }
-
-  List<EventComponent> _splitRecurrenceDates(EventComponent component)
 }

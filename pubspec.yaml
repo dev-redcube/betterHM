@@ -75,7 +75,7 @@ dependencies:
   icalendar:
     git:
       url: https://github.com/dev-redcube/icalendar-dart.git
-      ref: main
+      ref: d6107a9
   rrule: ^0.2.16
   permission_handler: ^11.3.1
 
