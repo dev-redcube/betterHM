@@ -1,4 +1,4 @@
-import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
+import 'package:better_hm/home/calendar/calendar_update_service.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +37,7 @@ void callbackDispatcher() {
 Future<bool> func(String taskName, Map<String, dynamic>? inputData) async {
   switch (taskName) {
     case calendarSyncKey:
-      final res = await ICalService().sync();
+      final res = await CalendarUpdateService.updateAllCalendars();
       return res;
     default:
       throw Exception('Task not implemented');
