@@ -12,7 +12,7 @@ class SelectSheetButton<T> extends StatelessWidget {
     this.items,
     this.itemsBuilder,
     required this.onSelect,
-    this.initialChildSize = 0.5,
+    this.initialChildSize = 0.75,
   })  : assert(items != null || itemsBuilder != null),
         assert(items == null || itemsBuilder == null),
         assert(initialChildSize >= 0.25 && initialChildSize <= 0.9);

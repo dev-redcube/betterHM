@@ -66,4 +66,31 @@ final stations = <Station>[
       11.5683165557013,
     ),
   ),
+  Station(
+    id: "de:09162:120",
+    name: "Theresienstraße",
+    icon: Icons.train_rounded,
+    location: Location(
+      48.1512234,
+      11.5642731,
+    ),
+  ),
+  Station(
+    id: "de:09162:70",
+    name: "Universität",
+    icon: Icons.train_rounded,
+    location: Location(
+      48.1490118,
+      11.5805147,
+    ),
+  ),
+  Station(
+    id: "de:09184:460",
+    name: "Garching Forschungszentrum",
+    icon: Icons.train_rounded,
+    location: Location(
+      48.2648614,
+      11.6712265,
+    ),
+  ),
 ];

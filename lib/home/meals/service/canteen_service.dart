@@ -12,6 +12,9 @@ const showCanteens = [
   "MENSA_LOTHSTR",
   "MENSA_PASING",
   "STUCAFE_KARLSTR",
+  "MENSA_ARCISSTR",
+  "MENSA_GARCHING",
+  "STUCAFE_GARCHING",
 ];
 
 @riverpod
@@ -26,9 +29,15 @@ Future<List<Canteen>> canteens(CanteensRef ref) async {
 
   final response = await mainApi.get(uri, Canteens.fromJson);
 
-  return response.data.canteens
+  final canteens = response.data.canteens
       .where((element) => showCanteens.contains(element.enumName))
       .toList();
+
+  // sort by order of showCanteens
+  return [
+    for (final item in showCanteens)
+      canteens.firstWhere((e) => e.enumName == item),
+  ];
 }
 
 @riverpod
