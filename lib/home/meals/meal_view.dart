@@ -81,7 +81,7 @@ class _DishCardState extends State<DishCard> {
                         vertical: 2.0,
                         horizontal: 8.0,
                       ),
-                      child: Text(widget.dish.dishType),
+                      child: Text(widget.dish.dishType.trim()),
                     ),
                   ),
                 ),
@@ -129,7 +129,7 @@ class _DishCardState extends State<DishCard> {
               children: [
                 Expanded(
                   child: Text(
-                    widget.dish.name,
+                    widget.dish.name.trim(),
                     style: context.theme.textTheme.bodyLarge,
                   ),
                 ),
