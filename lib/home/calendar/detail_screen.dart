@@ -25,7 +25,8 @@ class CalendarDetailScreen extends StatelessWidget {
       body: ListView(
         children: [
           _TitleRow(event: event),
-          if (component.location != null)
+          if (component.location != null &&
+              component.location!.value.value.isNotEmpty)
             _PropertyRow(
               leading: const Icon(Icons.location_on_outlined),
               label: Text(component.location!.value.value),
