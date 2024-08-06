@@ -30,6 +30,7 @@ abstract class _DateHelper {
 }
 
 extension DateTimeExtensions on DateTime {
+  /// Calendar Week of year
   int get weekNumber => _DateHelper.weekOfYear(this);
 
   DateTime get onlyDate => DateTime(year, month, day);
