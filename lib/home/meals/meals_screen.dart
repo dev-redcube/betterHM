@@ -1,4 +1,5 @@
 import 'package:better_hm/home/meals/canteen_picker.dart';
+import 'package:better_hm/home/meals/components/day_picker.dart';
 import 'package:better_hm/home/meals/meal_view.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
@@ -27,17 +28,25 @@ class MealsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox.shrink(),
               CanteenPicker(),
             ],
           ),
-          SizedBox(height: 8),
-          Expanded(child: _MealsConsumerWrapper()),
+          const SizedBox(height: 8),
+          // TODO
+          DayPicker(
+            dates: [DateTime(2024, 9, 23), DateTime.now()],
+            onSelect: (date) {
+
+              print(date);
+            },
+          ),
+          const Expanded(child: _MealsConsumerWrapper()),
         ],
       ),
     );

@@ -50,6 +50,10 @@ extension DateTimeExtensions on DateTime {
       year == other.year && month == other.month && day == other.day;
 
   bool isMidnight() => hour == 0 && minute == 0 && second == 0;
+
+  DateTime monday() => DateTime(year, month, day - (weekday - 1) % 7);
+
+  DateTime sunday() => DateTime(year, month, day + (7 - weekday) % 7);
 }
 
 DateTime today() {
