@@ -11,7 +11,7 @@ class DateRange {
 
   DateRange(this.start, this.end);
 
-  bool dateInRange(DateTime date)  {
+  bool dateInRange(DateTime date) {
     return !date.isBefore(start) && !date.isAfter(end);
   }
 }

@@ -6,36 +6,46 @@ import 'package:better_hm/shared/models/range.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-// Future: extend DateTime
-class DayPickerDay {
-  final DateTime date;
+class DayPickerDay extends DateTime {
   final bool isActive;
 
   DayPickerDay({required DateTime date, this.isActive = false})
-      : date = date.withoutTime;
+      : super(date.year, date.month, date.day);
 
   @override
-  String toString() => "DayPickerDay(date: $date, isActive: $isActive)";
+  String toString() =>
+      "DayPickerDay(date: ${super.toString()}, isActive: $isActive)";
+
+  @override
+  bool operator ==(covariant DayPickerDay other) =>
+      hashCode == other.hashCode ||
+      (year == other.year &&
+          month == other.month &&
+          day == other.day &&
+          isActive == other.isActive);
+
+  @override
+  int get hashCode => Object.hash(year, month, day, isActive);
 }
 
 class DayPickerWeek {
   late final List<DayPickerDay> days;
 
   bool hasDay(DateTime day) {
-    return days.any((d) => d.date == day);
+    return days.any((d) => d.sameDayAs(day));
   }
 
   DayPickerWeek({required this.days});
 
   factory DayPickerWeek.fromDay(DayPickerDay day) {
-    final monday = day.date.monday();
+    final monday = day.monday();
     final days = List.generate(
       7,
       (index) {
         final d = monday.add(Duration(days: index));
         return DayPickerDay(
           date: d,
-          isActive: d == day.date ? day.isActive : false,
+          isActive: d.sameDayAs(day) ? day.isActive : false,
         );
       },
     );
@@ -47,7 +57,7 @@ class DayPickerWeek {
 
   setDay(DayPickerDay day) {
     for (int i = 0; i < days.length; i++) {
-      if (days[i].date == day.date) {
+      if (days[i].sameDayAs(day)) {
         days[i] = day;
         return;
       }
@@ -56,11 +66,11 @@ class DayPickerWeek {
     throw IllegalArgumentsException("Week must contain day");
   }
 
-  DateRange get range => DateRange(days.first.date, days.last.date);
+  DateRange get range => DateRange(days.first, days.last);
 
   bool isDayActive(DateTime date) {
     for (final day in days) {
-      if (day.isActive && day.date.sameDayAs(date)) {
+      if (day.isActive && day.sameDayAs(date)) {
         return true;
       }
     }
@@ -70,8 +80,7 @@ class DayPickerWeek {
   DayPickerDay? getFirstActive() =>
       days.firstWhereOrNull((day) => day.isActive);
 
-  int compareTo(DayPickerWeek other) =>
-      days.first.date.compareTo(other.days.first.date);
+  int compareTo(DayPickerWeek other) => days.first.compareTo(other.days.first);
 
   @override
   String toString() => "DayPickerWeek(days: $days)";
@@ -83,11 +92,11 @@ class DayPickerWeeksWrapper {
   List<DayPickerWeek> toList() => _weeks;
 
   void addDay(DayPickerDay day) {
-    if (_weeks.none((week) => week.range.dateInRange(day.date))) {
+    if (_weeks.none((week) => week.range.dateInRange(day))) {
       _weeks.add(DayPickerWeek.fromDay(day));
     } else {
       for (final week in _weeks) {
-        if (week.range.dateInRange(day.date)) {
+        if (week.range.dateInRange(day)) {
           week.setDay(day);
           return;
         }
@@ -108,7 +117,7 @@ class DayPickerWeeksWrapper {
     return -1;
   }
 
-  DateTime? getNextActiveAfter(DateTime date) {
+  DayPickerDay? getNextActive(DateTime date) {
     date = date.withoutTime;
     bool found = false;
     for (final week in _weeks) {
@@ -117,26 +126,26 @@ class DayPickerWeeksWrapper {
       if (week.range.dateInRange(date)) {
         found = true;
         final next = week.days.firstWhereOrNull((day) {
-          return day.isActive && day.date >= date;
+          return day.isActive && day >= date;
         });
 
         if (next != null) {
-          return next.date;
+          return next;
         }
         continue;
       }
 
       // Not found in same week, take next
       final next = week.getFirstActive();
-      if (next != null) return next.date;
+      if (next != null) return next;
     }
     return null;
   }
 
-  DateTime? getFirstActiveDay() {
+  DayPickerDay? getFirstActiveDay() {
     for (final week in _weeks) {
       final active = week.getFirstActive();
-      if (active != null) return active.date;
+      if (active != null) return active;
     }
     return null;
   }
@@ -172,8 +181,8 @@ class _DayPickerState extends State<DayPicker> {
 
     weeks.sort();
 
-    selectedDay = weeks.getNextActiveAfter(DateTime.now());
-    if (selectedDay == null) selectedDay = weeks.getFirstActiveDay();
+    selectedDay = weeks.getNextActive(DateTime.now());
+    selectedDay ??= weeks.getFirstActiveDay();
   }
 
   @override
@@ -201,9 +210,9 @@ class _DayPickerState extends State<DayPicker> {
 
   void onDaySelected(DayPickerDay day) {
     setState(() {
-      selectedDay = day.date;
+      selectedDay = day;
     });
-    widget.onSelect.call(day.date);
+    widget.onSelect.call(day);
   }
 
   PageController? getPageController() {
@@ -283,7 +292,7 @@ class _Day extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              color: day.isActive && day.date.sameDayAs(DateTime.now())
+              color: day.isActive && day.sameDayAs(DateTime.now())
                   ? context.theme.colorScheme.primaryContainer.withAlpha(80)
                   : null,
             ),
@@ -293,8 +302,8 @@ class _Day extends StatelessWidget {
               children: [
                 Text(
                   constraints.maxWidth >= 64
-                      ? t.general.date.weekdays_abbr[day.date.weekday - 1]
-                      : t.general.date.weekdays_letter[day.date.weekday - 1],
+                      ? t.general.date.weekdays_abbr[day.weekday - 1]
+                      : t.general.date.weekdays_letter[day.weekday - 1],
                 ),
                 const SizedBox(height: 8),
                 ConstrainedBox(
@@ -305,14 +314,14 @@ class _Day extends StatelessWidget {
                     aspectRatio: 1,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: selectedDay?.sameDayAs(day.date) ?? false
+                        color: selectedDay?.sameDayAs(day) ?? false
                             ? context.theme.colorScheme.primaryContainer
                             : null,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
                         child: Text(
-                          day.date.day.toString(),
+                          day.day.toString(),
                           style: TextStyle(
                             color: day.isActive
                                 ? null

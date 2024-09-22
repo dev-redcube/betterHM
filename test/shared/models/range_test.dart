@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test("inRange", () {
-    final start = DateTime(2024,09,16);
-    final end = DateTime(2024,09,22);
+    final start = DateTime(2024, 09, 16);
+    final end = DateTime(2024, 09, 22);
     final range = DateRange(start, end);
 
     final middle = DateTime(2024, 09, 20);
@@ -16,8 +16,8 @@ void main() {
   });
 
   test("On Start", () {
-    final start = DateTime(2024,09,16);
-    final end = DateTime(2024,09,22);
+    final start = DateTime(2024, 09, 16);
+    final end = DateTime(2024, 09, 22);
     final range = DateRange(start, end);
 
     final middle = DateTime(2024, 09, 16);
@@ -28,8 +28,8 @@ void main() {
   });
 
   test("Outside", () {
-    final start = DateTime(2024,09,16);
-    final end = DateTime(2024,09,22);
+    final start = DateTime(2024, 09, 16);
+    final end = DateTime(2024, 09, 22);
     final range = DateRange(start, end);
 
     final middle = DateTime(2024, 09, 23);
