@@ -11,11 +11,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class MealsScreen extends StatelessWidget {
+class MealsScreen extends ConsumerWidget {
   const MealsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final meals = ref.watch(mealsProvider).value;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(t.app_name),
@@ -40,18 +42,20 @@ class MealsScreen extends StatelessWidget {
           const SizedBox(height: 8),
           // TODO
           DayPicker(
-            dates: [
-              DateTime(2024, 9, 23),
-              DateTime.now(),
-              DateTime.now().subtract(const Duration(days: 2)),
-              DateTime.now().subtract(const Duration(days: 1)),
-              DateTime.now().subtract(const Duration(days: 4)),
-              DateTime.now().subtract(const Duration(days: 12)),
-            ],
+            dates: meals?.map((day) => day.date).toList() ?? [],
+            // dates: [
+            //   DateTime(2024, 9, 23),
+            //   DateTime.now(),
+            //   DateTime.now().subtract(const Duration(days: 2)),
+            //   DateTime.now().subtract(const Duration(days: 1)),
+            //   DateTime.now().subtract(const Duration(days: 4)),
+            //   DateTime.now().subtract(const Duration(days: 12)),
+            // ],
             onSelect: (date) {
               print(date);
             },
           ),
+          if(meals != null)
           const Expanded(child: _MealsConsumerWrapper()),
         ],
       ),

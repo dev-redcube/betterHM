@@ -5,6 +5,7 @@ import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/models/range.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DayPickerDay extends DateTime {
   final bool isActive;
@@ -165,6 +166,7 @@ class DayPicker extends StatefulWidget {
 class _DayPickerState extends State<DayPicker> {
   DateTime? selectedDay;
   late DayPickerWeeksWrapper weeks;
+  final pageController = PageController();
 
   updateWeeks() {
     final sorted = widget.dates.sorted((a, b) => a.compareTo(b));
@@ -213,21 +215,23 @@ class _DayPickerState extends State<DayPicker> {
     setState(() {
       selectedDay = day;
     });
+    HapticFeedback.selectionClick();
     widget.onSelect?.call(day);
-  }
-
-  PageController? getPageController() {
-    if (selectedDay == null) return null;
-
-    return PageController(initialPage: weeks.indexOfDate(selectedDay!));
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (selectedDay != null) {
+        final index = weeks.indexOfDate(selectedDay!);
+        pageController.jumpToPage(index);
+      }
+    });
+
     return SizedBox(
       height: 100,
       child: PageView(
-        controller: getPageController(),
+        controller: pageController,
         children: weeks
             .toList()
             .map(
