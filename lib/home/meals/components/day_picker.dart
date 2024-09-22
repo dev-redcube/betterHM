@@ -152,10 +152,11 @@ class DayPickerWeeksWrapper {
 }
 
 class DayPicker extends StatefulWidget {
-  const DayPicker({super.key, required this.dates, required this.onSelect});
+  DayPicker({super.key, List<DateTime>? dates, this.onSelect})
+      : dates = dates ?? [];
 
   final List<DateTime> dates;
-  final void Function(DateTime) onSelect;
+  final void Function(DateTime)? onSelect;
 
   @override
   State<DayPicker> createState() => _DayPickerState();
@@ -169,7 +170,7 @@ class _DayPickerState extends State<DayPicker> {
     final sorted = widget.dates.sorted((a, b) => a.compareTo(b));
 
     if (sorted.isEmpty) {
-      return DayPickerWeeksWrapper()
+      weeks = DayPickerWeeksWrapper()
         ..addDay(DayPickerDay(date: DateTime.now(), isActive: false));
     }
 
@@ -212,7 +213,7 @@ class _DayPickerState extends State<DayPicker> {
     setState(() {
       selectedDay = day;
     });
-    widget.onSelect.call(day);
+    widget.onSelect?.call(day);
   }
 
   PageController? getPageController() {
@@ -244,7 +245,6 @@ class _DayPickerState extends State<DayPicker> {
 
 class _DaysRow extends StatelessWidget {
   const _DaysRow({
-    super.key,
     required this.week,
     required this.onDaySelected,
     this.selectedDay,
