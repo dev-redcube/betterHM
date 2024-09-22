@@ -1,4 +1,5 @@
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/shared/models/range.dart';
 import 'package:intl/intl.dart';
 
 abstract class _DateHelper {
@@ -54,6 +55,16 @@ extension DateTimeExtensions on DateTime {
   DateTime monday() => DateTime(year, month, day - (weekday - 1) % 7);
 
   DateTime sunday() => DateTime(year, month, day + (7 - weekday) % 7);
+
+  bool inRange(DateRange range) => range.dateInRange(this);
+
+  bool operator >(DateTime other) => isAfter(other);
+
+  bool operator >=(DateTime other) => !isBefore(other);
+
+  bool operator <(DateTime other) => isBefore(other);
+
+  bool operator <=(DateTime other) => !isAfter(other);
 }
 
 DateTime today() {

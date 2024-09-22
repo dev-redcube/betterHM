@@ -2,9 +2,11 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
+import 'package:better_hm/shared/models/range.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+// Future: extend DateTime
 class DayPickerDay {
   final DateTime date;
   final bool isActive;
@@ -43,14 +45,6 @@ class DayPickerWeek {
     );
   }
 
-  bool containsDay(DateTime date) {
-    // days length is always 7
-    final monday = days.first.date;
-    final sunday = days.last.date;
-    // >= monday && <= sunday
-    return !date.isBefore(monday) && !date.isAfter(sunday);
-  }
-
   setDay(DayPickerDay day) {
     for (int i = 0; i < days.length; i++) {
       if (days[i].date == day.date) {
@@ -62,17 +56,90 @@ class DayPickerWeek {
     throw IllegalArgumentsException("Week must contain day");
   }
 
-  DayPickerWeek? setOrCreateNew(DayPickerDay day) {
-    if (containsDay(day.date)) {
-      setDay(day);
-      return null;
-    }
+  DateRange get range => DateRange(days.first.date, days.last.date);
 
-    return DayPickerWeek.fromDay(day);
+  bool isDayActive(DateTime date) {
+    for (final day in days) {
+      if (day.isActive && day.date.sameDayAs(date)) {
+        return true;
+      }
+    }
+    return false;
   }
+
+  DayPickerDay? getFirstActive() =>
+      days.firstWhereOrNull((day) => day.isActive);
+
+  int compareTo(DayPickerWeek other) =>
+      days.first.date.compareTo(other.days.first.date);
 
   @override
   String toString() => "DayPickerWeek(days: $days)";
+}
+
+class DayPickerWeeksWrapper {
+  final List<DayPickerWeek> _weeks = [];
+
+  List<DayPickerWeek> toList() => _weeks;
+
+  void addDay(DayPickerDay day) {
+    if (_weeks.none((week) => week.range.dateInRange(day.date))) {
+      _weeks.add(DayPickerWeek.fromDay(day));
+    } else {
+      for (final week in _weeks) {
+        if (week.range.dateInRange(day.date)) {
+          week.setDay(day);
+          return;
+        }
+      }
+    }
+  }
+
+  void sort() {
+    _weeks.sort((a, b) => a.compareTo(b));
+  }
+
+  int indexOfDate(DateTime date) {
+    for (int i = 0; i < _weeks.length; i++) {
+      if (_weeks[i].range.dateInRange(date.withoutTime)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  DateTime? getNextActiveAfter(DateTime date) {
+    date = date.withoutTime;
+    bool found = false;
+    for (final week in _weeks) {
+      if (!found && !week.range.dateInRange(date)) continue;
+
+      if (week.range.dateInRange(date)) {
+        found = true;
+        final next = week.days.firstWhereOrNull((day) {
+          return day.isActive && day.date >= date;
+        });
+
+        if (next != null) {
+          return next.date;
+        }
+        continue;
+      }
+
+      // Not found in same week, take next
+      final next = week.getFirstActive();
+      if (next != null) return next.date;
+    }
+    return null;
+  }
+
+  DateTime? getFirstActiveDay() {
+    for (final week in _weeks) {
+      final active = week.getFirstActive();
+      if (active != null) return active.date;
+    }
+    return null;
+  }
 }
 
 class DayPicker extends StatefulWidget {
@@ -86,44 +153,50 @@ class DayPicker extends StatefulWidget {
 }
 
 class _DayPickerState extends State<DayPicker> {
-  DateTime? selectedDay = DateTime.now();
-  late final List<DayPickerWeek> weeks;
+  DateTime? selectedDay;
+  late DayPickerWeeksWrapper weeks;
 
-  List<DayPickerWeek> getWeeks() {
+  updateWeeks() {
     final sorted = widget.dates.sorted((a, b) => a.compareTo(b));
 
     if (sorted.isEmpty) {
-      return [
-        DayPickerWeek.fromDay(
-          DayPickerDay(date: DateTime.now(), isActive: false),
-        ),
-      ];
+      return DayPickerWeeksWrapper()
+        ..addDay(DayPickerDay(date: DateTime.now(), isActive: false));
     }
 
-    List<DayPickerWeek> weeks = [];
+    weeks = DayPickerWeeksWrapper();
 
-    weeks.add(
-      DayPickerWeek.fromDay(
-        DayPickerDay(date: sorted.first, isActive: true),
-      ),
-    );
-
-    for (final day in sorted.skip(1)) {
-      for (final week in weeks) {
-        final newWeek =
-            week.setOrCreateNew(DayPickerDay(date: day, isActive: true));
-        if (newWeek != null) weeks.add(newWeek);
-        break;
-      }
+    for (final date in widget.dates) {
+      weeks.addDay(DayPickerDay(date: date, isActive: true));
     }
 
-    return weeks;
+    weeks.sort();
+
+    selectedDay = weeks.getNextActiveAfter(DateTime.now());
+    if (selectedDay == null) selectedDay = weeks.getFirstActiveDay();
   }
 
   @override
   void initState() {
-    weeks = getWeeks();
+    updateWeeks();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant DayPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.dates.length != widget.dates.length) {
+      updateWeeks();
+      return;
+    }
+
+    // If one Date is different, recalculate weeks
+    for (int i = 0; i < widget.dates.length; i++) {
+      if (!widget.dates[i].sameDayAs(oldWidget.dates[i])) {
+        updateWeeks();
+        return;
+      }
+    }
   }
 
   void onDaySelected(DayPickerDay day) {
@@ -133,12 +206,20 @@ class _DayPickerState extends State<DayPicker> {
     widget.onSelect.call(day.date);
   }
 
+  PageController? getPageController() {
+    if (selectedDay == null) return null;
+
+    return PageController(initialPage: weeks.indexOfDate(selectedDay!));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 100,
       child: PageView(
+        controller: getPageController(),
         children: weeks
+            .toList()
             .map(
               (week) => _DaysRow(
                 week: week,
@@ -195,11 +276,17 @@ class _Day extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(8.0),
+        return InkWell(
+          onTap: day.isActive ? onTap : null,
+          borderRadius: BorderRadius.circular(8.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: day.isActive && day.date.sameDayAs(DateTime.now())
+                  ? context.theme.colorScheme.primaryContainer.withAlpha(80)
+                  : null,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -223,7 +310,17 @@ class _Day extends StatelessWidget {
                             : null,
                         shape: BoxShape.circle,
                       ),
-                      child: Center(child: Text(day.date.day.toString())),
+                      child: Center(
+                        child: Text(
+                          day.date.day.toString(),
+                          style: TextStyle(
+                            color: day.isActive
+                                ? null
+                                : context.theme.colorScheme.onSurface
+                                    .withAlpha(120),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

@@ -40,9 +40,15 @@ class MealsScreen extends StatelessWidget {
           const SizedBox(height: 8),
           // TODO
           DayPicker(
-            dates: [DateTime(2024, 9, 23), DateTime.now()],
+            dates: [
+              DateTime(2024, 9, 23),
+              DateTime.now(),
+              DateTime.now().subtract(const Duration(days: 2)),
+              DateTime.now().subtract(const Duration(days: 1)),
+              DateTime.now().subtract(const Duration(days: 4)),
+              DateTime.now().subtract(const Duration(days: 12)),
+            ],
             onSelect: (date) {
-
               print(date);
             },
           ),
