@@ -278,8 +278,12 @@ class _DaysRow extends StatelessWidget {
 }
 
 class _Day extends StatelessWidget {
-  const _Day(
-      {super.key, required this.day, required this.onTap, this.selectedDay});
+  const _Day({
+    super.key,
+    required this.day,
+    required this.onTap,
+    this.selectedDay,
+  });
 
   final DayPickerDay day;
   final void Function() onTap;

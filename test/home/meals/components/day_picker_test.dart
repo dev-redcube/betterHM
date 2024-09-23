@@ -64,13 +64,14 @@ void main() {
 
     wrapper.sort();
     expect(
-        wrapper
-            .toList()
-            .first
-            .days
-            .first
-            .isBefore(wrapper.toList().last.days.last),
-        true);
+      wrapper
+          .toList()
+          .first
+          .days
+          .first
+          .isBefore(wrapper.toList().last.days.last),
+      true,
+    );
 
     final indexOfSecondDay = wrapper.indexOfDate(secondDay);
     expect(indexOfSecondDay, 1);
