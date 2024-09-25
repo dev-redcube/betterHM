@@ -168,7 +168,6 @@ final homeRoutes = <GoRoute>[
     name: "meals",
     path: "/meals",
     parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: MealsScreen()),
+    pageBuilder: (context, state) => NoTransitionPage(child: MealsScreen()),
   ),
 ];

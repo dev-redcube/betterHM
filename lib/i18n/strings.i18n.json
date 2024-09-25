@@ -18,6 +18,24 @@
         "Saturday",
         "Sunday"
       ],
+      "weekdays_abbr": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+      ],
+      "weekdays_letter": [
+        "M",
+        "T",
+        "W",
+        "T",
+        "F",
+        "S",
+        "S"
+      ],
       "months": [
         "January",
         "February",
