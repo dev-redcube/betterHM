@@ -135,7 +135,7 @@ class _MealsBodyState extends State<_MealsBody> {
             (MealDay day) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 // TODO Auslastung
+                // TODO Auslastung
                 Expanded(child: MealView(day: day)),
               ],
             ),
