@@ -10,7 +10,6 @@ import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 class MealsScreen extends ConsumerWidget {
   MealsScreen({super.key});

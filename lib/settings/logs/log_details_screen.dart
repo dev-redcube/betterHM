@@ -90,14 +90,15 @@ class _CardWithTitle extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: text)).then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              t.settings.advanced.logs.details
-                                  .copiedToClipboard,
+                        if (context.mounted)
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                t.settings.advanced.logs.details
+                                    .copiedToClipboard,
+                              ),
                             ),
-                          ),
-                        );
+                          );
                       });
                     },
                     icon: Icon(

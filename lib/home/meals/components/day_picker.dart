@@ -204,7 +204,6 @@ class _DayPickerState extends State<DayPicker> {
     super.initState();
     updateWeeks();
     widget.controller.addListener(handleExternalDayChange);
-    print(widget.controller);
   }
 
   @override
