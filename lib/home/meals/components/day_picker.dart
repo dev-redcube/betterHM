@@ -157,8 +157,9 @@ class SelectedDayController with ChangeNotifier {
 
   DateTime? get selectedDate => _selectedDate;
 
-  set selectedDate(DateTime? date) {
+  void selectDate(DateTime? date, [bool hapticFeedback = true]) {
     _selectedDate = date;
+    if (hapticFeedback) HapticFeedback.selectionClick();
     notifyListeners();
   }
 }
@@ -198,8 +199,10 @@ class _DayPickerState extends State<DayPicker> {
 
     weeks.sort();
 
-    widget.controller.selectedDate =
-        weeks.getNextActive(DateTime.now()) ?? weeks.getFirstActiveDay();
+    widget.controller.selectDate(
+      weeks.getNextActive(DateTime.now()) ?? weeks.getFirstActiveDay(),
+      false,
+    );
   }
 
   @override
@@ -235,27 +238,20 @@ class _DayPickerState extends State<DayPicker> {
   void handleExternalDayChange() {
     setState(() {});
     final selected = widget.controller.selectedDate;
-    pageController.animateToPage(
-      weeks.indexOfDate(selected!),
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.ease,
-    );
+    if (selected != null)
+      pageController.animateToPage(
+        weeks.indexOfDate(selected),
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
   }
 
   void onDaySelected(DayPickerDay day) {
-    widget.controller.selectedDate = day;
-    HapticFeedback.selectionClick();
+    widget.controller.selectDate(day);
   }
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (selectedDay != null) {
-    //     final index = weeks.indexOfDate(selectedDay!);
-    //     pageController.jumpToPage(index);
-    //   }
-    // });
-
     return SizedBox(
       height: 100,
       child: PageView(

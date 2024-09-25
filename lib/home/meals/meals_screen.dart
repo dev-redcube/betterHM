@@ -128,7 +128,7 @@ class _MealsBodyState extends State<_MealsBody> {
       controller: pageController,
       onPageChanged: (page) {
         if (!changeBlocker)
-          widget.controller.selectedDate = widget.mealDays[page].date;
+          widget.controller.selectDate(widget.mealDays[page].date);
       },
       children: widget.mealDays
           .map(
