@@ -66,7 +66,9 @@ class LocationService {
       }
     }
 
-    return Geolocator.getCurrentPosition(desiredAccuracy: desiredAccuracy);
+    return Geolocator.getCurrentPosition(
+      locationSettings: LocationSettings(accuracy: desiredAccuracy),
+    );
   }
 
   static Future<Position?> getLastKnown() async {
