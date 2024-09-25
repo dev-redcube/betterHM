@@ -18,9 +18,12 @@ class DayPickerDay extends DateTime {
       "DayPickerDay(date: ${super.toString()}, isActive: $isActive)";
 
   @override
-  bool operator ==(covariant DateTime other) =>
+  bool operator ==(covariant DayPickerDay other) =>
       hashCode == other.hashCode ||
-      (year == other.year && month == other.month && day == other.day);
+      (year == other.year &&
+          month == other.month &&
+          day == other.day &&
+          isActive == other.isActive);
 
   @override
   int get hashCode => Object.hash(year, month, day, isActive);
