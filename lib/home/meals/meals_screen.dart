@@ -17,6 +17,7 @@ class MealsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final meals = ref.watch(mealsProvider).value;
+    final dayPickerController = SelectedDayController();
 
     return Scaffold(
       appBar: AppBar(
@@ -42,6 +43,7 @@ class MealsScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           // TODO
           DayPicker(
+            controller: dayPickerController,
             dates: meals?.map((day) => day.date).toList() ?? [],
             // dates: [
             //   DateTime(2024, 9, 23),
@@ -51,12 +53,14 @@ class MealsScreen extends ConsumerWidget {
             //   DateTime.now().subtract(const Duration(days: 4)),
             //   DateTime.now().subtract(const Duration(days: 12)),
             // ],
-            onSelect: (date) {
-              print(date);
-            },
           ),
-          if(meals != null)
-          const Expanded(child: _MealsConsumerWrapper()),
+          ElevatedButton(
+            onPressed: () {
+              dayPickerController.setSelectedDate(DateTime.now());
+            },
+            child: const Text("Go To Today"),
+          ),
+          if (meals != null) const Expanded(child: _MealsConsumerWrapper()),
         ],
       ),
     );

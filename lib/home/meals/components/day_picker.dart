@@ -152,19 +152,30 @@ class DayPickerWeeksWrapper {
   }
 }
 
+class SelectedDayController {
+  final ValueNotifier<DateTime?> _selectedDate = ValueNotifier<DateTime?>(null);
+
+  ValueNotifier<DateTime?> get selectedDate => _selectedDate;
+
+  void setSelectedDate(DateTime? date) {
+    _selectedDate.value = date;
+  }
+}
+
 class DayPicker extends StatefulWidget {
-  DayPicker({super.key, List<DateTime>? dates, this.onSelect})
-      : dates = dates ?? [];
+  DayPicker(
+      {super.key, List<DateTime>? dates, SelectedDayController? controller})
+      : controller = controller ?? SelectedDayController(),
+        dates = dates ?? [];
 
   final List<DateTime> dates;
-  final void Function(DateTime)? onSelect;
+  final SelectedDayController controller;
 
   @override
   State<DayPicker> createState() => _DayPickerState();
 }
 
 class _DayPickerState extends State<DayPicker> {
-  DateTime? selectedDay;
   late DayPickerWeeksWrapper weeks;
   final pageController = PageController();
 
@@ -184,8 +195,8 @@ class _DayPickerState extends State<DayPicker> {
 
     weeks.sort();
 
-    selectedDay = weeks.getNextActive(DateTime.now());
-    selectedDay ??= weeks.getFirstActiveDay();
+    widget.controller.setSelectedDate(
+        weeks.getNextActive(DateTime.now()) ?? weeks.getFirstActiveDay());
   }
 
   @override
@@ -212,11 +223,8 @@ class _DayPickerState extends State<DayPicker> {
   }
 
   void onDaySelected(DayPickerDay day) {
-    setState(() {
-      selectedDay = day;
-    });
+    widget.controller.setSelectedDate(day);
     HapticFeedback.selectionClick();
-    widget.onSelect?.call(day);
   }
 
   @override
@@ -237,7 +245,7 @@ class _DayPickerState extends State<DayPicker> {
             .map(
               (week) => _DaysRow(
                 week: week,
-                selectedDay: selectedDay,
+                selectedDay: widget.controller.selectedDate.value,
                 onDaySelected: onDaySelected,
               ),
             )
