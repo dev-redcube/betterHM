@@ -1,8 +1,8 @@
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:better_hm/shared/service/location_service.dart';
+import 'package:collection/collection.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

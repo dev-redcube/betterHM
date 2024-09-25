@@ -18,12 +18,9 @@ class DayPickerDay extends DateTime {
       "DayPickerDay(date: ${super.toString()}, isActive: $isActive)";
 
   @override
-  bool operator ==(covariant DayPickerDay other) =>
+  bool operator ==(covariant DateTime other) =>
       hashCode == other.hashCode ||
-      (year == other.year &&
-          month == other.month &&
-          day == other.day &&
-          isActive == other.isActive);
+      (year == other.year && month == other.month && day == other.day);
 
   @override
   int get hashCode => Object.hash(year, month, day, isActive);
@@ -152,20 +149,23 @@ class DayPickerWeeksWrapper {
   }
 }
 
-class SelectedDayController {
-  final ValueNotifier<DateTime?> _selectedDate = ValueNotifier<DateTime?>(null);
+class SelectedDayController with ChangeNotifier {
+  DateTime? _selectedDate;
 
-  ValueNotifier<DateTime?> get selectedDate => _selectedDate;
+  DateTime? get selectedDate => _selectedDate;
 
-  void setSelectedDate(DateTime? date) {
-    _selectedDate.value = date;
+  set selectedDate(DateTime? date) {
+    _selectedDate = date;
+    notifyListeners();
   }
 }
 
 class DayPicker extends StatefulWidget {
-  DayPicker(
-      {super.key, List<DateTime>? dates, SelectedDayController? controller})
-      : controller = controller ?? SelectedDayController(),
+  DayPicker({
+    super.key,
+    List<DateTime>? dates,
+    SelectedDayController? controller,
+  })  : controller = controller ?? SelectedDayController(),
         dates = dates ?? [];
 
   final List<DateTime> dates;
@@ -195,14 +195,16 @@ class _DayPickerState extends State<DayPicker> {
 
     weeks.sort();
 
-    widget.controller.setSelectedDate(
-        weeks.getNextActive(DateTime.now()) ?? weeks.getFirstActiveDay());
+    widget.controller.selectedDate =
+        weeks.getNextActive(DateTime.now()) ?? weeks.getFirstActiveDay();
   }
 
   @override
   void initState() {
-    updateWeeks();
     super.initState();
+    updateWeeks();
+    widget.controller.addListener(handleExternalDayChange);
+    print(widget.controller);
   }
 
   @override
@@ -222,19 +224,35 @@ class _DayPickerState extends State<DayPicker> {
     }
   }
 
+  @override
+  void dispose() {
+    widget.controller.removeListener(handleExternalDayChange);
+    super.dispose();
+  }
+
+  void handleExternalDayChange() {
+    setState(() {});
+    final selected = widget.controller.selectedDate;
+    pageController.animateToPage(
+      weeks.indexOfDate(selected!),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+  }
+
   void onDaySelected(DayPickerDay day) {
-    widget.controller.setSelectedDate(day);
+    widget.controller.selectedDate = day;
     HapticFeedback.selectionClick();
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (selectedDay != null) {
-        final index = weeks.indexOfDate(selectedDay!);
-        pageController.jumpToPage(index);
-      }
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (selectedDay != null) {
+    //     final index = weeks.indexOfDate(selectedDay!);
+    //     pageController.jumpToPage(index);
+    //   }
+    // });
 
     return SizedBox(
       height: 100,
@@ -245,7 +263,7 @@ class _DayPickerState extends State<DayPicker> {
             .map(
               (week) => _DaysRow(
                 week: week,
-                selectedDay: widget.controller.selectedDate.value,
+                selectedDay: widget.controller.selectedDate,
                 onDaySelected: onDaySelected,
               ),
             )
