@@ -136,29 +136,12 @@ class _MealsBodyState extends State<_MealsBody> {
             (MealDay day) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _DayInfo(date: day.date),
+                 // TODO Auslastung
                 Expanded(child: MealView(day: day)),
               ],
             ),
           )
           .toList(),
-    );
-  }
-}
-
-class _DayInfo extends StatelessWidget {
-  const _DayInfo({required this.date});
-
-  final DateTime date;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Text(
-        DateFormat.yMMMMEEEEd().format(date),
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
     );
   }
 }
