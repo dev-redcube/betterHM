@@ -2,6 +2,7 @@ import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -69,5 +70,6 @@ Future<List<MealDay>?> meals(MealsRef ref) async {
     }
   });
 
-  return response.data.mealDays;
+  final today = DateTime.now().withoutTime;
+  return response.data.mealDays.where((e) => e.date >= today).toList();
 }

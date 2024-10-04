@@ -200,7 +200,7 @@ class _DayPickerState extends State<DayPicker> {
     weeks.sort();
 
     widget.controller.selectDate(
-      weeks.getNextActive(DateTime.now()) ?? weeks.getFirstActiveDay(),
+      weeks.getFirstActiveDay(),
       false,
     );
   }
