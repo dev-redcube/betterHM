@@ -1,3 +1,4 @@
+import 'package:better_hm/home/meals/components/capacity_card.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/models/dish.dart';
 import 'package:better_hm/home/meals/models/label.dart';
