@@ -1,5 +1,6 @@
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,23 +20,23 @@ class CapacityCard extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Auslastung: "),
+            Text("${t.mealplan.capacity.label}:"),
             const SizedBox(width: 16),
-            if(canteen?.canteen != null)
-            Expanded(
-              child: FutureBuilder(
-                future: capacity(canteen!.canteen!),
-                builder: (context, snapshot) {
-                  double progress = snapshot.data ?? 0;
+            if (canteen?.canteen != null)
+              Expanded(
+                child: FutureBuilder(
+                  future: capacity(canteen!.canteen!),
+                  builder: (context, snapshot) {
+                    double progress = snapshot.data ?? 0;
 
-                  return _ProgressBar(value: progress);
-                },
+                    return _ProgressBar(value: progress);
+                  },
+                ),
               ),
-            ),
             const SizedBox(width: 16),
             TextButton(
               onPressed: () {},
-              child: const Text("Feedback"),
+              child: Text(t.mealplan.capacity.feedback),
             ),
           ],
         ),

@@ -138,6 +138,10 @@
         "description": "Wählt automatisch die nächste Mensa",
         "disabledText": "App benötigt Standortzugriff"
       }
+    },
+    "capacity": {
+      "label": "Auslastung",
+      "feedback": "Feedback"
     }
   },
   "settings": {
