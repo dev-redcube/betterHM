@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
@@ -72,4 +74,25 @@ Future<List<MealDay>?> meals(MealsRef ref) async {
 
   final today = DateTime.now().withoutTime;
   return response.data.mealDays.where((e) => e.date >= today).toList();
+}
+
+Future<double?> capacity(Canteen canteen) async {
+  final mainApi = getIt<MainApi>();
+  final uri = Uri(
+    scheme: "https",
+    host: "beta.api.betterhm.app",
+    path: "/v1/capacity/${canteen.enumName}",
+  );
+
+  final response = await mainApi.get(uri, (json) {
+    try {
+      double percentage = json["percentage"];
+      return percentage;
+    } catch (exception, stacktrace) {
+      Logger("CapacityService").severe("Parser fail", exception, stacktrace);
+      rethrow;
+    }
+  });
+
+  return response.data;
 }

@@ -1,11 +1,16 @@
+import 'package:better_hm/home/meals/service/canteen_service.dart';
+import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CapacityCard extends StatelessWidget {
+class CapacityCard extends ConsumerWidget {
   const CapacityCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final canteen = ref.watch(selectedCanteenProvider).value;
+    print(canteen?.canteen);
     return Card(
       color: context.theme.colorScheme.surfaceContainer,
       elevation: 0,
@@ -16,7 +21,17 @@ class CapacityCard extends StatelessWidget {
           children: [
             const Text("Auslastung: "),
             const SizedBox(width: 16),
-            const Expanded(child: _ProgressBar(value: 0.4)),
+            if(canteen?.canteen != null)
+            Expanded(
+              child: FutureBuilder(
+                future: capacity(canteen!.canteen!),
+                builder: (context, snapshot) {
+                  double progress = snapshot.data ?? 0;
+
+                  return _ProgressBar(value: progress);
+                },
+              ),
+            ),
             const SizedBox(width: 16),
             TextButton(
               onPressed: () {},
