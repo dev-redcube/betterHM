@@ -1,4 +1,4 @@
-import 'package:better_hm/shared/components/live_location_indicator.dart';
+import 'package:better_hm/homeComponent/view/departures/live_location_indicator.dart';
 import 'package:better_hm/shared/components/text_button_round_with_icons.dart';
 import 'package:flutter/material.dart';
 

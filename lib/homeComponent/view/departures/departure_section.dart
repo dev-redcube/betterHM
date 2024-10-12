@@ -1,20 +1,20 @@
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/dashboard_section.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/departures.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/selected_station_wrapper.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/base/services/location_service.dart';
+import 'package:better_hm/base/widgets/select_sheet_button.dart';
+import 'package:better_hm/homeComponent/models/station.dart';
+import 'package:better_hm/homeComponent/provider/selected_station_provider.dart';
+import 'package:better_hm/homeComponent/view/dashboard_card.dart';
+import 'package:better_hm/homeComponent/view/dashboard_section.dart';
+import 'package:better_hm/homeComponent/view/departures/departures.dart';
+import 'package:better_hm/homeComponent/view/departures/live_location_indicator.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/components/live_location_indicator.dart';
-import 'package:better_hm/shared/components/select_sheet_button.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
 
-class MvgSection extends StatelessWidget {
-  const MvgSection({super.key});
+class DepartureSection extends StatelessWidget {
+  const DepartureSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class _StationPickerButton extends ConsumerWidget {
             icon: Icons.my_location_rounded,
           ),
           ...stations.map(
-            (e) => SelectBottomSheetItem(
+                (e) => SelectBottomSheetItem(
               title: e.name,
               subtitle: e.campus,
               icon: e.icon,
@@ -101,11 +101,11 @@ class _StationPickerButton extends ConsumerWidget {
       onSelect: (item) {
         final isAutomatic = item.data == null;
         ref.read(selectedStationProvider.notifier).set(
-              SelectedStationWrapper(
-                isAutomatic: isAutomatic,
-                station: item.data,
-              ),
-            );
+          SelectedStationWrapper(
+            isAutomatic: isAutomatic,
+            station: item.data,
+          ),
+        );
       },
     );
   }
@@ -124,9 +124,9 @@ class _DeparturesConsumerWrapper extends ConsumerWidget {
           child: value.station == null
               ? const DeparturesListShimmer()
               : Departures(
-                  key: ObjectKey(value.station),
-                  station: value.station!,
-                ),
+            key: ObjectKey(value.station),
+            station: value.station!,
+          ),
         );
       case AsyncError(:final error):
         Logger("_DeparturesConsumerWrapper")

@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:better_hm/home/dashboard/sections/kino/kino_section.dart';
-import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
+import 'package:better_hm/homeComponent/models/movie.dart';
+import 'package:better_hm/homeComponent/view/movie_section.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';

@@ -1,72 +1,32 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/dashboard_section.dart';
-import 'package:better_hm/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
-import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
+import 'package:better_hm/homeComponent/screen/movie_detail_screen.dart';
+import 'package:better_hm/homeComponent/models/movie.dart';
+import 'package:better_hm/homeComponent/service/movie_service.dart';
+import 'package:better_hm/homeComponent/view/dashboard_card.dart';
+import 'package:better_hm/homeComponent/view/dashboard_section.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-import 'package:logging/logging.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-part 'kino_section.g.dart';
-
-@riverpod
-Future<List<Movie>> movies(MoviesRef ref) async {
-  final log = Logger("MoviesProvider");
-  final uri = Uri(
-    scheme: "https",
-    host: "betterhm.huber.cloud",
-    path: "/movies",
-  );
-  final client = http.Client();
-  final response = await client.get(uri);
-  if (200 == response.statusCode) {
-    log.info("Successfully fetched movies");
-    final movies = Movies.fromJson(jsonDecode(response.body)).movies;
-    return movies;
-  }
-  log.warning(
-    "Failed to load movies. Movies API returned ${response.statusCode}",
-    response.body,
-  );
-  throw Exception("Failed to load movies");
-}
-
-class KinoSection extends ConsumerWidget {
-  const KinoSection({super.key});
+class MovieSection extends StatelessWidget {
+  const MovieSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final movies = ref.watch(moviesProvider);
-
-    Widget errorWidget(Object error, StackTrace stackTrace) {
-      Logger("MoviesProvider")
-          .severe("Failed to load movies", error, stackTrace);
-      return const Text("Couldn't load");
-    }
-
+  Widget build(BuildContext context) {
     return DashboardSection(
       title: t.dashboard.sections.kino.title,
       height: 300,
       child: Expanded(
-        child: Builder(
-          builder: (context) {
-            return switch (movies) {
-              AsyncData(:final value) => _MoviesRow(movies: value),
-              AsyncError(:final error, :final stackTrace) =>
-                errorWidget(error, stackTrace),
-              _ => const _MoviesPlaceholder(),
-            };
+        child: FutureBuilder(
+          future: MovieService.fetchMovies(false),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null)
+              return _MoviesWidget(snapshot.data!.data);
+            return const _MoviesPlaceholder();
           },
         ),
       ),
@@ -74,8 +34,18 @@ class KinoSection extends ConsumerWidget {
   }
 }
 
-class _MoviesRow extends StatelessWidget {
-  const _MoviesRow({required this.movies});
+// Todo
+class _MoviesPlaceholder extends StatelessWidget {
+  const _MoviesPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row();
+  }
+}
+
+class _MoviesWidget extends StatelessWidget {
+  const _MoviesWidget(this.movies);
 
   final List<Movie> movies;
 
@@ -101,25 +71,16 @@ class _MoviesRow extends StatelessWidget {
       itemCount: movies.length,
       initialScrollIndex: startIndex,
       itemBuilder: (context, index) =>
-          MovieCard(movie: movies[index], movies: movies),
+          _MovieCard(movie: movies[index], movies: movies),
     );
   }
 }
 
-class _MoviesPlaceholder extends StatelessWidget {
-  const _MoviesPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Row();
-  }
-}
-
-class MovieCard extends StatelessWidget {
+class _MovieCard extends StatelessWidget {
   final Movie movie;
   final List<Movie> movies;
 
-  const MovieCard({super.key, required this.movie, required this.movies});
+  const _MovieCard({required this.movie, required this.movies});
 
   String _dateString(Movie movie) {
     final today = DateTime.now();

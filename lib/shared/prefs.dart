@@ -6,7 +6,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/homeComponent/models/station.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';

@@ -47,6 +47,7 @@ class Canteen {
       "Canteen(enumName: $enumName, name: $name, canteenId: $canteenId, location: $location)";
 }
 
+@JsonSerializable()
 class OpenHoursWeek {
   final OpenHoursDay? mon;
   final OpenHoursDay? tue;
@@ -66,27 +67,10 @@ class OpenHoursWeek {
     this.sun,
   });
 
-  factory OpenHoursWeek.fromJson(Map<String, dynamic> json) {
-    return OpenHoursWeek(
-      mon: json.containsKey("mon") ? OpenHoursDay.fromJson(json["mon"]) : null,
-      tue: json.containsKey("tue") ? OpenHoursDay.fromJson(json["tue"]) : null,
-      wed: json.containsKey("wed") ? OpenHoursDay.fromJson(json["wed"]) : null,
-      thu: json.containsKey("thu") ? OpenHoursDay.fromJson(json["thu"]) : null,
-      fri: json.containsKey("fri") ? OpenHoursDay.fromJson(json["fri"]) : null,
-      sat: json.containsKey("sat") ? OpenHoursDay.fromJson(json["sat"]) : null,
-      sun: json.containsKey("sun") ? OpenHoursDay.fromJson(json["sun"]) : null,
-    );
-  }
+  factory OpenHoursWeek.fromJson(Map<String, dynamic> json) =>
+      _$OpenHoursWeekFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "mon": mon?.toJson(),
-        "tue": tue?.toJson(),
-        "wed": wed?.toJson(),
-        "thu": thu?.toJson(),
-        "fri": fri?.toJson(),
-        "sat": sat?.toJson(),
-        "sun": sun?.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$OpenHoursWeekToJson(this);
 
   OpenHoursDay? operator [](int day) {
     switch (day) {
@@ -112,10 +96,10 @@ class OpenHoursWeek {
 
 @JsonSerializable()
 class OpenHoursDay {
-  final String? start;
-  final String? end;
+  final String start;
+  final String end;
 
-  OpenHoursDay({this.start, this.end});
+  OpenHoursDay({required this.start, required this.end});
 
   factory OpenHoursDay.fromJson(Map<String, dynamic> json) =>
       _$OpenHoursDayFromJson(json);

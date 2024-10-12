@@ -1,13 +1,13 @@
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/base/services/location_service.dart';
+import 'package:better_hm/homeComponent/models/station.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:collection/collection.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'selected_station_wrapper.g.dart';
+part 'selected_station_provider.g.dart';
 
 class SelectedStationWrapper {
   final bool isAutomatic;
@@ -36,7 +36,7 @@ class SelectedStation extends _$SelectedStation {
     }
 
     final station =
-        stations.firstWhereOrNull((element) => element.id == stationId);
+    stations.firstWhereOrNull((element) => element.id == stationId);
 
     final isAutomatic = station == null;
 
@@ -84,10 +84,10 @@ class SelectedStation extends _$SelectedStation {
     final nearest = stations
         .map(
           (e) => (
-            e,
-            e.location.distanceTo(position!.latitude, position.longitude),
-          ),
-        )
+      e,
+      e.location.distanceTo(position!.latitude, position.longitude),
+      ),
+    )
         .toList();
 
     nearest.sort((a, b) => a.$2.compareTo(b.$2));

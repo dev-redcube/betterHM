@@ -1,13 +1,13 @@
-import 'package:better_hm/home/dashboard/sections/kino/kino_section.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/mvg_section.dart';
-import 'package:better_hm/home/dashboard/student_information.dart';
+import 'package:better_hm/homeComponent/view/departures/departure_section.dart';
+import 'package:better_hm/homeComponent/view/movie_section.dart';
+import 'package:better_hm/homeComponent/view/student_information.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class DashboardScreen extends StatelessWidget {
           children: const [
             TopInformation(),
             Divider(),
-            MvgSection(),
-            KinoSection(),
+            DepartureSection(),
+            MovieSection(),
           ],
         ),
       ),

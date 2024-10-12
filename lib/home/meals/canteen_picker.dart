@@ -1,11 +1,11 @@
-import 'package:better_hm/home/meals/models/canteen.dart';
+import 'package:better_hm/canteenComponent/models/canteen.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/components/live_location_indicator.dart';
-import 'package:better_hm/shared/components/select_sheet_button.dart';
-import 'package:better_hm/shared/service/location_service.dart';
+import 'package:better_hm/homeComponent/view/departures/live_location_indicator.dart';
+import 'package:better_hm/base/widgets/select_sheet_button.dart';
+import 'package:better_hm/base/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';

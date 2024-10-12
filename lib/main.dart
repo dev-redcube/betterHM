@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:better_hm/base/networking/rest_client.dart';
 import 'package:better_hm/home/calendar/calendar_body.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/parse_events.dart';
@@ -9,7 +10,7 @@ import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
-import 'package:better_hm/shared/service/location_service.dart';
+import 'package:better_hm/base/services/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,10 @@ final getIt = GetIt.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await _initializeNetworkingClients();
   Prefs.init();
   LocaleSettings.useDeviceLocale();
+  // todo remove
   getIt.registerSingleton<MainApi>(MainApi.cache());
   getIt.registerSingleton<LocationService>(LocationService());
 
@@ -127,4 +130,8 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
       },
     );
   }
+}
+
+Future<void> _initializeNetworkingClients() async {
+  getIt.registerSingleton<RestClient>(RestClient());
 }

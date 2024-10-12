@@ -1,21 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logging/logging.dart';
 
-part 'movie.g.dart';
+part "movie.g.dart";
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Movies {
   @JsonKey(name: "data")
   final List<Movie> movies;
 
-  Movies({required this.movies});
+  Movies(this.movies);
 
   factory Movies.fromJson(Map<String, dynamic> json) => _$MoviesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MoviesToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Movie {
   final String title;
   final DateTime date;
@@ -45,15 +42,5 @@ class Movie {
     this.unifilmUrl,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    try {
-      return _$MovieFromJson(json);
-    } catch (e) {
-      Logger("Movie")
-          .severe("Failed to parse movie $json", e, StackTrace.current);
-      rethrow;
-    }
-  }
-
-  Map<String, dynamic> toJson() => _$MovieToJson(this);
+  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 }

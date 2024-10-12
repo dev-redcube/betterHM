@@ -1,4 +1,4 @@
-import 'package:better_hm/home/meals/models/canteen.dart';
+import 'package:better_hm/canteenComponent/models/canteen.dart';
 import 'package:better_hm/home/meals/models/day.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/main.dart';

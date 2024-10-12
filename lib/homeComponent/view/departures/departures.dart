@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:better_hm/home/dashboard/dashboard_section.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/departure.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/mvg_service.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
+import 'package:better_hm/homeComponent/models/departure.dart';
+import 'package:better_hm/homeComponent/models/station.dart';
+import 'package:better_hm/homeComponent/service/departure_service.dart';
+import 'package:better_hm/homeComponent/view/dashboard_section.dart';
+import 'package:better_hm/homeComponent/view/departures/line_icon.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-
-import 'line_icon.dart';
 
 class Departures extends StatefulWidget {
   final Station station;
@@ -46,7 +45,7 @@ class _DeparturesState extends State<Departures> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Departure>>(
-      future: MvgService().getDepartures(station: widget.station),
+      future: DepartureService.fetchDepartures(widget.station),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const DeparturesListShimmer();
