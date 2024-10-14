@@ -1,9 +1,11 @@
+import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CapacityCard extends ConsumerWidget {
   const CapacityCard({super.key});
@@ -11,7 +13,6 @@ class CapacityCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canteen = ref.watch(selectedCanteenProvider).value;
-    print(canteen?.canteen);
     return Card(
       color: context.theme.colorScheme.surfaceContainer,
       elevation: 0,
@@ -34,10 +35,7 @@ class CapacityCard extends ConsumerWidget {
                 ),
               ),
             const SizedBox(width: 16),
-            TextButton(
-              onPressed: () {},
-              child: Text(t.mealplan.capacity.feedback),
-            ),
+            CapacityFeedbackButton(canteen: canteen!.canteen!),
           ],
         ),
       ),
@@ -46,7 +44,7 @@ class CapacityCard extends ConsumerWidget {
 }
 
 class _ProgressBar extends StatelessWidget {
-  const _ProgressBar({super.key, required this.value});
+  const _ProgressBar({required this.value});
 
   final double value;
 
@@ -68,6 +66,101 @@ class _ProgressBar extends StatelessWidget {
       builder: (context, value, _) => LinearProgressIndicator(
         value: value,
         color: getColor(),
+      ),
+    );
+  }
+}
+
+class CapacityFeedbackButton extends StatefulWidget {
+  const CapacityFeedbackButton({super.key, required this.canteen});
+
+  final Canteen canteen;
+
+  @override
+  State<CapacityFeedbackButton> createState() => _CapacityFeedbackButtonState();
+}
+
+class _CapacityFeedbackButtonState extends State<CapacityFeedbackButton> {
+  bool isActive = true;
+
+  void onTap() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        onSelect(String value) {
+          context.pop();
+          setState(() {
+            isActive = false;
+          });
+
+          // TODO send feedback
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(t.mealplan.capacity.feedback.snackbar)),
+          );
+        }
+
+        return SimpleDialog(
+          title: Text(t.mealplan.capacity.feedback.label),
+          contentPadding: const EdgeInsets.all(16.0),
+          children: [
+            _FeedbackItem(
+              Colors.green,
+              t.mealplan.capacity.feedback.low,
+              () => onSelect("LOW"),
+            ),
+            _FeedbackItem(
+              Colors.orange,
+              t.mealplan.capacity.feedback.low,
+              () => onSelect("MEDIUM"),
+            ),
+            _FeedbackItem(
+              Colors.red,
+              t.mealplan.capacity.feedback.low,
+              () => onSelect("HIGH"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: isActive ? onTap : null,
+      child: Text(t.mealplan.capacity.feedback.label),
+    );
+  }
+}
+
+class _FeedbackItem extends StatelessWidget {
+  const _FeedbackItem(this.color, this.text, this.onTap);
+
+  final Color color;
+  final String text;
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTap(),
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Container(
+              height: 16,
+              width: 16,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Text(text),
+          ],
+        ),
       ),
     );
   }

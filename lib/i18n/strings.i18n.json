@@ -141,7 +141,13 @@
     },
     "capacity": {
       "label": "Capacity",
-      "feedback": "Feedback"
+      "feedback": {
+        "label": "Feedback",
+        "low": "Short queue",
+        "medium": "Medium queue",
+        "high": "Long queue",
+        "snackbar": "Thanks for the info!"
+      }
     }
   },
   "settings": {
