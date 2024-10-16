@@ -1,5 +1,6 @@
-import 'package:better_hm/base/networking/hm_app_api/hm_app_api.dart';
-import 'package:better_hm/base/networking/hm_app_api/hm_app_api_service.dart';
+
+import 'package:better_hm/base/networking/legacy_api/legacy_api.dart';
+import 'package:better_hm/base/networking/legacy_api/legacy_api_service.dart';
 import 'package:better_hm/base/networking/rest_client.dart';
 import 'package:better_hm/homeComponent/models/movie.dart';
 import 'package:better_hm/main.dart';
@@ -9,8 +10,8 @@ class MovieService {
     bool forcedRefresh,
   ) async {
     final restClient = getIt<RestClient>();
-    final response = await restClient.get<Movies, HmAppApi>(
-      HmAppApi(HmAppApiServiceMovies()),
+    final response = await restClient.get<Movies, LegacyHmAppApi>(
+      LegacyHmAppApi(LegacyHmAppApiServiceMovies()),
       Movies.fromJson,
       forcedRefresh,
     );
