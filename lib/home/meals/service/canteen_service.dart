@@ -77,14 +77,15 @@ Future<double?> capacity(Canteen canteen) async {
   final mainApi = getIt<MainApi>();
   final uri = Uri(
     scheme: "https",
-    host: "beta.api.betterhm.app",
+    host: "api.betterhm.app",
     path: "/v1/capacity/${canteen.enumName}",
   );
 
   final response = await mainApi.get(uri, (json) {
     try {
-      double percentage = json["percentage"];
-      return percentage;
+      double percentage = json["percent"];
+      final p = percentage / 100;
+      return p;
     } catch (exception, stacktrace) {
       Logger("CapacityService").severe("Parser fail", exception, stacktrace);
       rethrow;
