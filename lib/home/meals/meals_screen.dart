@@ -1,4 +1,5 @@
 import 'package:better_hm/home/meals/canteen_picker.dart';
+import 'package:better_hm/home/meals/components/capacity_card.dart';
 import 'package:better_hm/home/meals/components/day_picker.dart';
 import 'package:better_hm/home/meals/meal_view.dart';
 import 'package:better_hm/home/meals/models/day.dart';
@@ -46,6 +47,7 @@ class MealsScreen extends ConsumerWidget {
             controller: dayPickerController,
             dates: meals?.map((day) => day.date).toList() ?? [],
           ),
+          if (meals != null) const CapacityCard(),
           if (meals != null)
             Expanded(
               child: _MealsConsumerWrapper(controller: dayPickerController),

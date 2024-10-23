@@ -138,6 +138,16 @@
         "description": "Automatically selects the nearest canteen",
         "disabledText": "App needs Location permission"
       }
+    },
+    "capacity": {
+      "label": "Capacity",
+      "feedback": {
+        "label": "Feedback",
+        "low": "Short queue",
+        "medium": "Medium queue",
+        "high": "Long queue",
+        "snackbar": "Thanks for the info!"
+      }
     }
   },
   "settings": {
