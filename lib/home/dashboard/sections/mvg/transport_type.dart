@@ -1,9 +1,9 @@
 enum TransportType {
   UBAHN,
-  TRAM,
+  REGIONAL_BUS,
   BUS,
-  SBAHN,
-  SCHIFF;
+  TRAM,
+  SBAHN;
 
   static TransportType fromString(String string) => values.byName(string);
 }
