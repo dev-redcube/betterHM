@@ -21,7 +21,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 part 'kino_section.g.dart';
 
 @riverpod
-Future<List<Movie>> movies(MoviesRef ref) async {
+Future<List<Movie>> movies(Ref ref) async {
   final log = Logger("MoviesProvider");
   final uri = Uri(
     scheme: "https",
