@@ -82,16 +82,20 @@ Future<double?> capacity(Canteen canteen) async {
     path: "/v1/capacity/${canteen.enumName}",
   );
 
-  final response = await mainApi.get(uri, (json) {
-    try {
-      double percentage = json["percent"];
-      final p = percentage / 100;
-      return p;
-    } catch (exception, stacktrace) {
-      Logger("CapacityService").severe("Parser fail", exception, stacktrace);
-      rethrow;
-    }
-  });
+  final response = await mainApi.get(
+    uri,
+    (json) {
+      try {
+        double percentage = json["percent"];
+        final p = percentage / 100;
+        return p;
+      } catch (exception, stacktrace) {
+        Logger("CapacityService").severe("Parser fail", exception, stacktrace);
+        rethrow;
+      }
+    },
+    forcedRefresh: true,
+  );
 
   return response.data;
 }
