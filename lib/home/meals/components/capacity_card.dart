@@ -7,7 +7,6 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CapacityCard extends ConsumerWidget {
   const CapacityCard({super.key});
