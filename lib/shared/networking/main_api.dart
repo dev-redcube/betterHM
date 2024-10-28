@@ -116,9 +116,6 @@ class MainApi {
 
     log("${response.statusCode}: ${response.realUri}");
 
-    print(endpoint);
-    print(response.data);
-
     return ApiResponse<T>.fromJson(
       jsonDecode(response.data.toString()),
       response.headers,

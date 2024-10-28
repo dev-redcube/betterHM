@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:better_hm/home/meals/models/canteen.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
 import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
@@ -13,32 +15,87 @@ class CapacityCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canteen = ref.watch(selectedCanteenProvider).value;
+
+    if (![
+          "STUCAFE_KARLSTR",
+          "MENSA_LOTHSTR",
+          "STUCAFE_LOTHSTR",
+          "MENSA_PASING",
+          "STUCAFE_PASING",
+        ].contains(canteen?.canteen?.enumName) ||
+        canteen?.canteen == null) return const SizedBox.shrink();
+
     return Card(
       color: context.theme.colorScheme.surfaceContainer,
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("${t.mealplan.capacity.label}:"),
-            const SizedBox(width: 16),
-            if (canteen?.canteen != null)
-              Expanded(
-                child: FutureBuilder(
-                  future: capacity(canteen!.canteen!),
-                  builder: (context, snapshot) {
-                    double progress = snapshot.data ?? 0;
-
-                    return _ProgressBar(value: progress);
-                  },
-                ),
-              ),
-            const SizedBox(width: 16),
-            CapacityFeedbackButton(canteen: canteen!.canteen!),
-          ],
-        ),
+        child: _CapacityContent(canteen!.canteen!),
       ),
+    );
+  }
+}
+
+class _CapacityContent extends StatefulWidget {
+  const _CapacityContent(this.canteen);
+
+  final Canteen canteen;
+
+  @override
+  State<_CapacityContent> createState() => _CapacityContentState();
+}
+
+class _CapacityContentState extends State<_CapacityContent> {
+  double? capacityValue;
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(minutes: 1), getCapacity);
+    getCapacity();
+  }
+
+  @override
+  void didUpdateWidget(covariant _CapacityContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.canteen != oldWidget.canteen) getCapacity();
+  }
+
+  getCapacity([Timer? timer]) async {
+    final c = await capacity(widget.canteen);
+    setState(() {
+      capacityValue = c;
+    });
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("${t.mealplan.capacity.label}:"),
+        const SizedBox(width: 16),
+        Expanded(
+          child: _ProgressBar(value: capacityValue ?? 0),
+        ),
+        const SizedBox(width: 16),
+        CapacityFeedbackButton(
+          canteen: widget.canteen,
+          isActive: (capacityValue ?? 0) <= 0.5,
+        ),
+      ],
     );
   }
 }
@@ -72,16 +129,36 @@ class _ProgressBar extends StatelessWidget {
 }
 
 class CapacityFeedbackButton extends StatefulWidget {
-  const CapacityFeedbackButton({super.key, required this.canteen});
+  const CapacityFeedbackButton({
+    super.key,
+    required this.canteen,
+    required this.isActive,
+  });
 
   final Canteen canteen;
+  final bool isActive;
 
   @override
   State<CapacityFeedbackButton> createState() => _CapacityFeedbackButtonState();
 }
 
 class _CapacityFeedbackButtonState extends State<CapacityFeedbackButton> {
-  bool isActive = true;
+  late bool isActive;
+
+  @override
+  void initState() {
+    super.initState();
+    isActive = widget.isActive;
+  }
+
+  @override
+  void didUpdateWidget(covariant CapacityFeedbackButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (isActive != widget.isActive)
+      setState(() {
+        isActive = widget.isActive;
+      });
+  }
 
   void onTap() {
     showDialog(

@@ -4,6 +4,7 @@ import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,7 +20,7 @@ const showCanteens = [
 ];
 
 @riverpod
-Future<List<Canteen>> canteens(CanteensRef ref) async {
+Future<List<Canteen>> canteens(Ref ref) async {
   MainApi mainApi = getIt<MainApi>();
 
   final uri = Uri(
@@ -42,7 +43,7 @@ Future<List<Canteen>> canteens(CanteensRef ref) async {
 }
 
 @riverpod
-Future<List<MealDay>?> meals(MealsRef ref) async {
+Future<List<MealDay>?> meals(Ref ref) async {
   final selectedCanteen = await ref.watch(selectedCanteenProvider.future);
   if (selectedCanteen.canteen == null) return null;
 
