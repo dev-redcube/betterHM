@@ -82,7 +82,7 @@ Future<double?> capacity(Canteen canteen) async {
     path: "/v1/capacity/${canteen.enumName}",
   );
 
-  final response = await mainApi.get(
+  final response = await mainApi.getNeverCache(
     uri,
     (json) {
       try {
@@ -94,7 +94,6 @@ Future<double?> capacity(Canteen canteen) async {
         rethrow;
       }
     },
-    forcedRefresh: true,
   );
 
   return response.data;
