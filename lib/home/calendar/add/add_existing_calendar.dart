@@ -44,7 +44,7 @@ class AddExistingCalendarWidget extends StatelessWidget {
 }
 
 @riverpod
-Future<List<CalendarLink>> availableCalendars(AvailableCalendarsRef ref) async {
+Future<List<CalendarLink>> availableCalendars(Ref ref) async {
   return CalendarService().getAvailableCalendars();
 }
 

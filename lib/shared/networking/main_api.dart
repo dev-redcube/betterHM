@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:better_hm/shared/exceptions/api/api_exception.dart';
 import 'package:better_hm/shared/networking/api.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:logging/logging.dart';
 
 import 'api_response.dart';
 
@@ -13,6 +13,7 @@ class MainApi {
   late Dio dio;
   late Dio noCacheDio;
   MemCacheStore? memCacheStore;
+  final _logger = Logger("MainApi");
 
   MainApi.cache() {
     final memCacheStore = MemCacheStore();
@@ -60,7 +61,7 @@ class MainApi {
       response = await endpoint.asResponse(dioClient: dio);
     }
 
-    log("${response.statusCode}: ${response.realUri}");
+    _logger.info("${response.statusCode}: ${response.realUri}");
     try {
       throw ApiResponse<U>.fromJson(
         jsonDecode(response.data.toString()),
@@ -96,7 +97,7 @@ class MainApi {
       response = await dio.getUri(endpoint, options: options);
     }
 
-    log("${response.statusCode}: ${response.realUri}");
+    _logger.info("${response.statusCode}: ${response.realUri}");
 
     return ApiResponse<T>.fromJson(
       jsonDecode(response.data.toString()),
@@ -114,7 +115,7 @@ class MainApi {
 
     response = await noCacheDio.getUri(endpoint, options: options);
 
-    log("${response.statusCode}: ${response.realUri}");
+    _logger.info("${response.statusCode}: ${response.realUri}");
 
     return ApiResponse<T>.fromJson(
       jsonDecode(response.data.toString()),

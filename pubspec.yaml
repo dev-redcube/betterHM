@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.6.1
+version: 1.6.2
 
 environment:
   sdk: '>=3.0.0'
@@ -104,13 +104,13 @@ dev_dependencies:
     hosted: https://pub.isar-community.dev
     version: *isar_version
   rename: ^3.0.0
-  riverpod_generator: ^2.4.0
+  riverpod_generator: ^2.6.1
   slang_build_runner: ^3.17.0
-
-  # linting
+  riverpod_generator: ^2.6.1
+  riverpod_lint: ^2.6.1
   custom_lint: ^0.6.4
   flutter_lints: ^4.0.0
-  riverpod_lint: ^2.3.10
+  riverpod_lint: ^2.6.1
 
 
 flutter:
