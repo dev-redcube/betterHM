@@ -26,6 +26,9 @@ class Canteen {
   @JsonKey(name: "canteen_id")
   final String canteenId;
 
+  @JsonKey(name: "canteen_status")
+  final String? queueStatusEndpoint;
+
   final Location location;
   final OpenHoursWeek? openHours;
 
@@ -34,6 +37,7 @@ class Canteen {
     required this.name,
     required this.canteenId,
     required this.location,
+    this.queueStatusEndpoint,
     this.openHours,
   });
 

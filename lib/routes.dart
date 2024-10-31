@@ -1,3 +1,4 @@
+import 'package:better_hm/canteenComponent/view/canteen_screen.dart';
 import 'package:better_hm/home/calendar/add/add_screen.dart';
 import 'package:better_hm/home/calendar/calendar_screen.dart';
 import 'package:better_hm/home/calendar/edit_screen.dart';
@@ -168,6 +169,6 @@ final homeRoutes = <GoRoute>[
     name: "meals",
     path: "/meals",
     parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) => NoTransitionPage(child: MealsScreen()),
+    pageBuilder: (context, state) => const NoTransitionPage(child: CanteenScreen()),
   ),
 ];

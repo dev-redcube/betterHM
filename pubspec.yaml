@@ -106,12 +106,11 @@ dev_dependencies:
   rename: ^3.0.0
   riverpod_generator: ^2.6.1
   slang_build_runner: ^3.17.0
-  riverpod_generator: ^2.6.1
+
+  # Linting
   riverpod_lint: ^2.6.1
   custom_lint: ^0.6.4
   flutter_lints: ^4.0.0
-  riverpod_lint: ^2.6.1
-
 
 flutter:
   uses-material-design: true

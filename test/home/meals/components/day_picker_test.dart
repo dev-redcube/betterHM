@@ -1,4 +1,4 @@
-import 'package:better_hm/home/meals/components/day_picker.dart';
+import 'package:better_hm/canteenComponent/widgets/day_picker.dart';
 import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter_test/flutter_test.dart';

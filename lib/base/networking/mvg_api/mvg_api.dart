@@ -16,9 +16,9 @@ class MvgApi extends Api {
         "globalId": station.id,
         "limit": "30",
         "offsetInMinutes": offset.inMinutes.toString(),
-        "transportTypes": "UBAHN,TRAM,BUS,SBAHN",
+        "transportTypes": "UBAHN,REGIONAL_BUS,BUS,TRAM,SBAHN",
       };
 
   @override
-  String get paths => "/api/fib/v2/departure";
+  String get paths => "/api/bgw-pt/v3/departures";
 }

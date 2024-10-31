@@ -1,6 +1,7 @@
 import 'package:better_hm/canteenComponent/models/canteen.dart';
-import 'package:better_hm/home/meals/models/day.dart';
-import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
+import 'package:better_hm/canteenComponent/provider/selected_canteen_provider.dart';
+import 'package:better_hm/canteenComponent/services/canteen_service.dart';
+import 'package:better_hm/canteenComponent/models/day.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
@@ -21,24 +22,18 @@ const showCanteens = [
 
 @riverpod
 Future<List<Canteen>> canteens(Ref ref) async {
-  MainApi mainApi = getIt<MainApi>();
+  final canteens = await CanteenService.fetchCanteens(false);
 
-  final uri = Uri(
-    scheme: "https",
-    host: "tum-dev.github.io",
-    path: "/eat-api/enums/canteens.json",
-  );
+  canteens.data
+      .removeWhere((canteen) => !showCanteens.contains(canteen.enumName));
 
-  final response = await mainApi.get(uri, Canteens.fromJson);
-
-  final canteens = response.data.canteens
-      .where((element) => showCanteens.contains(element.enumName))
-      .toList();
+  final filtered =
+      canteens.data.where((canteen) => showCanteens.contains(canteen.enumName));
 
   // sort by order of showCanteens
   return [
     for (final item in showCanteens)
-      canteens.firstWhere((e) => e.enumName == item),
+      filtered.firstWhere((e) => e.enumName == item),
   ];
 }
 

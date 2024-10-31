@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:better_hm/home/meals/models/canteen.dart';
+import 'package:better_hm/canteenComponent/models/canteen.dart';
+import 'package:better_hm/canteenComponent/provider/selected_canteen_provider.dart';
 import 'package:better_hm/home/meals/service/canteen_service.dart';
-import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';

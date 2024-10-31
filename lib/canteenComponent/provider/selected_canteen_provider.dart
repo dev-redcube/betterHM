@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'selected_canteen_wrapper.g.dart';
+part 'selected_canteen_provider.g.dart';
 
 class SelectedCanteenWrapper {
   final bool isAutomatic;

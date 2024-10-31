@@ -1,5 +1,5 @@
-import 'package:better_hm/home/meals/models/label.dart';
-import 'package:better_hm/home/meals/models/prices.dart';
+import 'package:better_hm/canteenComponent/models/label.dart';
+import 'package:better_hm/canteenComponent/models/price.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'dish.g.dart';
