@@ -7,7 +7,6 @@ import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CapacityCard extends ConsumerWidget {
   const CapacityCard({super.key});
@@ -91,10 +90,6 @@ class _CapacityContentState extends State<_CapacityContent> {
           child: _ProgressBar(value: capacityValue ?? 0),
         ),
         const SizedBox(width: 16),
-        CapacityFeedbackButton(
-          canteen: widget.canteen,
-          isActive: (capacityValue ?? 0) <= 0.5,
-        ),
       ],
     );
   }
@@ -123,121 +118,6 @@ class _ProgressBar extends StatelessWidget {
       builder: (context, value, _) => LinearProgressIndicator(
         value: value,
         color: getColor(),
-      ),
-    );
-  }
-}
-
-class CapacityFeedbackButton extends StatefulWidget {
-  const CapacityFeedbackButton({
-    super.key,
-    required this.canteen,
-    required this.isActive,
-  });
-
-  final Canteen canteen;
-  final bool isActive;
-
-  @override
-  State<CapacityFeedbackButton> createState() => _CapacityFeedbackButtonState();
-}
-
-class _CapacityFeedbackButtonState extends State<CapacityFeedbackButton> {
-  late bool isActive;
-
-  @override
-  void initState() {
-    super.initState();
-    isActive = widget.isActive;
-  }
-
-  @override
-  void didUpdateWidget(covariant CapacityFeedbackButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (isActive != widget.isActive)
-      setState(() {
-        isActive = widget.isActive;
-      });
-  }
-
-  void onTap() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        onSelect(String value) {
-          context.pop();
-          setState(() {
-            isActive = false;
-          });
-
-          // TODO send feedback
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(t.mealplan.capacity.feedback.snackbar)),
-          );
-        }
-
-        return SimpleDialog(
-          title: Text(t.mealplan.capacity.feedback.label),
-          contentPadding: const EdgeInsets.all(16.0),
-          children: [
-            _FeedbackItem(
-              Colors.green,
-              t.mealplan.capacity.feedback.low,
-              () => onSelect("LOW"),
-            ),
-            _FeedbackItem(
-              Colors.orange,
-              t.mealplan.capacity.feedback.low,
-              () => onSelect("MEDIUM"),
-            ),
-            _FeedbackItem(
-              Colors.red,
-              t.mealplan.capacity.feedback.low,
-              () => onSelect("HIGH"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: isActive ? onTap : null,
-      child: Text(t.mealplan.capacity.feedback.label),
-    );
-  }
-}
-
-class _FeedbackItem extends StatelessWidget {
-  const _FeedbackItem(this.color, this.text, this.onTap);
-
-  final Color color;
-  final String text;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap(),
-      borderRadius: BorderRadius.circular(16),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Container(
-              height: 16,
-              width: 16,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Text(text),
-          ],
-        ),
       ),
     );
   }
