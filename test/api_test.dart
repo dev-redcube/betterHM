@@ -1,7 +1,6 @@
 import 'package:better_hm/base/networking/rest_client.dart';
 import 'package:better_hm/canteenComponent/services/canteen_service.dart';
-import 'package:better_hm/homeComponent/models/station.dart';
-import 'package:better_hm/homeComponent/service/departure_service.dart';
+import 'package:better_hm/canteenComponent/services/mealplan_service.dart';
 import 'package:better_hm/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,7 +16,7 @@ void main() {
 
     print(canteen);
 
-    final meals = await CanteenService.fetchMeals(canteen);
+    final meals = await MealplanService.fetchMeals(canteen);
 
     print(meals);
   });
