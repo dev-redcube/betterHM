@@ -105,6 +105,8 @@ jobs:
         with:
           draft: true
           tag_name: ${{ env.APP_VERSION }}
+          name: ${{ env.APP_VERSION }}
+          generate_release_notes: true
           files: |
             binaries/**/*.apk
             binaries/**/*.aab
