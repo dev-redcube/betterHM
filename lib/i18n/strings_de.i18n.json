@@ -138,6 +138,16 @@
         "description": "Wählt automatisch die nächste Mensa",
         "disabledText": "App benötigt Standortzugriff"
       }
+    },
+    "capacity": {
+      "label": "Auslastung",
+      "feedback": {
+        "label": "Feedback",
+        "low": "Wenig los. Keine/kurze Anstehzeit",
+        "medium": "Mittel viel los. Akzeptable Anstehzeit",
+        "high": "Viel los. Lange Anstehzeit",
+        "snackbar": "Danke für die Info!"
+      }
     }
   },
   "settings": {

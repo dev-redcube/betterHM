@@ -60,7 +60,7 @@ class MvgService {
     final uri = Uri(
       scheme: "https",
       host: "www.mvg.de",
-      path: "api/fib/v2/departure",
+      path: "/api/bgw-pt/v3/departures",
 
       /// cannot use queryParameters because there variables would be encoded
       query:
