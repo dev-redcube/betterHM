@@ -35,6 +35,7 @@ jobs:
     outputs:
       ref: ${{ steps.push-tag.outputs.commit_long_sha }}
       build_number: ${{ env.BUILD_NUMBER }}
+      app_version: ${{ env.APP_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,11 +97,12 @@ jobs:
       build_number: ${{ needs.bump_version.outputs.build_number }}
       ref: ${{ needs.bump_version.outputs.ref }}
 
-
   prepare_release:
     name: Prepare release
     runs-on: ubuntu-latest
-    needs: build_mobile
+    needs:
+      - bump_version
+      - build_mobile
     steps:
       - name: Download Binaries
         uses: actions/download-artifact@v4
@@ -111,8 +113,8 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.APP_VERSION }}
-          name: ${{ env.APP_VERSION }} ${{ inputs.title }}
+          tag_name: ${{ needs.bump_version.outputs.app_version }}
+          name: ${{ needs.bump_version.outputs.app_version }} ${{ inputs.title }}
           body: ${{ inputs.description }}
           generate_release_notes: true
           make_latest: true
