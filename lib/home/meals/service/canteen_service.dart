@@ -17,6 +17,7 @@ const showCanteens = [
   "MENSA_ARCISSTR",
   "MENSA_GARCHING",
   "STUCAFE_GARCHING",
+  "MENSA_MARTINSRIED",
 ];
 
 @riverpod
