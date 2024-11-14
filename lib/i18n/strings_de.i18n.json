@@ -69,7 +69,7 @@
           "automatic": {
             "error": "Fehler",
             "title": "Automatisch",
-            "description": "Wählt automatisch die nächste Station",
+            "description": "Wählt automatisch die nächstgelegene Station",
             "disabledText": "App benötigt Standortzugriff"
           }
         }
@@ -135,7 +135,7 @@
       "automatic": {
         "error": "Fehler",
         "title": "Automatisch",
-        "description": "Wählt automatisch die nächste Mensa",
+        "description": "Wählt automatisch die nächstgelegene Mensa",
         "disabledText": "App benötigt Standortzugriff"
       }
     },

@@ -69,7 +69,7 @@
           "automatic": {
             "error": "Error",
             "title": "Automatic",
-            "description": "Automatically selects the nearest station",
+            "description": "Automatically selects the closest station",
             "disabledText": "App needs Location permission"
           }
         }
@@ -135,7 +135,7 @@
       "automatic": {
         "title": "Automatic",
         "error": "Error",
-        "description": "Automatically selects the nearest canteen",
+        "description": "Automatically selects the closest canteen",
         "disabledText": "App needs Location permission"
       }
     },
