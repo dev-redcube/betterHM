@@ -70,6 +70,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
   uuid: ^4.3.3
+  # For some reason Workmanager didn't push fixes to the registry
   workmanager:
     git:
       url: https://github.com/fluttercommunity/flutter_workmanager.git

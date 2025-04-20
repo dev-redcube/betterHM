@@ -68,12 +68,14 @@ class _LogsScreenState extends State<LogsScreen> {
             final List<LogEntry> entries = snapshot.data!;
             return ListView.separated(
               controller: _controller,
-              separatorBuilder: (context, index) => Divider(
-                height: 0,
-                color: context.theme.brightness == Brightness.dark
-                    ? Colors.white70
-                    : Colors.grey[600],
-              ),
+              separatorBuilder:
+                  (context, index) => Divider(
+                    height: 0,
+                    color:
+                        context.theme.brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey[600],
+                  ),
               itemCount: entries.length,
               itemBuilder: (context, index) {
                 final i = entries.length - index - 1;
@@ -85,18 +87,19 @@ class _LogsScreenState extends State<LogsScreen> {
           return const SizedBox.shrink();
         },
       ),
-      floatingActionButton: showFab
-          ? FloatingActionButton(
-              child: const Icon(Icons.arrow_upward_rounded),
-              onPressed: () {
-                _controller.animateTo(
-                  0.0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOut,
-                );
-              },
-            )
-          : null,
+      floatingActionButton:
+          showFab
+              ? FloatingActionButton(
+                child: const Icon(Icons.arrow_upward_rounded),
+                onPressed: () {
+                  _controller.animateTo(
+                    0.0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOut,
+                  );
+                },
+              )
+              : null,
     );
   }
 }
@@ -114,38 +117,38 @@ class _LogEntry extends StatelessWidget {
         Container(
           width: 10,
           height: 10,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
       ],
     );
   }
 
   Widget buildLeadingIcon(LogLevel level) => switch (level) {
-        LogLevel.INFO => colorStatusIndicator(Colors.blueAccent),
-        LogLevel.SEVERE => colorStatusIndicator(Colors.redAccent),
-        LogLevel.WARNING => colorStatusIndicator(Colors.orangeAccent),
-        _ => colorStatusIndicator(Colors.grey)
-      };
+    LogLevel.INFO => colorStatusIndicator(Colors.blueAccent),
+    LogLevel.SEVERE => colorStatusIndicator(Colors.redAccent),
+    LogLevel.WARNING => colorStatusIndicator(Colors.orangeAccent),
+    _ => colorStatusIndicator(Colors.grey),
+  };
 
   Color getTileColor(LogLevel level, Brightness brightness) => switch (level) {
-        LogLevel.INFO => Colors.transparent,
-        LogLevel.SEVERE => brightness == Brightness.dark
-            ? Colors.redAccent.withOpacity(0.25)
-            : Colors.redAccent.withOpacity(0.075),
-        LogLevel.WARNING => brightness == Brightness.dark
-            ? Colors.orangeAccent.withOpacity(0.25)
-            : Colors.orangeAccent.withOpacity(0.075),
-        _ => Colors.transparent
-      };
+    LogLevel.INFO => Colors.transparent,
+    LogLevel.SEVERE =>
+      brightness == Brightness.dark
+          ? Colors.redAccent.withValues(alpha: 0.25 * 255)
+          : Colors.redAccent.withValues(alpha: 0.075 * 255),
+    LogLevel.WARNING =>
+      brightness == Brightness.dark
+          ? Colors.orangeAccent.withValues(alpha: 0.25 * 255)
+          : Colors.orangeAccent.withValues(alpha: 0.075 * 255),
+    _ => Colors.transparent,
+  };
 
   @override
   Widget build(BuildContext context) {
-    final titleColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.white70
-        : Colors.grey[600];
+    final titleColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Colors.white70
+            : Colors.grey[600];
     return ListTile(
       tileColor: getTileColor(entry.level, context.theme.brightness),
       dense: true,
@@ -184,10 +187,7 @@ class _LogEntry extends StatelessWidget {
       ),
       subtitle: Text(
         "[${entry.context1}] Logged on ${DateFormat("HH:mm:ss.SSS").format(entry.timestamp)}",
-        style: TextStyle(
-          fontSize: 12.0,
-          color: Colors.grey[600],
-        ),
+        style: TextStyle(fontSize: 12.0, color: Colors.grey[600]),
       ),
     );
   }

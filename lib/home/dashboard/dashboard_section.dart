@@ -57,10 +57,9 @@ class DashboardSectionShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Shimmer.fromColors(
-        period: const Duration(seconds: 2),
-        baseColor:
-            context.theme.colorScheme.secondaryContainer.withOpacity(0.5),
-        highlightColor: context.theme.colorScheme.primary.withOpacity(0.25),
-        child: child,
-      );
+    period: const Duration(seconds: 2),
+    baseColor: context.theme.colorScheme.secondaryContainer.withAlpha(128),
+    highlightColor: context.theme.colorScheme.primary.withAlpha(64),
+    child: child,
+  );
 }

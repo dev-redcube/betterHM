@@ -19,10 +19,8 @@ class DashboardCard extends StatelessWidget {
     this.padding,
   });
 
-  Widget buildChild(BuildContext context) => Padding(
-        padding: padding ?? const EdgeInsets.all(16),
-        child: child,
-      );
+  Widget buildChild(BuildContext context) =>
+      Padding(padding: padding ?? const EdgeInsets.all(16), child: child);
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +28,20 @@ class DashboardCard extends StatelessWidget {
       height: height,
       width: width,
       child: Card(
-        color: usePrimaryColor
-            ? context.theme.colorScheme.primaryContainer.withOpacity(0.5)
-            : context.theme.colorScheme.secondaryContainer.withOpacity(0.5),
+        color:
+            usePrimaryColor
+                ? context.theme.colorScheme.primaryContainer.withAlpha(128)
+                : context.theme.colorScheme.secondaryContainer.withAlpha(128),
         elevation: 0,
         clipBehavior: Clip.hardEdge,
-        child: onTap == null
-            ? buildChild(context)
-            : InkWell(
-                onTap: onTap,
-                splashColor: context.theme.colorScheme.primary.withOpacity(0.5),
-                child: buildChild(context),
-              ),
+        child:
+            onTap == null
+                ? buildChild(context)
+                : InkWell(
+                  onTap: onTap,
+                  splashColor: context.theme.colorScheme.primary.withAlpha(128),
+                  child: buildChild(context),
+                ),
       ),
     );
   }

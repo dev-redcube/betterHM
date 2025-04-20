@@ -22,12 +22,12 @@ class Calendar {
     required this.name,
     required this.url,
     Color? color,
-  }) : colorValue = color?.value;
+  }) : colorValue = color?.toARGB32();
 
   @ignore
   Color? get color => colorValue == null ? null : Color(colorValue!);
 
-  set color(Color? color) => colorValue = color?.value;
+  set color(Color? color) => colorValue = color?.toARGB32();
 
   @override
   String toString() =>
