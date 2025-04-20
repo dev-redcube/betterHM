@@ -26,8 +26,8 @@ Future<List<Movie>> movies(Ref ref) async {
   final log = Logger("MoviesProvider");
   final uri = Uri(
     scheme: "https",
-    host: "betterhm.huber.cloud",
-    path: "/movies",
+    host: "api.betterhm.app",
+    path: "/v1/movies",
   );
   final client = http.Client();
   final response = await client.get(uri);
