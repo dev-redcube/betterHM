@@ -63,10 +63,10 @@ class _AddExistingCalendarWrapper extends ConsumerWidget {
 
     return switch (availableCalendars) {
       AsyncData(:final value) => _ExistingCalendars(
-          calendarLinks: value,
-          calendars: calendars,
-          add: add,
-        ),
+        calendarLinks: value,
+        calendars: calendars,
+        add: add,
+      ),
       AsyncError(:final error) => Text("Error: $error"),
       _ => const SizedBox.shrink(),
     };
@@ -91,14 +91,13 @@ class _ExistingCalendars extends StatelessWidget {
       separatorBuilder: (context, index) => const Divider(height: 8),
       itemBuilder: (context, index) {
         final link = calendarLinks[index];
-        final disabled = calendars.any((element) => element.id == link.id) ||
+        final disabled =
+            calendars.any((element) => element.id == link.id) ||
             calendars.any((element) => element.url == link.url);
         return ListTile(
           title: Text(link.name),
           enabled: !disabled,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           onTap: () async {
             final calendar = Calendar(
               id: link.id,

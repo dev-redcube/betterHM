@@ -9,11 +9,7 @@ class Location {
   final double longitude;
   final String? address;
 
-  Location(
-    this.latitude,
-    this.longitude, {
-    this.address,
-  });
+  Location(this.latitude, this.longitude, {this.address});
 
   double distanceToLocation(
     Location other, [

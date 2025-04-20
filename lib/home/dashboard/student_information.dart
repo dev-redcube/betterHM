@@ -62,11 +62,7 @@ class WebOpenCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(icon),
-          const SizedBox(width: 12),
-          Text(label),
-        ],
+        children: <Widget>[Icon(icon), const SizedBox(width: 12), Text(label)],
       ),
       onTap: () {
         ChromeSafariBrowser().open(url: WebUri(url));
@@ -84,18 +80,12 @@ class StudentInformation extends StatelessWidget {
       usePrimaryColor: true,
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 30,
-            child: Icon(Icons.person_rounded),
-          ),
+          CircleAvatar(radius: 30, child: Icon(Icons.person_rounded)),
           SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Max Mustermann"),
-              Text("Wirtschaftsinformatik"),
-            ],
+            children: [Text("Max Mustermann"), Text("Wirtschaftsinformatik")],
           ),
         ],
       ),

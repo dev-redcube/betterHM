@@ -26,9 +26,10 @@ class AdvancedSettingsSection extends StatelessWidget {
         SettingsDropdown<int>(
           title: t.settings.advanced.logLevel,
           pref: Prefs.logLevel,
-          options: LogLevel.values
-              .map((e) => DropdownItem(e.name, e.index))
-              .toList(),
+          options:
+              LogLevel.values
+                  .map((e) => DropdownItem(e.name, e.index))
+                  .toList(),
           afterChange: (int value) {
             HMLogger().level = Level.LEVELS[value];
           },
@@ -49,9 +50,7 @@ class AdvancedSettingsSection extends StatelessWidget {
             PermissionStatus? status = await Permission.notification.request();
             if (status != PermissionStatus.granted && context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Enable Notifications"),
-                ),
+                const SnackBar(content: Text("Enable Notifications")),
               );
               Prefs.showBackgroundJobNotification.value = false;
             }
@@ -67,9 +66,7 @@ class AdvancedSettingsSection extends StatelessWidget {
           onTap: () {
             getIt.get<MainApi>().clearCache();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(t.settings.advanced.clearCaches.snackbar),
-              ),
+              SnackBar(content: Text(t.settings.advanced.clearCaches.snackbar)),
             );
           },
         ),

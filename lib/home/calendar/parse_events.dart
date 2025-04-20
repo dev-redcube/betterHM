@@ -29,9 +29,7 @@ Future<List<CustomCalendarEvent>> parseAllEvents() async {
   return events;
 }
 
-Future<Iterable<CustomCalendarEvent>> parseEvents(
-  Calendar calendar,
-) async {
+Future<Iterable<CustomCalendarEvent>> parseEvents(Calendar calendar) async {
   final path = await ICalService.getPath();
   final file = File("${path.path}/${calendar.id}.ics");
   if (!await file.exists()) return Future.value([]);
@@ -57,11 +55,9 @@ Future<Iterable<CustomCalendarEvent>> _parseICal(
   try {
     ical = ICalendar.fromICalendarLines(lines);
   } catch (e, stacktrace) {
-    Logger("Calendar").severe(
-      "Failed to parse Calendar $calendar",
-      e,
-      stacktrace,
-    );
+    Logger(
+      "Calendar",
+    ).severe("Failed to parse Calendar $calendar", e, stacktrace);
     return Future.value([]);
   }
 
@@ -79,9 +75,11 @@ Future<Iterable<CustomCalendarEvent>> _parseICal(
         final event = CalendarEvent(
           dateTimeRange: DateTimeRange(
             start: component.dateTimeStart!.value.value,
-            end: component.end?.value.value ??
-                component.dateTimeStart!.value.value
-                    .add(component.duration!.value.value),
+            end:
+                component.end?.value.value ??
+                component.dateTimeStart!.value.value.add(
+                  component.duration!.value.value,
+                ),
           ),
           eventData: EventData(
             calendarId: calendar.id,
@@ -95,9 +93,9 @@ Future<Iterable<CustomCalendarEvent>> _parseICal(
     }
   }
   stopwatch.stop();
-  Logger("IcalParser").info(
-    "$calendar parsed in ${stopwatch.elapsed.inSeconds} seconds",
-  );
+  Logger(
+    "IcalParser",
+  ).info("$calendar parsed in ${stopwatch.elapsed.inSeconds} seconds");
   return splitEvents(events);
 }
 
@@ -157,12 +155,10 @@ List<CustomCalendarEvent> splitRRule(CustomCalendarEvent event) {
     );
 
     // year before and after today
-    final ranged = instances.takeWhile(
-      (value) {
-        final diff = value.difference(DateTime.now()).inDays;
-        return diff >= -61 && diff <= 6 * 30;
-      },
-    );
+    final ranged = instances.takeWhile((value) {
+      final diff = value.difference(DateTime.now()).inDays;
+      return diff >= -61 && diff <= 6 * 30;
+    });
 
     for (final instance in ranged) {
       splitEvents.add(

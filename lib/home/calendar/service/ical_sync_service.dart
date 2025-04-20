@@ -15,7 +15,7 @@ class ICalService {
   final bool updateCalendarController;
 
   ICalService({this.updateCalendarController = false})
-      : _db = Isar.getInstance()!;
+    : _db = Isar.getInstance()!;
 
   static Future<Directory> getPath() async =>
       Directory("${(await getApplicationSupportDirectory()).path}/calendars");
@@ -50,9 +50,7 @@ class ICalService {
     final file = File("${path.path}/${calendar.id}.ics");
     _log.info("Downloading calendar ${calendar.name}");
     try {
-      final response = await httpClient.get(
-        Uri.parse(calendar.url),
-      );
+      final response = await httpClient.get(Uri.parse(calendar.url));
 
       if (200 != response.statusCode) {
         _log.warning(

@@ -17,8 +17,9 @@ abstract class _DateHelper {
 
   /// Calculates week number from a date as per https://en.wikipedia.org/wiki/ISO_week_date#Calculating_the_week_number_from_an_ordinal_date
   static int weekOfYear(DateTime date) {
-    int w = ((int.parse(DateFormat("D").format(date)) - date.weekday + 10) / 7)
-        .floor();
+    int w =
+        ((int.parse(DateFormat("D").format(date)) - date.weekday + 10) / 7)
+            .floor();
 
     if (w < 1) {
       return numberOfWeeks(date.year - 1);

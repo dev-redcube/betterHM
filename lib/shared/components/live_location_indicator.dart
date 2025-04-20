@@ -2,12 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-enum LiveLocationState {
-  off,
-  searching,
-  found,
-  error,
-}
+enum LiveLocationState { off, searching, found, error }
 
 class LiveLocationIndicator extends StatefulWidget {
   const LiveLocationIndicator({super.key, required this.state});
@@ -54,18 +49,19 @@ class _LiveLocationIndicatorState extends State<LiveLocationIndicator> {
 
   void timerFunc(Timer timer) {
     setState(() {
-      state = state == LiveLocationState.searching
-          ? LiveLocationState.found
-          : LiveLocationState.searching;
+      state =
+          state == LiveLocationState.searching
+              ? LiveLocationState.found
+              : LiveLocationState.searching;
     });
   }
 
   IconData? get icon => switch (state) {
-        LiveLocationState.searching => Icons.location_searching_rounded,
-        LiveLocationState.found => Icons.my_location_rounded,
-        LiveLocationState.error => Icons.error_rounded,
-        _ => null,
-      };
+    LiveLocationState.searching => Icons.location_searching_rounded,
+    LiveLocationState.found => Icons.my_location_rounded,
+    LiveLocationState.error => Icons.error_rounded,
+    _ => null,
+  };
 
   @override
   Widget build(BuildContext context) =>

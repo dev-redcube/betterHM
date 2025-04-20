@@ -69,8 +69,10 @@ class MvgService {
 
     final mainApi = getIt<MainApi>();
 
-    final departures =
-        await mainApi.getNeverCache(uri, DeparturesWrapper.fromJson);
+    final departures = await mainApi.getNeverCache(
+      uri,
+      DeparturesWrapper.fromJson,
+    );
 
     _log.info(
       "Fetched ${departures.data.departures.length} departures for stop ${station.name} (${station.id})",

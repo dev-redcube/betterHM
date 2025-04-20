@@ -13,9 +13,9 @@ class SelectSheetButton<T> extends StatelessWidget {
     this.itemsBuilder,
     required this.onSelect,
     this.initialChildSize = 0.75,
-  })  : assert(items != null || itemsBuilder != null),
-        assert(items == null || itemsBuilder == null),
-        assert(initialChildSize >= 0.25 && initialChildSize <= 0.9);
+  }) : assert(items != null || itemsBuilder != null),
+       assert(items == null || itemsBuilder == null),
+       assert(initialChildSize >= 0.25 && initialChildSize <= 0.9);
 
   final SelectBottomSheetItemList<T>? items;
   final Future<SelectBottomSheetItemList<T>> Function()? itemsBuilder;
@@ -38,31 +38,39 @@ class SelectSheetButton<T> extends StatelessWidget {
         useSafeArea: true,
         showDragHandle: true,
         isScrollControlled: true,
-        builder: (context) => DraggableScrollableSheet(
-          expand: false,
-          snap: false,
-          snapSizes: [initialChildSize],
-          initialChildSize: initialChildSize,
-          builder: (context, scrollController) => ListView(
-            controller: scrollController,
-            children: sheetItems!
-                .map(
-                  (e) => ListTile(
-                    title: Text(e.title),
-                    leading: Icon(e.icon),
-                    subtitle: e.subtitle == null ? null : Text(e.subtitle!),
-                    enabled: e.enabled,
-                    onTap: () {
-                      onSelect.call(e);
-                      Navigator.pop(context);
-                    },
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        builder:
+            (context) => DraggableScrollableSheet(
+              expand: false,
+              snap: false,
+              snapSizes: [initialChildSize],
+              initialChildSize: initialChildSize,
+              builder:
+                  (context, scrollController) => ListView(
+                    controller: scrollController,
+                    children:
+                        sheetItems!
+                            .map(
+                              (e) => ListTile(
+                                title: Text(e.title),
+                                leading: Icon(e.icon),
+                                subtitle:
+                                    e.subtitle == null
+                                        ? null
+                                        : Text(e.subtitle!),
+                                enabled: e.enabled,
+                                onTap: () {
+                                  onSelect.call(e);
+                                  Navigator.pop(context);
+                                },
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                              ),
+                            )
+                            .toList(),
                   ),
-                )
-                .toList(),
-          ),
-        ),
+            ),
       );
     }
   }
@@ -71,9 +79,10 @@ class SelectSheetButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButtonRoundWithIcons(
       onPressed: () => showBottomSheet(context),
-      left: locationState == LiveLocationState.off
-          ? null
-          : LiveLocationIndicator(state: locationState),
+      left:
+          locationState == LiveLocationState.off
+              ? null
+              : LiveLocationIndicator(state: locationState),
       text: text,
       right: const Icon(Icons.arrow_drop_down_rounded),
     );

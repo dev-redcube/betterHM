@@ -58,22 +58,25 @@ class _SettingsDropdownState<T> extends State<SettingsDropdown<T>> {
       child: InkWell(
         child: ListTile(
           onTap: () {},
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 4,
+            horizontal: 16,
+          ),
           title: Text(widget.title),
           subtitle: widget.subtitle != null ? Text(widget.subtitle!) : null,
           trailing: DropdownButton<T>(
-            items: widget.options
-                .map(
-                  (e) => DropdownMenuItem(
-                    value: e.value,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(e.name),
-                    ),
-                  ),
-                )
-                .toList(),
+            items:
+                widget.options
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e.value,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(e.name),
+                        ),
+                      ),
+                    )
+                    .toList(),
             value: widget.pref.value,
             onChanged: (T? value) {
               if (value == null) return;

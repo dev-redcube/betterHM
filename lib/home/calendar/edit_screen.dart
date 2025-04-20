@@ -49,9 +49,7 @@ class CalendarEditScreen extends ConsumerWidget {
                     return const SizedBox.shrink();
                   }
                   if (snapshot.hasError) {
-                    return Center(
-                      child: Text("Error: ${snapshot.error}"),
-                    );
+                    return Center(child: Text("Error: ${snapshot.error}"));
                   }
 
                   final calendars = snapshot.data!;
@@ -94,9 +92,7 @@ class _CalendarEditScreenBody extends StatelessWidget {
         },
       );
     }
-    return Center(
-      child: Text(t.calendar.edit.noCalendars),
-    );
+    return Center(child: Text(t.calendar.edit.noCalendars));
   }
 }
 
@@ -127,8 +123,9 @@ class _CalendarRow extends ConsumerWidget {
     await _db.writeTxn(() async {
       await _db.calendars.delete(calendar.isarId);
     });
-    eventsController
-        .removeWhere((element) => element.eventData?.calendarId == calendar.id);
+    eventsController.removeWhere(
+      (element) => element.eventData?.calendarId == calendar.id,
+    );
   }
 
   void _warningPopup(BuildContext context) {
@@ -170,10 +167,7 @@ class _CalendarRow extends ConsumerWidget {
           children: [
             if (calendar.numOfFails != 0)
               IconButton(
-                icon: const Icon(
-                  Icons.warning_rounded,
-                  color: Colors.orange,
-                ),
+                icon: const Icon(Icons.warning_rounded, color: Colors.orange),
                 onPressed: () => _warningPopup(context),
               ),
             IconButton(

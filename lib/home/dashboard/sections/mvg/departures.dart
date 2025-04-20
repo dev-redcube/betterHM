@@ -84,26 +84,13 @@ class DeparturesListShimmer extends StatelessWidget {
         child: ListView.separated(
           itemCount: 5,
           separatorBuilder: (__, _) => const SizedBox(height: 8),
-          itemBuilder: (__, _) => SizedBox(
-            height: 22.5,
-            child: Row(
-              children: [
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: FractionallySizedBox(
-                      alignment: Alignment.centerLeft,
-                      widthFactor: Random().nextDouble() * (0.7 - 0.4) + 0.4,
-                      // widthFactor: 1,
+          itemBuilder:
+              (__, _) => SizedBox(
+                height: 22.5,
+                child: Row(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
@@ -111,20 +98,35 @@ class DeparturesListShimmer extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ),
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.black,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: FractionallySizedBox(
+                          alignment: Alignment.centerLeft,
+                          widthFactor:
+                              Random().nextDouble() * (0.7 - 0.4) + 0.4,
+                          // widthFactor: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
         ),
       ),
     );

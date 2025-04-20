@@ -88,14 +88,15 @@ class SelectedCanteen extends _$SelectedCanteen {
 
     final canteens = await ref.read(canteensProvider.future);
 
-    final nearest = canteens
-        .map(
-          (e) => (
-            e,
-            e.location.distanceTo(position!.latitude, position.longitude),
-          ),
-        )
-        .toList();
+    final nearest =
+        canteens
+            .map(
+              (e) => (
+                e,
+                e.location.distanceTo(position!.latitude, position.longitude),
+              ),
+            )
+            .toList();
 
     nearest.sort((a, b) => a.$2.compareTo(b.$2));
 
@@ -104,11 +105,6 @@ class SelectedCanteen extends _$SelectedCanteen {
       "Found nearest Canteen $nearestCanteen. Location: lat. ${position.latitude}, lon. ${position.longitude}",
     );
 
-    set(
-      SelectedCanteenWrapper(
-        isAutomatic: true,
-        canteen: nearestCanteen,
-      ),
-    );
+    set(SelectedCanteenWrapper(isAutomatic: true, canteen: nearestCanteen));
   }
 }

@@ -51,8 +51,9 @@ class KinoSection extends ConsumerWidget {
     final movies = ref.watch(moviesProvider);
 
     Widget errorWidget(Object error, StackTrace stackTrace) {
-      Logger("MoviesProvider")
-          .severe("Failed to load movies", error, stackTrace);
+      Logger(
+        "MoviesProvider",
+      ).severe("Failed to load movies", error, stackTrace);
       return const Text("Couldn't load");
     }
 
@@ -64,8 +65,10 @@ class KinoSection extends ConsumerWidget {
           builder: (context) {
             return switch (movies) {
               AsyncData(:final value) => _MoviesRow(movies: value),
-              AsyncError(:final error, :final stackTrace) =>
-                errorWidget(error, stackTrace),
+              AsyncError(:final error, :final stackTrace) => errorWidget(
+                error,
+                stackTrace,
+              ),
               _ => const _MoviesPlaceholder(),
             };
           },
@@ -88,7 +91,8 @@ class _MoviesRow extends StatelessWidget {
       return a.time.compareTo(b.time);
     });
 
-    final startIndex = movies.indexWhereOrNull(
+    final startIndex =
+        movies.indexWhereOrNull(
           (element) => element.date >= DateTime.now().withoutTime,
         ) ??
         0;
@@ -97,8 +101,8 @@ class _MoviesRow extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: movies.length,
       initialScrollIndex: startIndex,
-      itemBuilder: (context, index) =>
-          MovieCard(movie: movies[index], movies: movies),
+      itemBuilder:
+          (context, index) => MovieCard(movie: movies[index], movies: movies),
     );
   }
 }
@@ -145,22 +149,17 @@ class MovieCard extends StatelessWidget {
           Hero(
             tag: movie,
             child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12.0)),
-              child: AspectRatio(
-                aspectRatio: 4 / 6,
-                child: MovieImage(movie),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12.0),
               ),
+              child: AspectRatio(aspectRatio: 4 / 6, child: MovieImage(movie)),
             ),
           ),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(_dateString(movie)),
-                Text(movie.time),
-              ],
+              children: [Text(_dateString(movie)), Text(movie.time)],
             ),
           ),
         ],
@@ -189,9 +188,7 @@ class MovieImage extends StatelessWidget {
         color: inPast && !isBig ? Colors.grey : null,
       );
     }
-    return Center(
-      child: Text(t.dashboard.sections.kino.movie.noImage),
-    );
+    return Center(child: Text(t.dashboard.sections.kino.movie.noImage));
   }
 }
 

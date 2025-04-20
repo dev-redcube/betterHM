@@ -8,11 +8,7 @@ class CalendarLink {
   String name;
   String url;
 
-  CalendarLink({
-    required this.id,
-    required this.name,
-    required this.url,
-  });
+  CalendarLink({required this.id, required this.name, required this.url});
 
   factory CalendarLink.fromJson(Map<String, dynamic> json) =>
       _$CalendarLinkFromJson(json);
@@ -25,9 +21,7 @@ class CalendarLinksWrapper {
   @JsonKey(name: "data")
   final List<CalendarLink> links;
 
-  CalendarLinksWrapper({
-    required this.links,
-  });
+  CalendarLinksWrapper({required this.links});
 
   factory CalendarLinksWrapper.fromJson(Map<String, dynamic> json) =>
       _$CalendarLinksWrapperFromJson(json);

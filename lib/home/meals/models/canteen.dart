@@ -79,14 +79,14 @@ class OpenHoursWeek {
   }
 
   Map<String, dynamic> toJson() => {
-        "mon": mon?.toJson(),
-        "tue": tue?.toJson(),
-        "wed": wed?.toJson(),
-        "thu": thu?.toJson(),
-        "fri": fri?.toJson(),
-        "sat": sat?.toJson(),
-        "sun": sun?.toJson(),
-      };
+    "mon": mon?.toJson(),
+    "tue": tue?.toJson(),
+    "wed": wed?.toJson(),
+    "thu": thu?.toJson(),
+    "fri": fri?.toJson(),
+    "sat": sat?.toJson(),
+    "sun": sun?.toJson(),
+  };
 
   OpenHoursDay? operator [](int day) {
     switch (day) {

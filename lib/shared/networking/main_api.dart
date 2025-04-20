@@ -24,8 +24,8 @@ class MainApi {
       hitCacheOnErrorExcept: [401, 404],
     );
 
-    final dio = Dio()
-      ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
+    final dio =
+        Dio()..interceptors.add(DioCacheInterceptor(options: cacheOptions));
     dio.options = BaseOptions(
       responseDecoder: (data, options, body) {
         final decoded = utf8.decoder.convert(data);
@@ -45,7 +45,7 @@ class MainApi {
   }
 
   Future<ApiResponse<T>>
-      makeRequestWithException<T, S extends Api, U extends ApiException>(
+  makeRequestWithException<T, S extends Api, U extends ApiException>(
     S endpoint,
     dynamic Function(Map<String, dynamic>) createObject,
     dynamic Function(Map<String, dynamic>) createError,

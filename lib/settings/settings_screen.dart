@@ -25,25 +25,28 @@ class SettingsScreen extends StatefulWidget {
     if (pref.value == pref.defaultValue) return null;
     return await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(t.settings.reset.title),
-        content: Text(prefTitle),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+      builder:
+          (context) => AlertDialog(
+            title: Text(t.settings.reset.title),
+            content: Text(prefTitle),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text(
+                  MaterialLocalizations.of(context).cancelButtonLabel,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  pref.value = pref.defaultValue;
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(t.settings.reset.confirm),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              pref.value = pref.defaultValue;
-              Navigator.of(context).pop(true);
-            },
-            child: Text(t.settings.reset.confirm),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -52,9 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(t.settings.app_bar),
-      ),
+      appBar: AppBar(title: Text(t.settings.app_bar)),
       body: const Column(
         children: [
           AppInfo(),

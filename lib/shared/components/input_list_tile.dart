@@ -49,9 +49,7 @@ class _InputListTileState extends State<InputListTile> {
       title: widget.title,
       subtitle: widget.subtitle,
       trailing: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 150,
-        ),
+        constraints: const BoxConstraints(maxWidth: 150),
         child: TextFormField(
           initialValue: widget.initialValue,
           keyboardType: widget.keyboardType,

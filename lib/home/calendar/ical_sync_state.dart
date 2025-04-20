@@ -4,20 +4,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'ical_sync_state.g.dart';
 
-enum ICalSyncProgressEnum {
-  idle,
-  inProgress,
-  done,
-}
+enum ICalSyncProgressEnum { idle, inProgress, done }
 
 class ICalSyncState {
   final ICalSyncProgressEnum syncProgress;
   final double progressInPercent;
 
-  ICalSyncState({
-    required this.syncProgress,
-    this.progressInPercent = 0,
-  });
+  ICalSyncState({required this.syncProgress, this.progressInPercent = 0});
 }
 
 @riverpod
