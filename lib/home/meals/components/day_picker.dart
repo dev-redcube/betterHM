@@ -11,7 +11,7 @@ class DayPickerDay extends DateTime {
   final bool isActive;
 
   DayPickerDay({required DateTime date, this.isActive = false})
-      : super(date.year, date.month, date.day);
+    : super(date.year, date.month, date.day);
 
   @override
   String toString() =>
@@ -40,20 +40,15 @@ class DayPickerWeek {
 
   factory DayPickerWeek.fromDay(DayPickerDay day) {
     final monday = day.monday();
-    final days = List.generate(
-      7,
-      (index) {
-        final d = monday.add(Duration(days: index));
-        return DayPickerDay(
-          date: d,
-          isActive: d.sameDayAs(day) ? day.isActive : false,
-        );
-      },
-    );
+    final days = List.generate(7, (index) {
+      final d = monday.add(Duration(days: index));
+      return DayPickerDay(
+        date: d,
+        isActive: d.sameDayAs(day) ? day.isActive : false,
+      );
+    });
 
-    return DayPickerWeek(
-      days: days,
-    );
+    return DayPickerWeek(days: days);
   }
 
   setDay(DayPickerDay day) {
@@ -169,8 +164,8 @@ class DayPicker extends StatefulWidget {
     super.key,
     List<DateTime>? dates,
     SelectedDayController? controller,
-  })  : controller = controller ?? SelectedDayController(),
-        dates = dates ?? [];
+  }) : controller = controller ?? SelectedDayController(),
+       dates = dates ?? [];
 
   final List<DateTime> dates;
   final SelectedDayController controller;
@@ -187,8 +182,9 @@ class _DayPickerState extends State<DayPicker> {
     final sorted = widget.dates.sorted((a, b) => a.compareTo(b));
 
     if (sorted.isEmpty) {
-      weeks = DayPickerWeeksWrapper()
-        ..addDay(DayPickerDay(date: DateTime.now(), isActive: false));
+      weeks =
+          DayPickerWeeksWrapper()
+            ..addDay(DayPickerDay(date: DateTime.now(), isActive: false));
     }
 
     weeks = DayPickerWeeksWrapper();
@@ -199,10 +195,7 @@ class _DayPickerState extends State<DayPicker> {
 
     weeks.sort();
 
-    widget.controller.selectDate(
-      weeks.getFirstActiveDay(),
-      false,
-    );
+    widget.controller.selectDate(weeks.getFirstActiveDay(), false);
   }
 
   @override
@@ -256,16 +249,17 @@ class _DayPickerState extends State<DayPicker> {
       height: 100,
       child: PageView(
         controller: pageController,
-        children: weeks
-            .toList()
-            .map(
-              (week) => _DaysRow(
-                week: week,
-                selectedDay: widget.controller.selectedDate,
-                onDaySelected: onDaySelected,
-              ),
-            )
-            .toList(),
+        children:
+            weeks
+                .toList()
+                .map(
+                  (week) => _DaysRow(
+                    week: week,
+                    selectedDay: widget.controller.selectedDate,
+                    onDaySelected: onDaySelected,
+                  ),
+                )
+                .toList(),
       ),
     );
   }
@@ -285,18 +279,19 @@ class _DaysRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: week.days
-          .map(
-            (day) => Expanded(
-              child: _Day(
-                key: ValueKey(day),
-                day: day,
-                selectedDay: selectedDay,
-                onTap: () => onDaySelected(day),
-              ),
-            ),
-          )
-          .toList(),
+      children:
+          week.days
+              .map(
+                (day) => Expanded(
+                  child: _Day(
+                    key: ValueKey(day),
+                    day: day,
+                    selectedDay: selectedDay,
+                    onTap: () => onDaySelected(day),
+                  ),
+                ),
+              )
+              .toList(),
     );
   }
 }
@@ -324,9 +319,10 @@ class _Day extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              color: day.isActive && day.sameDayAs(DateTime.now())
-                  ? context.theme.colorScheme.primaryContainer.withAlpha(80)
-                  : null,
+              color:
+                  day.isActive && day.sameDayAs(DateTime.now())
+                      ? context.theme.colorScheme.primaryContainer.withAlpha(80)
+                      : null,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -339,26 +335,26 @@ class _Day extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 48,
-                  ),
+                  constraints: const BoxConstraints(maxWidth: 48),
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: selectedDay?.sameDayAs(day) ?? false
-                            ? context.theme.colorScheme.primaryContainer
-                            : null,
+                        color:
+                            selectedDay?.sameDayAs(day) ?? false
+                                ? context.theme.colorScheme.primaryContainer
+                                : null,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
                         child: Text(
                           day.day.toString(),
                           style: TextStyle(
-                            color: day.isActive
-                                ? null
-                                : context.theme.colorScheme.onSurface
-                                    .withAlpha(120),
+                            color:
+                                day.isActive
+                                    ? null
+                                    : context.theme.colorScheme.onSurface
+                                        .withAlpha(120),
                           ),
                         ),
                       ),

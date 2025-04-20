@@ -37,10 +37,7 @@ class MealsScreen extends ConsumerWidget {
         children: [
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox.shrink(),
-              CanteenPicker(),
-            ],
+            children: [SizedBox.shrink(), CanteenPicker()],
           ),
           const SizedBox(height: 8),
           DayPicker(
@@ -80,7 +77,7 @@ class _MealsConsumerWrapper extends ConsumerWidget {
 
 class _MealsBody extends StatefulWidget {
   _MealsBody({required this.mealDays, SelectedDayController? controller})
-      : controller = controller ?? SelectedDayController();
+    : controller = controller ?? SelectedDayController();
 
   final List<MealDay> mealDays;
   final SelectedDayController controller;
@@ -110,8 +107,9 @@ class _MealsBodyState extends State<_MealsBody> {
   void handleExternalDateChange() {
     final newDate = widget.controller.selectedDate;
     if (newDate != null) {
-      final page = widget.mealDays
-          .indexWhereOrNull((meal) => meal.date.sameDayAs(newDate));
+      final page = widget.mealDays.indexWhereOrNull(
+        (meal) => meal.date.sameDayAs(newDate),
+      );
 
       if (page != null) changeBlocker = true;
       pageController
@@ -132,17 +130,18 @@ class _MealsBodyState extends State<_MealsBody> {
         if (!changeBlocker)
           widget.controller.selectDate(widget.mealDays[page].date);
       },
-      children: widget.mealDays
-          .map(
-            (MealDay day) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // TODO Auslastung
-                Expanded(child: MealView(day: day)),
-              ],
-            ),
-          )
-          .toList(),
+      children:
+          widget.mealDays
+              .map(
+                (MealDay day) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // TODO Auslastung
+                    Expanded(child: MealView(day: day)),
+                  ],
+                ),
+              )
+              .toList(),
     );
   }
 }

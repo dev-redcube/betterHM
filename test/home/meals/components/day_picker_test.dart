@@ -34,13 +34,10 @@ void main() {
     expect(week.isDayActive(day19), true);
 
     final dayOnNextWeek = DayPickerDay(date: DateTime(2024, 09, 23));
-    expect(
-      () {
-        // Not the same Week
-        week.setDay(dayOnNextWeek);
-      },
-      throwsA(isA<IllegalArgumentsException>()),
-    );
+    expect(() {
+      // Not the same Week
+      week.setDay(dayOnNextWeek);
+    }, throwsA(isA<IllegalArgumentsException>()));
 
     final otherWeek = DayPickerWeek.fromDay(dayOnNextWeek);
     expect(week.compareTo(otherWeek), -1);
@@ -52,24 +49,25 @@ void main() {
     wrapper.addDay(firstDay);
     expect(wrapper.toList(), hasLength(1));
 
-    final secondDay =
-        DayPickerDay(date: DateTime(2024, 09, 19), isActive: true);
+    final secondDay = DayPickerDay(
+      date: DateTime(2024, 09, 19),
+      isActive: true,
+    );
     wrapper.addDay(secondDay);
     expect(wrapper.toList(), hasLength(1));
 
-    final thirdDayPreviousWeek =
-        DayPickerDay(date: DateTime(2024, 09, 10), isActive: true);
+    final thirdDayPreviousWeek = DayPickerDay(
+      date: DateTime(2024, 09, 10),
+      isActive: true,
+    );
     wrapper.addDay(thirdDayPreviousWeek);
     expect(wrapper.toList(), hasLength(2));
 
     wrapper.sort();
     expect(
-      wrapper
-          .toList()
-          .first
-          .days
-          .first
-          .isBefore(wrapper.toList().last.days.last),
+      wrapper.toList().first.days.first.isBefore(
+        wrapper.toList().last.days.last,
+      ),
       true,
     );
 
@@ -78,13 +76,17 @@ void main() {
 
     DayPickerDay? nextActive = wrapper.getNextActive(firstDay);
     expect(nextActive, firstDay);
-    final inactiveDay =
-        DayPickerDay(date: DateTime(2024, 09, 18), isActive: false);
+    final inactiveDay = DayPickerDay(
+      date: DateTime(2024, 09, 18),
+      isActive: false,
+    );
     wrapper.addDay(inactiveDay);
     nextActive = wrapper.getNextActive(inactiveDay);
     expect(nextActive, secondDay);
-    final inactiveDayLast =
-        DayPickerDay(date: DateTime(2024, 09, 21), isActive: false);
+    final inactiveDayLast = DayPickerDay(
+      date: DateTime(2024, 09, 21),
+      isActive: false,
+    );
     nextActive = wrapper.getNextActive(inactiveDayLast);
     expect(nextActive, isNull);
 

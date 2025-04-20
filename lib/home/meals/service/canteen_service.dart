@@ -32,9 +32,10 @@ Future<List<Canteen>> canteens(Ref ref) async {
 
   final response = await mainApi.get(uri, Canteens.fromJson);
 
-  final canteens = response.data.canteens
-      .where((element) => showCanteens.contains(element.enumName))
-      .toList();
+  final canteens =
+      response.data.canteens
+          .where((element) => showCanteens.contains(element.enumName))
+          .toList();
 
   // sort by order of showCanteens
   return [
@@ -65,8 +66,9 @@ Future<List<MealDay>?> meals(Ref ref) async {
       );
       return MealDays.fromJson({"days": days});
     } catch (exception, stacktrace) {
-      Logger("EatService")
-          .severe("Eatservice Parser fail", exception, stacktrace);
+      Logger(
+        "EatService",
+      ).severe("Eatservice Parser fail", exception, stacktrace);
       rethrow;
     }
   });
@@ -83,19 +85,16 @@ Future<double?> capacity(Canteen canteen) async {
     path: "/v1/capacity/${canteen.enumName}",
   );
 
-  final response = await mainApi.getNeverCache(
-    uri,
-    (json) {
-      try {
-        double percentage = json["percent"];
-        final p = percentage / 100;
-        return p;
-      } catch (exception, stacktrace) {
-        Logger("CapacityService").severe("Parser fail", exception, stacktrace);
-        rethrow;
-      }
-    },
-  );
+  final response = await mainApi.getNeverCache(uri, (json) {
+    try {
+      double percentage = json["percent"];
+      final p = percentage / 100;
+      return p;
+    } catch (exception, stacktrace) {
+      Logger("CapacityService").severe("Parser fail", exception, stacktrace);
+      rethrow;
+    }
+  });
 
   return response.data;
 }

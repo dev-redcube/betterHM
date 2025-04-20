@@ -8,9 +8,7 @@ import '1.dart';
 ///
 /// Note on Isar: Isar migrates automatically, if you do need to make manual changes,
 /// make sure to close the instance after use
-const migrations = <Future<void> Function()>[
-  migration1,
-];
+const migrations = <Future<void> Function()>[migration1];
 
 Future<void> runMigrations() async {
   final prefs = await SharedPreferences.getInstance();

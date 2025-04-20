@@ -7,9 +7,9 @@ import 'package:isar/isar.dart';
 
 class LogDetailsScreen extends StatelessWidget {
   LogDetailsScreen({super.key, required String? id})
-      : assert(id != null),
-        assert(int.tryParse(id!) != null),
-        entryId = int.parse(id!);
+    : assert(id != null),
+      assert(int.tryParse(id!) != null),
+      entryId = int.parse(id!);
 
   final int entryId;
 
@@ -21,15 +21,11 @@ class LogDetailsScreen extends StatelessWidget {
     if (entry == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: const Center(
-          child: Text("NO LOGS"),
-        ),
+        body: const Center(child: Text("NO LOGS")),
       );
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text(t.settings.advanced.logs.details.title),
-      ),
+      appBar: AppBar(title: Text(t.settings.advanced.logs.details.title)),
       body: ListView(
         children: [
           _CardWithTitle(
@@ -94,7 +90,11 @@ class _CardWithTitle extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                t.settings.advanced.logs.details
+                                t
+                                    .settings
+                                    .advanced
+                                    .logs
+                                    .details
                                     .copiedToClipboard,
                               ),
                             ),

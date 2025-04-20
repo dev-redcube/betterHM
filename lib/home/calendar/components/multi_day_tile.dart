@@ -41,25 +41,27 @@ class MultiDayTile extends StatelessWidget {
             ),
             margin: EdgeInsets.zero,
             elevation: configuration.tileType == TileType.selected ? 8 : 0,
-            color: configuration.tileType == TileType.ghost
-                ? colors.$1.withAlpha(100)
-                : colors.$1,
+            color:
+                configuration.tileType == TileType.ghost
+                    ? colors.$1.withAlpha(100)
+                    : colors.$1,
             child: Padding(
               padding: const EdgeInsets.only(left: 4),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: configuration.tileType != TileType.ghost
-                    ? Text(
-                        event.eventData?.component.summary?.value.value ??
-                            "No title",
-                        // style: TextStyle(color: colors.$2),
-                        style: context.theme.textTheme.bodySmall?.copyWith(
-                          color: colors.$2,
-                        ),
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                      )
-                    : null,
+                child:
+                    configuration.tileType != TileType.ghost
+                        ? Text(
+                          event.eventData?.component.summary?.value.value ??
+                              "No title",
+                          // style: TextStyle(color: colors.$2),
+                          style: context.theme.textTheme.bodySmall?.copyWith(
+                            color: colors.$2,
+                          ),
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                        )
+                        : null,
               ),
             ),
           );

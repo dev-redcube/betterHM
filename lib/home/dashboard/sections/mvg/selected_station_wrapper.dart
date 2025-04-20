@@ -35,8 +35,9 @@ class SelectedStation extends _$SelectedStation {
       stationId = prefs.getString("selected-station");
     }
 
-    final station =
-        stations.firstWhereOrNull((element) => element.id == stationId);
+    final station = stations.firstWhereOrNull(
+      (element) => element.id == stationId,
+    );
 
     final isAutomatic = station == null;
 
@@ -81,14 +82,15 @@ class SelectedStation extends _$SelectedStation {
       return;
     }
 
-    final nearest = stations
-        .map(
-          (e) => (
-            e,
-            e.location.distanceTo(position!.latitude, position.longitude),
-          ),
-        )
-        .toList();
+    final nearest =
+        stations
+            .map(
+              (e) => (
+                e,
+                e.location.distanceTo(position!.latitude, position.longitude),
+              ),
+            )
+            .toList();
 
     nearest.sort((a, b) => a.$2.compareTo(b.$2));
 
@@ -97,8 +99,6 @@ class SelectedStation extends _$SelectedStation {
       "Found nearest station $nearestStation. Location: lat. ${position.latitude}, lon. ${position.longitude}",
     );
 
-    set(
-      SelectedStationWrapper(isAutomatic: true, station: nearestStation),
-    );
+    set(SelectedStationWrapper(isAutomatic: true, station: nearestStation));
   }
 }

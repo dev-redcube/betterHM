@@ -27,10 +27,7 @@ class TextButtonRoundWithIcons extends StatelessWidget {
         children: [
           if (left != null) left!,
           if (left != null) const SizedBox(width: 6),
-          Text(
-            text,
-            overflow: TextOverflow.clip,
-          ),
+          Text(text, overflow: TextOverflow.clip),
           if (right != null) const SizedBox(width: 4),
           if (right != null) right!,
         ],

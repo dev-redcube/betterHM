@@ -16,22 +16,21 @@ class MealView extends StatelessWidget {
     return SelectionArea(
       child: ListView(
         shrinkWrap: true,
-        children: day.dishes
-            .where(
-              (element) => !["Aktion", "Beilagen"].contains(element.dishType),
-            )
-            .map((dish) => DishCard(dish: dish))
-            .toList(),
+        children:
+            day.dishes
+                .where(
+                  (element) =>
+                      !["Aktion", "Beilagen"].contains(element.dishType),
+                )
+                .map((dish) => DishCard(dish: dish))
+                .toList(),
       ),
     );
   }
 }
 
 class DishCard extends StatefulWidget {
-  const DishCard({
-    super.key,
-    required this.dish,
-  });
+  const DishCard({super.key, required this.dish});
 
   final Dish dish;
 
@@ -73,8 +72,9 @@ class _DishCardState extends State<DishCard> {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(100),
+                        ),
                         color: context.theme.colorScheme.primaryContainer,
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -101,18 +101,24 @@ class _DishCardState extends State<DishCard> {
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: labelIcons.entries
-                                      .map(
-                                        (e) => Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            "${e.value}  ${labelLocals[e.key]}",
-                                            style: context
-                                                .theme.textTheme.bodyLarge,
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
+                                  children:
+                                      labelIcons.entries
+                                          .map(
+                                            (e) => Padding(
+                                              padding: const EdgeInsets.all(
+                                                4.0,
+                                              ),
+                                              child: Text(
+                                                "${e.value}  ${labelLocals[e.key]}",
+                                                style:
+                                                    context
+                                                        .theme
+                                                        .textTheme
+                                                        .bodyLarge,
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
                                 ),
                               ),
                             ],

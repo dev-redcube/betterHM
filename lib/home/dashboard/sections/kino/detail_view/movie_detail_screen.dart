@@ -35,14 +35,15 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   Widget build(BuildContext context) {
     return PageView(
       controller: _pageController,
-      children: widget.movies
-          .map(
-            (e) => MovieDetailPage(
-              movie: e,
-              scrollController: _scrollController,
-            ),
-          )
-          .toList(),
+      children:
+          widget.movies
+              .map(
+                (e) => MovieDetailPage(
+                  movie: e,
+                  scrollController: _scrollController,
+                ),
+              )
+              .toList(),
     );
   }
 }
@@ -59,19 +60,17 @@ class MovieDetailPage extends StatelessWidget {
   });
 
   Widget hero(Movie movie) => Hero(
-        tag: movie,
-        child: AspectRatio(
-          aspectRatio: 4 / 6,
-          child: MovieImage(movie, isBig: true),
-        ),
-      );
+    tag: movie,
+    child: AspectRatio(
+      aspectRatio: 4 / 6,
+      child: MovieImage(movie, isBig: true),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(movie.title),
-      ),
+      appBar: AppBar(title: Text(movie.title)),
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth >= 700) {
@@ -94,9 +93,7 @@ class MovieDetailPage extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxWidth: 600,
-                        ),
+                        constraints: const BoxConstraints(maxWidth: 600),
                         child: _MovieInformation(movie: movie),
                       ),
                     ),
@@ -169,24 +166,19 @@ class _MovieQuickInfos extends StatelessWidget {
               text: movie.date.formatdMonthAbbr,
             ),
             if (movie.room != null)
-              _IconWithText(
-                icon: Icons.location_on_rounded,
-                text: movie.room!,
-              ),
+              _IconWithText(icon: Icons.location_on_rounded, text: movie.room!),
           ],
         ),
         const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _IconWithText(
-              icon: Icons.access_time_rounded,
-              text: movie.time,
-            ),
+            _IconWithText(icon: Icons.access_time_rounded, text: movie.time),
             _IconWithText(
               icon: Icons.hourglass_top_rounded,
-              text:
-                  t.dashboard.sections.kino.movie.length(minutes: movie.length),
+              text: t.dashboard.sections.kino.movie.length(
+                minutes: movie.length,
+              ),
             ),
           ],
         ),

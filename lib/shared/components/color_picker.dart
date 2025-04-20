@@ -36,7 +36,7 @@ class _ColorWrapperState extends State<ColorPicker> {
 
           return _Color(
             color: color,
-            isActive: color.value == activeColor?.value,
+            isActive: color == activeColor,
             key: ValueKey(color),
             onTap: () {
               setState(() {
@@ -89,18 +89,20 @@ class _Color extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
-        splashColor: Colors.white.withOpacity(0.3),
+        splashColor: Colors.white.withAlpha(77),
         child: SizedBox(
           height: 48,
           width: 48,
-          child: isActive
-              ? Icon(
-                  Icons.check,
-                  color: color.computeLuminance() > 0.5
-                      ? Colors.black
-                      : Colors.white,
-                )
-              : null,
+          child:
+              isActive
+                  ? Icon(
+                    Icons.check,
+                    color:
+                        color.computeLuminance() > 0.5
+                            ? Colors.black
+                            : Colors.white,
+                  )
+                  : null,
         ),
       ),
     );

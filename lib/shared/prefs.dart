@@ -63,8 +63,10 @@ abstract class Prefs {
 
     // Advanced
     logLevel = PlainPref("logLevel", LogLevel.INFO.index);
-    showBackgroundJobNotification =
-        PlainPref("showBackgroundJobNotification", false);
+    showBackgroundJobNotification = PlainPref(
+      "showBackgroundJobNotification",
+      false,
+    );
     devMode = PlainPref("devMode", false);
 
     initialized = true;
@@ -96,9 +98,9 @@ abstract class IPref<T> extends ValueNotifier<T> {
     this.defaultValue, {
     List<String>? historicalKeys,
     List<String>? deprecatedKeys,
-  })  : historicalKeys = historicalKeys ?? [],
-        deprecatedKeys = deprecatedKeys ?? [],
-        super(defaultValue) {
+  }) : historicalKeys = historicalKeys ?? [],
+       deprecatedKeys = deprecatedKeys ?? [],
+       super(defaultValue) {
     if (Prefs.testingMode) {
       _loaded = true;
       return;
@@ -235,11 +237,15 @@ class PlainPref<T> extends IPref<T> {
       } else if (T == typeOf<List<String>>()) {
         return await _prefs!.setStringList(key, value as List<String>);
       } else if (T == typeOf<Set<String>>()) {
-        return await _prefs!
-            .setStringList(key, (value as Set<String>).toList());
+        return await _prefs!.setStringList(
+          key,
+          (value as Set<String>).toList(),
+        );
       } else if (T == typeOf<Queue<String>>()) {
-        return await _prefs!
-            .setStringList(key, (value as Queue<String>).toList());
+        return await _prefs!.setStringList(
+          key,
+          (value as Queue<String>).toList(),
+        );
       } else {
         return await _prefs!.setString(key, value as String);
       }
@@ -298,7 +304,7 @@ class TransformedPref<T_in, T_out> extends IPref<T_out> {
   bool get saved => pref.saved;
 
   TransformedPref(this.pref, this.transform, this.reverseTransform)
-      : super(pref.key, transform(pref.defaultValue)) {
+    : super(pref.key, transform(pref.defaultValue)) {
     pref.addListener(notifyListeners);
   }
 

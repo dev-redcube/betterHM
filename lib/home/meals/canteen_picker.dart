@@ -63,26 +63,25 @@ class _CanteenPickerButton extends ConsumerWidget {
 
         return [
           SelectBottomSheetItem(
-            title: deniedForever
-                ? t.mealplan.selector.automatic.disabledText
-                : t.mealplan.selector.automatic.title,
-            subtitle: deniedForever
-                ? null
-                : t.mealplan.selector.automatic.description,
+            title:
+                deniedForever
+                    ? t.mealplan.selector.automatic.disabledText
+                    : t.mealplan.selector.automatic.title,
+            subtitle:
+                deniedForever
+                    ? null
+                    : t.mealplan.selector.automatic.description,
             enabled: !deniedForever,
             icon: Icons.my_location_rounded,
           ),
-          ...canteens.map(
-            (e) => SelectBottomSheetItem(
-              title: e.name,
-              data: e,
-            ),
-          ),
+          ...canteens.map((e) => SelectBottomSheetItem(title: e.name, data: e)),
         ];
       },
       onSelect: (item) {
         final isAutomatic = item.data == null;
-        ref.read(selectedCanteenProvider.notifier).set(
+        ref
+            .read(selectedCanteenProvider.notifier)
+            .set(
               SelectedCanteenWrapper(
                 isAutomatic: isAutomatic,
                 canteen: item.data,

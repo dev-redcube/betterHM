@@ -22,7 +22,8 @@ class CapacityCard extends ConsumerWidget {
           "MENSA_PASING",
           "STUCAFE_PASING",
         ].contains(canteen?.canteen?.enumName) ||
-        canteen?.canteen == null) return const SizedBox.shrink();
+        canteen?.canteen == null)
+      return const SizedBox.shrink();
 
     return Card(
       color: context.theme.colorScheme.surfaceContainer,
@@ -86,9 +87,7 @@ class _CapacityContentState extends State<_CapacityContent> {
       children: [
         Text("${t.mealplan.capacity.label}:"),
         const SizedBox(width: 16),
-        Expanded(
-          child: _ProgressBar(value: capacityValue ?? 0),
-        ),
+        Expanded(child: _ProgressBar(value: capacityValue ?? 0)),
         const SizedBox(width: 16),
       ],
     );
@@ -101,24 +100,20 @@ class _ProgressBar extends StatelessWidget {
   final double value;
 
   Color? getColor() => switch (value) {
-        < 0.5 => Colors.green,
-        < 0.75 => Colors.orange,
-        _ => Colors.red
-      };
+    < 0.5 => Colors.green,
+    < 0.75 => Colors.orange,
+    _ => Colors.red,
+  };
 
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
-      tween: Tween<double>(
-        begin: 0,
-        end: value,
-      ),
-      builder: (context, value, _) => LinearProgressIndicator(
-        value: value,
-        color: getColor(),
-      ),
+      tween: Tween<double>(begin: 0, end: value),
+      builder:
+          (context, value, _) =>
+              LinearProgressIndicator(value: value, color: getColor()),
     );
   }
 }

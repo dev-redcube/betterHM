@@ -80,8 +80,9 @@ class _TitleRow extends StatelessWidget {
       }
       return _DotWithWidget(
         leading: Text(generateWeekday()),
-        trailing:
-            Text("${event.start.formatTime} \u2012 ${event.end.formatTime}"),
+        trailing: Text(
+          "${event.start.formatTime} \u2012 ${event.end.formatTime}",
+        ),
       );
     }
 
@@ -106,7 +107,8 @@ class _TitleRow extends StatelessWidget {
         height: 16,
         width: 16,
         decoration: BoxDecoration(
-          color: event.eventData?.color ??
+          color:
+              event.eventData?.color ??
               context.theme.colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(4),
         ),
@@ -121,10 +123,7 @@ class _TitleRow extends StatelessWidget {
 }
 
 class _DotWithWidget extends StatelessWidget {
-  const _DotWithWidget({
-    required this.leading,
-    required this.trailing,
-  });
+  const _DotWithWidget({required this.leading, required this.trailing});
 
   final Widget leading;
   final Widget trailing;
@@ -169,11 +168,12 @@ class _PropertyRow extends StatelessWidget {
       leading: leading,
       title: label,
       subtitle: subtitle,
-      onLongPress: copy == null
-          ? null
-          : () {
-              Clipboard.setData(ClipboardData(text: copy!));
-            },
+      onLongPress:
+          copy == null
+              ? null
+              : () {
+                Clipboard.setData(ClipboardData(text: copy!));
+              },
     );
   }
 }

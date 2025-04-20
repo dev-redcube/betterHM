@@ -6,11 +6,7 @@ class EventData {
   final Color? color;
   final EventComponent component;
 
-  EventData({
-    required this.calendarId,
-    this.color,
-    required this.component,
-  });
+  EventData({required this.calendarId, this.color, required this.component});
 
   @override
   String toString() =>

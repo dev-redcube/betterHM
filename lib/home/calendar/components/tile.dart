@@ -32,36 +32,37 @@ class Tile extends StatelessWidget {
         closedElevation: 0,
         useRootNavigator: true,
         openBuilder: (context, action) {
-          return CalendarDetailScreen(
-            key: ObjectKey(event),
-            event: event,
-          );
+          return CalendarDetailScreen(key: ObjectKey(event), event: event);
         },
         closedBuilder: (context, action) {
           return Container(
             padding: const EdgeInsets.only(left: 6, top: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: configuration.tileType != TileType.ghost
-                  ? colors.$1
-                  : colors.$1.withAlpha(100),
-              border: configuration.drawOutline
-                  ? Border.all(
-                      color: context.theme.colorScheme.surface,
-                      width: 2,
-                    )
-                  : null,
+              color:
+                  configuration.tileType != TileType.ghost
+                      ? colors.$1
+                      : colors.$1.withAlpha(100),
+              border:
+                  configuration.drawOutline
+                      ? Border.all(
+                        color: context.theme.colorScheme.surface,
+                        width: 2,
+                      )
+                      : null,
             ),
             margin: EdgeInsets.zero,
-            child: configuration.tileType != TileType.ghost
-                ? Text(
-                    event.eventData?.component.summary?.value.value ??
-                        "No title",
-                    style: context.theme.textTheme.bodySmall
-                        ?.copyWith(color: colors.$2),
-                    softWrap: true,
-                  )
-                : null,
+            child:
+                configuration.tileType != TileType.ghost
+                    ? Text(
+                      event.eventData?.component.summary?.value.value ??
+                          "No title",
+                      style: context.theme.textTheme.bodySmall?.copyWith(
+                        color: colors.$2,
+                      ),
+                      softWrap: true,
+                    )
+                    : null,
           );
         },
       ),

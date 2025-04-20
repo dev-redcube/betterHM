@@ -32,9 +32,7 @@ class AddCalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(t.calendar.edit.add.title),
-      ),
+      appBar: AppBar(title: Text(t.calendar.edit.add.title)),
       body: FutureBuilder(
         future: db.calendars.where().findAll(),
         builder: (context, snapshot) {

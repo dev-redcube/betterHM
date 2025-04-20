@@ -12,7 +12,7 @@ final lineColors = <String, (Color, BoxDecoration)>{
   "21": (Colors.white, const BoxDecoration(color: Color(0xFFc79514))), // Tram
   "29": (
     const Color(0xFFD02E26),
-    BoxDecoration(border: Border.all(color: const Color(0xFFD02E26), width: 2))
+    BoxDecoration(border: Border.all(color: const Color(0xFFD02E26), width: 2)),
   ), // Tram
   "N20": (Colors.white, const BoxDecoration(color: Color(0xFF16bae7))), // Tram
   "153": genericBus, // Bus
@@ -32,7 +32,7 @@ final lineColors = <String, (Color, BoxDecoration)>{
   // Ottostraße
   "27": (
     Colors.white,
-    const BoxDecoration(color: Color(0xFFf7a600))
+    const BoxDecoration(color: Color(0xFFf7a600)),
   ), // Tram SEV
   "727": genericBus, // Bus SEV
   // Lenbachplatz
@@ -44,7 +44,7 @@ final lineColors = <String, (Color, BoxDecoration)>{
   "N45": genericBus, // Bus
   "N27": (
     const Color(0xFFf2ad13),
-    const BoxDecoration(color: Colors.black)
+    const BoxDecoration(color: Colors.black),
   ), // Tram
   "X201": (Colors.white, const BoxDecoration(color: Color(0xFF244a9a))),
   "X660": (Colors.white, const BoxDecoration(color: Color(0xFF244a9a))),
@@ -67,9 +67,7 @@ class LineIcon extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: Container(
-          decoration: item?.$2.copyWith(
-            borderRadius: BorderRadius.circular(6),
-          ),
+          decoration: item?.$2.copyWith(borderRadius: BorderRadius.circular(6)),
           child: Center(
             child: Text(
               lineNumber,

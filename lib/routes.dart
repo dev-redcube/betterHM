@@ -65,32 +65,33 @@ final router = GoRouter(
                   ),
                 ],
               ),
-              bottomNavigationBar: constraints.maxWidth < 550
-                  ? NavigationBar(
-                      onDestinationSelected: (int index) {
-                        context.goNamed(homeRoutes[index].name!);
-                      },
-                      selectedIndex: homeRoutes.indexOf(
-                        homeRoutes.firstWhere(
-                          (element) => element.path == state.uri.toString(),
+              bottomNavigationBar:
+                  constraints.maxWidth < 550
+                      ? NavigationBar(
+                        onDestinationSelected: (int index) {
+                          context.goNamed(homeRoutes[index].name!);
+                        },
+                        selectedIndex: homeRoutes.indexOf(
+                          homeRoutes.firstWhere(
+                            (element) => element.path == state.uri.toString(),
+                          ),
                         ),
-                      ),
-                      destinations: [
-                        NavigationDestination(
-                          icon: const Icon(Icons.home_rounded),
-                          label: t.navigation.dashboard,
-                        ),
-                        NavigationDestination(
-                          icon: const Icon(Icons.calendar_month_rounded),
-                          label: t.navigation.calendar,
-                        ),
-                        NavigationDestination(
-                          icon: const Icon(Icons.restaurant_rounded),
-                          label: t.navigation.mealplan,
-                        ),
-                      ],
-                    )
-                  : null,
+                        destinations: [
+                          NavigationDestination(
+                            icon: const Icon(Icons.home_rounded),
+                            label: t.navigation.dashboard,
+                          ),
+                          NavigationDestination(
+                            icon: const Icon(Icons.calendar_month_rounded),
+                            label: t.navigation.calendar,
+                          ),
+                          NavigationDestination(
+                            icon: const Icon(Icons.restaurant_rounded),
+                            label: t.navigation.mealplan,
+                          ),
+                        ],
+                      )
+                      : null,
             );
           },
         );
@@ -113,8 +114,9 @@ final router = GoRouter(
           name: LogDetailsScreen.routeName,
           path: ":id",
           parentNavigatorKey: rootNavigatorKey,
-          builder: (context, state) =>
-              LogDetailsScreen(id: state.pathParameters["id"]),
+          builder:
+              (context, state) =>
+                  LogDetailsScreen(id: state.pathParameters["id"]),
         ),
       ],
     ),
@@ -124,10 +126,7 @@ final router = GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) {
         final x = state.extra as (List<Movie>, int);
-        return MovieDetailsScreen(
-          movies: x.$1,
-          initialMovie: x.$2,
-        );
+        return MovieDetailsScreen(movies: x.$1, initialMovie: x.$2);
       },
     ),
   ],
@@ -138,15 +137,15 @@ final homeRoutes = <GoRoute>[
     name: "index",
     path: "/",
     parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: DashboardScreen()),
+    pageBuilder:
+        (context, state) => const NoTransitionPage(child: DashboardScreen()),
   ),
   GoRoute(
     name: "calendar",
     path: "/calendar",
     parentNavigatorKey: _mainShellKey,
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: CalendarScreen()),
+    pageBuilder:
+        (context, state) => const NoTransitionPage(child: CalendarScreen()),
     routes: <GoRoute>[
       GoRoute(
         name: CalendarEditScreen.routeName,

@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.8.1
 
 environment:
-  sdk: '>=3.0.0'
+  sdk: ^3.7.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -70,7 +70,12 @@ dependencies:
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
   uuid: ^4.3.3
-  workmanager: ^0.5.2
+  # For some reason Workmanager didn't push fixes to the registry
+  workmanager:
+    git:
+      url: https://github.com/fluttercommunity/flutter_workmanager.git
+      path: workmanager
+      ref: main
   icalendar:
     git:
       url: https://github.com/dev-redcube/icalendar-dart.git

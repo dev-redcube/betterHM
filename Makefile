@@ -17,6 +17,9 @@ buildrunner:
 apk:
 	flutter build apk
 
+analyze:
+	flutter analyze
+
 fix:
 	dart fix --apply
 

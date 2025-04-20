@@ -150,9 +150,7 @@ class CalendarColorPicker extends StatelessWidget {
           final Color? color = await showDialog<Color?>(
             context: context,
             builder: (context) {
-              return ColorPicker(
-                initialColor: this.color,
-              );
+              return ColorPicker(initialColor: this.color);
             },
           );
 

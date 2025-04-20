@@ -42,10 +42,12 @@ class Departure {
 
   factory Departure.fromJson(Map<String, dynamic> json) {
     try {
-      final plannedDepartureTime =
-          DateTime.fromMillisecondsSinceEpoch(json["plannedDepartureTime"]);
-      final realtimeDepartureTime =
-          DateTime.fromMillisecondsSinceEpoch(json["realtimeDepartureTime"]);
+      final plannedDepartureTime = DateTime.fromMillisecondsSinceEpoch(
+        json["plannedDepartureTime"],
+      );
+      final realtimeDepartureTime = DateTime.fromMillisecondsSinceEpoch(
+        json["realtimeDepartureTime"],
+      );
       final transportType = TransportType.fromString(json["transportType"]);
 
       final departure = Departure(
@@ -68,29 +70,30 @@ class Departure {
       );
       return departure;
     } catch (e, stacktrace) {
-      Logger("Departure")
-          .severe("Error while parsing Departure: $e", e, stacktrace);
+      Logger(
+        "Departure",
+      ).severe("Error while parsing Departure: $e", e, stacktrace);
       throw IllegalArgumentsException(e.toString());
     }
   }
 
   Map<String, dynamic> toJson() => {
-        "plannedDepartureTime": plannedDepartureTime,
-        "realtime": realtime,
-        "delayInMinutes": delayInMinutes,
-        "realtimeDepartureTime": realtimeDepartureTime,
-        "transportType": transportType,
-        "label": label,
-        "network": network,
-        "trainType": trainType,
-        "destination": destination,
-        "cancelled": cancelled,
-        "sev": sev,
-        "messages": messages,
-        "bannerHash": bannerHash,
-        "occupancy": occupancy,
-        "stopPointGlobalId": stopPointGlobalId,
-      };
+    "plannedDepartureTime": plannedDepartureTime,
+    "realtime": realtime,
+    "delayInMinutes": delayInMinutes,
+    "realtimeDepartureTime": realtimeDepartureTime,
+    "transportType": transportType,
+    "label": label,
+    "network": network,
+    "trainType": trainType,
+    "destination": destination,
+    "cancelled": cancelled,
+    "sev": sev,
+    "messages": messages,
+    "bannerHash": bannerHash,
+    "occupancy": occupancy,
+    "stopPointGlobalId": stopPointGlobalId,
+  };
 }
 
 @JsonSerializable(createToJson: false)

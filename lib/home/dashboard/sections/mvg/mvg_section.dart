@@ -37,8 +37,9 @@ class _StationPicker extends ConsumerWidget {
       case AsyncData(:final value):
         return _StationPickerButton(stationWrapper: value);
       case AsyncError(:final error):
-        Logger("_StationPicker")
-            .severe("Error while getting selected Station", error);
+        Logger(
+          "_StationPicker",
+        ).severe("Error while getting selected Station", error);
         return const Text("Error loading");
       case _:
         return const SizedBox.shrink();
@@ -79,12 +80,14 @@ class _StationPickerButton extends ConsumerWidget {
         final deniedForever = permission == LocationPermission.deniedForever;
         return [
           SelectBottomSheetItem(
-            title: deniedForever
-                ? t.dashboard.sections.mvg.selector.automatic.disabledText
-                : t.dashboard.sections.mvg.selector.automatic.title,
-            subtitle: deniedForever
-                ? null
-                : t.dashboard.sections.mvg.selector.automatic.description,
+            title:
+                deniedForever
+                    ? t.dashboard.sections.mvg.selector.automatic.disabledText
+                    : t.dashboard.sections.mvg.selector.automatic.title,
+            subtitle:
+                deniedForever
+                    ? null
+                    : t.dashboard.sections.mvg.selector.automatic.description,
             enabled: !deniedForever,
             icon: Icons.my_location_rounded,
           ),
@@ -100,7 +103,9 @@ class _StationPickerButton extends ConsumerWidget {
       },
       onSelect: (item) {
         final isAutomatic = item.data == null;
-        ref.read(selectedStationProvider.notifier).set(
+        ref
+            .read(selectedStationProvider.notifier)
+            .set(
               SelectedStationWrapper(
                 isAutomatic: isAutomatic,
                 station: item.data,
@@ -121,16 +126,18 @@ class _DeparturesConsumerWrapper extends ConsumerWidget {
     switch (selectedStation) {
       case AsyncData(:final value):
         return DashboardCard(
-          child: value.station == null
-              ? const DeparturesListShimmer()
-              : Departures(
-                  key: ObjectKey(value.station),
-                  station: value.station!,
-                ),
+          child:
+              value.station == null
+                  ? const DeparturesListShimmer()
+                  : Departures(
+                    key: ObjectKey(value.station),
+                    station: value.station!,
+                  ),
         );
       case AsyncError(:final error):
-        Logger("_DeparturesConsumerWrapper")
-            .severe("Error while getting selected Station", error);
+        Logger(
+          "_DeparturesConsumerWrapper",
+        ).severe("Error while getting selected Station", error);
         return const Text("Error loading");
       case _:
         return const SizedBox.shrink();

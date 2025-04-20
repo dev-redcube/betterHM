@@ -49,8 +49,9 @@ class Movie {
     try {
       return _$MovieFromJson(json);
     } catch (e) {
-      Logger("Movie")
-          .severe("Failed to parse movie $json", e, StackTrace.current);
+      Logger(
+        "Movie",
+      ).severe("Failed to parse movie $json", e, StackTrace.current);
       rethrow;
     }
   }

@@ -19,12 +19,8 @@ class CalendarBody extends ConsumerStatefulWidget {
 }
 
 final List<ViewConfiguration> calendarViewConfigurations = [
-  DayConfiguration(
-    startHour: 5,
-  ),
-  WorkWeekConfiguration(
-    startHour: 5,
-  ),
+  DayConfiguration(startHour: 5),
+  WorkWeekConfiguration(startHour: 5),
   MonthConfiguration(),
 ];
 
@@ -65,10 +61,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
 
   Map<Color, double> luminances = {};
 
-  (Color, Color) getColors(
-    CustomCalendarEvent event,
-    BuildContext context,
-  ) {
+  (Color, Color) getColors(CustomCalendarEvent event, BuildContext context) {
     final color =
         event.eventData?.color ?? context.theme.colorScheme.primaryContainer;
 
@@ -94,11 +87,7 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     TileConfiguration configuration,
   ) {
     final colors = getColors(event, context);
-    return Tile(
-      event: event,
-      configuration: configuration,
-      colors: colors,
-    );
+    return Tile(event: event, configuration: configuration, colors: colors);
   }
 
   Widget _multiDayTileBuilder(
@@ -113,17 +102,15 @@ class _CalendarBodyState extends ConsumerState<CalendarBody> {
     );
   }
 
-  Widget _scheduleTileBuilder(
-    CustomCalendarEvent event,
-    DateTime date,
-  ) {
+  Widget _scheduleTileBuilder(CustomCalendarEvent event, DateTime date) {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.blue,
         borderRadius: BorderRadius.circular(8),
       ),
-      child:
-          Text(event.eventData?.component.summary?.value.value ?? 'No title'),
+      child: Text(
+        event.eventData?.component.summary?.value.value ?? 'No title',
+      ),
     );
   }
 }

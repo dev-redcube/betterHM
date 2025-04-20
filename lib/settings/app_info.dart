@@ -14,22 +14,21 @@ class AppInfo extends StatelessWidget {
     BuildContext context,
     PackageInfo info,
     String versionText,
-  ) =>
-      showAboutDialog(
-        context: context,
-        applicationVersion: versionText,
-        applicationLegalese: t.app_info.licenseNotice(buildYear: "2024"),
-        children: [
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () => launchUrl(privacyPolicy),
-            child: SizedBox(
-              width: double.infinity,
-              child: Text(t.app_info.privacyPolicy),
-            ),
-          ),
-        ],
-      );
+  ) => showAboutDialog(
+    context: context,
+    applicationVersion: versionText,
+    applicationLegalese: t.app_info.licenseNotice(buildYear: "2024"),
+    children: [
+      const SizedBox(height: 10),
+      TextButton(
+        onPressed: () => launchUrl(privacyPolicy),
+        child: SizedBox(
+          width: double.infinity,
+          child: Text(t.app_info.privacyPolicy),
+        ),
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {

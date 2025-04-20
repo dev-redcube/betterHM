@@ -37,8 +37,10 @@ class LocationService {
     switch (_permission) {
       case LocationPermission.denied:
         _permission = await Geolocator.requestPermission();
-        if ([LocationPermission.denied, LocationPermission.deniedForever]
-            .contains(_permission)) {
+        if ([
+          LocationPermission.denied,
+          LocationPermission.deniedForever,
+        ].contains(_permission)) {
           return false;
         }
         break;

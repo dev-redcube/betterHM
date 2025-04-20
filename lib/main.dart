@@ -58,10 +58,7 @@ Future<void> main() async {
 Future<Isar> loadDb() async {
   final dir = await getApplicationDocumentsDirectory();
   Isar db = await Isar.open(
-    [
-      LogEntrySchema,
-      CalendarSchema,
-    ],
+    [LogEntrySchema, CalendarSchema],
     directory: dir.path,
     inspector: false,
   );
@@ -107,12 +104,14 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
           title: t.app_name,
           theme: ThemeData(
             useMaterial3: true,
-            colorScheme: lightColorScheme ??
+            colorScheme:
+                lightColorScheme ??
                 ColorScheme.fromSeed(seedColor: const Color(0xFFE8605B)),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
-            colorScheme: darkColorScheme ??
+            colorScheme:
+                darkColorScheme ??
                 ColorScheme.fromSeed(
                   seedColor: const Color(0xFFE8605B),
                   brightness: Brightness.dark,
