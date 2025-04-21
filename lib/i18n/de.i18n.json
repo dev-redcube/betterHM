@@ -133,8 +133,8 @@
     "selector": {
       "searching": "Suche...",
       "automatic": {
-        "error": "Fehler",
         "title": "Automatisch",
+        "error": "Fehler",
         "description": "Wählt automatisch die nächstgelegene Mensa",
         "disabledText": "App benötigt Standortzugriff"
       }
