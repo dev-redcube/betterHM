@@ -33,7 +33,10 @@ Future<List<Movie>> movies(Ref ref) async {
   final response = await client.get(uri);
   if (200 == response.statusCode) {
     log.info("Successfully fetched movies");
-    final movies = Movies.fromJson(jsonDecode(response.body)).movies;
+    List<Movie> movies =
+        (jsonDecode(response.body) as List)
+            .map((e) => Movie.fromJson(e))
+            .toList();
     return movies;
   }
   log.warning(
