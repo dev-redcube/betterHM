@@ -15,8 +15,8 @@ class CalendarService {
     final mainApi = getIt<MainApi>();
     final endpoint = Uri(
       scheme: "https",
-      host: "betterhm.huber.cloud",
-      path: "/calendars",
+      host: "api.betterhm.app",
+      path: "/v1/calendar",
     );
     final calendars = await mainApi.getNeverCache(
       endpoint,
