@@ -4,18 +4,6 @@ import 'package:logging/logging.dart';
 part 'movie.g.dart';
 
 @JsonSerializable()
-class Movies {
-  @JsonKey(name: "data")
-  final List<Movie> movies;
-
-  Movies({required this.movies});
-
-  factory Movies.fromJson(Map<String, dynamic> json) => _$MoviesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MoviesToJson(this);
-}
-
-@JsonSerializable()
 class Movie {
   final String title;
   final DateTime date;

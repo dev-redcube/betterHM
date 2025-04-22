@@ -17,7 +17,7 @@ class AppInfo extends StatelessWidget {
   ) => showAboutDialog(
     context: context,
     applicationVersion: versionText,
-    applicationLegalese: t.app_info.licenseNotice(buildYear: "2024"),
+    applicationLegalese: t.app_info.licenseNotice(buildYear: "2025"),
     children: [
       const SizedBox(height: 10),
       TextButton(

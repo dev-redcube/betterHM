@@ -33,7 +33,10 @@ Future<List<Movie>> movies(Ref ref) async {
   final response = await client.get(uri);
   if (200 == response.statusCode) {
     log.info("Successfully fetched movies");
-    final movies = Movies.fromJson(jsonDecode(response.body)).movies;
+    List<Movie> movies =
+        (jsonDecode(utf8.decode(response.bodyBytes)) as List)
+            .map((e) => Movie.fromJson(e))
+            .toList();
     return movies;
   }
   log.warning(
@@ -50,13 +53,6 @@ class KinoSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final movies = ref.watch(moviesProvider);
 
-    Widget errorWidget(Object error, StackTrace stackTrace) {
-      Logger(
-        "MoviesProvider",
-      ).severe("Failed to load movies", error, stackTrace);
-      return const Text("Couldn't load");
-    }
-
     return DashboardSection(
       title: t.dashboard.sections.kino.title,
       height: 300,
@@ -65,10 +61,7 @@ class KinoSection extends ConsumerWidget {
           builder: (context) {
             return switch (movies) {
               AsyncData(:final value) => _MoviesRow(movies: value),
-              AsyncError(:final error, :final stackTrace) => errorWidget(
-                error,
-                stackTrace,
-              ),
+              AsyncError() => const _MoviesErrorWidget(),
               _ => const _MoviesPlaceholder(),
             };
           },
@@ -217,6 +210,25 @@ class _ErrorWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _MoviesErrorWidget extends StatelessWidget {
+  const _MoviesErrorWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return const DashboardCard(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Failed to load Movies"),
+          SizedBox(height: 12),
+          Text("See logs for details"),
+        ],
+      ),
     );
   }
 }

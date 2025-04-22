@@ -11,12 +11,6 @@ setup:
 	find . -name "*.mocks.dart" -type f -delete
 	dart run build_runner build --delete-conflicting-outputs
 
-buildrunner:
-	dart run build_runner build --delete-conflicting-outputs
-
-apk:
-	flutter build apk
-
 analyze:
 	flutter analyze
 
@@ -25,3 +19,12 @@ fix:
 
 format:
 	dart format .
+
+buildrunner:
+	dart run build_runner build --delete-conflicting-outputs
+
+apk:
+	flutter build apk
+
+linux:
+	flutter build linux

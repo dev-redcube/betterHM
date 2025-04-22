@@ -21,7 +21,6 @@ class MainApi {
       store: memCacheStore,
       policy: CachePolicy.forceCache,
       maxStale: const Duration(hours: 1),
-      hitCacheOnErrorExcept: [401, 404],
     );
 
     final dio =
