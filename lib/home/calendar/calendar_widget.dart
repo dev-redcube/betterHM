@@ -2,7 +2,7 @@ import 'package:better_hm/home/calendar/calendar_configuration.dart';
 import 'package:better_hm/home/calendar/components/event_tiles.dart';
 import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/service/calendar_service.dart';
+import 'package:better_hm/shared/service/event_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
@@ -64,10 +64,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               end: event.end,
             ),
           ),
-      onEventCreated: (event) => getIt<CalendarService>().addEvent(event),
+      onEventCreated: (event) => getIt<EventService>().addEvent(event),
       onEventChanged:
           (event, updatedEvent) =>
-              getIt<CalendarService>().updateEvent(event, updatedEvent),
+              getIt<EventService>().updateEvent(event, updatedEvent),
     );
   }
 

@@ -1,7 +1,7 @@
 import 'package:better_hm/home/calendar/calendar_widget.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/service/calendar_service.dart';
+import 'package:better_hm/shared/service/event_service.dart';
 import 'package:flutter/material.dart';
 
 class CalendarScreen extends StatelessWidget {
@@ -9,7 +9,7 @@ class CalendarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final calendarService = getIt<CalendarService>();
+    final calendarService = getIt<EventService>();
     return Scaffold(
       appBar: AppBar(
         title: Text(t.app_name),

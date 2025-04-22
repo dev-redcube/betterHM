@@ -3,7 +3,7 @@ import 'package:better_hm/main.dart';
 import 'package:isar/isar.dart';
 import 'package:kalender/kalender.dart';
 
-class CalendarService {
+class EventService {
   final _controller = CalendarController<EventData>();
   final _eventsController = DefaultEventsController<EventData>();
   final _isar = getIt<Isar>();

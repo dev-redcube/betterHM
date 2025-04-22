@@ -37,7 +37,9 @@ class CalendarConfiguration extends ChangeNotifier {
   );
   MultiDayHeaderConfiguration<EventData> get multiDayHeaderConfiguration =>
       multiDayHeaderConfigurationNotifier.value;
-  set multiDayHeaderConfiguration(MultiDayHeaderConfiguration<EventData> value) {
+  set multiDayHeaderConfiguration(
+    MultiDayHeaderConfiguration<EventData> value,
+  ) {
     if (multiDayHeaderConfigurationNotifier.value == value) return;
     multiDayHeaderConfigurationNotifier.value = value;
     notifyListeners();

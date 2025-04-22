@@ -8,7 +8,7 @@ import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
-import 'package:better_hm/shared/service/calendar_service.dart';
+import 'package:better_hm/shared/service/event_service.dart';
 import 'package:better_hm/shared/service/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
@@ -31,10 +31,10 @@ Future<void> main() async {
 
   final db = await loadDb();
   getIt.registerSingleton<Isar>(db);
-  getIt.registerSingleton<CalendarService>(CalendarService());
+  getIt.registerSingleton<EventService>(EventService());
 
   // TODO make better
-  await getIt<CalendarService>().loadAllEvents();
+  await getIt<EventService>().loadAllEvents();
 
   await Future.wait([
     initApp(),
