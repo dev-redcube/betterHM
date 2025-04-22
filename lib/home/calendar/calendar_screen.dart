@@ -1,21 +1,30 @@
+import 'package:better_hm/home/calendar/calendar_widget.dart';
+import 'package:better_hm/home/calendar/models/event.dart';
 import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:kalender/kalender.dart';
 
 class CalendarScreen extends StatelessWidget {
-  const CalendarScreen({super.key});
+  CalendarScreen({super.key});
+
+  final _controller = CalendarController<Event>();
+  final _eventsController = DefaultEventsController<Event>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.app_name),
-        backgroundColor: context.theme.colorScheme.secondaryContainer.withAlpha(
-          100,
-        ),
-        scrolledUnderElevation: 0.0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.today),
+            onPressed: () {
+              _controller.animateToDate(DateTime.now());
+            },
+          ),
+        ],
       ),
-      body: SizedBox.shrink(),
+      body: CalendarWidget(controller: _controller, eventsController: _eventsController),
     );
   }
 }

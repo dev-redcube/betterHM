@@ -143,7 +143,7 @@ final homeRoutes = <GoRoute>[
     path: "/calendar",
     parentNavigatorKey: _mainShellKey,
     pageBuilder:
-        (context, state) => const NoTransitionPage(child: CalendarScreen()),
+        (context, state) => NoTransitionPage(child: CalendarScreen()),
     routes: <GoRoute>[
     ],
   ),
