@@ -1,4 +1,4 @@
-import 'package:better_hm/home/calendar/models/event.dart';
+import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kalender/kalender.dart';
 
@@ -33,11 +33,11 @@ class CalendarConfiguration extends ChangeNotifier {
 
   /// The header configuration of the calendar.
   final multiDayHeaderConfigurationNotifier = ValueNotifier(
-    MultiDayHeaderConfiguration<Event>(),
+    MultiDayHeaderConfiguration<EventData>(),
   );
-  MultiDayHeaderConfiguration<Event> get multiDayHeaderConfiguration =>
+  MultiDayHeaderConfiguration<EventData> get multiDayHeaderConfiguration =>
       multiDayHeaderConfigurationNotifier.value;
-  set multiDayHeaderConfiguration(MultiDayHeaderConfiguration<Event> value) {
+  set multiDayHeaderConfiguration(MultiDayHeaderConfiguration<EventData> value) {
     if (multiDayHeaderConfigurationNotifier.value == value) return;
     multiDayHeaderConfigurationNotifier.value = value;
     notifyListeners();
@@ -45,11 +45,11 @@ class CalendarConfiguration extends ChangeNotifier {
 
   /// The month body configuration of the calendar.
   final monthBodyConfigurationNotifier = ValueNotifier(
-    MultiDayHeaderConfiguration<Event>(),
+    MultiDayHeaderConfiguration<EventData>(),
   );
-  MultiDayHeaderConfiguration<Event> get monthBodyConfiguration =>
+  MultiDayHeaderConfiguration<EventData> get monthBodyConfiguration =>
       monthBodyConfigurationNotifier.value;
-  set monthBodyConfiguration(MultiDayHeaderConfiguration<Event> value) {
+  set monthBodyConfiguration(MultiDayHeaderConfiguration<EventData> value) {
     if (monthBodyConfigurationNotifier.value == value) return;
     monthBodyConfigurationNotifier.value = value;
     notifyListeners();

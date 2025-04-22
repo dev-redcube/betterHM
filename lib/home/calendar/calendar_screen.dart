@@ -1,17 +1,15 @@
 import 'package:better_hm/home/calendar/calendar_widget.dart';
-import 'package:better_hm/home/calendar/models/event.dart';
 import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/service/calendar_service.dart';
 import 'package:flutter/material.dart';
-import 'package:kalender/kalender.dart';
 
 class CalendarScreen extends StatelessWidget {
-  CalendarScreen({super.key});
-
-  final _controller = CalendarController<Event>();
-  final _eventsController = DefaultEventsController<Event>();
+  const CalendarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final calendarService = getIt<CalendarService>();
     return Scaffold(
       appBar: AppBar(
         title: Text(t.app_name),
@@ -19,12 +17,15 @@ class CalendarScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.today),
             onPressed: () {
-              _controller.animateToDate(DateTime.now());
+              calendarService.controller.animateToDate(DateTime.now());
             },
           ),
         ],
       ),
-      body: CalendarWidget(controller: _controller, eventsController: _eventsController),
+      body: CalendarWidget(
+        controller: calendarService.controller,
+        eventsController: calendarService.eventsController,
+      ),
     );
   }
 }

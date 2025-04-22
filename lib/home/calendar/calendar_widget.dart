@@ -1,6 +1,8 @@
 import 'package:better_hm/home/calendar/calendar_configuration.dart';
 import 'package:better_hm/home/calendar/components/event_tiles.dart';
-import 'package:better_hm/home/calendar/models/event.dart';
+import 'package:better_hm/home/calendar/models/event_data.dart';
+import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/service/calendar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
@@ -11,8 +13,8 @@ class CalendarWidget extends StatefulWidget {
     required this.eventsController,
   });
 
-  final CalendarController<Event> controller;
-  final EventsController<Event> eventsController;
+  final CalendarController<EventData> controller;
+  final EventsController<EventData> eventsController;
 
   @override
   State<CalendarWidget> createState() => _CalendarWidgetState();
@@ -30,8 +32,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     return Offset(20, renderObject.size.height / 2);
   }
 
-  TileComponents<Event> get _tileComponents {
-    return TileComponents<Event>(
+  TileComponents<EventData> get _tileComponents {
+    return TileComponents<EventData>(
       tileBuilder: EventTile.builder,
       dropTargetTile: DropTargetTile.builder,
       feedbackTileBuilder: FeedbackTile.builder,
@@ -40,8 +42,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     );
   }
 
-  TileComponents<Event> get _multiDayTileComponents {
-    return TileComponents<Event>(
+  TileComponents<EventData> get _multiDayTileComponents {
+    return TileComponents<EventData>(
       tileBuilder: MultiDayEventTile.builder,
       overlayTileBuilder: OverlayEventTile.builder,
       dropTargetTile: DropTargetTile.builder,
@@ -51,28 +53,37 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     );
   }
 
-  CalendarCallbacks<Event> get _callbacks {
-    return CalendarCallbacks<Event>(
+  CalendarCallbacks<EventData> get _callbacks {
+    return CalendarCallbacks<EventData>(
       onEventTapped: (event, renderBox) => {},
       onEventCreate:
-          (event) => event.copyWith(data: const Event(title: 'New Event')),
-      onEventCreated: (event) => widget.eventsController.addEvent(event),
+          (event) => event.copyWith(
+            data: EventData(
+              title: 'New Event',
+              start: event.start,
+              end: event.end,
+            ),
+          ),
+      onEventCreated: (event) => getIt<CalendarService>().addEvent(event),
+      onEventChanged:
+          (event, updatedEvent) =>
+              getIt<CalendarService>().updateEvent(event, updatedEvent),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return CalendarView<Event>(
+    return CalendarView<EventData>(
       calendarController: widget.controller,
       eventsController: widget.eventsController,
       viewConfiguration: _configuration.viewConfiguration,
       callbacks: _callbacks,
-      header: CalendarHeader<Event>(
+      header: CalendarHeader<EventData>(
         multiDayTileComponents: _multiDayTileComponents,
         multiDayHeaderConfiguration: _configuration.multiDayHeaderConfiguration,
         interaction: _configuration.interactionHeader,
       ),
-      body: CalendarBody<Event>(
+      body: CalendarBody<EventData>(
         multiDayTileComponents: _tileComponents,
         monthTileComponents: _multiDayTileComponents,
         multiDayBodyConfiguration: _configuration.multiDayBodyConfiguration,

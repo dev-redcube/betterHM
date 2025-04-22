@@ -1,9 +1,9 @@
-import 'package:better_hm/home/calendar/models/event.dart';
+import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
 abstract class BaseEventTile extends StatelessWidget {
-  final CalendarEvent<Event> event;
+  final CalendarEvent<EventData> event;
   final DateTimeRange tileRange;
   const BaseEventTile({
     super.key,
@@ -25,7 +25,7 @@ abstract class BaseEventTile extends StatelessWidget {
 
 class EventTile extends BaseEventTile {
   const EventTile({super.key, required super.event, required super.tileRange});
-  static EventTile builder(CalendarEvent<Event> event, DateTimeRange tileRange) {
+  static EventTile builder(CalendarEvent<EventData> event, DateTimeRange tileRange) {
     return EventTile(event: event, tileRange: tileRange);
   }
 
@@ -45,7 +45,7 @@ class EventTile extends BaseEventTile {
 
 class MultiDayEventTile extends BaseEventTile {
   const MultiDayEventTile({super.key, required super.event, required super.tileRange});
-  static MultiDayEventTile builder(CalendarEvent<Event> event, DateTimeRange tileRange) {
+  static MultiDayEventTile builder(CalendarEvent<EventData> event, DateTimeRange tileRange) {
     return MultiDayEventTile(event: event, tileRange: tileRange);
   }
 
@@ -66,7 +66,7 @@ class MultiDayEventTile extends BaseEventTile {
 class OverlayEventTile extends BaseEventTile {
   const OverlayEventTile({super.key, required super.event, required super.tileRange});
 
-  static OverlayEventTile builder(CalendarEvent<Event> event, DateTimeRange tileRange) {
+  static OverlayEventTile builder(CalendarEvent<EventData> event, DateTimeRange tileRange) {
     return OverlayEventTile(event: event, tileRange: tileRange);
   }
 
@@ -98,10 +98,10 @@ class OverlayEventTile extends BaseEventTile {
 }
 
 class FeedbackTile extends StatelessWidget {
-  final CalendarEvent<Event> event;
+  final CalendarEvent<EventData> event;
   final Size dropTargetWidgetSize;
   const FeedbackTile({super.key, required this.event, required this.dropTargetWidgetSize});
-  static FeedbackTile builder(CalendarEvent<Event> event, Size dropTargetWidgetSize) {
+  static FeedbackTile builder(CalendarEvent<EventData> event, Size dropTargetWidgetSize) {
     return FeedbackTile(event: event, dropTargetWidgetSize: dropTargetWidgetSize);
   }
 
@@ -120,9 +120,9 @@ class FeedbackTile extends StatelessWidget {
 }
 
 class DropTargetTile extends StatelessWidget {
-  final CalendarEvent<Event> event;
+  final CalendarEvent<EventData> event;
   const DropTargetTile({super.key, required this.event});
-  static DropTargetTile builder(CalendarEvent<Event> event) {
+  static DropTargetTile builder(CalendarEvent<EventData> event) {
     return DropTargetTile(event: event);
   }
 
@@ -138,9 +138,9 @@ class DropTargetTile extends StatelessWidget {
 }
 
 class TileWhenDragging extends StatelessWidget {
-  final CalendarEvent<Event> event;
+  final CalendarEvent<EventData> event;
   const TileWhenDragging({super.key, required this.event});
-  static TileWhenDragging builder(CalendarEvent<Event> event) {
+  static TileWhenDragging builder(CalendarEvent<EventData> event) {
     return TileWhenDragging(event: event);
   }
 

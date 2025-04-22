@@ -1,12 +1,14 @@
 import 'dart:ui';
 
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/routes.dart';
 import 'package:better_hm/shared/logger/log_entry.dart';
 import 'package:better_hm/shared/logger/logger.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:better_hm/shared/prefs.dart';
+import 'package:better_hm/shared/service/calendar_service.dart';
 import 'package:better_hm/shared/service/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
@@ -27,7 +29,13 @@ Future<void> main() async {
   getIt.registerSingleton<MainApi>(MainApi.cache());
   getIt.registerSingleton<LocationService>(LocationService());
 
-  await loadDb();
+  final db = await loadDb();
+  getIt.registerSingleton<Isar>(db);
+  getIt.registerSingleton<CalendarService>(CalendarService());
+
+  // TODO make better
+  await getIt<CalendarService>().loadAllEvents();
+
   await Future.wait([
     initApp(),
     Prefs.initialLocation.waitUntilLoaded(),
@@ -40,9 +48,9 @@ Future<void> main() async {
 Future<Isar> loadDb() async {
   final dir = await getApplicationDocumentsDirectory();
   Isar db = await Isar.open(
-    [LogEntrySchema, CalendarSchema],
+    [LogEntrySchema, CalendarSchema, EventDataSchema],
     directory: dir.path,
-    inspector: false,
+    inspector: true,
   );
   return db;
 }

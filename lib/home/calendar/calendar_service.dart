@@ -3,11 +3,7 @@ import 'dart:async';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/models/calendar_link.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/models/event_data.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
-import 'package:kalender/kalender.dart';
-
-typedef CustomCalendarEvent = CalendarEvent<EventData>;
 
 class CalendarService {
   /// Fetches all available calendars from the backend
