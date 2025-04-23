@@ -4,10 +4,15 @@ import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/models/calendar_link.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/networking/main_api.dart';
+import 'package:collection/collection.dart';
+import 'package:isar/isar.dart';
 
 class CalendarService {
   /// Fetches all available calendars from the backend
-  Future<List<CalendarLink>> getAvailableCalendars() async {
+  /// If [filterAdded] is true, only calendars are not already present in the calendars database
+  static Future<List<CalendarLink>> getAvailableCalendars({
+    bool filterAdded = false,
+  }) async {
     final mainApi = getIt<MainApi>();
     final endpoint = Uri(
       scheme: "https",
@@ -18,8 +23,21 @@ class CalendarService {
       endpoint,
       (p0) => CalendarLinksWrapper.fromJson(p0),
     );
+
+    if (filterAdded) {
+      final alreadyAddedIds =
+          (await getIt<Isar>().calendars.where().findAll())
+              .map((e) => e.externalId)
+              .toSet();
+      return calendars.data.links
+          .whereNot((e) => alreadyAddedIds.contains(e.id))
+          .toList();
+    }
+
     return calendars.data.links;
   }
+
+  Future<void> syncCalendar(Calendar calendar) async {}
 
   /// Returns all calendars that are currently available in the database
   Future<List<Calendar>> getAllCalendars() => Future.value([]);

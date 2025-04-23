@@ -5,22 +5,29 @@ part 'calendar.g.dart';
 
 @collection
 class Calendar {
-  String id;
+  Id? id;
+  String? externalId;
 
-  Id get isarId => fastHash(id);
-  bool isActive;
-  int numOfFails;
-  DateTime? lastUpdate;
   String name;
   String url;
   int? colorValue;
 
+  bool isActive;
+
+  /// For now, the local calendar can not be deleted, just deactivated
+  bool isLocal;
+
+  int numOfFails;
+  DateTime? lastUpdate;
+
   Calendar({
-    required this.id,
-    required this.isActive,
-    required this.numOfFails,
+    this.id,
+    this.externalId,
     required this.name,
     required this.url,
+    this.isActive = true,
+    this.numOfFails = 0,
+    this.isLocal = false,
     Color? color,
   }) : colorValue = color?.toARGB32();
 
@@ -31,7 +38,7 @@ class Calendar {
 
   @override
   String toString() =>
-      "Calendar(id: $id, isActive: $isActive, numOfFails: $numOfFails, lastUpdate: $lastUpdate, name: $name, url: $url)";
+      "Calendar(id: $id, externalId: $externalId, name: $name, url: $url, color: $color, $isActive, numOfFails: $numOfFails, lastUpdate: $lastUpdate)";
 }
 
 /// FNV-1a 64bit Hash-Algorithmus optimiert für Dart-Strings

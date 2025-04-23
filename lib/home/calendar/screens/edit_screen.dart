@@ -1,0 +1,81 @@
+import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/home/calendar/screens/add_screen.dart';
+import 'package:better_hm/i18n/strings.g.dart';
+import 'package:better_hm/main.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
+
+class CalendarEditScreen extends StatelessWidget {
+  const CalendarEditScreen({super.key});
+
+  static const routeName = "calendar.edit";
+
+  @override
+  Widget build(BuildContext context) {
+    final isar = getIt<Isar>();
+    return Scaffold(
+      appBar: AppBar(title: Text(t.calendar.edit.title)),
+      body: StreamBuilder(
+        stream: isar.calendars.watchLazy(),
+        builder: (context, snapshot) {
+          return FutureBuilder(
+            future: isar.calendars.where().findAll(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting)
+                return SizedBox.shrink();
+
+              final calendars = snapshot.data!;
+              return ListView.builder(
+                itemCount: calendars.length,
+                itemBuilder: (context, index) {
+                  final item = calendars[index];
+                  return CalendarRow(
+                    key: ValueKey("calendar-${item.id}"),
+                    calendar: item,
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add_rounded),
+        label: Text(t.calendar.add),
+        onPressed: () {
+          context.pushNamed(CalendarAddScreen.routeName);
+        },
+      ),
+    );
+  }
+}
+
+class CalendarRow extends StatelessWidget {
+  const CalendarRow({super.key, required this.calendar});
+
+  final Calendar calendar;
+
+  void toggle(bool? value) async {
+    if (value == calendar.isActive || value == null) return;
+
+    final isar = getIt<Isar>();
+
+    await isar.writeTxn(() async {
+      calendar.isActive = value;
+      await isar.calendars.put(calendar);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Checkbox(
+        value: calendar.isActive,
+        onChanged: (value) => toggle(value),
+      ),
+      title: Text(calendar.name),
+      onTap: () {},
+    );
+  }
+}
