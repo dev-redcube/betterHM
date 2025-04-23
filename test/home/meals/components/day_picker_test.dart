@@ -37,6 +37,7 @@ void main() {
     expect(() {
       // Not the same Week
       week.setDay(dayOnNextWeek);
+      // ignore: require_trailing_commas
     }, throwsA(isA<IllegalArgumentsException>()));
 
     final otherWeek = DayPickerWeek.fromDay(dayOnNextWeek);
