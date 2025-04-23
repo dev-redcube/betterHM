@@ -29,6 +29,7 @@ class CalendarService {
           (await getIt<Isar>().calendars.where().findAll())
               .map((e) => e.externalId)
               .toSet();
+
       return calendars.data.links
           .whereNot((e) => alreadyAddedIds.contains(e.id))
           .toList();

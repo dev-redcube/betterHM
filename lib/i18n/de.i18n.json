@@ -84,7 +84,6 @@
     }
   },
   "calendar": {
-    "add": "Neu",
     "today": "Heute",
     "edit": {
       "deleteLabel": "Löschen",
@@ -98,24 +97,25 @@
       },
       "refresh": {
         "tooltip": "Kalender aktualisieren"
-      },
-      "add": {
-        "title": "Kalender hinzufügen",
-        "ownCalendar": "Eigenen Kalender",
-        "name": {
-          "label": "Kalender-Name",
-          "hint": "z.B. Stundenplan"
-        },
-        "url": "Kalender-URL",
-        "color": "Farbe",
-        "add": "Hinzufügen",
-        "errors": {
-          "alreadyExists": "Kalender existiert bereits",
-          "invalidUrl": "Ungültige URL",
-          "emptyName": "Name kann nicht leer sein"
-        },
-        "existingCalendar": "Bestehender Kalender"
       }
+    },
+    "add": {
+      "label": "Neu",
+      "title": "Kalender hinzufügen",
+      "ownCalendar": "Eigenen Kalender",
+      "name": {
+        "label": "Kalender-Name",
+        "hint": "z.B. Stundenplan"
+      },
+      "url": "Kalender-URL",
+      "color": "Farbe",
+      "add": "Hinzufügen",
+      "errors": {
+        "alreadyExists": "Kalender existiert bereits",
+        "invalidUrl": "Ungültige URL",
+        "emptyName": "Name kann nicht leer sein"
+      },
+      "existingCalendar": "Bestehender Kalender"
     }
   },
   "mealplan": {

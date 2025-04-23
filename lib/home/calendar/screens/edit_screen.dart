@@ -3,7 +3,6 @@ import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/screens/add_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
@@ -18,33 +17,38 @@ class CalendarEditScreen extends StatelessWidget {
     final isar = getIt<Isar>();
     return Scaffold(
       appBar: AppBar(title: Text(t.calendar.edit.title)),
-      body: StreamBuilder(
-        stream: isar.calendars.watchLazy(),
-        builder: (context, snapshot) {
-          return FutureBuilder(
-            future: isar.calendars.where().findAll(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting)
-                return SizedBox.shrink();
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: StreamBuilder(
+          stream: isar.calendars.watchLazy(),
+          builder: (context, snapshot) {
+            return FutureBuilder(
+              future: isar.calendars.where().findAll(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return SizedBox.shrink();
 
-              final calendars = snapshot.data!;
-              return ListView.builder(
-                itemCount: calendars.length,
-                itemBuilder: (context, index) {
-                  final item = calendars[index];
-                  return CalendarRow(
-                    key: ValueKey("calendar-${item.id}"),
-                    calendar: item,
-                  );
-                },
-              );
-            },
-          );
-        },
+                final calendars = snapshot.data!;
+
+                return ListView.separated(
+                  itemCount: calendars.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  itemBuilder: (context, index) {
+                    final item = calendars[index];
+                    return CalendarRow(
+                      key: ValueKey("calendar-${item.id}"),
+                      calendar: item,
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.add_rounded),
-        label: Text(t.calendar.add),
+        label: Text(t.calendar.add.label),
         onPressed: () {
           context.pushNamed(CalendarAddScreen.routeName);
         },
@@ -72,6 +76,7 @@ class CalendarRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

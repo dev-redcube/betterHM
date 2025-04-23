@@ -1,3 +1,4 @@
+import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/shared/service/event_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
@@ -22,6 +23,8 @@ class EventData {
   /// End of the Event
   /// Do not modify directly. Modify the [CalendarEvent] and save using [EventService]
   DateTime end;
+
+  final calendar = IsarLink<Calendar>();
 
   @ignore
   DateTimeRange get dateTimeRange => DateTimeRange(start: start, end: end);

@@ -1,5 +1,6 @@
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +14,7 @@ class CalendarAddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Add Calendar TODO replace")),
+      appBar: AppBar(title: Text(t.calendar.add.title)),
       body: Column(children: [Expanded(child: AddExistingCalendarWidget())]),
     );
   }
@@ -24,38 +25,48 @@ class AddExistingCalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: CalendarService.getAvailableCalendars(filterAdded: true),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: FutureBuilder(
+        future: CalendarService.getAvailableCalendars(filterAdded: true),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return SizedBox.shrink();
 
-        final calendars = snapshot.data!;
-        return ListView.builder(
-          itemCount: calendars.length,
-          itemBuilder: (context, index) {
-            final calendar = calendars[index];
+          // TODO error and ifEmpty widgets
 
-            return ListTile(
-              title: Text(calendar.name),
-              onTap: () async {
-                final isar = getIt<Isar>();
+          final calendars = snapshot.data!;
+          return ListView.separated(
+            itemCount: calendars.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final calendar = calendars[index];
 
-                await isar.writeTxn(() async {
-                  await isar.calendars.put(
-                    Calendar(
-                      externalId: calendar.id,
-                      name: calendar.name,
-                      url: calendar.url,
-                    ),
-                  );
-                });
+              return ListTile(
+                title: Text(calendar.name),
+                onTap: () async {
+                  final isar = getIt<Isar>();
 
-                if (context.mounted) context.pop();
-              },
-            );
-          },
-        );
-      },
+                  await isar.writeTxn(() async {
+                    await isar.calendars.put(
+                      Calendar(
+                        externalId: calendar.id,
+                        name: calendar.name,
+                        url: calendar.url,
+                        type: CalendarType.PREDEFINED,
+                      ),
+                    );
+                  });
+
+                  if (context.mounted) context.pop();
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

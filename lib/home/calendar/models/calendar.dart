@@ -1,7 +1,10 @@
+import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:flutter/painting.dart';
 import 'package:isar/isar.dart';
 
 part 'calendar.g.dart';
+
+enum CalendarType { LOCAL, PREDEFINED, CUSTOM }
 
 @collection
 class Calendar {
@@ -14,20 +17,23 @@ class Calendar {
 
   bool isActive;
 
-  /// For now, the local calendar can not be deleted, just deactivated
-  bool isLocal;
+  @Enumerated(EnumType.ordinal)
+  CalendarType type;
 
   int numOfFails;
   DateTime? lastUpdate;
+
+  @Backlink(to: "calendar")
+  final events = IsarLinks<EventData>();
 
   Calendar({
     this.id,
     this.externalId,
     required this.name,
     required this.url,
+    required this.type,
     this.isActive = true,
     this.numOfFails = 0,
-    this.isLocal = false,
     Color? color,
   }) : colorValue = color?.toARGB32();
 

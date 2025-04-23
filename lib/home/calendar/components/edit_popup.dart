@@ -59,7 +59,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return t.calendar.edit.add.errors.emptyName;
+                    return t.calendar.add.errors.emptyName;
                   }
                   return null;
                 },
@@ -78,7 +78,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                   if (Uri.tryParse(value ?? "")?.hasAbsolutePath ?? false) {
                     return null;
                   }
-                  return t.calendar.edit.add.errors.invalidUrl;
+                  return t.calendar.add.errors.invalidUrl;
                 },
               ),
             ),
@@ -120,7 +120,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                       ),
                       const SizedBox(width: 16),
                       Text(
-                        t.calendar.edit.add.color,
+                        t.calendar.add.color,
                         style: context.theme.textTheme.bodyLarge,
                       ),
                     ],

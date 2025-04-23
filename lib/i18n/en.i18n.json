@@ -84,7 +84,6 @@
     }
   },
   "calendar": {
-    "add": "Add",
     "today": "Today",
     "edit": {
       "deleteLabel": "Delete",
@@ -98,24 +97,25 @@
       },
       "refresh": {
         "tooltip": "Re-sync calendars"
-      },
-      "add": {
-        "title": "Add Calendar",
-        "ownCalendar": "Own Calendar",
-        "name": {
-          "label": "Calendar Name",
-          "hint": "e.g. Timetable"
-        },
-        "url": "Calendar URL",
-        "color": "Color",
-        "add": "Add",
-        "errors": {
-          "alreadyExists": "Calendar already exists",
-          "invalidUrl": "Invalid URL",
-          "emptyName": "Name cannot be empty"
-        },
-        "existingCalendar": "Existing Calendar"
       }
+    },
+    "add": {
+      "label": "Add",
+      "title": "Add Calendar",
+      "ownCalendar": "Own Calendar",
+      "name": {
+        "label": "Calendar Name",
+        "hint": "e.g. Timetable"
+      },
+      "url": "Calendar URL",
+      "color": "Color",
+      "add": "Add",
+      "errors": {
+        "alreadyExists": "Calendar already exists",
+        "invalidUrl": "Invalid URL",
+        "emptyName": "Name cannot be empty"
+      },
+      "existingCalendar": "Existing Calendar"
     }
   },
   "mealplan": {
