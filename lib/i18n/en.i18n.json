@@ -87,6 +87,7 @@
     "add": "Add",
     "today": "Today",
     "edit": {
+      "deleteLabel": "Delete",
       "tooltip": "Edit",
       "title": "Edit Calendar",
       "noCalendars": "No Calendars found.\n Add your first one!",

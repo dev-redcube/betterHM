@@ -2,8 +2,10 @@ import 'package:better_hm/home/calendar/components/input_container.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/prefs.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
+import 'package:better_hm/shared/util/color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
 class EditCalendarPopup extends StatefulWidget {
@@ -49,6 +51,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
           children: [
             InputContainer(
               child: TextFormField(
+                enabled: widget.calendar.externalId == null,
                 controller: nameController,
                 decoration: const InputDecoration(
                   labelText: "Name",
@@ -65,6 +68,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
             const SizedBox(height: 8),
             InputContainer(
               child: TextFormField(
+                enabled: widget.calendar.externalId == null,
                 controller: urlController,
                 decoration: const InputDecoration(
                   labelText: "URL",
@@ -79,35 +83,88 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
               ),
             ),
             const SizedBox(height: 8),
-            CalendarColorPicker(
-              color: color,
-              onColorChanged: (newColor) {
-                setState(() {
-                  color = newColor;
-                });
+            InkWell(
+              onTap: () async {
+                final Color? selectedColor = await showColorPicker(
+                  context: context,
+                  initialColor: color,
+                );
+
+                if (color != selectedColor) {
+                  setState(() {
+                    color = selectedColor;
+                  });
+                }
               },
-            ),
-            if (Prefs.devMode.value) const SizedBox(height: 8),
-            if (Prefs.devMode.value)
-              Text(
-                "Id: ${widget.calendar.id}\nLast sync: ${widget.calendar.lastUpdate}\nNumOfFails: ${widget.calendar.numOfFails}",
+              borderRadius: BorderRadius.circular(8),
+              child: InputContainer(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 24,
+                        width: 24,
+                        decoration: BoxDecoration(
+                          color: color,
+                          border: Border.all(
+                            color:
+                                context.theme.colorScheme.onSecondaryContainer,
+                            width: 2,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        t.calendar.edit.add.color,
+                        style: context.theme.textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                ),
               ),
+            ),
           ],
         ),
       ),
       actions: [
         TextButton(
+          child: Text(
+            t.calendar.edit.deleteLabel,
+            style: TextStyle(color: context.theme.colorScheme.error),
+          ),
+          onPressed: () async {
+            if (widget.calendar.id == null) return;
+
+            final isar = getIt<Isar>();
+            await isar.writeTxn(() async {
+              await isar.calendars.delete(widget.calendar.id!);
+            });
+
+            if (context.mounted) context.pop();
+          },
+        ),
+        TextButton(
+          child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
         ),
         TextButton(
+          child: Text(MaterialLocalizations.of(context).saveButtonLabel),
+
           onPressed: () async {
             if (!formKey.currentState!.validate()) return;
 
-            widget.calendar.name = nameController.text;
-            widget.calendar.url = nameController.text;
+            if (widget.calendar.externalId == null) {
+              widget.calendar.name = nameController.text;
+              widget.calendar.url = urlController.text;
+            }
             widget.calendar.color = color;
 
             final isar = getIt<Isar>();
@@ -116,7 +173,6 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
             });
             if (context.mounted) Navigator.of(context).pop();
           },
-          child: Text(MaterialLocalizations.of(context).saveButtonLabel),
         ),
       ],
     );

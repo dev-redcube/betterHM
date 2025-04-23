@@ -1,7 +1,9 @@
+import 'package:better_hm/home/calendar/components/edit_popup.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/home/calendar/screens/add_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
+import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
@@ -70,12 +72,31 @@ class CalendarRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Checkbox(
-        value: calendar.isActive,
-        onChanged: (value) => toggle(value),
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Checkbox(
+            value: calendar.isActive,
+            onChanged: (value) => toggle(value),
+          ),
+          SizedBox(width: 8),
+          Container(
+            height: 24,
+            width: 24,
+            decoration: BoxDecoration(
+              color: calendar.color,
+              shape: BoxShape.circle,
+            ),
+          ),
+        ],
       ),
       title: Text(calendar.name),
-      onTap: () {},
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => EditCalendarPopup(calendar: calendar),
+        );
+      },
     );
   }
 }

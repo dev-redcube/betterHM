@@ -87,6 +87,7 @@
     "add": "Neu",
     "today": "Heute",
     "edit": {
+      "deleteLabel": "Löschen",
       "tooltip": "Bearbeiten",
       "title": "Kalender bearbeiten",
       "noCalendars": "Keine Kalender vorhanden",
