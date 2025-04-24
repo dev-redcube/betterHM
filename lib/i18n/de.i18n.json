@@ -107,20 +107,23 @@
       "fields": {
         "name": {
           "label": "Name",
-          "hint": "z.B. Stundenplan"
+          "hint": "z.B. Stundenplan",
+          "errors": {
+            "empty": "Name darf nicht leer sein"
+          }
         },
         "url": {
           "label": "URL",
-          "hint": "https://example.com/calendar.ics"
+          "hint": "https://example.com/calendar.ics",
+          "errors": {
+            "empty": "URL darf nicht leer sein",
+            "invalid": "URL nicht valide",
+            "notUnique": "URL already exists"
+          }
         }
       },
       "color": "Farbe",
-      "add": "Hinzufügen",
-      "errors": {
-        "alreadyExists": "Kalender existiert bereits",
-        "invalidUrl": "Ungültige URL",
-        "emptyName": "Name kann nicht leer sein"
-      }
+      "add": "Hinzufügen"
     }
   },
   "mealplan": {

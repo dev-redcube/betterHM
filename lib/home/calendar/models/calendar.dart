@@ -12,6 +12,8 @@ class Calendar {
   String? externalId;
 
   String name;
+
+  @Index(unique: true, caseSensitive: false)
   String url;
   int? colorValue;
 

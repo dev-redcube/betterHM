@@ -16,16 +16,6 @@ class CalendarAddScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AddCustomCalendarWidget(),
-          // Expanded(child: Placeholder()),
-          // Container(height: double.infinity, child: Card()),
-          // Expanded(
-          // child: Column(
-          // children: [
-          // Container(color: Colors.yellow, height: 20),
-          // Expanded(child: Placeholder()),
-          // ],
-          // ),
-          // ),
           Expanded(child: AddPredefinedCalendarWidget()),
         ],
       ),

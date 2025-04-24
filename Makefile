@@ -23,6 +23,9 @@ format:
 buildrunner:
 	dart run build_runner build --delete-conflicting-outputs
 
+lang:
+	dart run slang
+
 apk:
 	flutter build apk
 

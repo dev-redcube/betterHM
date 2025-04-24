@@ -59,7 +59,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return t.calendar.add.errors.emptyName;
+                    return t.calendar.add.fields.name.errors.empty;
                   }
                   return null;
                 },
@@ -78,7 +78,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                   if (Uri.tryParse(value ?? "")?.hasAbsolutePath ?? false) {
                     return null;
                   }
-                  return t.calendar.add.errors.invalidUrl;
+                  return t.calendar.add.fields.url.errors.invalid;
                 },
               ),
             ),
@@ -138,6 +138,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
             style: TextStyle(color: context.theme.colorScheme.error),
           ),
           onPressed: () async {
+            // Shouldn't happen. Just to be sure
             if (widget.calendar.id == null) return;
 
             final isar = getIt<Isar>();

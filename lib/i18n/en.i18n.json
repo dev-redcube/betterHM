@@ -107,20 +107,23 @@
       "fields": {
         "name": {
           "label": "Name",
-          "hint": "e.g. Timetable"
+          "hint": "e.g. Timetable",
+          "errors": {
+            "empty": "Name cannot be empty"
+          }
         },
         "url": {
           "label": "URL",
-          "hint": "https://example.com/calendar.ics"
+          "hint": "https://example.com/calendar.ics",
+          "errors": {
+            "empty": "URL cannot be empty",
+            "invalid": "URL not valid",
+            "notUnique": "URL already exists"
+          }
         }
       },
       "color": "Color",
-      "add": "Add",
-      "errors": {
-        "alreadyExists": "Calendar already exists",
-        "invalidUrl": "Invalid URL",
-        "emptyName": "Name cannot be empty"
-      }
+      "add": "Add"
     }
   },
   "mealplan": {
