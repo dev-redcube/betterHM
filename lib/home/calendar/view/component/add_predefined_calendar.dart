@@ -1,18 +1,20 @@
 import 'package:better_hm/home/calendar/calendar_service.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
+import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/components/card_with_title.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
-class AddExistingCalendarWidget extends StatelessWidget {
-  const AddExistingCalendarWidget({super.key});
+class AddPredefinedCalendarWidget extends StatelessWidget {
+  const AddPredefinedCalendarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CardWithTitle(
-      title: "Add Existing Calendar",
+      title: t.calendar.add.addPredefinedCalendar,
+      expanded: true,
       child: FutureBuilder(
         future: CalendarService.getAvailableCalendars(filterAdded: true),
         builder: (context, snapshot) {

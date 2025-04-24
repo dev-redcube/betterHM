@@ -102,20 +102,25 @@
     "add": {
       "label": "Add",
       "title": "Add Calendar",
-      "ownCalendar": "Own Calendar",
-      "name": {
-        "label": "Calendar Name",
-        "hint": "e.g. Timetable"
+      "addCustomCalendar": "Add custom calendar",
+      "addPredefinedCalendar": "Add existing calendar",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "hint": "e.g. Timetable"
+        },
+        "url": {
+          "label": "URL",
+          "hint": "https://example.com/calendar.ics"
+        }
       },
-      "url": "Calendar URL",
       "color": "Color",
       "add": "Add",
       "errors": {
         "alreadyExists": "Calendar already exists",
         "invalidUrl": "Invalid URL",
         "emptyName": "Name cannot be empty"
-      },
-      "existingCalendar": "Existing Calendar"
+      }
     }
   },
   "mealplan": {

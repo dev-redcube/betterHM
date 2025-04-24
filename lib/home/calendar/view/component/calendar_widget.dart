@@ -1,5 +1,5 @@
 import 'package:better_hm/home/calendar/calendar_configuration.dart';
-import 'package:better_hm/home/calendar/components/event_tiles.dart';
+import 'package:better_hm/home/calendar/view/component/event_tiles.dart';
 import 'package:better_hm/home/calendar/models/event_data.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/service/event_service.dart';

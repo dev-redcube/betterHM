@@ -7,11 +7,15 @@ class CardWithTitle extends StatelessWidget {
     required this.title,
     required this.child,
     this.cardPadding = const EdgeInsets.all(8.0),
+    this.expanded = false,
   });
 
   final String title;
   final Widget child;
   final EdgeInsetsGeometry cardPadding;
+  final bool expanded;
+
+  Widget card() => Card(child: Padding(padding: cardPadding, child: child));
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +23,14 @@ class CardWithTitle extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(title, style: context.theme.textTheme.titleLarge),
           ),
           const SizedBox(height: 8),
-          Expanded(
-            child: Card(child: Padding(padding: cardPadding, child: child)),
-          ),
+          expanded ? Expanded(child: card()) : card(),
         ],
       ),
     );

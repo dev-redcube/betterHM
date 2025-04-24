@@ -102,20 +102,25 @@
     "add": {
       "label": "Neu",
       "title": "Kalender hinzufügen",
-      "ownCalendar": "Eigenen Kalender",
-      "name": {
-        "label": "Kalender-Name",
-        "hint": "z.B. Stundenplan"
+      "addCustomCalendar": "Eigenen Kalender",
+      "addPredefinedCalendar": "Existierenden Kalender",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "hint": "z.B. Stundenplan"
+        },
+        "url": {
+          "label": "URL",
+          "hint": "https://example.com/calendar.ics"
+        }
       },
-      "url": "Kalender-URL",
       "color": "Farbe",
       "add": "Hinzufügen",
       "errors": {
         "alreadyExists": "Kalender existiert bereits",
         "invalidUrl": "Ungültige URL",
         "emptyName": "Name kann nicht leer sein"
-      },
-      "existingCalendar": "Bestehender Kalender"
+      }
     }
   },
   "mealplan": {

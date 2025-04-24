@@ -1,5 +1,5 @@
-import 'package:better_hm/home/calendar/calendar_widget.dart';
-import 'package:better_hm/home/calendar/screens/edit_screen.dart';
+import 'package:better_hm/home/calendar/view/component/calendar_widget.dart';
+import 'package:better_hm/home/calendar/view/edit_screen.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
 import 'package:better_hm/shared/service/event_service.dart';

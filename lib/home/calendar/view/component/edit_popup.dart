@@ -1,4 +1,4 @@
-import 'package:better_hm/home/calendar/components/input_container.dart';
+import 'package:better_hm/home/calendar/view/component/input_container.dart';
 import 'package:better_hm/home/calendar/models/calendar.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/main.dart';
@@ -53,8 +53,8 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
               child: TextFormField(
                 enabled: widget.calendar.externalId == null,
                 controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: "Name",
+                decoration: InputDecoration(
+                  labelText: t.calendar.add.fields.name.label,
                   border: InputBorder.none,
                 ),
                 validator: (value) {
@@ -90,7 +90,7 @@ class _EditCalendarPopupState extends State<EditCalendarPopup> {
                   initialColor: color,
                 );
 
-                if (color != selectedColor) {
+                if (color?.toARGB32() != selectedColor?.toARGB32()) {
                   setState(() {
                     color = selectedColor;
                   });

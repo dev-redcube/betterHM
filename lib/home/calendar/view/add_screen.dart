@@ -13,9 +13,20 @@ class CalendarAddScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(t.calendar.add.title)),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: AddCustomCalendarWidget()),
-          Expanded(child: AddExistingCalendarWidget()),
+          AddCustomCalendarWidget(),
+          // Expanded(child: Placeholder()),
+          // Container(height: double.infinity, child: Card()),
+          // Expanded(
+          // child: Column(
+          // children: [
+          // Container(color: Colors.yellow, height: 20),
+          // Expanded(child: Placeholder()),
+          // ],
+          // ),
+          // ),
+          Expanded(child: AddPredefinedCalendarWidget()),
         ],
       ),
     );

@@ -1,6 +1,6 @@
-import 'package:better_hm/home/calendar/calendar_screen.dart';
-import 'package:better_hm/home/calendar/screens/add_screen.dart';
-import 'package:better_hm/home/calendar/screens/edit_screen.dart';
+import 'package:better_hm/home/calendar/view/calendar_screen.dart';
+import 'package:better_hm/home/calendar/view/add_screen.dart';
+import 'package:better_hm/home/calendar/view/edit_screen.dart';
 import 'package:better_hm/home/dashboard/dashboard_screen.dart';
 import 'package:better_hm/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
 import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
