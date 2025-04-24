@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 import 'package:rxdart/rxdart.dart';
 
-final addCalendarViewModel = Provider((ref) => AddCalendarViewModel(ref));
+final editCalendarViewModel = Provider((ref) => EditCalendarViewModel(ref));
 
-class AddCalendarViewModel {
+class EditCalendarViewModel {
   BehaviorSubject<String?> validName = BehaviorSubject.seeded(null);
   BehaviorSubject<String?> validUrl = BehaviorSubject.seeded(null);
 
@@ -21,7 +21,7 @@ class AddCalendarViewModel {
 
   final Ref ref;
 
-  AddCalendarViewModel(this.ref);
+  EditCalendarViewModel(this.ref);
 
   initForm() {}
 

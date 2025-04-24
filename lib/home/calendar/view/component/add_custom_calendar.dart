@@ -1,6 +1,6 @@
 import 'package:better_hm/home/calendar/view/component/calendar_colorfield.dart';
 import 'package:better_hm/home/calendar/view/component/calendar_textfield.dart';
-import 'package:better_hm/home/calendar/viewModel/add_calendar_viewmodel.dart';
+import 'package:better_hm/home/calendar/viewModel/edit_calendar_viewmodel.dart';
 import 'package:better_hm/i18n/strings.g.dart';
 import 'package:better_hm/shared/components/card_with_title.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class _AddCustomCalendarWidgetState
     extends ConsumerState<AddCustomCalendarWidget> {
   @override
   void initState() {
-    ref.read(addCalendarViewModel).initForm();
+    ref.read(editCalendarViewModel).initForm();
     super.initState();
   }
 
@@ -33,36 +33,36 @@ class _AddCustomCalendarWidgetState
           children: [
             CalendarTextField(
               label: t.calendar.add.fields.name.label,
-              controller: ref.read(addCalendarViewModel).nameController,
-              inputValid: ref.watch(addCalendarViewModel).validName,
+              controller: ref.read(editCalendarViewModel).nameController,
+              inputValid: ref.watch(editCalendarViewModel).validName,
               onChanged:
-                  (text) => ref.read(addCalendarViewModel).checkNameValid(),
+                  (text) => ref.read(editCalendarViewModel).checkNameValid(),
               placeholder: t.calendar.add.fields.name.hint,
             ),
             const SizedBox(height: 8),
             CalendarTextField(
               label: t.calendar.add.fields.url.label,
-              controller: ref.read(addCalendarViewModel).urlController,
-              inputValid: ref.watch(addCalendarViewModel).validUrl,
+              controller: ref.read(editCalendarViewModel).urlController,
+              inputValid: ref.watch(editCalendarViewModel).validUrl,
               onChanged:
-                  (text) => ref.read(addCalendarViewModel).checkUrlValid(),
+                  (text) => ref.read(editCalendarViewModel).checkUrlValid(),
               placeholder: t.calendar.add.fields.url.hint,
             ),
             const SizedBox(height: 8),
             CalendarColorfield(
-              color: ref.watch(addCalendarViewModel).color,
+              color: ref.watch(editCalendarViewModel).color,
               onChanged:
-                  (color) => ref.read(addCalendarViewModel).setColor(color),
+                  (color) => ref.read(editCalendarViewModel).setColor(color),
             ),
             const SizedBox(height: 16),
             StreamBuilder(
-              stream: ref.watch(addCalendarViewModel).buttonActive,
+              stream: ref.watch(editCalendarViewModel).buttonActive,
               builder: (context, snapshot) {
                 return FilledButton(
                   onPressed:
                       snapshot.data == true
                           ? () => ref
-                              .read(addCalendarViewModel)
+                              .read(editCalendarViewModel)
                               .addCalendar(context)
                           : null,
                   child: Text(t.calendar.add.label),
