@@ -107,7 +107,7 @@
       "fields": {
         "name": {
           "label": "Name",
-          "hint": "z.B. Stundenplan",
+          "hint": "Mein Stundenplan",
           "errors": {
             "empty": "Name darf nicht leer sein"
           }

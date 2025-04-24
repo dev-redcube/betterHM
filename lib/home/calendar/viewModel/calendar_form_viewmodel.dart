@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 import 'package:rxdart/rxdart.dart';
 
-final editCalendarViewModel = Provider((ref) => EditCalendarViewModel(ref));
+final calendarFormViewModel = Provider((ref) => CalendarFormViewModel(ref));
 
-class EditCalendarViewModel {
+class CalendarFormViewModel {
   BehaviorSubject<String?> validName = BehaviorSubject.seeded(null);
   BehaviorSubject<String?> validUrl = BehaviorSubject.seeded(null);
 
@@ -21,11 +21,21 @@ class EditCalendarViewModel {
 
   final Ref ref;
 
-  EditCalendarViewModel(this.ref);
+  CalendarFormViewModel(this.ref);
 
-  initForm() {}
+  initForm({String? name, String? url, Color? color}) {
+    // clear();
+    // if (name != null) nameController.text = name;
+    // if (url != null) urlController.text = url;
+    // if (color != null) this.color.add(color);
+  }
 
-  void checkNameValid() {
+  void checkFieldsValid() {
+    _checkNameValid();
+    _checkUrlValid();
+  }
+
+  void _checkNameValid() {
     if (nameController.value.text.isEmpty)
       validName.add(t.calendar.add.fields.name.errors.empty);
     else
@@ -34,15 +44,15 @@ class EditCalendarViewModel {
     checkButton();
   }
 
-  void checkUrlValid() {
+  void _checkUrlValid() {
     final text = urlController.text;
 
     if (text.isEmpty)
       validUrl.add(t.calendar.add.fields.url.errors.empty);
     else if (Uri.tryParse(text) == null)
       validUrl.add(t.calendar.add.fields.url.errors.invalid);
-    else if (getIt<Isar>().calendars.where().urlEqualTo(text).isNotEmptySync())
-      validUrl.add(t.calendar.add.fields.url.errors.notUnique);
+    // else if (getIt<Isar>().calendars.where().urlEqualTo(text).isNotEmptySync())
+    //   validUrl.add(t.calendar.add.fields.url.errors.notUnique);
     else
       validUrl.add(null);
 
@@ -55,18 +65,27 @@ class EditCalendarViewModel {
 
   void setColor(Color? color) => this.color.add(color);
 
-  Future<void> addCalendar(BuildContext context) async {
-    final calendar = Calendar(
-      name: nameController.text,
-      url: urlController.text,
-      type: CalendarType.CUSTOM,
-      color: color.value,
-      isActive: true,
-    );
+  Future<void> save(BuildContext context, {Calendar? calendar}) async {
+    if (calendar != null) {
+      calendar.name = nameController.text;
+      calendar.url = urlController.text;
+      calendar.color = color.value;
+    }
+
     final isar = getIt<Isar>();
     await isar.writeTxn(() async {
-      await isar.calendars.put(calendar);
+      await isar.calendars.put(
+        calendar ??
+            Calendar(
+              name: nameController.text,
+              url: urlController.text,
+              type: CalendarType.CUSTOM,
+              color: color.value,
+              isActive: true,
+            ),
+      );
     });
+
     if (context.mounted) context.pop();
     clear();
   }
@@ -75,5 +94,9 @@ class EditCalendarViewModel {
     nameController.clear();
     urlController.clear();
     color.add(null);
+
+    validName.add(null);
+    validUrl.add(null);
+    buttonActive.add(false);
   }
 }

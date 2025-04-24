@@ -107,7 +107,7 @@
       "fields": {
         "name": {
           "label": "Name",
-          "hint": "e.g. Timetable",
+          "hint": "My Timetable",
           "errors": {
             "empty": "Name cannot be empty"
           }
