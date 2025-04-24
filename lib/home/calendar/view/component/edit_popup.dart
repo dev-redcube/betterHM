@@ -23,13 +23,7 @@ class _EditCalendarPopupState extends ConsumerState<EditCalendarPopup> {
   @override
   void initState() {
     super.initState();
-    ref
-        .read(calendarFormViewModel)
-        .initForm(
-          name: widget.calendar.name,
-          url: widget.calendar.url,
-          color: widget.calendar.color,
-        );
+    ref.read(calendarFormViewModel).initForm(calendar: widget.calendar);
   }
 
   @override
@@ -47,6 +41,7 @@ class _EditCalendarPopupState extends ConsumerState<EditCalendarPopup> {
               onChanged:
                   (text) => ref.read(calendarFormViewModel).checkFieldsValid(),
               placeholder: t.calendar.add.fields.name.hint,
+              enabled: widget.calendar.type == CalendarType.CUSTOM,
             ),
             const SizedBox(height: 8),
             CalendarTextField(
@@ -56,6 +51,7 @@ class _EditCalendarPopupState extends ConsumerState<EditCalendarPopup> {
               onChanged:
                   (text) => ref.read(calendarFormViewModel).checkFieldsValid(),
               placeholder: t.calendar.add.fields.url.hint,
+              enabled: widget.calendar.type == CalendarType.CUSTOM,
             ),
             const SizedBox(height: 8),
             CalendarColorfield(

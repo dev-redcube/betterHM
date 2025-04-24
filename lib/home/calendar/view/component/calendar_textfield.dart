@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 
 class CalendarTextField extends StatelessWidget {
   const CalendarTextField({
+    super.key,
     required this.label,
     required this.controller,
     required this.inputValid,
     this.onChanged,
     required this.placeholder,
-    super.key,
+    this.enabled = true,
   });
 
   final String label;
@@ -16,6 +17,7 @@ class CalendarTextField extends StatelessWidget {
   final TextEditingController controller;
   final Stream<String?> inputValid;
   final void Function(String)? onChanged;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class CalendarTextField extends StatelessWidget {
               errorText: snapshot.data,
             ),
             onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+            enabled: enabled,
           ),
         );
       },

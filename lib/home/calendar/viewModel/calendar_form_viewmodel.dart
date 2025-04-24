@@ -23,16 +23,24 @@ class CalendarFormViewModel {
 
   CalendarFormViewModel(this.ref);
 
-  initForm({String? name, String? url, Color? color}) {
-    // clear();
-    // if (name != null) nameController.text = name;
-    // if (url != null) urlController.text = url;
-    // if (color != null) this.color.add(color);
+  Calendar? calendar;
+
+  initForm({Calendar? calendar}) {
+    clear();
+
+    this.calendar = calendar;
+    if (this.calendar != null) {
+      nameController.text = this.calendar!.name;
+      urlController.text = this.calendar!.url;
+      color.add(this.calendar!.color);
+    }
   }
 
   void checkFieldsValid() {
     _checkNameValid();
     _checkUrlValid();
+
+    checkButton();
   }
 
   void _checkNameValid() {
@@ -40,8 +48,6 @@ class CalendarFormViewModel {
       validName.add(t.calendar.add.fields.name.errors.empty);
     else
       validName.add(null);
-
-    checkButton();
   }
 
   void _checkUrlValid() {
@@ -51,19 +57,21 @@ class CalendarFormViewModel {
       validUrl.add(t.calendar.add.fields.url.errors.empty);
     else if (Uri.tryParse(text) == null)
       validUrl.add(t.calendar.add.fields.url.errors.invalid);
-    // else if (getIt<Isar>().calendars.where().urlEqualTo(text).isNotEmptySync())
-    //   validUrl.add(t.calendar.add.fields.url.errors.notUnique);
+    else if (text != calendar?.url &&
+        getIt<Isar>().calendars.where().urlEqualTo(text).isNotEmptySync())
+      validUrl.add(t.calendar.add.fields.url.errors.notUnique);
     else
       validUrl.add(null);
-
-    checkButton();
   }
 
   void checkButton() {
     buttonActive.add(validName.value == null && validUrl.value == null);
   }
 
-  void setColor(Color? color) => this.color.add(color);
+  void setColor(Color? color) {
+    this.color.add(color);
+    checkFieldsValid();
+  }
 
   Future<void> save(BuildContext context, {Calendar? calendar}) async {
     if (calendar != null) {
@@ -91,12 +99,13 @@ class CalendarFormViewModel {
   }
 
   void clear() {
+    validName.add(null);
+    validUrl.add(null);
+
     nameController.clear();
     urlController.clear();
     color.add(null);
 
-    validName.add(null);
-    validUrl.add(null);
     buttonActive.add(false);
   }
 }
