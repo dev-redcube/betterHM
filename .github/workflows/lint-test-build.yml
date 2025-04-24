@@ -57,8 +57,8 @@ jobs:
       - name: Resolving Dependencies
         run: flutter pub get
 
-      - name: Build runner & format generated files
-        run: dart run build_runner build --delete-conflicting-outputs && dart format **/*.g.dart
+      - name: Build runner
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Flutter analyzer
         run: flutter analyze
