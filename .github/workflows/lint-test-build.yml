@@ -60,6 +60,9 @@ jobs:
       - name: Build runner
         run: dart run build_runner build --delete-conflicting-outputs
 
+      - name: Format generated files
+        run: dart format **/*.g.dart
+
       - name: Flutter analyzer
         run: flutter analyze
 
