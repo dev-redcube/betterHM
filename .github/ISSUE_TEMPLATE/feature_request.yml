@@ -1,6 +1,6 @@
 name: Feature Request
 description: Schlage ein neues Feature oder eine Verbesserung vor
-labels: [ "feature" ]
+labels: [ "enhancement" ]
 assignees: [ "Huber1" ]
 body:
   - type: markdown
