@@ -33,6 +33,9 @@ class EventData {
     end = value.end;
   }
 
+  @ignore
+  Duration get duration => end.difference(start);
+
   EventData({
     required this.title,
     required this.start,

@@ -9,6 +9,7 @@ import 'package:icalendar/icalendar.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rrule/rrule.dart' as rrule;
 
 class CalendarSyncException implements Exception {
   String cause;
@@ -20,7 +21,7 @@ class CalendarSyncTask implements CalendarTask {
   final _logger = Logger("CalendarSyncTask");
   final Calendar calendar;
 
-  const CalendarSyncTask(this.calendar);
+  CalendarSyncTask(this.calendar);
 
   @override
   Future<void> run() async {
@@ -32,12 +33,22 @@ class CalendarSyncTask implements CalendarTask {
     final response = await http.Client().get(uri);
 
     if (200 != response.statusCode)
-      throw CalendarSyncException("Failed to download Calendar ${calendar.name}");
+      throw CalendarSyncException(
+        "Failed to download Calendar ${calendar.name}",
+      );
 
     await file.writeAsBytes(response.bodyBytes);
 
     // Parsing
-    final events = getEvents(file);
+    final events = await getEvents(file);
+
+    final isar = Isar.getInstance()!;
+    await isar.writeTxn(() async {
+      calendar.events.clear();
+      calendar.events.addAll(events);
+
+      await isar.calendars.put(calendar);
+    });
   }
 
   @override
@@ -54,7 +65,7 @@ class CalendarSyncTask implements CalendarTask {
     });
   }
 
-  Future<EventData> getEvents(File icalFile) async {
+  Future<List<EventData>> getEvents(File icalFile) async {
     final lines = await icalFile.readAsLines();
     final stopwatch = Stopwatch()..start();
 
@@ -79,28 +90,71 @@ class CalendarSyncTask implements CalendarTask {
           if (component.dateTimeStart == null) continue;
           if (component.end == null && component.duration == null) continue;
 
-          final event = EventData(
-            title: component.summary!.value.value,
-            start: component.dateTimeStart!.value.value,
-            end:
-                component.end?.value.value ??
-                component.dateTimeStart!.value.value.add(
-                  component.duration!.value.value,
-                ),
-            description: component.description?.value.value,
-            room: component.location?.value.value,
-          );
-
-          events.add(splitEvent(event));
+          events.addAll(_eventsFromComponent(component));
         }
       }
     }
 
-    _logger.info("Parsed ${events.length} events for ${calendar.name} in ${stopwatch.elapsed.inSeconds}s");
+    _logger.info(
+      "Parsed ${events.length} events for ${calendar.name} in ${stopwatch.elapsed.inSeconds}s",
+    );
+
+    return events;
   }
 
-  List<EventData> splitEvent(EventData event) {
+  List<EventData> _eventsFromComponent(EventComponent component) {
     final List<EventData> split = [];
+
+    // Event itself
+    final event = EventData(
+      title: component.summary!.value.value,
+      start: component.dateTimeStart!.value.value,
+      end:
+          component.end?.value.value ??
+          component.dateTimeStart!.value.value.add(
+            component.duration!.value.value,
+          ),
+      description: component.description?.value.value,
+      room: component.location?.value.value,
+    );
     split.add(event);
+
+    final duration = event.duration;
+
+    // recurrence dates
+    if (component.recurrenceDateTimes != null)
+      for (final time in component.recurrenceDateTimes!) {
+        for (final t in time.value.values) {
+          final start = t.value.copyWith(
+            hour: event.start.hour,
+            minute: event.start.minute,
+          );
+
+          split.add(event.copyWith(start: start, end: start.add(duration)));
+        }
+      }
+
+    // rrule
+    if (component.recurrenceRules != null)
+      for (final rule in component.recurrenceRules!) {
+        final now = DateTime.now();
+        final recur = rrule.RecurrenceRule.fromString(rule.toString());
+        final instances = recur.getInstances(
+          start: now.subtract(Duration(days: 30)).copyWith(isUtc: true),
+        );
+
+        // Filter two months
+        final ranged = instances.takeWhile(
+          (value) => value.difference(now).inDays < 60,
+        );
+
+        for (final instance in ranged) {
+          split.add(
+            event.copyWith(start: instance, end: instance.add(duration)),
+          );
+        }
+      }
+
+    return split;
   }
 }
