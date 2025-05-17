@@ -15,7 +15,7 @@ class CalendarService {
     final mainApi = getIt<MainApi>();
     final endpoint = Uri(
       scheme: "https",
-      host: "api.betterhm.app",
+      host: "api.redcube.dev",
       path: "/v1/calendar",
     );
     final calendars = await mainApi.getNeverCache(
