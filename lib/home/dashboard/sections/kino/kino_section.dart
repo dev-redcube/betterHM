@@ -24,11 +24,7 @@ part 'kino_section.g.dart';
 @riverpod
 Future<List<Movie>> movies(Ref ref) async {
   final log = Logger("MoviesProvider");
-  final uri = Uri(
-    scheme: "https",
-    host: "api.betterhm.app",
-    path: "/v1/movies",
-  );
+  final uri = Uri(scheme: "https", host: "api.redcube.dev", path: "/v1/movies");
   final client = http.Client();
   final response = await client.get(uri);
   if (200 == response.statusCode) {

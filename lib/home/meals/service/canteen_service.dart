@@ -81,7 +81,7 @@ Future<double?> capacity(Canteen canteen) async {
   final mainApi = getIt<MainApi>();
   final uri = Uri(
     scheme: "https",
-    host: "api.betterhm.app",
+    host: "api.redcube.dev",
     path: "/v1/capacity/${canteen.enumName}",
   );
 
