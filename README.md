@@ -1,4 +1,4 @@
-# Better HM
+# Redcube Campus
 
 Inoffizielle App für die Hochschule München
 
