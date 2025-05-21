@@ -1,17 +1,17 @@
-import 'package:better_hm/home/calendar/add/add_screen.dart';
-import 'package:better_hm/home/calendar/calendar_body.dart';
-import 'package:better_hm/home/calendar/calendar_screen.dart';
-import 'package:better_hm/home/calendar/edit_calendar_popup.dart';
-import 'package:better_hm/home/calendar/ical_sync_state.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/parse_events.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
+import 'package:redcube_campus/home/calendar/add/add_screen.dart';
+import 'package:redcube_campus/home/calendar/calendar_body.dart';
+import 'package:redcube_campus/home/calendar/calendar_screen.dart';
+import 'package:redcube_campus/home/calendar/edit_calendar_popup.dart';
+import 'package:redcube_campus/home/calendar/ical_sync_state.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/parse_events.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
 
 class CalendarEditScreen extends ConsumerWidget {
   CalendarEditScreen({super.key});

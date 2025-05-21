@@ -1,5 +1,5 @@
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
 
 class DashboardCard extends StatelessWidget {
   final Widget child;

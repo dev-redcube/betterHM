@@ -1,6 +1,6 @@
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/models/range.dart';
 import 'package:intl/intl.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/models/range.dart';
 
 abstract class _DateHelper {
   /// Calculates number of weeks for a given year as per https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year

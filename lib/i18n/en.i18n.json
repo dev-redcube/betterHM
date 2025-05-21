@@ -1,7 +1,7 @@
 {
-  "app_name": "Better HM",
+  "app_name": "Redcube Campus",
   "app_info": {
-    "licenseNotice": "Better HM Copyright (c) 2023-$buildYear Moritz Huber \nThis Program comes without any warranty. It is free Software and you are welcome to redistribute and modify it under certain conditions.",
+    "licenseNotice": "Redcube Campus Copyright (c) 2023-$buildYear Moritz Huber \nThis Program comes without any warranty. It is free Software and you are welcome to redistribute and modify it under certain conditions.",
     "privacyPolicy": "Privacy Policy"
   },
   "general": {

@@ -1,8 +1,8 @@
-import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/calendar/service/ical_sync_service.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/shared/logger/logger.dart';
 import 'package:workmanager/workmanager.dart';
 
 const calendarSyncKey = "de.moritzhuber.betterHm.syncCalendars";

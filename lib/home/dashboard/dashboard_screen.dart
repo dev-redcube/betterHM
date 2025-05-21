@@ -1,10 +1,10 @@
-import 'package:better_hm/home/dashboard/sections/kino/kino_section.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/mvg_section.dart';
-import 'package:better_hm/home/dashboard/student_information.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redcube_campus/home/dashboard/sections/kino/kino_section.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/mvg_section.dart';
+import 'package:redcube_campus/home/dashboard/student_information.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/settings/settings_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

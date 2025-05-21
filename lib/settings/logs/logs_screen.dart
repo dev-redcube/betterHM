@@ -1,11 +1,11 @@
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/settings/logs/log_details_screen.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/logger/log_entry.dart';
-import 'package:better_hm/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/settings/logs/log_details_screen.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/logger/log_entry.dart';
+import 'package:redcube_campus/shared/logger/logger.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});

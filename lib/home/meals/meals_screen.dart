@@ -1,16 +1,16 @@
-import 'package:better_hm/home/meals/canteen_picker.dart';
-import 'package:better_hm/home/meals/components/capacity_card.dart';
-import 'package:better_hm/home/meals/components/day_picker.dart';
-import 'package:better_hm/home/meals/meal_view.dart';
-import 'package:better_hm/home/meals/models/day.dart';
-import 'package:better_hm/home/meals/service/canteen_service.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/settings/settings_screen.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redcube_campus/home/meals/canteen_picker.dart';
+import 'package:redcube_campus/home/meals/components/capacity_card.dart';
+import 'package:redcube_campus/home/meals/components/day_picker.dart';
+import 'package:redcube_campus/home/meals/meal_view.dart';
+import 'package:redcube_campus/home/meals/models/day.dart';
+import 'package:redcube_campus/home/meals/service/canteen_service.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/settings/settings_screen.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
+import 'package:redcube_campus/shared/extensions/extensions_list.dart';
 
 class MealsScreen extends ConsumerWidget {
   MealsScreen({super.key});

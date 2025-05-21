@@ -1,11 +1,11 @@
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:better_hm/shared/models/range.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/exceptions/illegal_arguments_exception.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
+import 'package:redcube_campus/shared/models/range.dart';
 
 class DayPickerDay extends DateTime {
   final bool isActive;

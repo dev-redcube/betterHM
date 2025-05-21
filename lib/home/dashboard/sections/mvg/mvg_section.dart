@@ -1,17 +1,17 @@
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/dashboard_section.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/departures.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/selected_station_wrapper.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/components/live_location_indicator.dart';
-import 'package:better_hm/shared/components/select_sheet_button.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/dashboard/dashboard_card.dart';
+import 'package:redcube_campus/home/dashboard/dashboard_section.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/departures.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/selected_station_wrapper.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/stations.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/shared/components/live_location_indicator.dart';
+import 'package:redcube_campus/shared/components/select_sheet_button.dart';
+import 'package:redcube_campus/shared/service/location_service.dart';
 
 class MvgSection extends StatelessWidget {
   const MvgSection({super.key});

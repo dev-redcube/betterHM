@@ -1,11 +1,11 @@
-import 'package:better_hm/home/meals/models/canteen.dart';
-import 'package:better_hm/home/meals/models/day.dart';
-import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/meals/models/canteen.dart';
+import 'package:redcube_campus/home/meals/models/day.dart';
+import 'package:redcube_campus/home/meals/service/selected_canteen_wrapper.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
+import 'package:redcube_campus/shared/networking/main_api.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'canteen_service.g.dart';

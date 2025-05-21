@@ -1,11 +1,11 @@
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/settings/app_info.dart';
-import 'package:better_hm/settings/sections/advanced.dart';
-import 'package:better_hm/settings/sections/general.dart';
-import 'package:better_hm/settings/sections/mealplan.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/settings/app_info.dart';
+import 'package:redcube_campus/settings/sections/advanced.dart';
+import 'package:redcube_campus/settings/sections/general.dart';
+import 'package:redcube_campus/settings/sections/mealplan.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

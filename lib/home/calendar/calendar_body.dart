@@ -1,12 +1,12 @@
-import 'package:better_hm/home/calendar/calendar_service.dart';
-import 'package:better_hm/home/calendar/components/multi_day_tile.dart';
-import 'package:better_hm/home/calendar/components/tile.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/models/event_data.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kalender/kalender.dart';
+import 'package:redcube_campus/home/calendar/calendar_service.dart';
+import 'package:redcube_campus/home/calendar/components/multi_day_tile.dart';
+import 'package:redcube_campus/home/calendar/components/tile.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/models/event_data.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 final calendarController = CalendarController<EventData>();
 final eventsController = CalendarEventsController<EventData>();

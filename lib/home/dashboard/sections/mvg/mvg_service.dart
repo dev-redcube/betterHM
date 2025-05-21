@@ -1,9 +1,9 @@
-import 'package:better_hm/home/dashboard/sections/mvg/departure.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/transport_type.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/networking/main_api.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/departure.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/stations.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/transport_type.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/shared/networking/main_api.dart';
 
 /// API for MVG
 /// example shows all departures from Lothstraße

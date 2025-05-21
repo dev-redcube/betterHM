@@ -1,15 +1,5 @@
 import 'dart:ui';
 
-import 'package:better_hm/home/calendar/calendar_body.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/parse_events.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/routes.dart';
-import 'package:better_hm/shared/logger/log_entry.dart';
-import 'package:better_hm/shared/logger/logger.dart';
-import 'package:better_hm/shared/networking/main_api.dart';
-import 'package:better_hm/shared/prefs.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +9,16 @@ import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:redcube_campus/home/calendar/calendar_body.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/parse_events.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/routes.dart';
+import 'package:redcube_campus/shared/logger/log_entry.dart';
+import 'package:redcube_campus/shared/logger/logger.dart';
+import 'package:redcube_campus/shared/networking/main_api.dart';
+import 'package:redcube_campus/shared/prefs.dart';
+import 'package:redcube_campus/shared/service/location_service.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'home/calendar/background_service/background_service.dart';

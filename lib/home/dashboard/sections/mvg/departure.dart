@@ -1,7 +1,7 @@
-import 'package:better_hm/home/dashboard/sections/mvg/transport_type.dart';
-import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/transport_type.dart';
+import 'package:redcube_campus/shared/exceptions/illegal_arguments_exception.dart';
 
 part 'departure.g.dart';
 

@@ -1,5 +1,5 @@
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/service/ical_sync_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'ical_sync_state.g.dart';

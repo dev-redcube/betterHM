@@ -1,6 +1,6 @@
-import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppInfo extends StatelessWidget {

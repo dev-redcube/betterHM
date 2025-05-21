@@ -1,5 +1,5 @@
-import 'package:better_hm/shared/models/range.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:redcube_campus/shared/models/range.dart';
 
 void main() {
   test("inRange", () {

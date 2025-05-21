@@ -1,6 +1,6 @@
-import 'package:better_hm/settings/settings_screen.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/settings/settings_screen.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 class SettingsSwitch extends StatefulWidget {
   const SettingsSwitch({

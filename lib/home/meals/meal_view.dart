@@ -1,10 +1,10 @@
-import 'package:better_hm/home/meals/models/day.dart';
-import 'package:better_hm/home/meals/models/dish.dart';
-import 'package:better_hm/home/meals/models/label.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/home/meals/models/day.dart';
+import 'package:redcube_campus/home/meals/models/dish.dart';
+import 'package:redcube_campus/home/meals/models/label.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 class MealView extends StatelessWidget {
   const MealView({super.key, required this.day});

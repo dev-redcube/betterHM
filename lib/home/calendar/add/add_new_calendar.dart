@@ -1,8 +1,8 @@
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/components/color_picker.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/components/color_picker.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
 import 'package:uuid/uuid.dart';
 
 class AddNewCalendarWidget extends StatefulWidget {

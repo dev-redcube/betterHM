@@ -1,5 +1,5 @@
-import 'package:better_hm/shared/models/location.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:redcube_campus/shared/models/location.dart';
 
 part 'canteen.g.dart';
 

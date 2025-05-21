@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:better_hm/shared/exceptions/api/api_exception.dart';
-import 'package:better_hm/shared/networking/api.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/shared/exceptions/api/api_exception.dart';
+import 'package:redcube_campus/shared/networking/api.dart';
 
 import 'api_response.dart';
 

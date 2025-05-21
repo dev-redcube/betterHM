@@ -1,6 +1,6 @@
-import 'package:better_hm/shared/components/live_location_indicator.dart';
-import 'package:better_hm/shared/components/text_button_round_with_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/shared/components/live_location_indicator.dart';
+import 'package:redcube_campus/shared/components/text_button_round_with_icons.dart';
 
 typedef SelectBottomSheetItemList<T> = Iterable<SelectBottomSheetItem<T>>;
 

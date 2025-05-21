@@ -1,6 +1,6 @@
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:redcube_campus/home/dashboard/dashboard_card.dart';
 
 class TopInformation extends StatelessWidget {
   const TopInformation({super.key});

@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:better_hm/home/meals/models/canteen.dart';
-import 'package:better_hm/home/meals/service/canteen_service.dart';
-import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:redcube_campus/home/meals/models/canteen.dart';
+import 'package:redcube_campus/home/meals/service/canteen_service.dart';
+import 'package:redcube_campus/home/meals/service/selected_canteen_wrapper.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
 
 class CapacityCard extends ConsumerWidget {
   const CapacityCard({super.key});

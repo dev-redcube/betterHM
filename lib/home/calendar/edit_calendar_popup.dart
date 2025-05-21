@@ -1,10 +1,10 @@
-import 'package:better_hm/home/calendar/add/add_new_calendar.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:redcube_campus/home/calendar/add/add_new_calendar.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/service/ical_sync_service.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 class EditCalendarPopup extends StatefulWidget {
   const EditCalendarPopup({super.key, required this.calendar});

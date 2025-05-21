@@ -1,7 +1,7 @@
-import 'package:better_hm/home/meals/components/day_picker.dart';
-import 'package:better_hm/shared/exceptions/illegal_arguments_exception.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:redcube_campus/home/meals/components/day_picker.dart';
+import 'package:redcube_campus/shared/exceptions/illegal_arguments_exception.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
 
 void main() {
   test("DayPickerDay", () {
