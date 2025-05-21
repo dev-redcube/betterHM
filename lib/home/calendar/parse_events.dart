@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:better_hm/home/calendar/calendar_service.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
-import 'package:better_hm/shared/models/event_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:icalendar/icalendar.dart';
 import 'package:kalender/kalender.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/calendar/calendar_service.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/service/ical_sync_service.dart';
+import 'package:redcube_campus/shared/models/event_data.dart';
 import 'package:rrule/rrule.dart' as rrule;
 
 Future<List<CustomCalendarEvent>> parseAllEvents() async {

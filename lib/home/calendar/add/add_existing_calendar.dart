@@ -1,10 +1,10 @@
-import 'package:better_hm/home/calendar/calendar_service.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/models/calendar_link.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:redcube_campus/home/calendar/calendar_service.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/models/calendar_link.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'add_existing_calendar.g.dart';

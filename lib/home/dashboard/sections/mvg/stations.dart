@@ -1,5 +1,5 @@
-import 'package:better_hm/shared/models/location.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/shared/models/location.dart';
 
 class Station {
   final String name;

@@ -32,8 +32,8 @@ Dies ist unter der Annahme, dass [flutter](https://flutter.dev) bereits installi
 
 ```bash
 # clone the repo
-git clone https://github.com/Huber1/betterHM better_hm
-cd better_hm
+git clone https://github.com/dev-redcube/betterHM redcube_campus
+cd redcube_campus
 
 # setup commit hooks, get dependencies, run build-runner
 make setup

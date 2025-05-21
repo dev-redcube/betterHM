@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:better_hm/home/dashboard/sections/kino/kino_section.dart';
-import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
+import 'package:redcube_campus/home/dashboard/sections/kino/kino_section.dart';
+import 'package:redcube_campus/home/dashboard/sections/kino/movie.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   final List<Movie> movies;

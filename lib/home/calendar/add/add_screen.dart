@@ -1,13 +1,13 @@
-import 'package:better_hm/home/calendar/add/add_existing_calendar.dart';
-import 'package:better_hm/home/calendar/add/add_new_calendar.dart';
-import 'package:better_hm/home/calendar/calendar_body.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/parse_events.dart';
-import 'package:better_hm/home/calendar/service/ical_sync_service.dart';
-import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
+import 'package:redcube_campus/home/calendar/add/add_existing_calendar.dart';
+import 'package:redcube_campus/home/calendar/add/add_new_calendar.dart';
+import 'package:redcube_campus/home/calendar/calendar_body.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/parse_events.dart';
+import 'package:redcube_campus/home/calendar/service/ical_sync_service.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
 
 class AddCalendarScreen extends StatelessWidget {
   AddCalendarScreen({super.key});

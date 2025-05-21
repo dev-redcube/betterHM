@@ -1,14 +1,14 @@
-import 'package:better_hm/home/meals/models/canteen.dart';
-import 'package:better_hm/home/meals/service/canteen_service.dart';
-import 'package:better_hm/home/meals/service/selected_canteen_wrapper.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/components/live_location_indicator.dart';
-import 'package:better_hm/shared/components/select_sheet_button.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:redcube_campus/home/meals/models/canteen.dart';
+import 'package:redcube_campus/home/meals/service/canteen_service.dart';
+import 'package:redcube_campus/home/meals/service/selected_canteen_wrapper.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/shared/components/live_location_indicator.dart';
+import 'package:redcube_campus/shared/components/select_sheet_button.dart';
+import 'package:redcube_campus/shared/service/location_service.dart';
 
 class CanteenPicker extends ConsumerWidget {
   const CanteenPicker({super.key});

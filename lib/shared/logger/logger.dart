@@ -4,12 +4,12 @@ library;
 import 'dart:async';
 import 'dart:io';
 
-import 'package:better_hm/shared/logger/log_entry.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:redcube_campus/shared/logger/log_entry.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// [HMLogger] is a custom logger that is built on top of the [logging] package.
@@ -91,7 +91,7 @@ class HMLogger {
   Future<void> shareLogs() async {
     final tempDir = await getTemporaryDirectory();
     final dateTime = DateTime.now().toIso8601String();
-    final filePath = '${tempDir.path}/BetterHM_log_$dateTime.csv';
+    final filePath = '${tempDir.path}/Campus_log_$dateTime.csv';
     final file = await File(filePath).create();
     final io = file.openWrite();
     try {
@@ -111,7 +111,7 @@ class HMLogger {
 
     await Share.shareXFiles(
       [XFile(filePath)],
-      subject: "BetterHM Logs $dateTime",
+      subject: "Campus Logs $dateTime",
       sharePositionOrigin: Rect.zero,
     ).then((value) => file.delete());
   }

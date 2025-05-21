@@ -1,5 +1,5 @@
-import 'package:better_hm/home/meals/models/price.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:redcube_campus/home/meals/models/price.dart';
 
 part 'prices.g.dart';
 

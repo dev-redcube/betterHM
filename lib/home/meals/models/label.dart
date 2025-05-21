@@ -1,4 +1,4 @@
-import 'package:better_hm/i18n/strings.g.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
 
 class Label {
   final String label;

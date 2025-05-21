@@ -1,6 +1,6 @@
-import 'package:better_hm/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
 
 /// A simple color picker dialog
 /// Returns the selected color or null if the dialog was closed.

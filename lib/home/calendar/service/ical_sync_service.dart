@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:better_hm/home/calendar/calendar_body.dart';
-import 'package:better_hm/home/calendar/models/calendar.dart';
-import 'package:better_hm/home/calendar/parse_events.dart';
 import 'package:http/http.dart' as http;
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:redcube_campus/home/calendar/calendar_body.dart';
+import 'package:redcube_campus/home/calendar/models/calendar.dart';
+import 'package:redcube_campus/home/calendar/parse_events.dart';
 
 class ICalService {
   final httpClient = http.Client();

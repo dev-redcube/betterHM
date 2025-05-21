@@ -1,9 +1,9 @@
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/shared/service/location_service.dart';
 import 'package:collection/collection.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/stations.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/shared/service/location_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

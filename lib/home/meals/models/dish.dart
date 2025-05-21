@@ -1,6 +1,6 @@
-import 'package:better_hm/home/meals/models/label.dart';
-import 'package:better_hm/home/meals/models/prices.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:redcube_campus/home/meals/models/label.dart';
+import 'package:redcube_campus/home/meals/models/prices.dart';
 
 part 'dish.g.dart';
 

@@ -1,9 +1,9 @@
 import 'package:animations/animations.dart';
-import 'package:better_hm/home/calendar/calendar_service.dart';
-import 'package:better_hm/home/calendar/detail_screen.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
+import 'package:redcube_campus/home/calendar/calendar_service.dart';
+import 'package:redcube_campus/home/calendar/detail_screen.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
 
 class Tile extends StatelessWidget {
   const Tile({

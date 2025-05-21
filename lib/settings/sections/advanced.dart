@@ -1,16 +1,16 @@
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/main.dart';
-import 'package:better_hm/settings/settings_dropdown.dart';
-import 'package:better_hm/settings/settings_switch.dart';
-import 'package:better_hm/shared/components/dropdown_list_tile.dart';
-import 'package:better_hm/shared/logger/log_entry.dart';
-import 'package:better_hm/shared/logger/logger.dart';
-import 'package:better_hm/shared/networking/main_api.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/main.dart';
+import 'package:redcube_campus/settings/settings_dropdown.dart';
+import 'package:redcube_campus/settings/settings_switch.dart';
+import 'package:redcube_campus/shared/components/dropdown_list_tile.dart';
+import 'package:redcube_campus/shared/logger/log_entry.dart';
+import 'package:redcube_campus/shared/logger/logger.dart';
+import 'package:redcube_campus/shared/networking/main_api.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 class AdvancedSettingsSection extends StatelessWidget {
   const AdvancedSettingsSection({super.key});

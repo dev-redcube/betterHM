@@ -1,9 +1,9 @@
-import 'package:better_hm/home/calendar/calendar_service.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:redcube_campus/home/calendar/calendar_service.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
 
 class CalendarDetailScreen extends StatelessWidget {
   const CalendarDetailScreen({super.key, required this.event});

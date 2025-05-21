@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:better_hm/home/dashboard/dashboard_section.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/departure.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/mvg_service.dart';
-import 'package:better_hm/home/dashboard/sections/mvg/stations.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/dashboard/dashboard_section.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/departure.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/mvg_service.dart';
+import 'package:redcube_campus/home/dashboard/sections/mvg/stations.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
 
 import 'line_icon.dart';
 

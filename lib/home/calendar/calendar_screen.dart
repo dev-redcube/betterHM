@@ -1,12 +1,12 @@
-import 'package:better_hm/home/calendar/calendar_body.dart';
-import 'package:better_hm/home/calendar/edit_screen.dart';
-import 'package:better_hm/home/calendar/ical_sync_state.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:redcube_campus/home/calendar/calendar_body.dart';
+import 'package:redcube_campus/home/calendar/edit_screen.dart';
+import 'package:redcube_campus/home/calendar/ical_sync_state.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/prefs.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({super.key});

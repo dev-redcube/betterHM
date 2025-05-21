@@ -1,14 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:better_hm/home/dashboard/dashboard_card.dart';
-import 'package:better_hm/home/dashboard/dashboard_section.dart';
-import 'package:better_hm/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
-import 'package:better_hm/home/dashboard/sections/kino/movie.dart';
-import 'package:better_hm/i18n/strings.g.dart';
-import 'package:better_hm/shared/extensions/extensions_context.dart';
-import 'package:better_hm/shared/extensions/extensions_date_time.dart';
-import 'package:better_hm/shared/extensions/extensions_list.dart';
 import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:redcube_campus/home/dashboard/dashboard_card.dart';
+import 'package:redcube_campus/home/dashboard/dashboard_section.dart';
+import 'package:redcube_campus/home/dashboard/sections/kino/detail_view/movie_detail_screen.dart';
+import 'package:redcube_campus/home/dashboard/sections/kino/movie.dart';
+import 'package:redcube_campus/i18n/strings.g.dart';
+import 'package:redcube_campus/shared/extensions/extensions_context.dart';
+import 'package:redcube_campus/shared/extensions/extensions_date_time.dart';
+import 'package:redcube_campus/shared/extensions/extensions_list.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
